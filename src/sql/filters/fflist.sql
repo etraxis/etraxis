@@ -12,5 +12,6 @@ from
 
 where
 
-    ff.field_id  = f.field_id and
-    ff.filter_id = %1
+    ff.field_id    = f.field_id and
+    f.removal_time = 0          and
+    ff.filter_id   = %1

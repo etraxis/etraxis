@@ -83,6 +83,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2009-10-17      new-802: [SF2704057] possibility to disable fields
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -941,12 +942,12 @@ function is_field_removable ($id)
 }
 
 /**
- * Deletes specified field.
+ * Deletes specified field if it's removable, or disables the field otherwise.
  *
  * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field to be deleted.
  * @return int Error code:
  * <ul>
- * <li>{@link NO_ERROR} - field is successfully deleted</li>
+ * <li>{@link NO_ERROR} - field is successfully deleted/disabled</li>
  * <li>{@link ERROR_NOT_FOUND} - specified field cannot be found</li>
  * </ul>
  */
@@ -968,11 +969,19 @@ function field_delete ($id)
     $rs = dal_query('fields/count.sql', $field['state_id']);
     $last_field = $rs->fetch(0);
 
-    // Delete all related data.
-    dal_query('fields/lvdelall.sql', $id);
-    dal_query('fields/ffdelall.sql', $id);
-    dal_query('fields/fpdelall.sql', $id);
-    dal_query('fields/delete.sql',   $id);
+    if (is_field_removable($id))
+    {
+        // Delete all related data.
+        dal_query('fields/lvdelall.sql', $id);
+        dal_query('fields/ffdelall.sql', $id);
+        dal_query('fields/fpdelall.sql', $id);
+        dal_query('fields/delete.sql',   $id);
+    }
+    else
+    {
+        // Disable the field.
+        dal_query('fields/disable.sql', $id, time());
+    }
 
     // Reorder rest of fields in the same state.
     for ($i = $field['field_order']; $i < $last_field; $i++)

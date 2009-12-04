@@ -18,10 +18,11 @@ from
 
 where
 
-    e.record_id  = %1         and
-    f.state_id   = %2         and
-    fv.event_id  = e.event_id and
-    fv.field_id  = f.field_id and
-    fv.is_latest = 1
+    e.record_id    = %1         and
+    f.state_id     = %2         and
+    f.removal_time = 0          and
+    fv.event_id    = e.event_id and
+    fv.field_id    = f.field_id and
+    fv.is_latest   = 1
 
 order by field_order

@@ -55,6 +55,7 @@
 //  Artem Rodygin           2008-12-09      bug-770: MySQL server hangs up on searching.
 //  Artem Rodygin           2009-01-09      new-774: 'Anyone' system role permissions.
 //  Artem Rodygin           2009-09-30      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2009-10-17      new-802: [SF2704057] possibility to disable fields
 //--------------------------------------------------------------------------------------------------
 
 define('TABLE_NAME',    0);
@@ -132,7 +133,7 @@ $schema = array
         'tbl_fields',
         TRUE,
         'field_id',
-        'i:field_id i:state_id s:field_name i:field_order i:field_type i:is_required i:guest_access i:registered_perm i:author_perm i:responsible_perm i:add_separator s:regex_check s:regex_search s:regex_replace i:param1 i:param2 i:value_id'
+        'i:field_id i:state_id s:field_name i:removal_time i:field_order i:field_type i:is_required i:guest_access i:registered_perm i:author_perm i:responsible_perm i:add_separator s:regex_check s:regex_search s:regex_replace i:param1 i:param2 i:value_id'
     ),
     array
     (
