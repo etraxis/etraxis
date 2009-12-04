@@ -338,6 +338,7 @@ create table tbl_fields
     field_id int identity (1,1) not null,
     state_id int not null,
     field_name nvarchar (50) not null,
+    removal_time int not null,
     field_order int not null,
     field_type int not null,
     is_required int not null,
@@ -362,13 +363,15 @@ alter table tbl_fields add constraint pk_fields primary key clustered
 alter table tbl_fields add constraint ix_fields_name unique nonclustered
 (
     state_id,
-    field_name
+    field_name,
+    removal_time
 );
 
 alter table tbl_fields add constraint ix_fields_order unique nonclustered
 (
     state_id,
-    field_order
+    field_order,
+    removal_time
 );
 
 alter table tbl_fields add constraint fk_fields_state_id foreign key
@@ -1255,7 +1258,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MSSQL 2000');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '2.0');
+values ('FEATURE_LEVEL', '2.1');
 
 insert into tbl_accounts
 (

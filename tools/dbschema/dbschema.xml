@@ -29,7 +29,7 @@
 
 -->
 
-<database name="etraxis" version="2.0">
+<database name="etraxis" version="2.1">
 
 <table name="tbl_sys_vars">
 
