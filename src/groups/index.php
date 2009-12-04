@@ -40,6 +40,7 @@
 //  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
 //  Artem Rodygin           2008-11-09      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -64,10 +65,10 @@ $list = group_list(0, $sort, $page);
 
 $rec_from = $rec_to = 0;
 
-$xml = '<page' . gen_xml_page_header(get_html_resource(RES_GROUPS_ID)) . '>'
+$xml = '<page' . gen_xml_page_header(get_html_resource(RES_GLOBAL_GROUPS_ID)) . '>'
      . gen_xml_menu()
      . '<path>'
-     . '<pathitem url="index.php">' . get_html_resource(RES_GROUPS_ID) . '</pathitem>'
+     . '<pathitem url="index.php">' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</pathitem>'
      . '</path>'
      . '<content>';
 

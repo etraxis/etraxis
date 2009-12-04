@@ -37,6 +37,7 @@
 //  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -110,12 +111,16 @@ $xml = '<page' . gen_xml_page_header(get_html_resource(RES_NEW_GROUP_ID), isset(
 
 if ($project)
 {
-    $xml .= '<pathitem url="index.php">'               . get_html_resource(RES_PROJECTS_ID)                                                    . '</pathitem>'
-          . '<pathitem url="view.php?id=' . $id . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</pathitem>';
+    $xml .= '<pathitem url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</pathitem>'
+          . '<pathitem url="view.php?id=' . $id . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</pathitem>'
+          . '<pathitem url="gindex.php?id=' . $id . '">' . get_html_resource(RES_GROUPS_ID) . '</pathitem>';
+}
+else
+{
+    $xml .= '<pathitem url="gindex.php?id=' . $id . '">' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</pathitem>';
 }
 
-$xml .= '<pathitem url="gindex.php?id='  . $id . '">' . get_html_resource(RES_GROUPS_ID)    . '</pathitem>'
-      . '<pathitem url="gcreate.php?id=' . $id . '">' . get_html_resource(RES_NEW_GROUP_ID) . '</pathitem>'
+$xml .= '<pathitem url="gcreate.php?id=' . $id . '">' . get_html_resource(RES_NEW_GROUP_ID) . '</pathitem>'
       . '</path>'
       . '<content>'
       . '<form name="mainform" action="gcreate.php?id=' . $id . '">'

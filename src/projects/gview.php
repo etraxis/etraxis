@@ -42,6 +42,7 @@
 //  Artem Rodygin           2006-10-08      bug-347: /src/projects/gview.php: Global variable $alert was used before it was defined.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
@@ -87,7 +88,7 @@ if ($project || !$group['is_global'])
 }
 else
 {
-    $xml .= '<pathitem url="../groups/index.php">' . get_html_resource(RES_GROUPS_ID) . '</pathitem>';
+    $xml .= '<pathitem url="../groups/index.php">' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</pathitem>';
 }
 
 $xml .= '<pathitem url="gview.php?id=' . $id . ($group['is_global'] ? '&amp;pid=' . $pid : NULL) . '">' . ustrprocess(get_html_resource(RES_GROUP_X_ID), ustr2html($group['group_name'])) . '</pathitem>'

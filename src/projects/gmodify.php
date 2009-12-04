@@ -38,6 +38,7 @@
 //  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -123,7 +124,7 @@ $xml = '<page' . gen_xml_page_header(ustrprocess(get_html_resource(RES_GROUP_X_I
 
 if ($group['is_global'])
 {
-    $xml .= '<pathitem url="../groups/index.php">' . get_html_resource(RES_GROUPS_ID) . '</pathitem>';
+    $xml .= '<pathitem url="../groups/index.php">' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</pathitem>';
 }
 else
 {

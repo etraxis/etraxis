@@ -65,6 +65,7 @@
 //  Artem Rodygin           2009-04-26      new-817: Field permissions dialog refactoring.
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 $resource_german = array
@@ -516,7 +517,7 @@ $resource_german = array
     'Kein Filter gesetzt',
     'Gastzugriff',
     'Keiner.',
-    '',
+    'Global gruppen',
     'Gast',
     'Importieren',
     'Berechtigt, um Anfragen zu löschen',
