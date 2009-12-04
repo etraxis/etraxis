@@ -45,6 +45,7 @@
 //  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-03-30      bug-811: Multilined text is cut on export to CSV.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -141,6 +142,10 @@ while (($row = $list->fetch()))
 
             case COLUMN_TYPE_CREATION_DATE:
                 array_push($data, ustr2csv(get_date($row['creation_time']), $_SESSION[VAR_DELIMITER]));
+                break;
+
+            case COLUMN_TYPE_TEMPLATE:
+                array_push($data, ustr2csv($row['template_name'], $_SESSION[VAR_DELIMITER]));
                 break;
 
             case COLUMN_TYPE_NUMBER:

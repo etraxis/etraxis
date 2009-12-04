@@ -90,6 +90,7 @@
 //  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-03-05      new-797: Numbers and durations should be aligned to right.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -370,6 +371,10 @@ if ($list->rows != 0)
 
                 case COLUMN_TYPE_CREATION_DATE:
                     $value = get_date($row['creation_time']);
+                    break;
+
+                case COLUMN_TYPE_TEMPLATE:
+                    $value = ustr2html($row['template_name']);
                     break;
 
                 case COLUMN_TYPE_NUMBER:
