@@ -63,6 +63,7 @@
 //  Yasen Vasilev           2008-06-23      new-722: Bulgarian localization.
 //  Rodrigo Brayner         2008-07-28      new-737: Brazilian Portuguese localization.
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
+//  Masayoshi Ootsuka       2009-10-19      new-850: Japanese localization.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -86,6 +87,7 @@ require_once('../engine/res/dutch.php');
 require_once('../engine/res/latvian.php');
 require_once('../engine/res/russian.php');
 require_once('../engine/res/bulgarian.php');
+require_once('../engine/res/japanese.php');
 require_once('../engine/res/turkish.php');
 require_once('../engine/res/indonesian.php');
 /**#@-*/
@@ -226,6 +228,7 @@ global $resource_dutch;
 global $resource_latvian;
 global $resource_russian;
 global $resource_bulgarian;
+global $resource_japanese;
 global $resource_turkish;
 global $resource_indonesian;
 
@@ -374,6 +377,18 @@ $locale_info = array
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.n.Y',
         LOCALE_TIME_FORMAT => 'H:i',
+    ),
+
+    // Japanese
+    LANG_JAPANESE => array
+    (
+        LOCALE_RES_TABLE   => $resource_japanese,
+        LOCALE_SUFFIX      => NULL,
+        LOCALE_ENCODING    => 'UTF-8',
+        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'Y/m/d',
+        LOCALE_TIME_FORMAT => 'G:i',
     ),
 
     // Turkish
