@@ -32,10 +32,9 @@ where
 
         where
 
-            rs.record_id     = %1  and
-            rs.subscribed_by = %2  and
-            rs.account_id    <> %2 and
-            rs.account_id    = a.account_id)
+            rs.record_id  =  %1 and
+            rs.account_id <> %2 and
+            rs.account_id = a.account_id)
 
 order by
 
