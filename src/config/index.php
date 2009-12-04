@@ -48,6 +48,7 @@
 //  Artem Rodygin           2009-01-09      new-743: Include attached files in the notification.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-07-29      new-832: Required LDAP attributes should be configurable.
+//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -116,10 +117,11 @@ if (LDAP_ENABLED)
                 . sprintf("%s = %s", get_html_resource(RES_FULLNAME_ID), ustr2html(LDAP_ATTR_FULLNAME)) . '%br;'
                 . sprintf("%s = %s", get_html_resource(RES_EMAIL_ID),    ustr2html(LDAP_ATTR_EMAIL));
 
-    $xml .= '<text label="' . get_html_resource(RES_LDAP_SERVER_ID)      . '">' . ustr2html(LDAP_HOST)       . '</text>'
-          . '<text label="' . get_html_resource(RES_PORT_NUMBER_ID)      . '">' . ustr2html(LDAP_PORT)       . '</text>'
+    $xml .= '<text label="' . get_html_resource(RES_LDAP_SERVER_ID)      . '">' . ustr2html(LDAP_HOST) . '</text>'
+          . '<text label="' . get_html_resource(RES_PORT_NUMBER_ID)      . '">' . ustr2html(LDAP_PORT) . '</text>'
+          . '<text label="' . get_html_resource(RES_TLS_ID)              . '">' . ustrtolower(get_html_resource(LDAP_USE_TLS ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>'
           . '<text label="' . get_html_resource(RES_BASE_DN_ID)          . '">' . ustr2html(ustr_replace(';', '%br;', LDAP_BASEDN)) . '</text>'
-          . '<text label="' . get_html_resource(RES_SEARCH_ACCOUNT_ID)   . '">' . ustr2html(LDAP_USERNAME)   . '</text>'
+          . '<text label="' . get_html_resource(RES_SEARCH_ACCOUNT_ID)   . '">' . ustr2html(LDAP_USERNAME) . '</text>'
           . '<text label="' . get_html_resource(RES_LDAP_ATTRIBUTE_ID)   . '">' . $ldap_attrs . '</text>'
           . '<text label="' . get_html_resource(RES_LDAP_ENUMERATION_ID) . '">' . ustrtolower(get_html_resource(LDAP_ENUMERATION ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>'
           . '<text label="' . get_html_resource(RES_ADMINISTRATORS_ID)   . '">' . ustr2html(ustr_replace(',', '%br;', LDAP_ADMINS)) . '</text>';

@@ -52,6 +52,7 @@
 //  Artem Rodygin           2008-10-12      new-751: LDAP // Multiple Base DN support.
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
 //  Artem Rodygin           2009-07-29      new-832: Required LDAP attributes should be configurable.
+//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -172,6 +173,10 @@ function ldap_finduser ($username, $password = NULL)
     {
         debug_write_log(DEBUG_ERROR, '[ldap_finduser] ldap_set_option(LDAP_OPT_REFERRALS) error: ' . ldap_err2str(ldap_errno($link)));
     }
+    elseif (LDAP_USE_TLS && !@ldap_start_tls($link))
+    {
+        debug_write_log(DEBUG_ERROR, '[ldap_finduser] ldap_start_tls() error: ' . ldap_err2str(ldap_errno($link)));
+    }
     elseif (!@ldap_bind($link, LDAP_USERNAME, LDAP_PASSWORD))
     {
         debug_write_log(DEBUG_WARNING, '[ldap_finduser] ldap_bind(anonymous) error: ' . ldap_err2str(ldap_errno($link)));
@@ -258,6 +263,10 @@ function ldap_findallusers ()
     elseif (!@ldap_set_option($link, LDAP_OPT_REFERRALS, 0))
     {
         debug_write_log(DEBUG_ERROR, '[ldap_findallusers] ldap_set_option(LDAP_OPT_REFERRALS) error: ' . ldap_err2str(ldap_errno($link)));
+    }
+    elseif (LDAP_USE_TLS && !@ldap_start_tls($link))
+    {
+        debug_write_log(DEBUG_ERROR, '[ldap_finduser] ldap_start_tls() error: ' . ldap_err2str(ldap_errno($link)));
     }
     elseif (!@ldap_bind($link, LDAP_USERNAME, LDAP_PASSWORD))
     {

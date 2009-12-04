@@ -109,6 +109,7 @@ define('EMAIL_ATTACHMENTS_MAXSIZE',   0);
 define('LDAP_ENABLED',       0);
 define('LDAP_HOST',          'ldap://localhost');
 define('LDAP_PORT',          389);
+define('LDAP_USE_TLS',       0);
 define('LDAP_BASEDN',        'OU=unit1,DC=example,DC=com; OU=unit2,DC=example,DC=com');
 define('LDAP_USERNAME',      '');
 define('LDAP_PASSWORD',      '');

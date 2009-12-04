@@ -131,6 +131,7 @@
 //  Artem Rodygin           2009-04-12      bug-806: German translation causes two ambiguous "zuruck" buttons.
 //  Artem Rodygin           2009-04-24      new-817: Field permissions dialog refactoring.
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
+//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -588,6 +589,7 @@ define('RES_LIST_VALUES_ID',                        1345);
 define('RES_CREATED_ID',                            1346);
 define('RES_MARK_AS_READ_ID',                       1347);
 define('RES_REGISTERED_ID',                         1348);
+define('RES_TLS_ID',                                1349);
 /**#@-*/
 
 ?>

@@ -40,6 +40,7 @@
 //  Artem Rodygin           2009-04-12      bug-806: German translation causes two ambiguous "zuruck" buttons.
 //  Artem Rodygin           2009-04-26      new-817: Field permissions dialog refactoring.
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
+//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //--------------------------------------------------------------------------------------------------
 
 $resource_bulgarian = array
@@ -507,6 +508,7 @@ $resource_bulgarian = array
     'Създаден',
     'Маркирано като прочетено',
     'Регистриран',
+    'TLS',
 );
 
 ?>
