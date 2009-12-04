@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-0 (2009-11-09)
+
+    new-802: [SF2704057] possibility to disable fields
+    new-851: State name as standard column type.
+    new-854: Remove disabled users from subscribers list.
+    new-855: Show already subscribed users when subscribing others.
+
+Bug fixes integrated in MAIN_2-1-0 (2009-11-09)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-0-2 (2009-10-19)
 
     new-850: Japanese localization.

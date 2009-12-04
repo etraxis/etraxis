@@ -2,12 +2,12 @@
 RATS REPORT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-eTraxis version : 2.1.0
+eTraxis version : 2.1.1
 RATS version    : 2.0
 
-Total lines analyzed  : 40282
-Total vulnerabilities : 7 (2 high, 0 medium, 5 low)
-New vulnerabilities   : 0
+Total lines analyzed  : 40509
+Total vulnerabilities : 8 (2 high, 1 medium, 5 low)
+New vulnerabilities   : 1
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VULNERABILITIES
@@ -71,7 +71,19 @@ detected, however one could still exist that could not be detected.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-6. src/engine/utility.php:569: High: mail
+6. src/engine/smtp.php:97: Medium: fsockopen
+
+$link = fsockopen(SMTP_SERVER_NAME, SMTP_SERVER_PORT);
+
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+7. src/engine/utility.php:575: High: mail
 
 return @mail($to, $subject, $message, $headers);
 
@@ -84,7 +96,7 @@ formatted and contain no unexpected characters or extra data.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-7. src/records/download.php:78: Low: readfile
+8. src/records/download.php:78: Low: readfile
 
 readfile(ATTACHMENTS_PATH . $id);
 
