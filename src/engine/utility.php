@@ -72,6 +72,7 @@
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-08-29      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
+//  Artem Rodygin           2009-10-13      bug-847: Email notification is broken when it's being sent with attachment.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -525,6 +526,8 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
         $eol = "\n";
     }
 
+    $is_attachment = ($attachment_size <= EMAIL_ATTACHMENTS_MAXSIZE * 1024 && !is_null($attachment_id));
+
     $boundary = 'eTraxis-boundary:' . md5(uniqid(time()));
 
     $headers = implode($eol, array('Date: ' . date('r'),
@@ -535,29 +538,33 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
                                    'X-Priority: 3',
                                    'X-Mailer: eTraxis ' . VERSION,
                                    'MIME-Version: 1.0',
-                                   ($attachment_size > EMAIL_ATTACHMENTS_MAXSIZE * 1024 || is_null($attachment_id)
-                                       ? 'Content-Type: text/html; charset="utf-8"'
-                                       : 'Content-Type: multipart/mixed; boundary="' . $boundary . '"'),
+                                   ($is_attachment ? 'Content-Type: multipart/mixed; boundary="' . $boundary . '"'
+                                                   : 'Content-Type: text/html; charset="utf-8"'),
                                    ''));
+
+    if ($is_attachment)
+    {
+        $message = implode($eol, array('This is a multi-part message in MIME format.',
+                                       NULL,
+                                       '--' . $boundary,
+                                       'Content-Type: text/html; charset="utf-8"',
+                                       NULL,
+                                       $message,
+                                       NULL,
+                                       '--' . $boundary,
+                                       'Content-Type: ' . $attachment_type . '; name="' . $attachment_name . '"',
+                                       'Content-Transfer-Encoding: base64',
+                                       'Content-Disposition: attachment; filename="' . $attachment_name . '"',
+                                       NULL,
+                                       chunk_split(base64_encode(file_get_contents(ATTACHMENTS_PATH . $attachment_id))),
+                                       NULL,
+                                       '--' . $boundary . '--'));
+    }
 
     debug_write_log(DEBUG_DUMP, '[sendmail] $to = ' . $to);
     debug_write_log(DEBUG_DUMP, '[sendmail] $subject = ' . $subject);
     debug_write_log(DEBUG_DUMP, "[sendmail] \$headers =\n{$headers}");
     debug_write_log(DEBUG_DUMP, "[sendmail] \$message =\n{$message}");
-
-    if ($attachment_size <= EMAIL_ATTACHMENTS_MAXSIZE * 1024 && !is_null($attachment_id))
-    {
-        $message = implode($eol, array('This is a multi-part message in MIME format.',
-                                       '--' . $boundary,
-                                       'Content-Type: text/html; charset="utf-8"',
-                                       $message,
-                                       '--' . $boundary,
-                                       'Content-Type: ' . $attachment_type . '; name="' . $attachment_name . '"',
-                                       'Content-Transfer-Encoding: base64',
-                                       'Content-Disposition: attachment; filename="' . $attachment_name . '"',
-                                       chunk_split(base64_encode(file_get_contents(ATTACHMENTS_PATH . $attachment_id))),
-                                       '--' . $boundary . '--'));
-    }
 
     return @mail($to, $subject, $message, $headers);
 }
