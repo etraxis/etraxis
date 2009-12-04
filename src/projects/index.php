@@ -48,6 +48,7 @@
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -58,6 +59,17 @@ require_once('../dbo/projects.php');
 /**#@-*/
 
 init_page(GUEST_IS_ALLOWED);
+
+if (get_user_level() == USER_LEVEL_GUEST)
+{
+    $rs = dal_query('templates/tgfndc.sql');
+
+    if ($rs->fetch(0) == 0)
+    {
+        header('Location: ../records/index.php');
+        exit;
+    }
+}
 
 $sort = $page = NULL;
 $list = project_list($sort, $page);

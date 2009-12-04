@@ -77,6 +77,7 @@
 //  Artem Rodygin           2009-05-01      Updated for compatibility with HtmlUnit.
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
+//  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -480,17 +481,23 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
  *
  * @return string Generated XML code.
  */
-function gen_xml_menu ()
+function gen_xml_menu ($hide_menu = FALSE)
 {
     debug_write_log(DEBUG_TRACE, '[generate_menu]');
 
-    $xml = '<menu user="' . $_SESSION[VAR_FULLNAME] . '">';
+    $xml = get_user_level() == USER_LEVEL_GUEST
+         ? '<menu>'
+         : '<menu user="' . $_SESSION[VAR_FULLNAME] . '">';
 
     if (get_user_level() == USER_LEVEL_GUEST)
     {
-        $xml .= '<menuitem url="../records/index.php?search=">' . get_html_resource(RES_RECORDS_ID)  . '</menuitem>'
-              . '<menuitem url="../projects/index.php">'        . get_html_resource(RES_PROJECTS_ID) . '</menuitem>'
-              . '<menuitem url="../logon/login.php">'           . get_html_resource(RES_LOGIN_ID)    . '</menuitem>';
+        if (!$hide_menu)
+        {
+            $xml .= '<menuitem url="../records/index.php?search=">' . get_html_resource(RES_RECORDS_ID)  . '</menuitem>'
+                  . '<menuitem url="../projects/index.php">'        . get_html_resource(RES_PROJECTS_ID) . '</menuitem>';
+        }
+
+        $xml .= '<menuitem url="../logon/login.php">' . get_html_resource(RES_LOGIN_ID) . '</menuitem>';
     }
     else
     {

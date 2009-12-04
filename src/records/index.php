@@ -92,6 +92,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
+//  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -108,6 +109,49 @@ global $column_type_align;
 global $column_type_res;
 
 init_page(GUEST_IS_ALLOWED);
+
+if (isset($_SESSION[VAR_ERROR]))
+{
+    switch ($_SESSION[VAR_ERROR])
+    {
+        case NO_ERROR:
+            $alert = NULL;
+            break;
+        case ERROR_UNAUTHORIZED:
+            $alert = get_js_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID);
+            break;
+        case ERROR_UNKNOWN_USERNAME:
+            $alert = get_js_resource(RES_ALERT_UNKNOWN_USERNAME_ID);
+            break;
+        case ERROR_ACCOUNT_DISABLED:
+            $alert = get_js_resource(RES_ALERT_ACCOUNT_DISABLED_ID);
+            break;
+        case ERROR_ACCOUNT_LOCKED:
+            $alert = get_js_resource(RES_ALERT_ACCOUNT_LOCKED_ID);
+            break;
+        default:
+            $alert = get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+    }
+
+    $_SESSION[VAR_ERROR] = NO_ERROR;
+}
+
+if (get_user_level() == USER_LEVEL_GUEST)
+{
+    $rs = dal_query('templates/tgfndc.sql');
+
+    if ($rs->fetch(0) == 0)
+    {
+        $xml = '<page' . gen_xml_page_header(NULL, (isset($alert) ? $alert : NULL)) . '>'
+             . gen_xml_menu(TRUE)
+             . '<content>'
+             . '</content>'
+             . '</page>';
+
+        echo(xml2html($xml));
+        exit;
+    }
+}
 
 mb_regex_encoding('UTF-8');
 
@@ -138,32 +182,6 @@ if (isset($_REQUEST['search']))
 if (isset($_REQUEST['use_filters']))
 {
     $_SESSION[VAR_USE_FILTERS] = (bool) $_REQUEST['use_filters'];
-}
-
-if (isset($_SESSION[VAR_ERROR]))
-{
-    switch ($_SESSION[VAR_ERROR])
-    {
-        case NO_ERROR:
-            $alert = NULL;
-            break;
-        case ERROR_UNAUTHORIZED:
-            $alert = get_js_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID);
-            break;
-        case ERROR_UNKNOWN_USERNAME:
-            $alert = get_js_resource(RES_ALERT_UNKNOWN_USERNAME_ID);
-            break;
-        case ERROR_ACCOUNT_DISABLED:
-            $alert = get_js_resource(RES_ALERT_ACCOUNT_DISABLED_ID);
-            break;
-        case ERROR_ACCOUNT_LOCKED:
-            $alert = get_js_resource(RES_ALERT_ACCOUNT_LOCKED_ID);
-            break;
-        default:
-            $alert = get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID);
-    }
-
-    $_SESSION[VAR_ERROR] = NO_ERROR;
 }
 
 $xml = '<page' . gen_xml_page_header(get_html_resource($search_mode ? ($_SESSION[VAR_USE_FILTERS] ? RES_SEARCH_RESULTS_FILTERED_ID : RES_SEARCH_RESULTS_UNFILTERED_ID) : RES_RECORDS_ID), (isset($alert) ? $alert : NULL), ($search_mode ? NULL : 'mainform.id')) . '>'
