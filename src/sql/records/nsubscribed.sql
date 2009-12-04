@@ -18,6 +18,7 @@ where
     ms.account_id  = a.account_id  and
     gp.template_id = s.template_id and
     s.state_id     = r.state_id    and
+    a.is_disabled  = 0             and
     r.record_id    = %1            and
 
     a.account_id not in
