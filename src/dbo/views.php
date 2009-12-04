@@ -57,6 +57,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -90,7 +91,8 @@ define('COLUMN_TYPE_RESPONSIBLE',   6);
 define('COLUMN_TYPE_LAST_EVENT',    7);
 define('COLUMN_TYPE_AGE',           8);
 define('COLUMN_TYPE_CREATION_DATE', 9);
-define('COLUMN_TYPE_MAXIMUM',       9);
+define('COLUMN_TYPE_TEMPLATE',     10);
+define('COLUMN_TYPE_MAXIMUM',      10);
 /**#@-*/
 
 /**#@+
@@ -120,6 +122,7 @@ $column_type_res = array
     COLUMN_TYPE_LAST_EVENT    => RES_LAST_EVENT_ID,
     COLUMN_TYPE_AGE           => RES_AGE_ID,
     COLUMN_TYPE_CREATION_DATE => RES_CREATED_ID,
+    COLUMN_TYPE_TEMPLATE      => RES_TEMPLATE_ID,
 
     // custom
     COLUMN_TYPE_NUMBER        => RES_NUMBER_ID,

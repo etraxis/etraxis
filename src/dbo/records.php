@@ -194,6 +194,7 @@
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-08-31      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
+//  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -446,6 +447,17 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 if ($is_sortby)
                 {
                     $clause_order .= 'creation_time' . $sort_mode;
+                }
+
+                break;
+
+            case COLUMN_TYPE_TEMPLATE:
+
+                array_push($clause_select, 't.template_name');
+
+                if ($is_sortby)
+                {
+                    $clause_order .= 't.template_name' . $sort_mode;
                 }
 
                 break;
