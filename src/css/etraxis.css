@@ -258,6 +258,16 @@ input.button:hover {
   color: #505050;
 }
 
+input.button:disabled {
+  border: #CCC 1px solid;
+  color: #CCC;
+}
+
+input.button:disabled:hover {
+  border: #CCC 1px solid;
+  color: #CCC;
+}
+
 input.dualbutton {
   margin: 5px 10px;
   padding-left: 10px;

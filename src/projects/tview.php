@@ -43,6 +43,7 @@
 //  Artem Rodygin           2008-01-31      new-601: [SF1814666] Export and Import Templates
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -101,10 +102,16 @@ if ($template['is_locked'])
     {
         $xml .= '<button url="tdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_TEMPLATE_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
     }
+    else
+    {
+        $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
+    }
 }
 else
 {
-    $xml .= '<button url="tlock.php?id=' . $id . '">' . get_html_resource(RES_LOCK_ID) . '</button>';
+    $xml .= '<button url="tlock.php?id=' . $id . '">' . get_html_resource(RES_LOCK_ID)   . '</button>'
+          . '<button disabled="true">'                . get_html_resource(RES_MODIFY_ID) . '</button>'
+          . '<button disabled="true">'                . get_html_resource(RES_DELETE_ID) . '</button>';
 }
 
 $xml .= '<button url="sindex.php?id=' . $id . '">' . get_html_resource(RES_STATES_ID)      . '</button>'

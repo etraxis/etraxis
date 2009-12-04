@@ -42,6 +42,7 @@
 //  Artem Rodygin           2006-10-08      bug-347: /src/projects/gview.php: Global variable $alert was used before it was defined.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -107,6 +108,10 @@ if (!$project || !$group['is_global'])
     if (is_group_removable($id))
     {
         $xml .= '<button url="gdelete.php?id=' . $id . ($group['is_global'] ? '&amp;pid=' . $pid : NULL) . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_GROUP_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
+    }
+    else
+    {
+        $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
     }
 
     $xml .= '<button url="members.php?id=' . $id . ($group['is_global'] ? '&amp;pid=' . $pid : NULL) . '">' . get_html_resource(RES_MEMBERSHIP_ID) . '</button>';

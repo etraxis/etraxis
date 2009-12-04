@@ -41,6 +41,7 @@
 //  Yury Udovichenko        2007-11-19      new-623: Default state in states list.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -111,6 +112,15 @@ if ($state['is_locked'])
     {
         $xml .= '<button url="sdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_STATE_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
     }
+    else
+    {
+        $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
+    }
+}
+else
+{
+    $xml .= '<button disabled="true">' . get_html_resource(RES_MODIFY_ID) . '</button>'
+          . '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
 }
 
 $xml .= '<button url="findex.php?id=' . $id . '">' . get_html_resource(RES_FIELDS_ID) . '</button>'
@@ -120,9 +130,13 @@ if ($state['state_type'] != STATE_TYPE_FINAL)
 {
     $xml .= '<button url="strans.php?id=' . $id . '">' . get_html_resource(RES_TRANSITIONS_ID) . '</button>';
 
-    if ($state['is_locked'])
+    if ($state['is_locked'] && $state['state_type'] == STATE_TYPE_INTERMEDIATE)
     {
-        $xml .= '<button url="initial.php?id=' . $id . '"' . ($state['state_type'] == STATE_TYPE_INTERMEDIATE ? NULL : ' disabled="true"') . '>' . get_html_resource(RES_SET_INITIAL_ID) . '</button>';
+        $xml .= '<button url="initial.php?id=' . $id . '">' . get_html_resource(RES_SET_INITIAL_ID) . '</button>';
+    }
+    else
+    {
+        $xml .= '<button disabled="true">' . get_html_resource(RES_SET_INITIAL_ID) . '</button>';
     }
 }
 

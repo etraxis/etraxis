@@ -41,6 +41,7 @@
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -82,15 +83,15 @@ if (get_user_level() == USER_LEVEL_ADMIN)
 {
     $xml .= '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
 
-
     if (is_project_removable($id) && $project['is_suspended'])
     {
         $xml .= '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_PROJECT_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
     }
-}
+    else
+    {
+        $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
+    }
 
-if (get_user_level() == USER_LEVEL_ADMIN)
-{
     $xml .= '<button url="gindex.php?id=' . $id . '">' . get_html_resource(RES_GROUPS_ID)    . '</button>'
           . '<button url="tindex.php?id=' . $id . '">' . get_html_resource(RES_TEMPLATES_ID) . '</button>';
 }
