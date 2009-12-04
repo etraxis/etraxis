@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-0-1
-Release date : 2009-10-14
-Release size : 35970
+Release tag  : MAIN_2-0-2
+Release date : 2009-10-19
+Release size : 36405
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -28,6 +28,7 @@ English
 French
 German
 Indonesian
+Japanese
 Latvian
 Portuguese (Brazil)
 Russian
@@ -64,20 +65,15 @@ KNOWN ISSUES
 bug-696: Values of restricted fields are still accessible via custom view.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-NEW FEATURES INTEGRATED IN MAIN_2-0-1 (2009-10-14)
+NEW FEATURES INTEGRATED IN MAIN_2-0-2 (2009-10-19)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-837: Replace "Groups" with "Global groups" in main menu.
-new-838: Disabled buttons would be better grayed out than invisible.
-new-839: Welcome screen should be blank if no guest is enabled.
-new-845: Template name as standard column type.
-new-848: LDAP TLS support.
+new-850: Japanese localization.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-BUG FIXES INTEGRATED IN MAIN_2-0-1 (2009-10-14)
+BUG FIXES INTEGRATED IN MAIN_2-0-2 (2009-10-19)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-847: Email notification is broken when it's being sent with attachment.
-bug-849: 'Clone' button is available when should be disabled.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
