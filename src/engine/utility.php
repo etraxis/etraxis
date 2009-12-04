@@ -70,6 +70,7 @@
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
 //  Artem Rodygin           2009-04-13      bug-812: Strange Subject Messages in mail
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
+//  Artem Rodygin           2009-06-21      new-828: [SF2809460] Support for SMTP email
 //  Artem Rodygin           2009-08-29      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
 //  Artem Rodygin           2009-10-13      bug-847: Email notification is broken when it's being sent with attachment.
@@ -79,6 +80,7 @@
  * Dependency.
  */
 require_once('../engine/debug.php');
+require_once('../engine/smtp.php');
 /**#@-*/
 
 //--------------------------------------------------------------------------------------------------
@@ -531,7 +533,8 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
     $boundary = 'eTraxis-boundary:' . md5(uniqid(time()));
 
     $headers = implode($eol, array('Date: ' . date('r'),
-                                   'From: ' . $sender . ' <' . $from . '>',
+                                   'From: ' . $sender . ' <' . (EMAIL_NOTIFICATIONS_ENABLED == SMTP_CLIENT_BUILDIN ? SMTP_MAILFROM : $from) . '>',
+                                   'To: ' . $to,
                                    'Reply-To: ' . $from,
                                    'Return-Path: ' . $from,
                                    'Message-ID: <' . md5(uniqid(time())) . '@' . $_SERVER['SERVER_NAME'] . '>',
@@ -539,8 +542,8 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
                                    'X-Mailer: eTraxis ' . VERSION,
                                    'MIME-Version: 1.0',
                                    ($is_attachment ? 'Content-Type: multipart/mixed; boundary="' . $boundary . '"'
-                                                   : 'Content-Type: text/html; charset="utf-8"'),
-                                   ''));
+                                                   : 'Content-Type: text/html; charset="utf-8"')
+                                   ));
 
     if ($is_attachment)
     {
@@ -566,7 +569,17 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
     debug_write_log(DEBUG_DUMP, "[sendmail] \$headers =\n{$headers}");
     debug_write_log(DEBUG_DUMP, "[sendmail] \$message =\n{$message}");
 
-    return @mail($to, $subject, $message, $headers);
+    switch (EMAIL_NOTIFICATIONS_ENABLED)
+    {
+        case SMTP_CLIENT_PHP:
+            return @mail($to, $subject, $message, $headers);
+        case SMTP_CLIENT_BUILDIN:
+            return smtp_send_mail($to, $subject, $message, $headers);
+        default:
+            debug_write_log(DEBUG_WARNING, '[sendmail] Email notifications are disabled.');
+    }
+
+    return FALSE;
 }
 
 /**
