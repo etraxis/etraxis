@@ -1,0 +1,2054 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CHANGE LOG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-10 (2009-08-07)
+
+    new-832: Required LDAP attributes should be configurable.
+    new-833: Default responsible should be current user, when possible.
+
+Bug fixes integrated in MAIN_1-21-10 (2009-08-07)
+
+    bug-834: Permission to create records should be disabled for author and responsible.
+    bug-835: Template permissions could not be accessed while no group is created yet.
+    bug-841: The 'magic_quotes_runtime' option must be turned off.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-9 (2009-05-31)
+
+    new-821: Remove redundant call of 'ldap_finduser' from 'login_user'.
+
+Bug fixes integrated in MAIN_1-21-9 (2009-05-31)
+
+    bug-822: Field permissions for system roles are displayed wrong.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-8 (2009-04-26)
+
+    new-801: Range of valid date values must be related to current date.
+    new-817: Field permissions dialog refactoring.
+    new-818: Change buttons layout on viewing record page.
+
+Bug fixes integrated in MAIN_1-21-8 (2009-04-26)
+
+    bug-816: Cosmetic issue with BBCode tag 'code'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-7 (2009-04-14)
+
+    new-814: Password expiration should be turnable off.
+
+Bug fixes integrated in MAIN_1-21-7 (2009-04-14)
+
+    bug-806: German translation causes two ambiguous "zurück" buttons.
+    bug-812: Strange Subject Messages in mail
+    bug-815: Empty "event" field in notification about subscription.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-6 (2009-03-31)
+
+    None.
+
+Bug fixes integrated in MAIN_1-21-6 (2009-03-31)
+
+    bug-803: "XML parser error" on import of preliminary exported template.
+    bug-804: stripos' is not available in PHP4
+    bug-805: Regular expressions are ignored.
+    bug-811: Multilined text is cut on export to CSV.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-5 (2009-03-14)
+
+    new-800: Password should expire when changed by admin.
+
+Bug fixes integrated in MAIN_1-21-5 (2009-03-14)
+
+    bug-798: Background of header images doesn't match common page background.
+    bug-799: eTraxis doesn't work with XAMPP on Windows.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-4 (2009-03-08)
+
+    new-797: Numbers and durations should be aligned to right.
+
+Bug fixes integrated in MAIN_1-21-4 (2009-03-08)
+
+    bug-789: Custom fields show empty values in a view.
+    bug-795: [SF2653127] Security problem when logon in konqueror
+    bug-796: 'rec#' reference doesn't work when leading zero is present.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-3 (2009-03-01)
+
+    None.
+
+Bug fixes integrated in MAIN_1-21-3 (2009-03-01)
+
+    bug-794: [SF2643676] Security problem when logout.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-2 (2009-02-26)
+
+    None.
+
+Bug fixes integrated in MAIN_1-21-2 (2009-02-26)
+
+    bug-792: [SF2635842] Short PHP tags in login.php
+    bug-793: [SF2637473] LDAP Guest users can't create records
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-1 (2009-01-27)
+
+    None.
+
+Bug fixes integrated in MAIN_1-21-1 (2009-01-27)
+
+    bug-787: [SF2509057] Can't import template
+    bug-788: Maximum value of 'number', 'date' and 'duration' fields becomes minimum on import.
+    bug-790: Can't move columns of custom view up and down in the list (Safari).
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-21-0 (2009-01-14)
+
+    new-774: 'Anyone' system role permissions.
+    new-783: Script for eTraxis initial setup.
+    new-785: Favorites icon.
+
+Bug fixes integrated in MAIN_1-21-0 (2009-01-14)
+
+    bug-784: Logged in user must be forwarded to the page he has tried to open before authentication.
+    bug-786: Dump of record to text file loses new line characters.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-20-1 (2008-12-26)
+
+    None.
+
+Bug fixes integrated in MAIN_1-20-1 (2008-12-26)
+
+    bug-779: Chart displays "1.2E+6" instead of "1200000".
+    bug-780: HTML // required attribute "TYPE" not specified
+    bug-781: Page header is not extended if chart width is larger than window width.
+    bug-782: Call to undefined function xslt_errno()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-20-0 (2008-12-16)
+
+    None.
+
+Bug fixes integrated in MAIN_1-20-0 (2008-12-16)
+
+    bug-769: user local group see bugs from other projects
+    bug-770: MySQL server hangs up on searching (Linux platform only).
+    bug-777: ORA-00972: identifier is too long
+    bug-778: PHP Warning: Missing argument 8 for template_create()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-19-2 (2008-12-09)
+
+    new-772: Guest mode should be underlined.
+    new-775: New project should be created in active state.
+
+Bug fixes integrated in MAIN_1-19-2 (2008-12-09)
+
+    bug-766: PHP Notice: Undefined index: eTraxis_FullName
+    bug-767: Multiple words search slows down database server.
+    bug-768: Author is absent in the list of possible responsibles while author permissions assumes it.
+    bug-773: 'Search results' link is lost in "links path" on 'clone' and 'create subrecord' operations.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-19-1 (2008-11-18)
+
+    new-762: Forward logged in user to the page he has tried to open before authentication.
+
+Bug fixes integrated in MAIN_1-19-1 (2008-11-18)
+
+    bug-761: Unable to delete current view.
+    bug-763: PHP Warning: odbc_exec(): SQL error: INSERT statement conflicted with COLUMN FOREIGN KEY constraint 'fk_def_columns_account_id'.
+    bug-764: PHP Warning: odbc_exec(): SQL error: Line 1: Incorrect syntax near '='.
+    bug-765: Query for list of records is slowed down.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-19-0 (2008-11-14)
+
+    new-749: Guest access for unauthorized users.
+
+Bug fixes integrated in MAIN_1-19-0 (2008-11-14)
+
+    bug-759: /src/dbo/filters.php: Variable $id was used before it was defined
+    bug-760: Backslashes are lost in checking PCRE patterns for textual fields.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-18-3 (2008-11-07)
+
+    new-758: View should be overwritten if it already exists.
+
+Bug fixes integrated in MAIN_1-18-3 (2008-11-07)
+
+    bug-695: BBCode // Address between [url] and [/url] is cut when contains a space.
+    bug-756: PHP Warning: odbc_exec(): SQL error: Violation of UNIQUE KEY constraint 'ix_fsets'.
+    bug-757: Defaults states and PCREs are lost in new template after cloning.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-18-2 (2008-10-14)
+
+    new-751: LDAP // Multiple Base DN support.
+    new-752: [SF2162856] Add file attachments when creating a new record
+
+Bug fixes integrated in MAIN_1-18-2 (2008-10-14)
+
+    bug-753: XML failure on some search results.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-18-1 (2008-09-22)
+
+    new-743: Include attached files in the notification.
+
+Bug fixes integrated in MAIN_1-18-1 (2008-09-22)
+
+    bug-744: Dots are lost at the beginning of each line in mail notifications.
+    bug-745: HTML // Mismatch between Public and System identifiers in the DOCTYPE declaration
+    bug-746: HTML // start tag for "TR" omitted, but its declaration does not permit this
+    bug-747: HTML // value of attribute "VALIGN" cannot be "CENTER"; must be one of "TOP", "MIDDLE", "BOTTOM", "BASELINE"
+    bug-748: HTML // required attribute "COLS" not specified
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-18-0 (2008-09-11)
+
+    new-716: 'Today' value in date field range.
+    new-740: Filter set should be overwritten if it already exists.
+
+Bug fixes integrated in MAIN_1-18-0 (2008-09-11)
+
+    bug-738: SQL error when Office Word 2007 file is being attached.
+    bug-741: BBCode tag [code] adds extra newline-character at bottom of code block.
+    bug-742: Not all expected notes are present when record is being created/modified.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-17-1 (2008-08-01)
+
+    new-733: Responsible drop down list
+    new-737: Brazilian Portuguese localization.
+
+Bug fixes integrated in MAIN_1-17-1 (2008-08-01)
+
+    bug-735: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint 'fk_group_perms_template_id'.
+    bug-736: Search tags are contained in subject of notification when event is for one of records from the search results list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-17-0 (2008-07-03)
+
+    new-722: Bulgarian localization.
+    new-729: [SF2008579] Mark all records as read
+
+Bug fixes integrated in MAIN_1-17-0 (2008-07-03)
+
+    bug-724: Import MYSQL41.SQL failed
+    bug-726: References to other records are parsed wrong, when there are several of them.
+    bug-727: Notifications are not sent via Lotus Domino SMTP server.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-16-3 (2008-06-22)
+
+    new-723: Wrap calls of 'mail' function.
+    new-725: Extend combo box.
+
+Bug fixes integrated in MAIN_1-16-3 (2008-06-22)
+
+    bug-718: Carbon-copies in subscriptions are ignored.
+    bug-719: Global variable $field_type_res was used before it was defined
+    bug-721: [SF1982395] DBX error when saving multi-lined textbox
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-16-2 (2008-05-03)
+
+    new-689: French localization.
+    new-715: Show creation time in the list of records.
+    new-717: Add date format for Canada and Australia.
+
+Bug fixes integrated in MAIN_1-16-2 (2008-05-03)
+
+    bug-699: Views // Names of custom columns are duplicated in the list of available columns, when there are two fields of different types with the same name.
+    bug-714: Empty date fields show '12/31/1969' in a custom view.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-16-1 (2008-04-26)
+
+    new-708: [SF1950362] UNIX socket for PostgreSQL
+
+Bug fixes integrated in MAIN_1-16-1 (2008-04-26)
+
+    bug-706: PHP Notice: Undefined variable: record
+    bug-707: Permission to view records for responsible does not work in the list of records.
+    bug-709: [SF1950363] PostgreSQL connection string has unprintable chars
+    bug-711: Cannot skip optional field if it has checking PCRE.
+    bug-712: Search doesn't work with MySQL 4.1.
+    bug-713: JavaScript Error: document.mainform has no properties
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-16-0 (2008-04-20)
+
+    new-703: Separated permissions set for current responsible.
+    new-704: Show name of user who is logged in.
+    new-705: Multiple parents for subrecords.
+
+Bug fixes integrated in MAIN_1-16-0 (2008-04-20)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-15-5 (2008-04-14)
+
+    new-692: Turkish localization.
+
+Bug fixes integrated in MAIN_1-15-5 (2008-04-14)
+
+    bug-698: XML import // All new line characters are lost in default value of multilined field.
+    bug-702: Apostrophe in metrics chart title is displayed as sequence of "&#039;".
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-15-4 (2008-04-09)
+
+    new-685: Indonesian localization.
+    new-694: Filter for unassigned records.
+    new-700: Default focus on the list of records page.
+
+Bug fixes integrated in MAIN_1-15-4 (2008-04-09)
+
+    bug-697: XML import fails on date values.
+    bug-701: PHP Notice: Undefined variables: xml_a / xml_g
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-15-3 (2008-04-03)
+
+    new-693: Dutch localization.
+
+Bug fixes integrated in MAIN_1-15-3 (2008-04-03)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-15-2 (2008-03-31)
+
+    new-691: Localization module is optimized to avoid prompts duplication.
+
+Bug fixes integrated in MAIN_1-15-2 (2008-03-31)
+
+    bug-687: "XML parser error" on template import, if zero is specified in 'critical_age' template's parameter.
+    bug-688: Short PHP tags should not be used.
+    bug-690: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint 'fk_filter_activation_filter_id'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-15-1 (2008-03-17)
+
+    None.
+
+Bug fixes integrated in MAIN_1-15-1 (2008-03-17)
+
+    bug-686: Filters // All global groups are selected by default in "share with" list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-15-0 (2008-03-15)
+
+    new-501: Filter should allow to specify 'none' value of 'list' fields.
+    new-683: Filters should be sharable with groups,  not with accounts.
+
+Bug fixes integrated in MAIN_1-15-0 (2008-03-15)
+
+    bug-684: Guest and author permissions are not copied when template is cloned.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-14-4 (2008-03-03)
+
+    new-294: PostgreSQL support.
+    new-535: Permissions to attachments removal.
+    new-676: [SF1898731] Delete Issues from Workflow
+
+Bug fixes integrated in MAIN_1-14-4 (2008-03-03)
+
+    bug-680: Template export doesn't work.
+    bug-681: Update configuration page with new options.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-14-3 (2008-02-26)
+
+    new-601: [SF1814666] Export and Import Templates
+
+Bug fixes integrated in MAIN_1-14-3 (2008-02-26)
+
+    bug-674: [SF1893539] Incorrect charset in "Subject" email notifications
+    bug-675: PHP Warning: preg_replace(): Unknown modifier ')'
+    bug-678: Default value of combo box field is ignored.
+    bug-679: "User is not authorized" is permanently shown with Oracle.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-14-2 (2008-02-10)
+
+    new-671: Default value for 'date' fields should be relative.
+
+Bug fixes integrated in MAIN_1-14-2 (2008-02-10)
+
+    bug-672: Newly created 'date' field always has range of values from '1/1/1970' till '1/1/1970'.
+    bug-673: Newly created field always has empty strings as its regexps instead of NULL.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-14-1 (2008-02-06)
+
+    None.
+
+Bug fixes integrated in MAIN_1-14-1 (2008-02-06)
+
+    bug-670: Hardcoded user ID in SQL query for records list.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-14-0 (2008-01-30)
+
+    new-531: LDAP Guest users
+
+Bug fixes integrated in MAIN_1-14-0 (2008-01-30)
+
+    bug-668: Round brackets in URL are ignored.
+    bug-669: PHP Notice: Undefined variable: regex_check
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-13-2 (2008-01-20)
+
+    new-666: Buttons "Previous" & "Next" on record view page.
+
+Bug fixes integrated in MAIN_1-13-2 (2008-01-20)
+
+    bug-665: Notifications // Author permissions are ignored.
+    bug-667: XML Parsing Error: not well-formed
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-13-1 (2008-01-11)
+
+    None.
+
+Bug fixes integrated in MAIN_1-13-1 (2008-01-11)
+
+    bug-661: MS SQL Server is overloaded.
+    bug-663: Author permissions are ignored.
+    bug-664: Template cannot be deleted.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-13-0 (2008-01-06)
+
+    new-648: Template-wide author permissions.
+
+Bug fixes integrated in MAIN_1-13-0 (2008-01-06)
+
+    bug-660: [SF1860788] PHP4 html_entity_decode() is not working
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-12-2 (2007-12-30)
+
+    new-656: BBCode // List of tags, allowed in subject, should be limited.
+    new-657: BBCode // Ability to display tags as is.
+    new-658: Spanish localization.
+    new-659: Set default language
+
+Bug fixes integrated in MAIN_1-12-2 (2007-12-30)
+
+    bug-652: BBCode // Ordered lists are not ordered in record's dump.
+    bug-653: Chart legend shows no color.
+    bug-654: BBCode // Tags inside [code] should be displayed as is.
+    bug-655: BBCode // List of changes has corrupted style if changed values contain BBCode.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-12-1 (2007-12-25)
+
+    new-485: Text formating in comments.
+
+Bug fixes integrated in MAIN_1-12-1 (2007-12-25)
+
+    bug-650: Search overloads server.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-12-0 (2007-12-19)
+
+    new-414: Passwords expiration.
+
+Bug fixes integrated in MAIN_1-12-0 (2007-12-19)
+
+    bug-643: /src/dbo/events.php: The value of variable $rec_id was never used.
+    bug-645: Account is locked for specified amount of seconds, not minutes.
+    bug-646: Records is reassigned even when "Cancel" was clicked.
+    bug-647: PHP Warning: Invalid argument supplied for foreach()
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-11-3 (2007-12-05)
+
+    new-639: Highlight postpone date in record general info.
+    new-641: Remove "mailto" link from history & changes.
+
+Bug fixes integrated in MAIN_1-11-3 (2007-12-05)
+
+    bug-638: PHP Warning: odbc_exec(): SQL error: Violation of UNIQUE KEY constraint 'ix_def_columns_name'.
+    bug-642: PHP Parse error: syntax error, unexpected $end
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-11-2 (2007-12-03)
+
+    new-617: Add 'no view' and 'no filter set' to related comboboxes.
+    new-637: Subject of notifications should contain subject of records.
+
+Bug fixes integrated in MAIN_1-11-2 (2007-12-03)
+
+    bug-632: HTTP Authentication problem running as CGI
+    bug-635: Variable $i was used before it was defined
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-11-1 (2007-11-28)
+
+    new-536: Ability to hide postpone records from the list.
+    new-633: The 'dbx' extension should not be used.
+
+Bug fixes integrated in MAIN_1-11-1 (2007-11-28)
+
+    bug-631: Links with port numbers are not shown as links.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-11-0 (2007-11-19)
+
+    new-623: Default state in states list.
+
+Bug fixes integrated in MAIN_1-11-0 (2007-11-19)
+
+    bug-630: Error when choosing a multiline value to include as a column.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-10-1 (2007-11-15)
+
+    None.
+
+Bug fixes integrated in MAIN_1-10-1 (2007-11-15)
+
+    bug-627: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near 'limit'.
+    bug-628: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near ','.
+    bug-629: Having '&' in field's regex could break the page generation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-10-0 (2007-11-14)
+
+    new-548: Custom links in text fields.
+    new-599: Separated "Age" in custom views.
+    new-618: Extend view and filter set names up to 50 characters.
+    new-622: Rename 'children' into 'subrecords'.
+
+Bug fixes integrated in MAIN_1-10-0 (2007-11-14)
+
+    bug-620: XML failure when view contains column with '&' in its state or field name.
+    bug-621: Enabled column doesn't disappear from "disabled" list, when contains '&' in its name.
+    bug-625: PHP Notice: Undefined variable: add_separator
+    bug-626: eTraxis Error: [dal_execute] dbx_error(): Table 'etraxis.tbl_columns' doesn't exist
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-9-1 (2007-11-11)
+
+    new-619: Replace 'none' with empty space.
+
+Bug fixes integrated in MAIN_1-9-1 (2007-11-11)
+
+    bug-613: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near ','.
+    bug-614: Variable $i was used before it was defined.
+    bug-615: Arrow buttons are broken for Windows clients.
+    bug-624: dbx_error(): Too many tables; MySQL can only use 61 tables in a join
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-9-0 (2007-11-07)
+
+    new-562: Ability to show only last values of any state.
+    new-564: Filters set.
+    new-571: View should show all records of current filters set.
+    new-612: Display every used state, even it doesn't contain any field.
+
+Bug fixes integrated in MAIN_1-9-0 (2007-11-07)
+
+    bug-608: All fields are lost when cloning a template.
+    bug-609: CSS Warning: Error in parsing value for property 'width'. Declaration dropped.
+    bug-610: CSS Warning: Error in parsing value for property 'font-size'. Declaration dropped.
+    bug-611: CSS Warning: Error in parsing value for property 'cursor'. Declaration dropped.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-8-4 (2007-10-23)
+
+    new-600: User should be able to create new child w/out dependency.
+    new-602: Rename "Add child" to "Attach child".
+    new-607: Replace "*" with "required" in list of children.
+
+Bug fixes integrated in MAIN_1-8-4 (2007-10-23)
+
+    bug-597: /src/settings/index.php: Global variables $encodings and $line_endings_names were used before they were defined.
+    bug-598: PHP Notice: Undefined index: mail
+    bug-603: The 'sql/records/tramongs.sql' overloads MySQL server.
+    bug-604: Search of 'MMC / MME' causes broken page.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-8-3 (2007-10-09)
+
+    new-594: [SF1809444] Assigning users to groups via listbox
+
+Bug fixes integrated in MAIN_1-8-3 (2007-10-09)
+
+    bug-591: When URL is put in round brackets, it's being opened with right bracket on the end.
+    bug-592: Wrong username/password cause unlimited amount of authentication requests.
+    bug-593: Some valid email addresses are rejected.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-8-2 (2007-10-03)
+
+    new-513: Apply current filter set to search results.
+    new-590: Highlight list elements.
+
+Bug fixes integrated in MAIN_1-8-2 (2007-10-03)
+
+    bug-589: List of states (empty) is displayed when "all templates" filter is being created.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-8-1 (2007-10-01)
+
+    None.
+
+Bug fixes integrated in MAIN_1-8-1 (2007-10-01)
+
+    bug-585: PHP Warning: odbc_exec(): SQL error: Operand data type numeric is invalid for modulo operator.
+    bug-586: PHP Warning: odbc_exec(): SQL error: Invalid column name 'date1'.
+    bug-587: Filtering by field values doesn't work correct.
+    bug-588: Modification of filter removes all specified field values.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-8-0 (2007-09-29)
+
+    new-566: Choose encoding for record dump and export of records list.
+    new-568: Permissions to operate with record should not depend on permission to view the record.
+    new-584: Extend maxsize of template name.
+
+Bug fixes integrated in MAIN_1-8-0 (2007-09-29)
+
+    bug-582: Fields separator looks ugly in IE.
+    bug-583: Text zoom is broken in IE.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-7-0 (2007-09-12)
+
+    new-574: Filter should allow to specify several states.
+    new-576: [SF1788286] Export to CSV
+    new-579: Rework "state abbreviation" into "state short name".
+
+Bug fixes integrated in MAIN_1-7-0 (2007-09-12)
+
+    bug-580: PHP Notice: Undefined index: add_separator
+    bug-581: PHP Warning: session_destroy(): Session object destruction failed
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-6-0 (2007-09-09)
+
+    new-563: Custom separators inside fields set.
+    new-577: German localization.
+
+Bug fixes integrated in MAIN_1-6-0 (2007-09-09)
+
+    bug-575: Login and Logout
+    bug-578: Attempt to add non-existing user to some group causes blank page.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-5-2 (2007-08-29)
+
+    new-573: Remove blue site areas to increase useful page space.
+
+Bug fixes integrated in MAIN_1-5-2 (2007-08-29)
+
+    bug-557: PHP Warning: Missing argument 4 for comment_add()
+    bug-561: Wrong field values are modified if record gone through some state more than one time.
+    bug-569: PHP Notice: Undefined variable: parent
+    bug-572: /tools/dbdump.php: Assignment in condition.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-5-1 (2007-08-08)
+
+    new-549: User should be able to create new dependency record.
+
+Bug fixes integrated in MAIN_1-5-1 (2007-08-08)
+
+    bug-554: List values are not cloned.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-5-0 (2007-08-06)
+
+    new-139: Templates cloning.
+    new-551: Rework dependencies into "parent-child" relations.
+
+Bug fixes integrated in MAIN_1-5-0 (2007-08-06)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-4-1 (2007-07-30)
+
+    None.
+
+Bug fixes integrated in MAIN_1-4-1 (2007-07-30)
+
+    bug-547: Notifications about confidential comments are not sent.
+    bug-552: Misprint in default filter for created records.
+    bug-553: Default filter for created records shows all records.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-4-0 (2007-07-16)
+
+    new-546: Confidential comments.
+
+Bug fixes integrated in MAIN_1-4-0 (2007-07-16)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-3-1 (2007-07-15)
+
+    new-544: The 'ctype' library should not be used.
+    new-545: Chart legend is required.
+
+Bug fixes integrated in MAIN_1-3-1 (2007-07-15)
+
+    bug-542: [SF1748118] State transitions can break responsibility requirements
+    bug-543: PHP Warning: odbc_exec(): SQL error: Ambiguous column name 'record_id'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-3-0 (2007-07-04)
+
+    new-533: Links between records.
+    new-539: Existing records must not be marked as read for newly created user.
+
+Bug fixes integrated in MAIN_1-3-0 (2007-07-04)
+
+    bug-537: PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 16 bytes)
+    bug-538: Record dump doesn't work with PHP5.
+    bug-541: PHP Warning: mb_strpos(): Empty delimiter.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-2-1 (2007-06-30)
+
+    new-499: Records dump to text file.
+
+Bug fixes integrated in MAIN_1-2-1 (2007-06-30)
+
+    bug-523: Wrong language of "do not reply" banner in email notifications.
+    bug-526: Persons, subscribed by others, do not recieve notifications.
+    bug-527: Unexpected "Invalid integer value" error when modify existing number field.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-2-0 (2007-06-25)
+
+    None.
+
+Bug fixes integrated in MAIN_1-2-0 (2007-06-25)
+
+    bug-524: Filters, created by default, are not properly set.
+    bug-525: PHP Warning: ociexecute(): OCIStmtExecute: ORA-01401: inserted value too large for column
+    bug-529: Largest amount of records (1000) is displayed more than 30 seconds.
+    bug-530: String values capacity can be decreased in Oracle to fit the actual number of characters.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-1-4 (2007-04-04)
+
+    new-512: Banner about 'no reply on autogenerated message' for notifications.
+    new-518: Record view page: add a note about link to another record ability.
+    new-520: Sending email per click on line in record's history.
+
+Bug fixes integrated in MAIN_1-1-4 (2007-04-04)
+
+    bug-511: Selected responsible is not restored.
+    bug-515: Wrong dates in note/alert when new date field is being created.
+    bug-516: Comma is removed in values of text fields.
+    bug-522: Ambiguous Russian prompt 'чч.мм.гггг' (should be 'дд.мм.гггг').
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-1-3 (2007-03-20)
+
+    None.
+
+Bug fixes integrated in MAIN_1-1-3 (2007-03-20)
+
+    bug-508: [SF1680553] Unable to create view
+    bug-509: PHP Notice: Undefined variable: view_name
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-1-2 (2007-03-19)
+
+    None.
+
+Bug fixes integrated in MAIN_1-1-2 (2007-03-19)
+
+    bug-498: XML Error: extra content at the end of the document.
+    bug-504: [SF1674710] bad character in user's input leads to XML formatter error
+    bug-505: [SF1680553] Unable to create view
+    bug-507: 'Back' button does not work on 'Search results' page.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-1-1 (2007-03-04)
+
+    new-503: Decrease number of steps during view creation.
+
+Bug fixes integrated in MAIN_1-1-1 (2007-03-04)
+
+    bug-497: Cannot postpone record till tomorrow.
+    bug-502: Can't delete a view when it's set.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-1-0 (2007-02-08)
+
+    new-491: [SF1647212] Group-wide transition permission.
+
+Bug fixes integrated in MAIN_1-1-0 (2007-02-08)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-8 (2007-02-03)
+
+    new-496: [SF1650934] to show value of "list" instead of index in "records" list
+
+Bug fixes integrated in MAIN_1-0-8 (2007-02-03)
+
+    bug-493: [SF1650590] doesn't work with Oracle XE (10g)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-7 (2007-01-31)
+
+    None.
+
+Bug fixes integrated in MAIN_1-0-7 (2007-01-31)
+
+    bug-492: [SF1647591] 'root' login non-functional.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-6 (2007-01-22)
+
+    None.
+
+Bug fixes integrated in MAIN_1-0-6 (2007-01-22)
+
+    bug-490: Active Directory user can log in with empty password!
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-5 (2007-01-18)
+
+    new-489: Extend width of comment box.
+
+Bug fixes integrated in MAIN_1-0-5 (2007-01-18)
+
+    bug-487: JavaScript error in the comment box.
+    bug-488: Obsolete 'add comment' link in notifications.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-4 (2007-01-17)
+
+    new-480: User should be able to add a comment directly on the same page the ticket is opened.
+    new-483: JavaScript ability notice.
+
+Bug fixes integrated in MAIN_1-0-4 (2007-01-17)
+
+    bug-484: Filter does not contain states and fields.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-3 (2007-01-11)
+
+    new-477: User should have ability to comment postponed records.
+    new-478: Add URL to ticket in its body.
+    new-479: Assigned user should not receive notification about changed state.
+
+Bug fixes integrated in MAIN_1-0-3 (2007-01-11)
+
+    bug-476: Encoding corruptions of exit confirmation prompt in IE and Opera.
+    bug-481: Double click on comment submitting causes two equal comments creation.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-2 (2006-12-30)
+
+    new-472: User must have ability to log out.
+    new-474: Rename field permissions to make them more clear.
+    new-475: Turning subscriptions on and off is not clear.
+
+Bug fixes integrated in MAIN_1-0-2 (2006-12-30)
+
+    bug-471: The 'displayName' LDAP attribute should be used instead of 'CN' one.
+    bug-473: List item integer part must not be greater than 2^31.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-1 (2006-12-27)
+
+    new-463: Date field names should be extended with date format explanation.
+    new-468: PHP and Bluefish logos are obsolete.
+
+Bug fixes integrated in MAIN_1-0-1 (2006-12-27)
+
+    bug-464: Active Directory user cannot be added into group if local user with the same name exists.
+    bug-465: When template is locked all records created by this template must be read only.
+    bug-467: Latvian prompts should be reviewed.
+    bug-469: The 'css' and 'images' directories must not allow direct access to content.
+    bug-470: State permissions must not be used when record is being created.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_1-0-0 (2006-12-22)
+
+    new-462: Postpone date should be displayed as separate field.
+
+Bug fixes integrated in MAIN_1-0-0 (2006-12-22)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-78 (2006-12-20)
+
+    new-459: 'Filters' and 'Subscriptions' pages should contain ability to clear current selection.
+    new-460: Authentication token should contain client IP.
+
+Bug fixes integrated in MAIN_0-78 (2006-12-20)
+
+    bug-458: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near ''.
+    bug-461: PHP Warning: Sablotron error on line 1: XML parser error 4: not well-formed (invalid token)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-77 (2006-12-17)
+
+    new-452: Authentication realm should not contain version info.
+    new-457: Default filter for new user.
+
+Bug fixes integrated in MAIN_0-77 (2006-12-17)
+
+    bug-451: '/src/logon/login.php' opens debug log twice.
+    bug-454: Backslash character is doubled in text values (Oracle).
+    bug-456: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00904: "CEILING": invalid identifier
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-76 (2006-12-15)
+
+    new-445: Changing search form method from POST to GET will suppress 'Page is expired' notice when 'Back' browser button is pressed.
+
+Bug fixes integrated in MAIN_0-76 (2006-12-15)
+
+    bug-409: User session expires too quick.
+    bug-448: Buttons are not separated with space.
+    bug-449: URLs with spaces are cut.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-75 (2006-12-14)
+
+    new-446: Add processing of new upload errors.
+    new-447: 'XSL' extension should be used instead of 'XSLT' one when PHP5 is in use.
+
+Bug fixes integrated in MAIN_0-75 (2006-12-14)
+
+    bug-440: Local users should not be extended with '@eTraxis' when being modified.
+    bug-441: Comments contain '&br;' instead of new line characters.
+    bug-442: Backslash character is doubled in text values (MSSQL).
+    bug-443: 'Template permissions' page doesn't work.
+    bug-444: User is able to edit subscriptions of other users.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-74 (2006-12-11)
+
+    new-435: Sablotron errors are hard to be debugged.
+
+Bug fixes integrated in MAIN_0-74 (2006-12-11)
+
+    bug-434: Email notifications are malfunctional at UNIX systems.
+    bug-436: PHP Warning: Sablotron error on line 1: XML parser error 4: not well-formed (invalid token)
+    bug-437: URLs with '<' and '>' characters are not correctly highlighted.
+    bug-438: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near 'eTraxis'.
+    bug-439: Timestamp is not required when eTraxis logs its error in PHP error log.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-73 (2006-12-10)
+
+    new-422: Increase maximum length of string fields.
+    new-423: Client cookies should be instance-depended.
+    new-428: Errors should be logged in PHP log.
+    new-432: Maintenance notice banner.
+    new-433: Replacing URLs with links is faster with regular expressions.
+
+Bug fixes integrated in MAIN_0-73 (2006-12-10)
+
+    bug-424: PHP Notice: Undefined variable: def_value
+    bug-425: PHP Notice: Undefined index: eTraxis_Attempt
+    bug-426: Record is not displayed.
+    bug-427: MySQL losts backslashes.
+    bug-429: /src/sql/fields/listv.sql: SQL time can be improved.
+    bug-430: /src/sql/values/efndid.sql: SQL time can be improved.
+    bug-431: /src/sql/values/fndk.sql: SQL time can be improved.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-72 (2006-12-06)
+
+    None.
+
+Bug fixes integrated in MAIN_0-72 (2006-12-06)
+
+    bug-418: PHP Notice: Undefined index: change_time
+    bug-420: Chosen locale ID is not verified on 'Settings' page.
+    bug-421: 1/1/1970 cannot be set as minimum value of date field.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-71 (2006-12-04)
+
+    new-405: Default filter for new user.
+
+Bug fixes integrated in MAIN_0-71 (2006-12-04)
+
+    bug-415: Filter doesn't show all the records which are in specified range of some state dates.
+    bug-416: Metrics charts display wrong numbers.
+    bug-417: SQL time is too large when no filters are applied.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-70 (2006-12-03)
+
+    None.
+
+Bug fixes integrated in MAIN_0-70 (2006-12-03)
+
+    bug-408: Database import script corrupts text values.
+    bug-410: View does not show values of custom fields.
+    bug-412: ORA-00922: missing or invalid option
+    bug-413: PHP Warning: ociexecute(): OCIStmtExecute: ORA-01401: inserted value too large for column
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-69 (2006-11-30)
+
+    None.
+
+Bug fixes integrated in MAIN_0-69 (2006-11-30)
+
+    bug-396: Double click on record submitting causes two equal records creation.
+    bug-402: Attachments cannot be downloaded.
+    bug-403: Export to CSV doesn't work.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-68 (2006-11-27)
+
+    None.
+
+Bug fixes integrated in MAIN_0-68 (2006-11-27)
+
+    bug-394: Average PHP time of '/src/records/modify.php' is about 17 secs.
+    bug-397: View contains records of all existing templates.
+    bug-398: PHP Warning: odbc_exec(): SQL error: The ORDER BY clause is invalid.
+    bug-399: PHP Warning: odbc_exec(): SQL error: Ambiguous column name 'view_id'.
+    bug-400: PHP Warning: odbc_exec(): SQL error: Invalid column name 'author_fullname'.
+    bug-401: PHP Warning: odbc_exec(): SQL error: The text data type cannot be compared or sorted.
+    bug-404: Invalid values of 'date' and 'duration' fields in view.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-67 (2006-11-26)
+
+    new-377: Custom views.
+    new-391: 'Configuration' page should not display details of disabled features.
+    new-392: Local users should not be extended with '@eTraxis' when LDAP is disabled.
+
+Bug fixes integrated in MAIN_0-67 (2006-11-26)
+
+    bug-390: Cannot log in as 'root' on newly deployed database.
+    bug-393: PHP Notice: Undefined variable: is_ldapuser
+    bug-395: Unused div "menumd" in the page layout.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-66 (2006-11-18)
+
+    None.
+
+Bug fixes integrated in MAIN_0-66 (2006-11-18)
+
+    bug-385: PHP Warning: in_array(): Wrong datatype for second argument
+    bug-386: PHP Warning: Cannot modify header information
+    bug-387: User receives notifications about his own events.
+    bug-388: "Configuration" page does not display path where binary attachments are stored.
+    bug-389: Motorola LDAP server returns "Insufficient rights" error.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-65 (2006-11-15)
+
+    new-368: User should be able to subscribe other persons.
+    new-374: Carbon copies in subscriptions.
+
+Bug fixes integrated in MAIN_0-65 (2006-11-15)
+
+    bug-381: Attachments of some types are not opened in valid applications.
+    bug-382: CVS-file is opened in browser without prompt to save it.
+    bug-383: List of attachments is aligned by center.
+    bug-384: The 'Modify' button of subscriptions list does not work.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-64 (2006-11-12)
+
+    new-366: Export to CSV.
+    new-376: Contact email is changed.
+
+Bug fixes integrated in MAIN_0-64 (2006-11-12)
+
+    bug-375: /src/projects/opened.php: Page is not closed.
+    bug-378: LDAP: BASE DN is not multiple anymore (    new-363).
+    bug-379: Lost     new-line characters in default values of multilined fields.
+    bug-380: Single record subscription functionality (    new-236) should be conditionally "compiled".
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-63 (2006-11-06)
+
+    new-364: Default fields values.
+    new-365: Filters sharing.
+    new-369: Charts: incision should not be present when marker text is absent.
+    new-370: Charts: minimal cell width should be decreased.
+    new-371: ISO-8859-1 should be used for English.
+    new-372: KOI8-R should be used for Russian.
+
+Bug fixes integrated in MAIN_0-63 (2006-11-06)
+
+    bug-373: Latin7 font should be used in charts for Latvian.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-62 (2006-10-17)
+
+    new-361: Extended custom queries.
+    new-363: Multiple BASE DNs are obsolete.
+
+Bug fixes integrated in MAIN_0-62 (2006-10-17)
+
+    bug-362: Metrics chart tags are overlapped.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-61 (2006-10-16)
+
+    new-137: Custom queries.
+    new-360: Sablotron errors are hard to be debugged.
+
+Bug fixes integrated in MAIN_0-61 (2006-10-16)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-60 (2006-10-08)
+
+    None.
+
+Bug fixes integrated in MAIN_0-60 (2006-10-08)
+
+    bug-320: /tools/dbdump.php: Global variable $schema was used before it was defined.
+    bug-321: /tools/dbimport.php: Global variable $schema was used before it was defined.
+    bug-322: /tools/feature.php: Global variables $argc and $argv were used before they were defined.
+    bug-323: /tools/ncloc.php: Use of deprecated call-time pass-by-reference.
+    bug-324: /tools/ncloc.php: Global variables $argc and $argv were used before they were defined.
+    bug-325: /tools/parselog.php: Global variables $argc and $argv were used before they were defined.
+    bug-326: /tools/fonts/convert.php: Global variables $argc and $argv were used before they were defined.
+    bug-327: /src/accounts/create.php: Global variable $locale_info was used before it was defined.
+    bug-328: /src/accounts/index.php: Global variables $page and $sort were used before they were defined.
+    bug-329: /src/accounts/view.php: Global variable $alert was used before it was defined.
+    bug-330: /src/config/index.php: Global variable $res_driver was used before it was defined.
+    bug-331: /src/dbo/events.php: $item is passed by reference without being modified.
+    bug-332: /src/dbo/events.php: Unused function argument: $key.
+    bug-333: /src/dbo/groups.php: Unused function argument: $link.
+    bug-334: /src/dbo/records.php: Variable $strvalue appears only once.
+    bug-335: /src/dbo/records.php: The value of variable $strvalue was never used.
+    bug-336: /src/dbo/reminders.php: Unused function argument: $link.
+    bug-337: /src/engine/charts.php: $item is passed by reference without being modified.
+    bug-338: /src/engine/charts.php: Unused function argument: $key.
+    bug-339: /src/engine/charts.php: Use of deprecated call-time pass-by-reference.
+    bug-340: /src/engine/charts.php: The value of variable $chars was never used.
+    bug-341: /src/engine/locale.php: Variable $regs was used before it was defined.
+    bug-342: /src/engine/locale.php: Global variables $resource_* were used before they were defined.
+    bug-343: /src/groups/index.php: Global variables $page and $sort were used before they were defined.
+    bug-344: /src/projects/findex.php: Global variables $page and $sort were used before they were defined.
+    bug-345: /src/projects/fview.php: Global variable $alert was used before it was defined.
+    bug-346: /src/projects/gindex.php: Global variables $page and $sort were used before they were defined.
+    bug-347: /src/projects/gview.php: Global variable $alert was used before it was defined.
+    bug-348: /src/projects/index.php: Global variables $page and $sort were used before they were defined.
+    bug-349: /src/projects/metrics.php: Global variable $alert was used before it was defined.
+    bug-350: /src/projects/sindex.php: Global variables $page and $sort were used before they were defined.
+    bug-351: /src/projects/sview.php: Global variable $alert was used before it was defined.
+    bug-352: /src/projects/tindex.php: Global variables $page and $sort were used before they were defined.
+    bug-353: /src/projects/tview.php: Global variable $alert was used before it was defined.
+    bug-354: /src/projects/view.php: Global variable $alert was used before it was defined.
+    bug-355: /src/records/changes.php: Global variables $page and $sort were used before they were defined.
+    bug-356: /src/records/history.php: Global variables $page and $sort were used before they were defined.
+    bug-357: /src/records/index.php: Global variables $page and $sort were used before they were defined.
+    bug-358: /src/records/remove.php: Global variable $alert was used before it was defined.
+    bug-359: /src/settings/index.php: Global variable $locale_info was used before it was defined.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-59 (2006-10-07)
+
+    new-318: Group permissions should be template-wide.
+
+Bug fixes integrated in MAIN_0-59 (2006-10-07)
+
+    bug-319: PHP Notice: Undefined index: eTraxis_Retry
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-58 (2006-09-25)
+
+    new-315: User should have several attempts to login.
+    new-316: Domain should be ignored if entered while logging in.
+
+Bug fixes integrated in MAIN_0-58 (2006-09-25)
+
+    bug-317: Metrics are malfunctional.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-57 (2006-08-21)
+
+    new-313: Implement HTTP authentication.
+
+Bug fixes integrated in MAIN_0-57 (2006-08-21)
+
+    bug-312: Items in the list of reminders are duplicated.
+    bug-314: Newly created record shows zero age.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-56 (2006-08-14)
+
+    new-311: Administrator should have ability to disable saving passwords on logging in.
+
+Bug fixes integrated in MAIN_0-56 (2006-08-14)
+
+    bug-309: Record age is wrong when record is being displayed.
+    bug-310: No records are displayed when list has been sorted by responsible.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-55 (2006-08-13)
+
+    new-304: Updated records should be displayed as unread.
+    new-305: Note with explanation of links to other records should be added where needed.
+    new-307: Attachments should have an icon.
+    new-308: Text of fields names should not be wrapped.
+
+Bug fixes integrated in MAIN_0-55 (2006-08-13)
+
+    bug-301: dbx_error(): You can't specify target table 'tbl_field_values' for update in FROM clause
+    bug-302: Wrong order of states when record is being modified.
+    bug-306: Filter cannot be modified.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-54 (2006-08-08)
+
+    None.
+
+Bug fixes integrated in MAIN_0-54 (2006-08-08)
+
+    bug-298: PHP Notice: iconv(): Detected illegal character in input string
+    bug-299: PHP Warning: mb_strpos(): Empty needle
+    bug-300: Cannot login with Active Directory credentials.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-53 (2006-07-28)
+
+    new-206: User password should not be stored in client cookies.
+    new-261: UI design should be adopted to slow connection.
+
+Bug fixes integrated in MAIN_0-53 (2006-07-28)
+
+    bug-201: 'Access Forbidden' error with cyrillic named attachments.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-52 (2006-07-23)
+
+    new-296: Changing fields order.
+
+Bug fixes integrated in MAIN_0-52 (2006-07-23)
+
+    bug-266: Project metrics charts contain wrong titles when Latvian language is in use.
+    bug-283: Search becomes case sensitive if UTF-8 values are present in the string being looked for (Oracle).
+    bug-292: Sablotron fails if page contains '&' character.
+    bug-295: Tiny font of ISO-8859-2 contains wrong character #200.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-51 (2006-07-10)
+
+    None.
+
+Bug fixes integrated in MAIN_0-51 (2006-07-10)
+
+    bug-288: JScript Error: 'value.length' is null or not an object
+    bug-289: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near '2'.
+    bug-290: LDAP-accounts should not be editable.
+    bug-291: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-50 (2006-06-29)
+
+    None.
+
+Bug fixes integrated in MAIN_0-50 (2006-06-29)
+
+    bug-279: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00904: "STR": invalid identifier
+    bug-280: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00923: FROM keyword not found where expected
+    bug-281: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00923: FROM keyword not found where expected
+    bug-284: dbx_error(): Unknown table 'p' in order clause
+    bug-285: dbx_error(): Unknown table 's' in order clause
+    bug-286: dbx_error(): You have an error in your SQL syntax
+    bug-287: dbx_error(): Unknown table 'r' in order clause
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-49 (2006-06-28)
+
+    new-271: Maximum execution time should be temporary unlimited during sending mail operations.
+    new-272: When reminder is sent a notification should be displayed to user.
+    new-274: "Crumbs" for creation and modification of filters or subscriptions are not clear.
+
+Bug fixes integrated in MAIN_0-49 (2006-06-28)
+
+    bug-273: 'Reminders' button should be disabled if no reminder can be created or send.
+    bug-275: Empty reminders should not be sent.
+    bug-276: ORA-00972: identifier is too long
+    bug-277: ORA-00922: missing or invalid option
+    bug-278: PHP Warning: ociexecute(): OCIStmtExecute: ORA-01401: inserted value too large for column
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-48 (2006-06-27)
+
+    new-222: Email reminders.
+    new-236: Single record subscription.
+
+Bug fixes integrated in MAIN_0-48 (2006-06-27)
+
+    bug-267: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00933: SQL command not properly ended
+    bug-268: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00923: FROM keyword not found where expected
+    bug-269: Multilined text values are cut to 1000 characters.
+    bug-270: The 'tools/sql/ora9i.sql' script should not try to create database.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-47 (2006-06-13)
+
+    None.
+
+Bug fixes integrated in MAIN_0-47 (2006-06-13)
+
+    bug-263: User is able to view history and changes of some record while he is not allowed to view this record.
+    bug-264: PHP Warning: dbx_error: not supported in this module
+    bug-265: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00904: "R"."RECORD_ID": invalid identifier
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-46 (2006-05-26)
+
+    new-259: Notifications should be sent to all previous responsibles, not to current one only.
+
+Bug fixes integrated in MAIN_0-46 (2006-05-26)
+
+    bug-252: Sablotron fails if record contains non-ASCII characters and MSSQL connection is used.
+    bug-260: PHP Warning: date(): Windows does not support dates prior to midnight (00:00:00), January 1, 1970
+    bug-262: PHP Warning: ocifetchinto(): OCILobRead: ORA-24806: LOB form mismatch
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-45 (2006-05-17)
+
+    new-005: Oracle support.
+    new-258: Latvian localization.
+
+Bug fixes integrated in MAIN_0-45 (2006-05-17)
+
+    bug-256: UTF-8 values are cut in MySQL database.
+    bug-257: Database field 'tbl_list_values::str_value' should be decreased 4 times for MySQL.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-44 (2006-05-12)
+
+    new-251: Traceability logging review.
+    new-253: Hashed values should be stored in DB as 'char' nor as 'varchar'.
+    new-254: MySQL 4.1 accepts UTF-8 values.
+    new-255: SQL script for database schema should create database itself.
+
+Bug fixes integrated in MAIN_0-44 (2006-05-12)
+
+    bug-172: Extra long comments are cut when submitted.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-43 (2006-05-07)
+
+    new-237: Found text should be marked with red when search is activated.
+
+Bug fixes integrated in MAIN_0-43 (2006-05-07)
+
+    bug-248: Search text in filter is ignored and text from last search is used instead of.
+    bug-249: Unexpected usage of search text when list of records is being displayed.
+    bug-250: PHP Notice: iconv(): Detected illegal character in input string
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-42 (2006-04-21)
+
+    new-246: Permissions of initial state should not be ignored when new record is being created.
+    new-247: The 'responsible' user role should be obliterated.
+
+Bug fixes integrated in MAIN_0-42 (2006-04-21)
+
+    bug-238: PHP Warning: odbc_exec(): SQL error: Violation of UNIQUE KEY constraint 'ix_groups'.
+    bug-239: Unexpected message "Group with entered name already exists".
+    bug-240: Unexpected message "Project with entered name already exists".
+    bug-241: Unexpected message "Template with entered name or prefix already exists".
+    bug-242: Unexpected message "State with entered name or abbreviation already exists".
+    bug-243: Unexpected message "Field with entered name already exists".
+    bug-244: Unexpected message "Filter with entered name already exists".
+    bug-245: Unexpected message "Subscription with entered name already exists".
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-41 (2006-04-09)
+
+    new-233: Email subscriptions functionality (    new-125) should be conditionally "compiled".
+    new-235: Records with new events should be marked as "unread".
+
+Bug fixes integrated in MAIN_0-41 (2006-04-09)
+
+    bug-234: Unexpected message "State with entered name or abbreviation already exists".
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-40 (2006-04-01)
+
+    None.
+
+Bug fixes integrated in MAIN_0-40 (2006-04-01)
+
+    bug-228: PHP Notice: Undefined index: last_change
+    bug-229: Records filters are malfunctional.
+    bug-230: PHP Warning: odbc_exec(): SQL error: The correlation name 'e' is specified multiple times in a FROM.
+    bug-231: PHP Warning: odbc_exec(): SQL error: Invalid column name 'account_idunion'.
+    bug-232: Links started with 'www' contain invalid URL.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-39 (2006-03-26)
+
+    new-221: Permissions of initial state should be ignored when new record is being created.
+    new-223: Links should be functional.
+    new-224: 'Age' column should contain number of days since last action was applied to record (opened only).
+    new-227: When record changes are being viewed the fields names and values should be aligned by top.
+
+Bug fixes integrated in MAIN_0-39 (2006-03-26)
+
+    bug-225: User is remained on record modification page when 'OK' button has been clicked.
+    bug-226: PHP Warning: odbc_exec(): SQL error: Ambiguous column name 'description'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-38 (2006-03-20)
+
+    new-219: Dump of query should be moved to top of 'dal_execute' function.
+
+Bug fixes integrated in MAIN_0-38 (2006-03-20)
+
+    bug-217: Cannot create new record.
+    bug-218: Server is overloaded.
+    bug-220: Metrics charts are out of borders.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-37 (2006-03-19)
+
+    new-175: Implement user roles in permissions.
+    new-213: PHP and Bluefish logos should be inserted.
+
+Bug fixes integrated in MAIN_0-37 (2006-03-19)
+
+    bug-211: PHP Warning: date(): Windows does not support dates prior to midnight (00:00:00), January 1, 1970
+    bug-212: Wrong message when date value is out of range.
+    bug-214: Wrong notice about 'record_validate' in debug logs of 'postpone.php'.
+    bug-216: Permission to create records is ignored.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-36 (2006-02-11)
+
+    new-197: Postpone should have a timer for autoresume.
+    new-209: Default permissions for new states.
+    new-210: Hard to find out a prompt corresponding to specified resource ID.
+
+Bug fixes integrated in MAIN_0-36 (2006-02-11)
+
+    bug-205: 'Select all' button does not change 'permission to create records' check box.
+    bug-208: 'Total records' prompt should be changed to 'Total'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-35 (2006-01-24)
+
+    new-196: It's not clear that record is postponed when one is being viewed.
+    new-199: Buttons of 'Records' and 'Record xxx-000' pages should be moved at top for convenience.
+    new-200: User should not been requested for attachment name - current one should be always used.
+    new-202: Add debug logging to 'locale' module.
+    new-203: Email notification functionality (    new-002) should be conditionally "compiled".
+    new-204: Active Directory Support functionality (    new-003) should be conditionally "compiled".
+
+Bug fixes integrated in MAIN_0-35 (2006-01-24)
+
+    bug-198: Attached pictures are not shown properly in Opera.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-34 (2006-01-18)
+
+    new-190: Misunderstanding when template contains state named 'Comment'.
+
+Bug fixes integrated in MAIN_0-34 (2006-01-18)
+
+    bug-191: Search is malfunctional.
+    bug-192: Quotation marks in British English are apostrophes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-33 (2005-12-11)
+
+    new-187: User controls alignment.
+    new-188: Font color of field values is too light.
+
+Bug fixes integrated in MAIN_0-33 (2005-12-11)
+
+    bug-180: Previous field values are lost.
+    bug-183: 'Change state' button doesn't work in Firefox browser.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-32 (2005-11-27)
+
+    new-181: 'All fields marked with * should be filled in.' note is absent.
+    new-185: Special color for postponed records.
+
+Bug fixes integrated in MAIN_0-32 (2005-11-27)
+
+    bug-179: Maximum valid date cannot be entered.
+    bug-184: Entered values of checkbox fields are lost on refresh when record is being created.
+    bug-186: Bookmarks in list of changes redirects to record history.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-31 (2005-11-26)
+
+    new-176: Change eTraxis design.
+
+Bug fixes integrated in MAIN_0-31 (2005-11-26)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-30 (2005-11-13)
+
+    None.
+
+Bug fixes integrated in MAIN_0-30 (2005-11-13)
+
+    bug-173: MySQL database deployment failures.
+    bug-174: Generated pages should contain <!DOCTYPE> tag.
+    bug-177: Multibyte string functions should be used instead of 'eregi' and 'split'.
+    bug-178: PHP encodes UTF-8 characters in up to four bytes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-29 (2005-10-28)
+
+    new-168: When record is being displayed each state name should be appended with timestamp and user info.
+    new-169: Append 'add comment' URL to email notifications.
+
+Bug fixes integrated in MAIN_0-29 (2005-10-28)
+
+    bug-163: Some filters are malfunctional.
+    bug-170: 'New line' characters are missed in email notifications.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-28 (2005-10-22)
+
+    new-149: User should have ability to modify his filters.
+    new-150: User should have ability to modify his subscriptions.
+    new-162: Newly created filter should be active by default.
+
+Bug fixes integrated in MAIN_0-28 (2005-10-22)
+
+    bug-161: False modification event.
+    bug-165: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint.
+    bug-166: Some filters & subscriptions should be removed when a project, template, or state has been deleted.
+    bug-167: The 'tbl_filter_accounts' is totally cleared when some account has been deleted.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-27 (2005-10-15)
+
+    new-153: Users should *always* receieve notifications about records which are created by them or assigned on.
+    new-155: Browser header should contain detailed page info.
+    new-157: Name of logged in user should be displayed.
+    new-158: Newly created subscription should be active by default.
+    new-160: Cookies values should not be dumped into debug logs.
+
+Bug fixes integrated in MAIN_0-27 (2005-10-15)
+
+    bug-156: Email notifications are not sent.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-26 (2005-10-08)
+
+    new-145: Remove autofocus from buttons.
+    new-148: Version and copyright info should be centralized.
+
+Bug fixes integrated in MAIN_0-26 (2005-10-08)
+
+    bug-146: 'Author' in email notifications is not bold.
+    bug-147: Misprint in russian email notifications - 'СостояИНе'.
+    bug-151: User should recieve email notifications in language of his current settings.
+    bug-152: Right markers of metrics charts are shifted down.
+    bug-154: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near the keyword 'and'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-25 (2005-09-27)
+
+    new-141: Source code review.
+
+Bug fixes integrated in MAIN_0-25 (2005-09-27)
+
+    bug-142: PHP Notice: Use of undefined constant DEFAULT_NOTIFY_FLAG
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-24 (2005-09-21)
+
+    new-135: Fields values should not be displayed in italic.
+    new-136: Metrics page is scrolled down if it doesn't fit into the browser window.
+
+Bug fixes integrated in MAIN_0-24 (2005-09-21)
+
+    bug-132: Email notifications are not sent.
+    bug-133: 'Text to be searched' field in filter creation form is marked as required.
+    bug-134: PHP Notice: Undefined variables 'subscribe_name' and 'subscribe_flags' in 'screate.php'.
+    bug-140: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near the keyword 'and'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-23 (2005-09-18)
+
+    new-073: Implement search folders.
+    new-129: When new account is added, default subscription should be created.
+    new-131: Comment text should be present in notification when new comment has been added.
+
+Bug fixes integrated in MAIN_0-23 (2005-09-18)
+
+    bug-130: Subscriptions should not be accessable when Email Notifications functionality is disabled.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-22 (2005-09-17)
+
+    new-125: Email notifications advanced filter.
+    new-126: States/field values and comments should be displayed one by one.
+
+Bug fixes integrated in MAIN_0-22 (2005-09-17)
+
+    bug-127: Project-wide filter does not skip closed records when should.
+    bug-128: Lists are malfunctioning in Opera.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-21 (2005-09-15)
+
+    new-119: Record creator should be specified in general information of email notifications.
+    new-120: Default field values of cloned records.
+    new-121: Nonbreaking spaces should be used in fields names.
+    new-122: User should be able to create a filter to display postponed records only.
+    new-123: User should be prompted for optional comment when a record is being postponed.
+    new-124: It's should be able to open items of menu and lists links in separated window (e.g.by right click).
+
+Bug fixes integrated in MAIN_0-21 (2005-09-15)
+
+    bug-118: Email notifications are not sent.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-20 (2005-09-13)
+
+    new-113: When record is being viewed the fields names and values should be aligned by top.
+    new-114: Change order of columns in the records list.
+    new-115: Add record ID to the subject of email notifications.
+    new-116: Remove user login from the subject of email notifications.
+    new-117: While project duration is too short, its metrics charts should be extended to the future.
+
+Bug fixes integrated in MAIN_0-20 (2005-09-13)
+
+    bug-112: Copyright info in the bottom of pages is splitted.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-19 (2005-09-12)
+
+    new-105: Format of date values are being entered should depend on user locale settings.
+    new-106: Mark closed records in the list with different color.
+    new-107: Number of displayed records should be present in the list of records.
+    new-108: Increase maximum length of state name up to 50 characters.
+    new-109: Remove user login from list of records to decrease size of 'Author' and 'Responsible' columns.
+    new-110: Increase list boxes size up to 10 rows.
+
+Bug fixes integrated in MAIN_0-19 (2005-09-12)
+
+    bug-103: User can see records of all other projects.
+    bug-104: XML parser failure on some UTF-8 characters.
+    bug-111: List of records sticks to user menu when horizontal scrolling is required.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-18 (2005-09-08)
+
+    new-099: Record creator should be displayed in list of record.
+    new-100: 'Date' field type should be implemented.
+    new-101: 'Duration' field type should be implemented.
+    new-102: Increase maximum length of comments and 'multilined text' fields up to 4000 characters.
+
+Bug fixes integrated in MAIN_0-18 (2005-09-08)
+
+    bug-097: When registered AD user logged in, all the records become read.
+    bug-098: List of users when record is being assigned should contain only allowed users.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-17 (2005-09-06)
+
+    new-094: Record creator should be displayed in general information of record.
+    new-095: Newly created records should be displayed as unread.
+
+Bug fixes integrated in MAIN_0-17 (2005-09-06)
+
+    bug-093: Email notifications are not recieved.
+    bug-096: MySQL database deployment failures.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-16 (2005-09-05)
+
+    new-088: The 'ldap_finduser' should not generate 'ERROR' debug log when LDAP server returns no results.
+    new-090: Add 'Select all' button to project permissions page.
+
+Bug fixes integrated in MAIN_0-16 (2005-09-05)
+
+    bug-089: Group names are not extended with 'global' / 'local'.
+    bug-091: Members of global groups are not able to create records while are allowed.
+    bug-092: JScript error on 'Configuration' page.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-15 (2005-09-04)
+
+    None.
+
+Bug fixes integrated in MAIN_0-15 (2005-09-04)
+
+    bug-072: Time periods in metrics are not valid.
+    bug-077: Zero metrics are generated if project is just created but already contains some records.
+    bug-085: Members of global groups cannot view project records if they haven't any permissions in the project.
+    bug-086: New template with empty name or prefix can be created.
+    bug-087: New state with empty name or abbreviation can be created.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-14 (2005-09-02)
+
+    new-065: Minimum chart size.
+    new-068: System settings in 'config.php' should be accessable through web-interface.
+    new-070: The 'ldap_finduser' should not generate 'ERROR' debug log when LDAP server returns no results.
+    new-071: The 'ldap_login' should not generate 'ERROR' debug log when user credentials are invalid.
+    new-074: Increase maximum length of attachment name up to 100 characters.
+
+Bug fixes integrated in MAIN_0-14 (2005-09-02)
+
+    bug-066: Metrics of different projects contain same data.
+    bug-067: AD user cannot login using second BASEDN from BASEDN list.
+    bug-069: PHP Warning: odbc_exec(): SQL error: Violation of PRIMARY KEY constraint 'pk_membership'.
+    bug-075: PHP Fatal error: Call to undefined function: state_find()
+    bug-076: Global groups members are not displayed in filter parameters.
+    bug-078: Record cannot be postponed.
+    bug-079: String database columns are not enough to store UTF-8 values.
+    bug-080: 'Record' type fields of some record should not accept ID of this record.
+    bug-082: AD user cannot login if internal eTraxis account with the same username is already exist.
+    bug-083: Allowed length of usernames and passwords should be increased up to 104 characters.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-13 (2005-08-28)
+
+    None.
+
+Bug fixes integrated in MAIN_0-13 (2005-08-28)
+
+    bug-033: Titles in metrics charts are not readable when Russian is set.
+    bug-062: List values are not set.
+    bug-063: No error message is displayed when non-existing record is specified in field of 'record' type.
+    bug-064: New field cannot be created if some existed field has been deleted before.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-12 (2005-08-27)
+
+    new-058: Global groups should be implemented.
+    new-060: The 'Notifications' button should be unavailable when email notifications functionality is disabled.
+
+Bug fixes integrated in MAIN_0-12 (2005-08-27)
+
+    bug-059: PHP Fatal error: Call to undefined function: record_opened()
+    bug-061: Records history is not displayed.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-11 (2005-08-24)
+
+    new-053: All the calls of DAL API functions should be moved to DBO API.
+
+Bug fixes integrated in MAIN_0-11 (2005-08-24)
+
+    bug-051: Web-server hungs up when empty metrics are being displayed.
+    bug-052: PHP Warning: Division by zero
+    bug-054: User can gain access to restricted projects.
+    bug-055: List of changes does not filter values of forbidden fields.
+    bug-056: Records filter cannot be created for suspended projects.
+    bug-057: There is potentialy security issue in 'sql/records/tlist.sql'.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-10 (2005-08-23)
+
+    new-040: LDAP: list of Organization Units should be supported.
+
+Bug fixes integrated in MAIN_0-10 (2005-08-23)
+
+    bug-041: PHP Warning: odbc_exec(): SQL error: The name 'ru0' is not permitted in this context.
+    bug-042: Account can be wrongly removed.
+    bug-043: Removable account will not be removed in some cases.
+    bug-044: Removable filter will not be removed in some cases.
+    bug-045: When record is being cloned wrong event is recorded.
+    bug-046: Query 'filters/fsdelall.sql' is not found.
+    bug-047: Removable state will not be removed in some cases.
+    bug-048: Removable template will not be removed in some cases.
+    bug-049: Removable project will not be removed in some cases.
+    bug-050: Removable field will not be removed in some cases.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-09 (2005-08-22)
+
+    new-035: Customizable list size.
+    new-036: Groups should be editable without suspending a project.
+    new-037: Any template should be locked to be modified without suspending a project.
+
+Bug fixes integrated in MAIN_0-09 (2005-08-22)
+
+    bug-038: PHP Warning: odbc_exec(): SQL error: Line 1: Incorrect syntax near '*'.
+    bug-039: PHP Warning: file_get_contents: failed to open stream: No such file or directory
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-08 (2005-08-18)
+
+    new-030: UI language should be set for each user separately.
+    new-032: Meta tags with copyright information should be present.
+
+Bug fixes integrated in MAIN_0-08 (2005-08-18)
+
+    bug-031: 'Cancel' button of 'Clone' page moves a user to wrong destination.
+    bug-034: When record is being postponed, resumed or assigned the confirmationsare not displayed.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-07 (2005-08-16)
+
+    new-003: Authentication with Active Directory.
+
+Bug fixes integrated in MAIN_0-07 (2005-08-16)
+
+    bug-026: The 'Groups' and 'Templates' buttons are malfunctional.
+    bug-027: MySQL database deployment failure.
+    bug-028: List of projects is not filtered.
+    bug-029: Email notifications are not received by recipients.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-06 (2005-08-13)
+
+    new-008: Predefined metrics.
+    new-020: Clone the records.
+    new-022: New records should be viewed immediately after creation.
+    new-023: Auto-choosing project/template when new record is being created.
+
+Bug fixes integrated in MAIN_0-06 (2005-08-13)
+
+    bug-024: PHP Warning: odbc_exec(): SQL error: Line 1: Incorrect syntax near '2'.
+    bug-025: Not only project teams are shown in state and field permissions.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-05 (2005-08-08)
+
+    new-017: Email notifications filter.
+    new-019: Fields default values.
+    new-021: Default permissions for new fields.
+
+Bug fixes integrated in MAIN_0-05 (2005-08-08)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-04 (2005-08-01)
+
+    new-006: Records search.
+    new-013: UI scenarios should be changed.
+    new-018: The 'History' menuitem is useless and should be removed.
+
+Bug fixes integrated in MAIN_0-04 (2005-08-01)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-03 (2005-07-28)
+
+    new-009: Records filter.
+    new-011: Color scheme should be modified.
+    new-012: Records field 'description' should be renamed with 'subject'.
+
+Bug fixes integrated in MAIN_0-03 (2005-07-28)
+
+    bug-014: PHP Notice: Undefined variable: event2
+    bug-015: PHP Notice: Undefined variable: to
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-02 (2005-07-17)
+
+    new-002: Email notifications.
+
+Bug fixes integrated in MAIN_0-02 (2005-07-17)
+
+    bug-004: Sorting of records list causes list failure.
+    bug-007: Descending sorting of records by ID sorts them wrong.
+    bug-010: There is a lot of missing 'require' operators for 'dbo' modules.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_0-01 (2005-06-27)
+
+    new-001: Records tracking web-based system should be implemented.
+
+Bug fixes integrated in MAIN_0-01 (2005-06-27)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

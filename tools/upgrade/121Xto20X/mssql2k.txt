@@ -1,0 +1,9 @@
+Since datatype of a lot of data columns has been changed,
+the upgrade of existing  Microsoft SQL Server database is
+quite tricky. It requires significant effort to develop a
+script which does all the work,  while I am even not sure
+that there is at least one  MS SQL Server installation of
+eTraxis exists in the world at the moment.  So, I decided
+do not create such script  this time,  but if I was wrong
+and you are the one, please drop me a line and I will try
+to help you with upgrade.

@@ -1,0 +1,814 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+
+  eTraxis - Records tracking web-based system.
+  Copyright (C) 2009 by Artem Rodygin
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License along
+  with this program; if not, write to the Free Software Foundation, Inc.,
+  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Author                  Date            Description of modifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  Artem Rodygin           2009-01-25      Initial creation.
+  Artem Rodygin           2009-08-26      new-826: Native unicode support for Microsoft SQL Server.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-->
+
+<database name="etraxis" version="2.0">
+
+<table name="tbl_sys_vars">
+
+    <column type="str" size="32">var_name</column>
+    <column type="str" size="100" null="yes">var_value</column>
+
+    <unique name="ix_sys_vars">
+        <column>var_name</column>
+    </unique>
+
+</table>
+
+<table name="tbl_accounts">
+
+    <column type="primary">account_id</column>
+    <column type="str" size="112">username</column>
+    <column type="nstr" size="64">fullname</column>
+    <column type="str" size="50">email</column>
+    <column type="md5">passwd</column>
+    <column type="nstr" size="100" null="yes">description</column>
+    <column type="md5" null="yes">auth_token</column>
+    <column type="int">token_expire</column>
+    <column type="int">passwd_expire</column>
+    <column type="bool">is_admin</column>
+    <column type="bool">is_disabled</column>
+    <column type="bool">is_ldapuser</column>
+    <column type="byte">locks_count</column>
+    <column type="int">lock_time</column>
+    <column type="word">locale</column>
+    <column type="byte">page_rows</column>
+    <column type="byte">page_bkms</column>
+    <column type="byte">csv_delim</column>
+    <column type="byte">csv_encoding</column>
+    <column type="byte">csv_line_ends</column>
+    <column type="int" null="yes">fset_id</column>
+    <column type="int" null="yes">view_id</column>
+
+    <primary name="pk_accounts">
+        <column>account_id</column>
+    </primary>
+
+    <unique name="ix_accounts">
+        <column>username</column>
+    </unique>
+
+</table>
+
+<table name="tbl_projects">
+
+    <column type="primary">project_id</column>
+    <column type="nstr" size="25">project_name</column>
+    <column type="int">start_time</column>
+    <column type="nstr" size="100" null="yes">description</column>
+    <column type="bool">is_suspended</column>
+
+    <primary name="pk_projects">
+        <column>project_id</column>
+    </primary>
+
+    <unique name="ix_projects">
+        <column>project_name</column>
+    </unique>
+
+</table>
+
+<table name="tbl_groups">
+
+    <column type="primary">group_id</column>
+    <column type="int" null="yes">project_id</column>
+    <column type="nstr" size="25">group_name</column>
+    <column type="nstr" size="100" null="yes">description</column>
+
+    <primary name="pk_groups">
+        <column>group_id</column>
+    </primary>
+
+    <unique name="ix_groups">
+        <column>project_id</column>
+        <column>group_name</column>
+    </unique>
+
+    <foreign name="fk_groups_project_id" table="tbl_projects">project_id</foreign>
+
+</table>
+
+<table name="tbl_membership">
+
+    <column type="int">group_id</column>
+    <column type="int">account_id</column>
+
+    <primary name="pk_membership">
+        <column>group_id</column>
+        <column>account_id</column>
+    </primary>
+
+    <foreign name="fk_membership_group_id" table="tbl_groups">group_id</foreign>
+    <foreign name="fk_membership_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_templates">
+
+    <column type="primary">template_id</column>
+    <column type="int">project_id</column>
+    <column type="nstr" size="50">template_name</column>
+    <column type="nstr" size="3">template_prefix</column>
+    <column type="byte" null="yes">critical_age</column>
+    <column type="byte" null="yes">frozen_time</column>
+    <column type="nstr" size="100" null="yes">description</column>
+    <column type="bool">is_locked</column>
+    <column type="bool">guest_access</column>
+    <column type="int">registered_perm</column>
+    <column type="int">author_perm</column>
+    <column type="int">responsible_perm</column>
+
+    <primary name="pk_templates">
+        <column>template_id</column>
+    </primary>
+
+    <unique name="ix_templates_name">
+        <column>project_id</column>
+        <column>template_name</column>
+    </unique>
+
+    <unique name="ix_templates_prefix">
+        <column>project_id</column>
+        <column>template_prefix</column>
+    </unique>
+
+    <foreign name="fk_templates_project_id" table="tbl_projects">project_id</foreign>
+
+</table>
+
+<table name="tbl_group_perms">
+
+    <column type="int">group_id</column>
+    <column type="int">template_id</column>
+    <column type="int">perms</column>
+
+    <primary name="pk_group_perms">
+        <column>group_id</column>
+        <column>template_id</column>
+    </primary>
+
+    <foreign name="fk_group_perms_group_id" table="tbl_groups">group_id</foreign>
+    <foreign name="fk_group_perms_template_id" table="tbl_templates">template_id</foreign>
+
+</table>
+
+<table name="tbl_states">
+
+    <column type="primary">state_id</column>
+    <column type="int">template_id</column>
+    <column type="nstr" size="50">state_name</column>
+    <column type="nstr" size="50">state_abbr</column>
+    <column type="byte">state_type</column>
+    <column type="int" null="yes">next_state_id</column>
+    <column type="byte">responsible</column>
+
+    <primary name="pk_states">
+        <column>state_id</column>
+    </primary>
+
+    <unique name="ix_states_name">
+        <column>template_id</column>
+        <column>state_name</column>
+    </unique>
+
+    <unique name="ix_states_abbr">
+        <column>template_id</column>
+        <column>state_abbr</column>
+    </unique>
+
+    <foreign name="fk_states_template_id" table="tbl_templates">template_id</foreign>
+
+</table>
+
+<table name="tbl_group_trans">
+
+    <column type="int">state_id_from</column>
+    <column type="int">state_id_to</column>
+    <column type="int">group_id</column>
+
+    <primary name="pk_group_trans">
+        <column>state_id_from</column>
+        <column>state_id_to</column>
+        <column>group_id</column>
+    </primary>
+
+    <foreign name="fk_group_trans_state_id_from" table="tbl_states" column="state_id">state_id_from</foreign>
+    <foreign name="fk_group_trans_state_id_to" table="tbl_states" column="state_id">state_id_to</foreign>
+    <foreign name="fk_group_trans_group_id" table="tbl_groups">group_id</foreign>
+
+</table>
+
+<table name="tbl_role_trans">
+
+    <column type="int">state_id_from</column>
+    <column type="int">state_id_to</column>
+    <column type="byte">role</column>
+
+    <primary name="pk_role_trans">
+        <column>state_id_from</column>
+        <column>state_id_to</column>
+        <column>role</column>
+    </primary>
+
+    <foreign name="fk_role_trans_state_id_from" table="tbl_states" column="state_id">state_id_from</foreign>
+    <foreign name="fk_role_trans_state_id_to" table="tbl_states" column="state_id">state_id_to</foreign>
+
+</table>
+
+<table name="tbl_fields">
+
+    <column type="primary">field_id</column>
+    <column type="int">state_id</column>
+    <column type="nstr" size="50">field_name</column>
+    <column type="int">field_order</column>
+    <column type="byte">field_type</column>
+    <column type="bool">is_required</column>
+    <column type="bool">guest_access</column>
+    <column type="int">registered_perm</column>
+    <column type="int">author_perm</column>
+    <column type="int">responsible_perm</column>
+    <column type="bool">add_separator</column>
+    <column type="nstr" size="1000" null="yes">regex_check</column>
+    <column type="nstr" size="1000" null="yes">regex_search</column>
+    <column type="nstr" size="1000" null="yes">regex_replace</column>
+    <column type="int" null="yes">param1</column>
+    <column type="int" null="yes">param2</column>
+    <column type="int" null="yes">value_id</column>
+
+    <primary name="pk_fields">
+        <column>field_id</column>
+    </primary>
+
+    <unique name="ix_fields_name">
+        <column>state_id</column>
+        <column>field_name</column>
+    </unique>
+
+    <unique name="ix_fields_order">
+        <column>state_id</column>
+        <column>field_order</column>
+    </unique>
+
+    <foreign name="fk_fields_state_id" table="tbl_states">state_id</foreign>
+
+</table>
+
+<table name="tbl_field_perms">
+
+    <column type="int">field_id</column>
+    <column type="int">group_id</column>
+    <column type="int">perms</column>
+
+    <primary name="pk_field_perms">
+        <column>field_id</column>
+        <column>group_id</column>
+        <column>perms</column>
+    </primary>
+
+    <foreign name="fk_field_perms_field_id" table="tbl_fields">field_id</foreign>
+    <foreign name="fk_field_perms_group_id" table="tbl_groups">group_id</foreign>
+
+</table>
+
+<table name="tbl_records">
+
+    <column type="primary">record_id</column>
+    <column type="int">state_id</column>
+    <column type="nstr" size="250">subject</column>
+    <column type="int" null="yes">responsible_id</column>
+    <column type="int">creator_id</column>
+    <column type="int">creation_time</column>
+    <column type="int">change_time</column>
+    <column type="int" null="yes">closure_time</column>
+    <column type="int">postpone_time</column>
+
+    <primary name="pk_records">
+        <column>record_id</column>
+    </primary>
+
+    <unique name="ix_records">
+        <column>creator_id</column>
+        <column>creation_time</column>
+    </unique>
+
+    <foreign name="fk_records_state_id" table="tbl_states">state_id</foreign>
+    <foreign name="fk_records_responsible_id" table="tbl_accounts" column="account_id">responsible_id</foreign>
+    <foreign name="fk_records_creator_id" table="tbl_accounts" column="account_id">creator_id</foreign>
+
+</table>
+
+<table name="tbl_children">
+
+    <column type="int">parent_id</column>
+    <column type="int">child_id</column>
+    <column type="bool">is_dependency</column>
+
+    <primary name="pk_children">
+        <column>parent_id</column>
+        <column>child_id</column>
+    </primary>
+
+    <foreign name="fk_children_record_id" table="tbl_records" column="record_id">parent_id</foreign>
+    <foreign name="fk_children_dependency_id" table="tbl_records" column="record_id">child_id</foreign>
+
+</table>
+
+<table name="tbl_reads">
+
+    <column type="int">record_id</column>
+    <column type="int">account_id</column>
+    <column type="int">read_time</column>
+
+    <primary name="pk_reads">
+        <column>record_id</column>
+        <column>account_id</column>
+    </primary>
+
+    <foreign name="fk_reads_record_id" table="tbl_records">record_id</foreign>
+    <foreign name="fk_reads_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_record_subscribes">
+
+    <column type="int">record_id</column>
+    <column type="int">account_id</column>
+    <column type="int">subscribed_by</column>
+
+    <primary name="pk_record_subscribes">
+        <column>record_id</column>
+        <column>account_id</column>
+        <column>subscribed_by</column>
+    </primary>
+
+    <foreign name="fk_recsubscribes_record_id" table="tbl_records">record_id</foreign>
+    <foreign name="fk_recsubscribes_account_id" table="tbl_accounts">account_id</foreign>
+    <foreign name="fk_recsubscribes_subscribed_by" table="tbl_accounts" column="account_id">subscribed_by</foreign>
+
+</table>
+
+<table name="tbl_events">
+
+    <column type="primary">event_id</column>
+    <column type="int">record_id</column>
+    <column type="int">originator_id</column>
+    <column type="byte">event_type</column>
+    <column type="int">event_time</column>
+    <column type="int" null="yes">event_param</column>
+
+    <primary name="pk_events">
+        <column>event_id</column>
+    </primary>
+
+    <unique name="ix_events">
+        <column>record_id</column>
+        <column>originator_id</column>
+        <column>event_type</column>
+        <column>event_time</column>
+    </unique>
+
+    <foreign name="fk_events_record_id" table="tbl_records">record_id</foreign>
+    <foreign name="fk_events_originator_id" table="tbl_accounts" column="account_id">originator_id</foreign>
+
+    <index name="ix_record">
+        <column>record_id</column>
+    </index>
+
+</table>
+
+<table name="tbl_field_values">
+
+    <column type="int">event_id</column>
+    <column type="int">field_id</column>
+    <column type="byte">field_type</column>
+    <column type="int" null="yes">value_id</column>
+    <column type="bool">is_latest</column>
+
+    <primary name="pk_field_values">
+        <column>event_id</column>
+        <column>field_id</column>
+    </primary>
+
+    <foreign name="fk_field_values_event_id" table="tbl_events">event_id</foreign>
+    <foreign name="fk_field_values_field_id" table="tbl_fields">field_id</foreign>
+
+    <index name="ix_value">
+        <column>value_id</column>
+    </index>
+
+</table>
+
+<table name="tbl_changes">
+
+    <column type="int">event_id</column>
+    <column type="int" null="yes">field_id</column>
+    <column type="int" null="yes">old_value_id</column>
+    <column type="int" null="yes">new_value_id</column>
+
+    <unique name="ix_changes">
+        <column>event_id</column>
+        <column>field_id</column>
+    </unique>
+
+    <foreign name="fk_changes_event_id" table="tbl_events">event_id</foreign>
+    <foreign name="fk_changes_field_id" table="tbl_fields">field_id</foreign>
+
+</table>
+
+<table name="tbl_string_values">
+
+    <column type="primary">value_id</column>
+    <column type="md5">value_token</column>
+    <column type="nstr" size="250">string_value</column>
+
+    <primary name="pk_string_values">
+        <column>value_id</column>
+    </primary>
+
+    <unique name="ix_string_values">
+        <column>value_token</column>
+    </unique>
+
+</table>
+
+<table name="tbl_text_values">
+
+    <column type="primary">value_id</column>
+    <column type="md5">value_token</column>
+    <column type="ntext">text_value</column>
+
+    <primary name="pk_text_value">
+        <column>value_id</column>
+    </primary>
+
+    <unique name="ix_text_values">
+        <column>value_token</column>
+    </unique>
+
+</table>
+
+<table name="tbl_list_values">
+
+    <column type="int">field_id</column>
+    <column type="int">int_value</column>
+    <column type="nstr" size="50">str_value</column>
+
+    <primary name="pk_list_value">
+        <column>field_id</column>
+        <column>int_value</column>
+    </primary>
+
+    <unique name="ix_list_values">
+        <column>field_id</column>
+        <column>str_value</column>
+    </unique>
+
+    <foreign name="fk_list_values_field_id" table="tbl_fields">field_id</foreign>
+
+</table>
+
+<table name="tbl_comments">
+
+    <column type="primary">comment_id</column>
+    <column type="ntext">comment_body</column>
+    <column type="int">event_id</column>
+    <column type="bool">is_confidential</column>
+
+    <primary name="pk_comments">
+        <column>comment_id</column>
+    </primary>
+
+    <unique name="ix_comments">
+        <column>event_id</column>
+    </unique>
+
+    <foreign name="fk_comments_event_id" table="tbl_events">event_id</foreign>
+
+</table>
+
+<table name="tbl_attachments">
+
+    <column type="primary">attachment_id</column>
+    <column type="nstr" size="100">attachment_name</column>
+    <column type="str" size="100">attachment_type</column>
+    <column type="int">attachment_size</column>
+    <column type="int">event_id</column>
+    <column type="bool">is_removed</column>
+
+    <primary name="pk_attachments">
+        <column>attachment_id</column>
+    </primary>
+
+    <unique name="ix_attachments">
+        <column>event_id</column>
+    </unique>
+
+    <foreign name="fk_attachments_event_id" table="tbl_events">event_id</foreign>
+
+</table>
+
+<table name="tbl_filters">
+
+    <column type="primary">filter_id</column>
+    <column type="int">account_id</column>
+    <column type="nstr" size="50">filter_name</column>
+    <column type="byte">filter_type</column>
+    <column type="int">filter_flags</column>
+    <column type="int" null="yes">filter_param</column>
+
+    <primary name="pk_filters">
+        <column>filter_id</column>
+    </primary>
+
+    <unique name="ix_filters">
+        <column>account_id</column>
+        <column>filter_name</column>
+    </unique>
+
+    <foreign name="fk_filters_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_filter_sharing">
+
+    <column type="int">filter_id</column>
+    <column type="int">group_id</column>
+
+    <primary name="pk_filter_sharing">
+        <column>filter_id</column>
+        <column>group_id</column>
+    </primary>
+
+    <foreign name="fk_filter_sharing_filter_id" table="tbl_filters">filter_id</foreign>
+    <foreign name="fk_filter_sharing_group_id" table="tbl_groups">group_id</foreign>
+
+</table>
+
+<table name="tbl_filter_activation">
+
+    <column type="int">filter_id</column>
+    <column type="int">account_id</column>
+
+    <primary name="pk_filter_activation">
+        <column>filter_id</column>
+        <column>account_id</column>
+    </primary>
+
+    <foreign name="fk_filter_activation_filter" table="tbl_filters">filter_id</foreign>
+    <foreign name="fk_filter_activation_account" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_filter_accounts">
+
+    <column type="int">filter_id</column>
+    <column type="int">filter_flag</column>
+    <column type="int">account_id</column>
+
+    <primary name="pk_filter_accounts">
+        <column>filter_id</column>
+        <column>filter_flag</column>
+        <column>account_id</column>
+    </primary>
+
+    <foreign name="fk_filter_accounts_filter_id" table="tbl_filters">filter_id</foreign>
+    <foreign name="fk_filter_accounts_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_filter_states">
+
+    <column type="int">filter_id</column>
+    <column type="int">state_id</column>
+
+    <primary name="pk_filter_states">
+        <column>filter_id</column>
+        <column>state_id</column>
+    </primary>
+
+    <foreign name="fk_filter_states_filter_id" table="tbl_filters">filter_id</foreign>
+    <foreign name="fk_filter_states_state_id" table="tbl_states">state_id</foreign>
+
+</table>
+
+<table name="tbl_filter_trans">
+
+    <column type="int">filter_id</column>
+    <column type="int">state_id</column>
+    <column type="int">date1</column>
+    <column type="int">date2</column>
+
+    <primary name="pk_filter_trans">
+        <column>filter_id</column>
+        <column>state_id</column>
+    </primary>
+
+    <foreign name="fk_filter_trans_filter_id" table="tbl_filters">filter_id</foreign>
+    <foreign name="fk_filter_trans_state_id" table="tbl_states">state_id</foreign>
+
+</table>
+
+<table name="tbl_filter_fields">
+
+    <column type="int">filter_id</column>
+    <column type="int">field_id</column>
+    <column type="int" null="yes">param1</column>
+    <column type="int" null="yes">param2</column>
+
+    <primary name="pk_filter_fields">
+        <column>filter_id</column>
+        <column>field_id</column>
+    </primary>
+
+    <foreign name="fk_filter_fields_filter_id" table="tbl_filters">filter_id</foreign>
+    <foreign name="fk_filter_fields_field_id" table="tbl_fields">field_id</foreign>
+
+</table>
+
+<table name="tbl_fsets">
+
+    <column type="primary">fset_id</column>
+    <column type="int">account_id</column>
+    <column type="nstr" size="50">fset_name</column>
+
+    <primary name="pk_fsets">
+        <column>fset_id</column>
+    </primary>
+
+    <unique name="ix_fsets">
+        <column>account_id</column>
+        <column>fset_name</column>
+    </unique>
+
+    <foreign name="fk_fsets_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_fset_filters">
+
+    <column type="int">fset_id</column>
+    <column type="int">filter_id</column>
+
+    <primary name="pk_fset_filters">
+        <column>fset_id</column>
+        <column>filter_id</column>
+    </primary>
+
+    <foreign name="fk_fset_filters_fset_id" table="tbl_fsets">fset_id</foreign>
+    <foreign name="fk_fset_filters_filter_id" table="tbl_filters">filter_id</foreign>
+
+</table>
+
+<table name="tbl_views">
+
+    <column type="primary">view_id</column>
+    <column type="int">account_id</column>
+    <column type="nstr" size="50">view_name</column>
+
+    <primary name="pk_views">
+        <column>view_id</column>
+    </primary>
+
+    <unique name="ix_views">
+        <column>account_id</column>
+        <column>view_name</column>
+    </unique>
+
+    <foreign name="fk_views_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_view_columns">
+
+    <column type="primary">column_id</column>
+    <column type="int">view_id</column>
+    <column type="nstr" size="50" null="yes">state_name</column>
+    <column type="nstr" size="50" null="yes">field_name</column>
+    <column type="byte">column_type</column>
+    <column type="byte">column_order</column>
+
+    <primary name="pk_view_columns">
+        <column>column_id</column>
+    </primary>
+
+    <unique name="ix_view_columns_name">
+        <column>view_id</column>
+        <column>state_name</column>
+        <column>field_name</column>
+        <column>column_type</column>
+    </unique>
+
+    <unique name="ix_view_columns_order">
+        <column>view_id</column>
+        <column>column_order</column>
+    </unique>
+
+    <foreign name="fk_view_columns_view_id" table="tbl_views">view_id</foreign>
+
+</table>
+
+<table name="tbl_def_columns">
+
+    <column type="primary">column_id</column>
+    <column type="int">account_id</column>
+    <column type="nstr" size="50" null="yes">state_name</column>
+    <column type="nstr" size="50" null="yes">field_name</column>
+    <column type="byte">column_type</column>
+    <column type="byte">column_order</column>
+
+    <primary name="pk_def_columns">
+        <column>column_id</column>
+    </primary>
+
+    <unique name="ix_def_columns_name">
+        <column>account_id</column>
+        <column>state_name</column>
+        <column>field_name</column>
+        <column>column_type</column>
+    </unique>
+
+    <unique name="ix_def_columns_order">
+        <column>account_id</column>
+        <column>column_order</column>
+    </unique>
+
+    <foreign name="fk_def_columns_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_subscribes">
+
+    <column type="primary">subscribe_id</column>
+    <column type="int">account_id</column>
+    <column type="nstr" size="25">subscribe_name</column>
+    <column type="str" size="50" null="yes">carbon_copy</column>
+    <column type="byte">subscribe_type</column>
+    <column type="int">subscribe_flags</column>
+    <column type="int" null="yes">subscribe_param</column>
+    <column type="bool">is_activated</column>
+
+    <primary name="pk_subscribes">
+        <column>subscribe_id</column>
+    </primary>
+
+    <unique name="ix_subscribes">
+        <column>account_id</column>
+        <column>subscribe_name</column>
+    </unique>
+
+    <foreign name="fk_subscribes_account_id" table="tbl_accounts">account_id</foreign>
+
+</table>
+
+<table name="tbl_reminders">
+
+    <column type="primary">reminder_id</column>
+    <column type="int">account_id</column>
+    <column type="nstr" size="25">reminder_name</column>
+    <column type="nstr" size="100" null="yes">subject_text</column>
+    <column type="int">state_id</column>
+    <column type="int" null="yes">group_id</column>
+    <column type="byte">group_flag</column>
+
+    <primary name="pk_reminders">
+        <column>reminder_id</column>
+    </primary>
+
+    <unique name="ix_reminders">
+        <column>account_id</column>
+        <column>reminder_name</column>
+    </unique>
+
+    <foreign name="fk_reminders_account_id" table="tbl_accounts">account_id</foreign>
+    <foreign name="fk_reminders_state_id" table="tbl_states">state_id</foreign>
+    <foreign name="fk_reminders_group_id" table="tbl_groups">group_id</foreign>
+
+</table>
+
+</database>
