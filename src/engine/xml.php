@@ -96,7 +96,7 @@ require_once('../engine/sessions.php');
 /**
  * Version info.
  */
-define('VERSION', '2.0.0');
+define('VERSION', '2.0.1');
 
 /**#@+
  * Size of HTML control.
@@ -483,7 +483,7 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
  */
 function gen_xml_menu ($hide_menu = FALSE)
 {
-    debug_write_log(DEBUG_TRACE, '[generate_menu]');
+    debug_write_log(DEBUG_TRACE, '[gen_xml_menu]');
 
     $xml = get_user_level() == USER_LEVEL_GUEST
          ? '<menu>'
@@ -639,16 +639,16 @@ function gen_xml_rec_root ($search_mode = FALSE)
  */
 function gen_xml_bookmarks (&$curr_page, $rec_count, &$rec_from, &$rec_to, $url = 'index.php?')
 {
-    debug_write_log(DEBUG_TRACE, '[generate_bookmarks]');
-    debug_write_log(DEBUG_DUMP,  '[generate_bookmarks] $curr_page = ' . $curr_page);
-    debug_write_log(DEBUG_DUMP,  '[generate_bookmarks] $rec_count = ' . $rec_count);
-    debug_write_log(DEBUG_DUMP,  '[generate_bookmarks] $url       = ' . $url);
+    debug_write_log(DEBUG_TRACE, '[gen_xml_bookmarks]');
+    debug_write_log(DEBUG_DUMP,  '[gen_xml_bookmarks] $curr_page = ' . $curr_page);
+    debug_write_log(DEBUG_DUMP,  '[gen_xml_bookmarks] $rec_count = ' . $rec_count);
+    debug_write_log(DEBUG_DUMP,  '[gen_xml_bookmarks] $url       = ' . $url);
 
     $nav_count = (int)(($rec_count + $_SESSION[VAR_PAGEROWS] - 1) / $_SESSION[VAR_PAGEROWS]);
     $curr_page = ustr2int($curr_page, 1, $nav_count);
 
-    debug_write_log(DEBUG_DUMP, '[generate_bookmarks] $nav_count = ' . $nav_count);
-    debug_write_log(DEBUG_DUMP, '[generate_bookmarks] $curr_page = ' . $curr_page);
+    debug_write_log(DEBUG_DUMP, '[gen_xml_bookmarks] $nav_count = ' . $nav_count);
+    debug_write_log(DEBUG_DUMP, '[gen_xml_bookmarks] $curr_page = ' . $curr_page);
 
     $nav_from = (int)(($curr_page - 1) / $_SESSION[VAR_PAGEBKMS]) * $_SESSION[VAR_PAGEBKMS] + 1;
     $nav_to   = $nav_from + $_SESSION[VAR_PAGEBKMS] - 1;
@@ -658,8 +658,8 @@ function gen_xml_bookmarks (&$curr_page, $rec_count, &$rec_from, &$rec_to, $url 
         $nav_to = $nav_count;
     }
 
-    debug_write_log(DEBUG_DUMP, '[generate_bookmarks] $nav_from = ' . $nav_from);
-    debug_write_log(DEBUG_DUMP, '[generate_bookmarks] $nav_to   = ' . $nav_to);
+    debug_write_log(DEBUG_DUMP, '[gen_xml_bookmarks] $nav_from = ' . $nav_from);
+    debug_write_log(DEBUG_DUMP, '[gen_xml_bookmarks] $nav_to   = ' . $nav_to);
 
     $rec_from = ($curr_page - 1) * $_SESSION[VAR_PAGEROWS] + 1;
     $rec_to   = $rec_from + $_SESSION[VAR_PAGEROWS] - 1;
@@ -669,8 +669,8 @@ function gen_xml_bookmarks (&$curr_page, $rec_count, &$rec_from, &$rec_to, $url 
         $rec_to = $rec_count;
     }
 
-    debug_write_log(DEBUG_DUMP, '[generate_bookmarks] $rec_from = ' . $rec_from);
-    debug_write_log(DEBUG_DUMP, '[generate_bookmarks] $rec_to   = ' . $rec_to);
+    debug_write_log(DEBUG_DUMP, '[gen_xml_bookmarks] $rec_from = ' . $rec_from);
+    debug_write_log(DEBUG_DUMP, '[gen_xml_bookmarks] $rec_to   = ' . $rec_to);
 
     $xml = '<bookmarks total="' . get_html_resource(RES_TOTAL_ID) . ' ' . $rec_count . '">';
 
