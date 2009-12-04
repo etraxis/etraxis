@@ -116,6 +116,7 @@
 //  Artem Rodygin           2009-07-29      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-07-29      new-833: Default responsible should be current user, when possible.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
+//  Artem Rodygin           2009-10-13      bug-849: 'Clone' button is available when should be disabled.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -290,7 +291,12 @@ if (can_record_be_postponed($record, $permissions))
     $xml .= '<button url="postpone.php?id=' . $id . '">' . get_html_resource(RES_POSTPONE_ID) . '</button>';
 }
 
-if (can_record_be_created())
+$rs = dal_query(DATABASE_DRIVER == DRIVER_ORACLE9 ? 'records/oracle/tfndid.sql' : 'records/tfndid.sql',
+                $_SESSION[VAR_USERID],
+                $record['project_id'],
+                $record['template_id']);
+
+if ($rs->rows != 0)
 {
     $xml .= '<button url="create.php?id=' . $id . '">' . get_html_resource(RES_CLONE_ID) . '</button>';
 }
