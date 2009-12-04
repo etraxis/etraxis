@@ -132,6 +132,7 @@
 //  Artem Rodygin           2009-04-24      new-817: Field permissions dialog refactoring.
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -574,7 +575,7 @@ define('RES_EVENT_ID',                              1330);
 define('RES_NO_FILTERS_SET_ID',                     1331);
 define('RES_GUEST_ACCESS_ID',                       1332);
 define('RES_NONE2_ID',                              1333);
-define('RES_RESERVED_1334_ID',                      1334);
+define('RES_GLOBAL_GROUPS_ID',                      1334);
 define('RES_GUEST_ID',                              1335);
 define('RES_IMPORT_ID',                             1336);
 define('RES_PERMIT_DELETE_RECORD_ID',               1337);

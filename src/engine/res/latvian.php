@@ -105,6 +105,7 @@
 //  Artem Rodygin           2009-04-26      new-817: Field permissions dialog refactoring.
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 $resource_latvian = array
@@ -556,7 +557,7 @@ $resource_latvian = array
     'Nav filtru kopas',
     'Viesu piekïuve',
     'Nav.',
-    '',
+    'Globâlâ grupas',
     'Viesis',
     'Imports',
     'tiesîbas dzçst ierakstus',

@@ -76,6 +76,7 @@
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
 //  Artem Rodygin           2009-05-01      Updated for compatibility with HtmlUnit.
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -497,7 +498,7 @@ function gen_xml_menu ()
         {
             $xml .= '<menuitem url="../records/index.php?search=">' . get_html_resource(RES_RECORDS_ID)       . '</menuitem>'
                   . '<menuitem url="../accounts/index.php">'        . get_html_resource(RES_ACCOUNTS_ID)      . '</menuitem>'
-                  . '<menuitem url="../groups/index.php">'          . get_html_resource(RES_GROUPS_ID)        . '</menuitem>'
+                  . '<menuitem url="../groups/index.php">'          . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</menuitem>'
                   . '<menuitem url="../projects/index.php">'        . get_html_resource(RES_PROJECTS_ID)      . '</menuitem>'
                   . '<menuitem url="../settings/index.php">'        . get_html_resource(RES_SETTINGS_ID)      . '</menuitem>'
                   . '<menuitem url="../config/index.php">'          . get_html_resource(RES_CONFIGURATION_ID) . '</menuitem>';
