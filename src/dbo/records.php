@@ -195,6 +195,7 @@
 //  Artem Rodygin           2009-08-31      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
+//  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -362,7 +363,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 break;
 
-            case COLUMN_TYPE_STATE:
+            case COLUMN_TYPE_STATE_ABBR:
 
                 array_push($clause_select, 's.state_abbr');
 
@@ -458,6 +459,17 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 if ($is_sortby)
                 {
                     $clause_order .= 't.template_name' . $sort_mode;
+                }
+
+                break;
+
+            case COLUMN_TYPE_STATE_NAME:
+
+                array_push($clause_select, 's.state_name');
+
+                if ($is_sortby)
+                {
+                    $clause_order .= 's.state_name' . $sort_mode;
                 }
 
                 break;

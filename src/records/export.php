@@ -46,6 +46,7 @@
 //  Artem Rodygin           2009-03-30      bug-811: Multilined text is cut on export to CSV.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
+//  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -112,7 +113,7 @@ while (($row = $list->fetch()))
                 array_push($data, ustr2csv(record_id($row['record_id'], $row['template_prefix']), $_SESSION[VAR_DELIMITER]));
                 break;
 
-            case COLUMN_TYPE_STATE:
+            case COLUMN_TYPE_STATE_ABBR:
                 array_push($data, ustr2csv($row['state_abbr'], $_SESSION[VAR_DELIMITER]));
                 break;
 
@@ -146,6 +147,10 @@ while (($row = $list->fetch()))
 
             case COLUMN_TYPE_TEMPLATE:
                 array_push($data, ustr2csv($row['template_name'], $_SESSION[VAR_DELIMITER]));
+                break;
+
+            case COLUMN_TYPE_STATE_NAME:
+                array_push($data, ustr2csv($row['state_name'], $_SESSION[VAR_DELIMITER]));
                 break;
 
             case COLUMN_TYPE_NUMBER:
