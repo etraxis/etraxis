@@ -93,6 +93,7 @@
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
+//  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -355,7 +356,7 @@ if ($list->rows != 0)
                     $value = record_id($row['record_id'], $row['template_prefix']);
                     break;
 
-                case COLUMN_TYPE_STATE:
+                case COLUMN_TYPE_STATE_ABBR:
                     $value = ustr2html($row['state_abbr']);
                     break;
 
@@ -398,6 +399,10 @@ if ($list->rows != 0)
 
                 case COLUMN_TYPE_TEMPLATE:
                     $value = ustr2html($row['template_name']);
+                    break;
+
+                case COLUMN_TYPE_STATE_NAME:
+                    $value = ustr2html($row['state_name']);
                     break;
 
                 case COLUMN_TYPE_NUMBER:

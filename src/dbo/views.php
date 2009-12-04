@@ -58,6 +58,7 @@
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
+//  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -83,7 +84,7 @@ define('MAX_VIEW_SIZE', 20);
  */
 define('COLUMN_TYPE_MINIMUM',       1);
 define('COLUMN_TYPE_ID',            1);
-define('COLUMN_TYPE_STATE',         2);
+define('COLUMN_TYPE_STATE_ABBR',    2);
 define('COLUMN_TYPE_PROJECT',       3);
 define('COLUMN_TYPE_SUBJECT',       4);
 define('COLUMN_TYPE_AUTHOR',        5);
@@ -92,7 +93,8 @@ define('COLUMN_TYPE_LAST_EVENT',    7);
 define('COLUMN_TYPE_AGE',           8);
 define('COLUMN_TYPE_CREATION_DATE', 9);
 define('COLUMN_TYPE_TEMPLATE',     10);
-define('COLUMN_TYPE_MAXIMUM',      10);
+define('COLUMN_TYPE_STATE_NAME',   11);
+define('COLUMN_TYPE_MAXIMUM',      11);
 /**#@-*/
 
 /**#@+
@@ -114,7 +116,7 @@ $column_type_res = array
 (
     // standard
     COLUMN_TYPE_ID            => RES_ID_ID,
-    COLUMN_TYPE_STATE         => RES_STATE_ID,
+    COLUMN_TYPE_STATE_ABBR    => RES_STATE_ID,
     COLUMN_TYPE_PROJECT       => RES_PROJECT_ID,
     COLUMN_TYPE_SUBJECT       => RES_SUBJECT_ID,
     COLUMN_TYPE_AUTHOR        => RES_AUTHOR_ID,
@@ -123,6 +125,7 @@ $column_type_res = array
     COLUMN_TYPE_AGE           => RES_AGE_ID,
     COLUMN_TYPE_CREATION_DATE => RES_CREATED_ID,
     COLUMN_TYPE_TEMPLATE      => RES_TEMPLATE_ID,
+    COLUMN_TYPE_STATE_NAME    => RES_STATE_NAME_ID,
 
     // custom
     COLUMN_TYPE_NUMBER        => RES_NUMBER_ID,
