@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-0
-Release date : 2009-11-09
-Release size : 36533
+Release tag  : MAIN_2-1-1
+Release date : 2009-11-17
+Release size : 36654
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -48,7 +48,6 @@ new-555: Rework template customization interface.
 new-731: Custom fields with dynamic data.
 new-771: Multiple sort order.
 new-791: [SF2620701] Background color in the records list
-new-828: [SF2809460] Support for SMTP email
 new-829: Subscribed as system role.
 new-830: Shared filter sets.
 new-831: Display subrecords as tree of nodes.
@@ -70,10 +69,7 @@ bug-696: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-802: [SF2704057] possibility to disable fields
-new-851: State name as standard column type.
-new-854: Remove disabled users from subscribers list.
-new-855: Show already subscribed users when subscribing others.
+new-828: [SF2809460] Support for SMTP email
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
