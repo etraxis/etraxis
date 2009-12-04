@@ -2,6 +2,21 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-0-1 (2009-10-14)
+
+    new-837: Replace "Groups" with "Global groups" in main menu.
+    new-838: Disabled buttons would be better grayed out than invisible.
+    new-839: Welcome screen should be blank if no guest is enabled.
+    new-845: Template name as standard column type.
+    new-848: LDAP TLS support.
+
+Bug fixes integrated in MAIN_2-0-1 (2009-10-14)
+
+    bug-847: Email notification is broken when it's being sent with attachment.
+    bug-849: 'Clone' button is available when should be disabled.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-0-0 (2009-10-10)
 
     new-824: PHP 4 is discontinued.
