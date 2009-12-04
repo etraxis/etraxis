@@ -33,7 +33,8 @@ from
 
 where
 
-    p.project_id  = t.project_id  and
-    t.template_id = s.template_id and
-    s.state_id    = f.state_id    and
-    f.field_id    = %1
+    p.project_id   = t.project_id  and
+    t.template_id  = s.template_id and
+    s.state_id     = f.state_id    and
+    f.field_id     = %1            and
+    f.removal_time = 0

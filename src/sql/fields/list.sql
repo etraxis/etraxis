@@ -14,5 +14,5 @@ select
     value_id
 
 from tbl_fields
-where state_id = %1
+where state_id = %1 and removal_time = 0
 order by %2

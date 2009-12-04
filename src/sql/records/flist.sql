@@ -25,16 +25,17 @@ from
 
 where
 
-    fp.field_id   = f.field_id  and
-    fp.group_id   = g.group_id  and
-    ms.group_id   = g.group_id  and
-    fv.event_id   = e.event_id  and
-    fv.field_id   = f.field_id  and
-    fv.is_latest  = 1           and
-    e.record_id   = %1          and
-    f.state_id    = %2          and
-    ms.account_id = %5          and
-    fp.perms      = %6
+    fp.field_id    = f.field_id and
+    fp.group_id    = g.group_id and
+    ms.group_id    = g.group_id and
+    fv.event_id    = e.event_id and
+    fv.field_id    = f.field_id and
+    fv.is_latest   = 1          and
+    f.removal_time = 0          and
+    e.record_id    = %1         and
+    f.state_id     = %2         and
+    ms.account_id  = %5         and
+    fp.perms       = %6
 
 union
 
@@ -62,11 +63,12 @@ from
 
 where
 
-    fv.event_id  = e.event_id and
-    fv.field_id  = f.field_id and
-    fv.is_latest = 1          and
-    e.record_id  = %1         and
-    f.state_id   = %2         and
+    fv.event_id    = e.event_id and
+    fv.field_id    = f.field_id and
+    fv.is_latest   = 1          and
+    f.removal_time = 0          and
+    e.record_id    = %1         and
+    f.state_id     = %2         and
 
   ( f.author_perm      >= %6 and %5 = %3 or
     f.responsible_perm >= %6 and %5 = %4 or

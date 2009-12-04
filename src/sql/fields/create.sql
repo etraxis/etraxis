@@ -2,6 +2,7 @@ insert into tbl_fields
 
    (state_id,
     field_name,
+    removal_time,
     field_order,
     field_type,
     is_required,
@@ -17,4 +18,4 @@ insert into tbl_fields
     param2,
     value_id)
 
-values (%1, '%2', %3, %4, %5, %6, %7, 0, 0, 0, '%8', '%9', '%10', %11, %12, %13)
+values (%1, '%2', 0, %3, %4, %5, %6, %7, 0, 0, 0, '%8', '%9', '%10', %11, %12, %13)

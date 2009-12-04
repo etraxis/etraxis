@@ -23,6 +23,7 @@
   Author                  Date            Description of modifications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   Artem Rodygin           2009-01-25      Initial creation.
+  Artem Rodygin           2009-05-11      new-802: [SF2704057] possibility to disable fields
   Artem Rodygin           2009-08-26      new-826: Native unicode support for Microsoft SQL Server.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -246,6 +247,7 @@
     <column type="primary">field_id</column>
     <column type="int">state_id</column>
     <column type="nstr" size="50">field_name</column>
+    <column type="int">removal_time</column>
     <column type="int">field_order</column>
     <column type="byte">field_type</column>
     <column type="bool">is_required</column>
@@ -268,11 +270,13 @@
     <unique name="ix_fields_name">
         <column>state_id</column>
         <column>field_name</column>
+        <column>removal_time</column>
     </unique>
 
     <unique name="ix_fields_order">
         <column>state_id</column>
         <column>field_order</column>
+        <column>removal_time</column>
     </unique>
 
     <foreign name="fk_fields_state_id" table="tbl_states">state_id</foreign>

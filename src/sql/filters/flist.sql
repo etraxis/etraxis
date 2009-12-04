@@ -18,8 +18,9 @@ where
     fp.group_id = gp.group_id and
     ms.group_id = gp.group_id and
 
-    f.state_id    = %1 and
-    ms.account_id = %2 and
-    fp.perms      = %3
+    f.removal_time = 0  and
+    f.state_id     = %1 and
+    ms.account_id  = %2 and
+    fp.perms       = %3
 
 order by field_order

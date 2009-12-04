@@ -54,6 +54,7 @@
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
+//  Artem Rodygin           2009-10-17      new-802: [SF2704057] possibility to disable fields
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -153,16 +154,8 @@ $xml .= '<text label="' . get_html_resource(RES_ADD_SEPARATOR_ID) . '">' . get_h
 
 if ($field['is_locked'])
 {
-    $xml .= '<button url="fmodify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
-
-    if (is_field_removable($id))
-    {
-        $xml .= '<button url="fdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_FIELD_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
-    }
-    else
-    {
-        $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
-    }
+    $xml .= '<button url="fmodify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>'
+          . '<button url="fdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_FIELD_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
 }
 else
 {

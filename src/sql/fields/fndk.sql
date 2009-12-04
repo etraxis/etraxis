@@ -12,9 +12,10 @@ from
 
 where
 
-    p.project_id  = t.project_id  and
-    t.template_id = s.template_id and
-    s.state_id    = f.state_id    and
-    f.state_id    = %1            and
+    p.project_id   = t.project_id  and
+    t.template_id  = s.template_id and
+    s.state_id     = f.state_id    and
+    f.state_id     = %1            and
+    f.removal_time = 0             and
 
     lower(f.field_name) = '%2'

@@ -33,6 +33,7 @@
 //  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-17      new-802: [SF2704057] possibility to disable fields
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -51,7 +52,7 @@ if (get_user_level() == USER_LEVEL_ADMIN)
 
     if ($field)
     {
-        if (is_field_removable($id) && $field['is_locked'])
+        if ($field['is_locked'])
         {
             field_delete($id);
             header('Location: findex.php?id=' . $field['state_id']);

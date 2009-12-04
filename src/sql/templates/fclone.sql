@@ -30,6 +30,7 @@ insert into tbl_fields
 
         ss.template_id = %1         and
         sd.template_id = %2         and
+        f.removal_time = 0          and
         ss.state_id    = f.state_id and
         ss.state_name = sd.state_name
 
