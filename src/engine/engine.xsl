@@ -96,9 +96,11 @@
     <div id="menurt"></div>
     <div id="menu">
         <xsl:apply-templates select="menuitem"/>
-        <a class="user">
-        <xsl:value-of select="@user"/>
-        </a>
+        <xsl:if test="boolean(@user)">
+            <a class="user">
+            <xsl:value-of select="@user"/>
+            </a>
+        </xsl:if>
     </div>
 </xsl:template>
 
