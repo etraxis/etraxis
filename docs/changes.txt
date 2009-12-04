@@ -2,6 +2,21 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-0-0 (2009-10-10)
+
+    new-824: PHP 4 is discontinued.
+    new-826: Native unicode support for Microsoft SQL Server.
+    new-827: Microsoft SQL Server 2005/2008 support.
+
+Bug fixes integrated in MAIN_2-0-0 (2009-10-10)
+
+    bug-634: Search becomes case sensitive if UTF-8 values are present in the string being looked for (MSSQL).
+    bug-776: [MSSQL 2000] Warning: The table 'tbl_fields' has been created but its maximum row size (12311) exceeds the maximum number of bytes per row (8060). INSERT or UPDATE of a row in this table will fail if the resulting row length exceeds 8060 bytes.
+    bug-825: Database gets empty strings instead of NULL values.
+    bug-842: Error: document.lform.accounts is undefined
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_1-21-10 (2009-08-07)
 
     new-832: Required LDAP attributes should be configurable.

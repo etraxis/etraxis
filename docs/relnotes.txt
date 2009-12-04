@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-0-0
-Release date : 2009-10-10
-Release size : 35821
+Release tag  : MAIN_2-0-1
+Release date : 2009-10-14
+Release size : 35970
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -53,37 +53,31 @@ new-829: Subscribed as system role.
 new-830: Shared filter sets.
 new-831: Display subrecords as tree of nodes.
 new-836: Value submitter as system role.
-new-837: Replace "Groups" with "Global groups" in main menu.
-new-838: Disabled buttons would be better grayed out than invisible.
-new-839: Welcome screen should be blank if no guest is enabled.
 new-840: RSS feeds for record changes.
 new-843: User self registration.
 new-844: [SF2848827] Display records with past deadlines in red
-new-845: Template name as standard column type.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 bug-696: Values of restricted fields are still accessible via custom view.
-bug-846: Template with " (quotation mark) in description cannot be imported back from XML file.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+NEW FEATURES INTEGRATED IN MAIN_2-0-1 (2009-10-14)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+new-837: Replace "Groups" with "Global groups" in main menu.
+new-838: Disabled buttons would be better grayed out than invisible.
+new-839: Welcome screen should be blank if no guest is enabled.
+new-845: Template name as standard column type.
+new-848: LDAP TLS support.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+BUG FIXES INTEGRATED IN MAIN_2-0-1 (2009-10-14)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 bug-847: Email notification is broken when it's being sent with attachment.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-NEW FEATURES INTEGRATED IN MAIN_2-0-0 (2009-10-10)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-new-824: PHP 4 is discontinued.
-new-826: Native unicode support for Microsoft SQL Server.
-new-827: Microsoft SQL Server 2005/2008 support.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-BUG FIXES INTEGRATED IN MAIN_2-0-0 (2009-10-10)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-bug-634: Search becomes case sensitive if UTF-8 values are present in the string being looked for (MSSQL).
-bug-776: [MSSQL 2000] Warning: The table 'tbl_fields' has been created but its maximum row size (12311) exceeds the maximum number of bytes per row (8060). INSERT or UPDATE of a row in this table will fail if the resulting row length exceeds 8060 bytes.
-bug-825: Database gets empty strings instead of NULL values.
-bug-842: Error: document.lform.accounts is undefined
+bug-849: 'Clone' button is available when should be disabled.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
