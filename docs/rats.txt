@@ -1,0 +1,97 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+RATS REPORT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+eTraxis version : 2.0.0
+RATS version    : 2.0
+
+Total lines analyzed  : 39518
+Total vulnerabilities : 7 (2 high, 0 medium, 5 low)
+New vulnerabilities   : 0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+VULNERABILITIES
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+1. src/dbo/records.php:1948: Low: unlink
+
+@unlink(ATTACHMENTS_PATH . $attachment_id);
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2. src/diag/index.php:321: Low: is_dir
+
+elseif (!is_dir(ATTACHMENTS_PATH))
+
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists. This is
+the first line where a check has occured. No matching uses were detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+3. src/diag/index.php:355: Low: is_dir
+
+elseif (!is_dir(DEBUG_LOGS))
+
+A potential TOCTOU (Time Of Check, Time Of Use) vulnerability exists. This is
+the first line where a check has occured. No matching uses were detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+4. src/engine/debug.php:95: High: fopen
+
+$this->handle = fopen(DEBUG_LOGS . session_id() . '.log', 'a');
+
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+5. src/engine/debug.php:95: Low: fopen
+
+$this->handle = fopen(DEBUG_LOGS . session_id() . '.log', 'a');
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+6. src/engine/utility.php:562: High: mail
+
+return @mail($to, $subject, $message, $headers);
+
+Arguments 1, 2, 4 and 5 of this function may be passed to an external program.
+(Usually sendmail). Under Windows, they will be passed to a remote email server.
+If these values are derived from user input, make sure they are properly
+formatted and contain no unexpected characters or extra data.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+7. src/records/download.php:78: Low: readfile
+
+readfile(ATTACHMENTS_PATH . $id);
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

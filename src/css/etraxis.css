@@ -1,0 +1,419 @@
+html {
+  height: 100%;
+  min-width: 1000px;
+}
+
+body {
+  background: #FBFBFB;
+  border-bottom: #FBFBFB 1px solid;
+  font-family: verdana,arial,sans-serif;
+  font-size: small;
+  height: 100%;
+  line-height: 1.5;
+  margin: 0;
+  min-width: 960px;
+  padding: 0;
+}
+
+table.container {
+  background: #FBFBFB;
+  border: 0 solid;
+  border-spacing: 0;
+  width: 100%;
+}
+
+#topbox {
+  height: 140px;
+  position: relative;
+}
+
+#headerlt {
+  background: #9BD url(hl.png) left bottom no-repeat;
+  height: 90px;
+  left: 5px;
+  position: absolute;
+  top: 10px;
+  width: 25px;
+}
+
+#headerrt {
+  background: #9BD url(hr.png) right bottom no-repeat;
+  height: 90px;
+  position: absolute;
+  right: 5px;
+  top: 10px;
+  width: 22px;
+}
+
+#header {
+  background: #9BD url(hm.png) left bottom repeat-x;
+  height: 90px;
+  margin-left: 30px;
+  margin-right: 27px;
+  position: relative;
+  top: 10px;
+}
+
+a.title {
+  color: #FBFBFB;
+  display: block;
+  font-size: large;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-top: 20px;
+}
+
+a.version {
+  color: #E1E8EF;
+  display: block;
+  font-size: small;
+  font-weight: bold;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+a.user {
+  color: #FBFBFB;
+  float: right;
+  font-size: small;
+  font-weight: bold;
+  padding: 5px;
+  text-decoration: none;
+}
+
+#menult {
+  background: #9BD url(ml.png) left top no-repeat;
+  height: 40px;
+  left: 5px;
+  position: absolute;
+  top: 100px;
+  width: 25px;
+}
+
+#menurt {
+  background: #9BD url(mr.png) right top no-repeat;
+  height: 40px;
+  position: absolute;
+  right: 5px;
+  top: 100px;
+  width: 22px;
+}
+
+#menu {
+  background: #9BD url(mm.png) left top repeat-x;
+  height: 40px;
+  margin-left: 30px;
+  margin-right: 27px;
+  padding: 0 4px;
+  position: relative;
+  top: 10px;
+}
+
+a.menu {
+  color: #E1E8EF;
+  float: left;
+  font-size: small;
+  font-weight: bold;
+  padding: 5px;
+  text-decoration: none;
+}
+
+a.menu:hover {
+  color: #FBFBFB;
+}
+
+#content {
+  background: #FBFBFB;
+  padding: 5px 20px;
+  top: 130px;
+}
+
+p.guestbox {
+  background: #FBFBFB;
+  border: #57A0E4 1px solid;
+  color: #57A0E4;
+  font-size: small;
+  font-weight: bold;
+  margin: 0 0 10px 0;
+  padding: 2px 5px;
+  text-align: center;
+}
+
+p.banner {
+  background: #FBFBFB;
+  color: #AA0000;
+  font-size: small;
+  font-weight: bold;
+  margin: 0 0 15px 0;
+  padding: 0 6px;
+}
+
+#crumb {
+  background: #FBFBFB;
+  padding: 5px 0 10px 0;
+}
+
+a.crumb {
+  border: #CCC 1px solid;
+  color: #000;
+  font-size: small;
+  font-weight: bold;
+  margin: 0 5px 0 0;
+  padding: 2px 5px;
+  text-decoration: none;
+}
+
+a.crumb:hover {
+  border: #505050 1px solid;
+}
+
+#footer {
+  background: #FBFBFB;
+  border: #CCC 1px solid;
+  color: #CCC;
+  height: 20px;
+  margin: 0;
+  margin-top: 10px;
+  padding: 2px 5px;
+}
+
+#footer a {
+  color: #CCC;
+  text-decoration: none;
+}
+
+#footer a:hover {
+  color: #808080;
+}
+
+form {
+  margin: 0;
+}
+
+fieldset {
+  border: #CCC 1px solid;
+  margin: 5px 0;
+  padding: 2px 5px 7px 5px;
+}
+
+legend {
+  background: #FBFBFB;
+  color: #A6375C;
+  padding: 0 5px;
+}
+
+label,
+p.label {
+  color: #000;
+  font-size: small;
+  margin: 2px 5px;
+}
+
+td.text,
+td.comment,
+p.text,
+p.comment {
+  color: #505050;
+  font-size: small;
+  margin: 2px 5px;
+}
+
+td.text,
+td.comment {
+  padding: 2px 5px;
+}
+
+a.attachment {
+  color: #505050;
+  display: block;
+  margin: 2px 5px;
+}
+
+sup.required {
+  color: #A6375C;
+}
+
+.enabled {
+  color: #808080;
+}
+
+.disabled {
+  color: #CCC;
+}
+
+input.button {
+  background: #FBFBFB;
+  border: 1px solid;
+  border-bottom-color: #AAA;
+  border-left-color: #CCC;
+  border-right-color: #AAA;
+  border-top-color: #CCC;
+  color: #808080;
+  font-size: small;
+  margin: 5px 5px 5px 0;
+}
+
+input.button:hover {
+  border: #505050 1px solid;
+  color: #505050;
+}
+
+input.dualbutton {
+  margin: 5px 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+input.smallbox,
+input.editbox,
+input.password {
+  border: #CCC 1px solid;
+  color: #808080;
+  font-size: small;
+  margin: 5px 5px 5px 0;
+}
+
+input.editbox,
+input.password {
+  width: 400px;
+}
+
+input.smallbox {
+  width: 75px;
+}
+
+input.checkbox {
+  vertical-align: middle;
+}
+
+input.radio {
+  color: #808080;
+}
+
+textarea {
+  border: #CCC 1px solid;
+  color: #808080;
+  margin: 2px 0;
+  width: 600px;
+}
+
+textarea.dualbox {
+  width: 300px;
+}
+
+select {
+  color: #808080;
+  font-size: small;
+  margin: 5px 5px 5px 0;
+  width: 200px;
+}
+
+select.extended {
+  width: 300px;
+}
+
+select.dualbox {
+  margin: 2px 0;
+  width: 300px;
+}
+
+table.list {
+  margin: 5px 0;
+  width: 100%;
+}
+
+p.header {
+  border-bottom: #CCC 1px solid;
+  color: #337FC6;
+  margin: 0;
+  padding: 0 5px;
+}
+
+tr.row {
+  background: #E1E8EF;
+  cursor: pointer;
+}
+
+p.row,
+p.closed,
+p.hot,
+p.cold {
+  font-size: small;
+  margin: 0;
+  padding: 0 5px;
+}
+
+p.row {
+  color: #000;
+}
+
+p.closed {
+  color: #808080;
+}
+
+p.hot {
+  color: #AA0000;
+}
+
+p.cold {
+  color: #337FC6;
+}
+
+table.bookmark {
+  margin: 5px 0;
+  width: 100%;
+}
+
+td.bookmark {
+  border: #505050 1px solid;
+}
+
+td.total {
+  text-align: right;
+  width: 100%;
+}
+
+p.bookmark {
+  border: #CCC 1px solid;
+  color: #337FC6;
+  margin: 1px;
+  padding: 0 5px;
+}
+
+.searchres,
+span.searchres a {
+  color: #DD0000;
+}
+
+a {
+  color: #337FC6;
+  text-decoration: none;
+}
+
+p {
+  margin: 5px 0;
+}
+
+code {
+  display: block;
+  margin-left: 25px;
+  white-space: pre;
+}
+
+hr {
+  border: 0 none;
+  border-top: #CCC 1px dashed;
+  height: 1px;
+}
+
+.groupdiv
+{
+  margin: 0;
+  padding: 0;
+}
+
+.toggle
+{
+  font-weight: bold;
+  margin-right: 5px;
+}
