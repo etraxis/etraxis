@@ -314,6 +314,7 @@ create table tbl_fields
     field_id int not null auto_increment primary key,
     state_id int not null,
     field_name varchar (50) not null,
+    removal_time int not null,
     field_order int not null,
     field_type int not null,
     is_required int not null,
@@ -333,13 +334,15 @@ create table tbl_fields
 alter table tbl_fields add constraint unique ix_fields_name
 (
     state_id,
-    field_name
+    field_name,
+    removal_time
 );
 
 alter table tbl_fields add constraint unique ix_fields_order
 (
     state_id,
-    field_order
+    field_order,
+    removal_time
 );
 
 alter table tbl_fields add constraint foreign key fk_fields_state_id
@@ -1161,7 +1164,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MySQL 5.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '2.0');
+values ('FEATURE_LEVEL', '2.1');
 
 insert into tbl_accounts
 (

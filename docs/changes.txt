@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-0-2 (2009-10-19)
+
+    new-850: Japanese localization.
+
+Bug fixes integrated in MAIN_2-0-2 (2009-10-19)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-0-1 (2009-10-14)
 
     new-837: Replace "Groups" with "Global groups" in main menu.

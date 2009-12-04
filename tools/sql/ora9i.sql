@@ -375,6 +375,7 @@ create table tbl_fields
     field_id number (10) not null,
     state_id number (10) not null,
     field_name nvarchar2 (50) not null,
+    removal_time number (10) not null,
     field_order number (10) not null,
     field_type number (10) not null,
     is_required number (10) not null,
@@ -399,13 +400,15 @@ alter table tbl_fields add constraint pk_fields primary key
 alter table tbl_fields add constraint ix_fields_name unique
 (
     state_id,
-    field_name
+    field_name,
+    removal_time
 );
 
 alter table tbl_fields add constraint ix_fields_order unique
 (
     state_id,
-    field_order
+    field_order,
+    removal_time
 );
 
 alter table tbl_fields add constraint fk_fields_state_id foreign key
@@ -1404,7 +1407,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '2.0');
+values ('FEATURE_LEVEL', '2.1');
 
 insert into tbl_accounts
 (

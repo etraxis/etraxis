@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-0-2
-Release date : 2009-10-19
-Release size : 36405
+Release tag  : MAIN_2-1-0
+Release date : 2009-11-09
+Release size : 36533
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -48,7 +48,6 @@ new-555: Rework template customization interface.
 new-731: Custom fields with dynamic data.
 new-771: Multiple sort order.
 new-791: [SF2620701] Background color in the records list
-new-802: [SF2704057] possibility to disable fields
 new-828: [SF2809460] Support for SMTP email
 new-829: Subscribed as system role.
 new-830: Shared filter sets.
@@ -57,6 +56,9 @@ new-836: Value submitter as system role.
 new-840: RSS feeds for record changes.
 new-843: User self registration.
 new-844: [SF2848827] Display records with past deadlines in red
+new-852: LDAP // Email should not be mandatory.
+new-853: LDAP // Active Directory groups.
+new-856: [SF2892425] Refferencing or quoting comments of others
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -65,13 +67,16 @@ KNOWN ISSUES
 bug-696: Values of restricted fields are still accessible via custom view.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-NEW FEATURES INTEGRATED IN MAIN_2-0-2 (2009-10-19)
+NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-850: Japanese localization.
+new-802: [SF2704057] possibility to disable fields
+new-851: State name as standard column type.
+new-854: Remove disabled users from subscribers list.
+new-855: Show already subscribed users when subscribing others.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-BUG FIXES INTEGRATED IN MAIN_2-0-2 (2009-10-19)
+BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 None.
