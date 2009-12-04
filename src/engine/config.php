@@ -100,6 +100,22 @@ define('EMAIL_ATTACHMENTS_MAXSIZE',   0);
 /**#@-*/
 
 #---------------------------------------------------------------------------------------------------
+# SMTP Settings
+#---------------------------------------------------------------------------------------------------
+
+/**#@+
+ * See {@link http://www.etraxis.org/docs-smtp.php online documentation} for details.
+ */
+define('SMTP_SERVER_NAME',    'smtp.example.com');
+define('SMTP_SERVER_PORT',    25);
+define('SMTP_SERVER_TIMEOUT', 5);
+define('SMTP_USERNAME',       '');
+define('SMTP_PASSWORD',       '');
+define('SMTP_MAILFROM',       'mailfrom@example.com');
+define('SMTP_USE_TLS',        0);
+/**#@-*/
+
+#---------------------------------------------------------------------------------------------------
 # LDAP Authentication
 #---------------------------------------------------------------------------------------------------
 

@@ -48,6 +48,7 @@
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
 //  Johannes Gelbaerchen    2009-03-23      bug-804: 'stripos' is not available in PHP4
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-06-21      new-828: [SF2809460] Support for SMTP email
 //--------------------------------------------------------------------------------------------------
 
 /**
@@ -112,6 +113,7 @@ define('AUTH_TYPE_NTLM',    4);
  * Engine module.
  */
 require_once('../engine/debug.php');
+require_once('../engine/smtp.php');
 require_once('../engine/utility.php');
 require_once('../engine/locale.php');
 require_once('../engine/cookies.php');
