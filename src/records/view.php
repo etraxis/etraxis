@@ -115,6 +115,7 @@
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-07-29      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-07-29      new-833: Default responsible should be current user, when possible.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -235,10 +236,18 @@ if (!is_null($prev_id) || !is_null($next_id))
     {
         $xml .= '<button url="view.php?id=' . $prev_id . '">%uarr;</button>';
     }
+    else
+    {
+        $xml .= '<button disabled="true">%uarr;</button>';
+    }
 
     if (!is_null($next_id))
     {
         $xml .= '<button url="view.php?id=' . $next_id . '">%darr;</button>';
+    }
+    else
+    {
+        $xml .= '<button disabled="true">%darr;</button>';
     }
 }
 
@@ -261,6 +270,10 @@ if (can_record_be_modified($record, $permissions))
 {
     $xml .= '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
 }
+else
+{
+    $xml .= '<button disabled="true">' . get_html_resource(RES_MODIFY_ID) . '</button>';
+}
 
 if (can_record_be_deleted($record, $permissions))
 {
@@ -281,6 +294,12 @@ if (can_record_be_created())
 {
     $xml .= '<button url="create.php?id=' . $id . '">' . get_html_resource(RES_CLONE_ID) . '</button>';
 }
+else
+{
+    $xml .= '<button disabled="true">' . get_html_resource(RES_CLONE_ID) . '</button>';
+}
+
+$splitter = '<br/>';
 
 if (can_record_be_reassigned($record, $permissions))
 {
@@ -288,6 +307,8 @@ if (can_record_be_reassigned($record, $permissions))
 
     if ($rs->rows > 1)
     {
+        $splitter = NULL;
+
         $xml .= '<form name="assignform" action="assign.php?id=' . $id . '">'
               . '<combobox name="responsible" extended="true">';
 
@@ -327,6 +348,8 @@ if (can_state_be_changed($record, $permissions))
 
     if ($rs->rows != 0)
     {
+        $splitter = NULL;
+
         $xml .= '<form name="stateform" action="state.php?id=' . $id . '">'
               . '<combobox name="state" extended="true">';
 
@@ -347,7 +370,8 @@ else
     debug_write_log(DEBUG_NOTICE, 'State cannot be changed.');
 }
 
-$xml .= '<button action="ExpandAll();">'       . get_html_resource(RES_EXPAND_ALL_ID)        . '</button>'
+$xml .= $splitter
+      . '<button action="ExpandAll();">'       . get_html_resource(RES_EXPAND_ALL_ID)        . '</button>'
       . '<button action="CollapseAll();">'     . get_html_resource(RES_COLLAPSE_ALL_ID)      . '</button>'
       . '<button action="ResetToDefaults();">' . get_html_resource(RES_RESET_TO_DEFAULTS_ID) . '</button>';
 
@@ -395,6 +419,8 @@ if (ATTACHMENTS_ENABLED)
     else
     {
         debug_write_log(DEBUG_NOTICE, 'File cannot be attached.');
+
+        $xml .= '<button disabled="true">' . get_html_resource(RES_ATTACH_FILE_ID) . '</button>';
     }
 
     if (can_file_be_removed($record, $permissions))
@@ -404,6 +430,8 @@ if (ATTACHMENTS_ENABLED)
     else
     {
         debug_write_log(DEBUG_NOTICE, 'File cannot be removed.');
+
+        $xml .= '<button disabled="true">' . get_html_resource(RES_REMOVE_FILE_ID) . '</button>';
     }
 }
 
@@ -460,6 +488,9 @@ if (can_subrecord_be_added($record, $permissions))
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Subrecord cannot be added.');
+
+    $xml .= '<button disabled="true">' . get_html_resource(RES_CREATE_SUBRECORD_ID) . '</button>'
+          . '<button disabled="true">' . get_html_resource(RES_ATTACH_SUBRECORD_ID) . '</button>';
 }
 
 if (can_subrecord_be_removed($record, $permissions))
@@ -469,6 +500,8 @@ if (can_subrecord_be_removed($record, $permissions))
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Subrecord cannot be removed.');
+
+    $xml .= '<button disabled="true">' . get_html_resource(RES_REMOVE_SUBRECORD_ID) . '</button>';
 }
 
 $rs = dal_query('records/elist2.sql', $id);

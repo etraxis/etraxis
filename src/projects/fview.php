@@ -53,6 +53,7 @@
 //  Artem Rodygin           2009-04-24      new-817: Field permissions dialog refactoring.
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -158,6 +159,15 @@ if ($field['is_locked'])
     {
         $xml .= '<button url="fdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_FIELD_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>';
     }
+    else
+    {
+        $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
+    }
+}
+else
+{
+    $xml .= '<button disabled="true">' . get_html_resource(RES_MODIFY_ID) . '</button>'
+          . '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
 }
 
 $xml .= '<button url="fperms.php?id=' . $id . '">' . get_html_resource(RES_PERMISSIONS_ID) . '</button>'

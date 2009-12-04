@@ -91,6 +91,7 @@
 //  Artem Rodygin           2009-03-05      new-797: Numbers and durations should be aligned to right.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -184,6 +185,10 @@ if (!$search_mode)
         if (can_record_be_created())
         {
             $xml .= '<button url="create.php">' . get_html_resource(RES_CREATE_ID) . '</button>';
+        }
+        else
+        {
+            $xml .= '<button disabled="true">' . get_html_resource(RES_CREATE_ID) . '</button>';
         }
 
         $xml .= '<button url="filter.php">' . get_html_resource(RES_FILTERS_ID) . '</button>'

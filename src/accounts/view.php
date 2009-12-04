@@ -41,6 +41,7 @@
 //  Artem Rodygin           2006-12-11      bug-440: Local users should not be extended with '@eTraxis' when being modified.
 //  Artem Rodygin           2008-11-09      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -100,6 +101,10 @@ if (is_account_removable($id))
     $xml .= '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_ACCOUNT_ID) . '">'
           . get_html_resource(RES_DELETE_ID)
           . '</button>';
+}
+else
+{
+    $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
 }
 
 $xml .= '</form>'
