@@ -5,15 +5,15 @@ RATS REPORT
 eTraxis version : 2.1.1
 RATS version    : 2.0
 
-Total lines analyzed  : 40509
+Total lines analyzed  : 40556
 Total vulnerabilities : 8 (2 high, 1 medium, 5 low)
-New vulnerabilities   : 1
+New vulnerabilities   : 0
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VULNERABILITIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. src/dbo/records.php:1972: Low: unlink
+1. src/dbo/records.php:1973: Low: unlink
 
 @unlink(ATTACHMENTS_PATH . $attachment_id);
 
@@ -83,7 +83,7 @@ dangerous.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-7. src/engine/utility.php:575: High: mail
+7. src/engine/utility.php:579: High: mail
 
 return @mail($to, $subject, $message, $headers);
 
@@ -96,7 +96,7 @@ formatted and contain no unexpected characters or extra data.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-8. src/records/download.php:78: Low: readfile
+8. src/records/download.php:83: Low: readfile
 
 readfile(ATTACHMENTS_PATH . $id);
 

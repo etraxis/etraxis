@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-1
-Release date : 2009-11-17
-Release size : 36654
+Release tag  : MAIN_2-1-2
+Release date : 2009-12-07
+Release size : 36688
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -69,12 +69,17 @@ bug-696: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-828: [SF2809460] Support for SMTP email
+new-859: Only several predefined columns should be default.
+new-862: Resistance to 'magic quotes'.
+new-863: Resistance to 'safe mode'.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+bug-857: Problem with russian language and filetype.
+bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
+bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
+bug-864: Cyrillic characters are corrupted in subject of notifications.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
