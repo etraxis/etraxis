@@ -75,6 +75,7 @@
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
 //  Artem Rodygin           2009-10-13      bug-847: Email notification is broken when it's being sent with attachment.
 //  Sergey Zhdanov          2009-12-02      bug-857: Problem with russian language and filetype.
+//  Artem Rodygin           2009-12-07      bug-864: Cyrillic characters are corrupted in subject of notifications.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -529,9 +530,9 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
         $eol = "\n";
     }
 
+    $sender        = '=?utf-8?b?' . base64_encode($sender) . '?=';
     $is_attachment = ($attachment_size <= EMAIL_ATTACHMENTS_MAXSIZE * 1024 && !is_null($attachment_id));
-
-    $boundary = 'eTraxis-boundary:' . md5(uniqid(time()));
+    $boundary      = 'eTraxis-boundary:' . md5(uniqid(time()));
 
     $headers = implode($eol, array('Date: ' . date('r'),
                                    'From: ' . $sender . ' <' . (EMAIL_NOTIFICATIONS_ENABLED == SMTP_CLIENT_BUILDIN ? SMTP_MAILFROM : $from) . '>',
@@ -569,6 +570,8 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
     debug_write_log(DEBUG_DUMP, '[sendmail] $subject = ' . $subject);
     debug_write_log(DEBUG_DUMP, "[sendmail] \$headers =\n{$headers}");
     debug_write_log(DEBUG_DUMP, "[sendmail] \$message =\n{$message}");
+
+    $subject = '=?utf-8?b?' . base64_encode($subject) . '?=';
 
     switch (EMAIL_NOTIFICATIONS_ENABLED)
     {
