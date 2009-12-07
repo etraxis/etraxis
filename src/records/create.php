@@ -78,6 +78,7 @@
 //  Artem Rodygin           2008-12-09      bug-773: 'Search results' link is lost in "links path" on 'clone' and 'create subrecord' operations.
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-11-30      bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -607,12 +608,19 @@ if ($step == 3)
         $xml .= '</group>';
     }
 
-    $xml .= '<group title="' . get_html_resource(RES_ATTACH_FILE_ID) . '">'
-          . '<editbox label="' . get_html_resource(RES_ATTACHMENT_NAME_ID) . '" name="attachname" size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ATTACHMENT_NAME . '"/>'
-          . '<filebox label="' . get_html_resource(RES_ATTACHMENT_FILE_ID) . '" name="attachfile" size="' . HTML_EDITBOX_SIZE_MEDIUM . '"/>'
-          . '</group>';
+    $permissions = record_get_permissions($template_id, $_SESSION[VAR_USERID], 0);
 
-    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>';
+    if (get_user_level() != USER_LEVEL_GUEST &&
+        ($permissions & PERMIT_ATTACH_FILES) &&
+        ATTACHMENTS_ENABLED)
+    {
+        $xml .= '<group title="' . get_html_resource(RES_ATTACH_FILE_ID) . '">'
+              . '<editbox label="' . get_html_resource(RES_ATTACHMENT_NAME_ID) . '" name="attachname" size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ATTACHMENT_NAME . '"/>'
+              . '<filebox label="' . get_html_resource(RES_ATTACHMENT_FILE_ID) . '" name="attachfile" size="' . HTML_EDITBOX_SIZE_MEDIUM . '"/>'
+              . '</group>';
+
+        $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>';
+    }
 }
 
 if ($flag)

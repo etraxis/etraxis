@@ -196,6 +196,7 @@
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
+//  Artem Rodygin           2009-11-30      bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -2624,6 +2625,11 @@ function can_file_be_attached ($record, $permissions)
 {
     debug_write_log(DEBUG_TRACE, '[can_file_be_attached]');
 
+    if (ATTACHMENTS_ENABLED == 0)
+    {
+        return FALSE;
+    }
+
     return (get_user_level() != USER_LEVEL_GUEST &&
             !$record['is_suspended']             &&
             !$record['is_locked']                &&
@@ -2642,6 +2648,11 @@ function can_file_be_attached ($record, $permissions)
 function can_file_be_removed ($record, $permissions)
 {
     debug_write_log(DEBUG_TRACE, '[can_file_be_removed]');
+
+    if (ATTACHMENTS_ENABLED == 0)
+    {
+        return FALSE;
+    }
 
     if (get_user_level() == USER_LEVEL_GUEST)
     {
