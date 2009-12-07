@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-1 (2009-11-17)
+
+    new-828: [SF2809460] Support for SMTP email
+
+Bug fixes integrated in MAIN_2-1-1 (2009-11-17)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-0 (2009-11-09)
 
     new-802: [SF2704057] possibility to disable fields
