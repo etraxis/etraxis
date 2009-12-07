@@ -101,6 +101,7 @@
 //  Artem Rodygin           2009-04-12      bug-815: Empty "event" field in notification about subscription.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
+//  Artem Rodygin           2009-12-05      new-863: Resistance to 'safe mode'.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -480,7 +481,10 @@ function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $at
     }
 
     // Since sending email can takes a time, disable PHP execution timeout.
-    set_time_limit(0);
+    if (!ini_get('safe_mode'))
+    {
+        set_time_limit(0);
+    }
 
     $record = $rs->fetch();
 
@@ -648,7 +652,10 @@ function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $at
     }
 
     // Restore PHP execution timeout, disabled above.
-    ini_restore('max_execution_time');
+    if (!ini_get('safe_mode'))
+    {
+        ini_restore('max_execution_time');
+    }
 
     return NO_ERROR;
 }

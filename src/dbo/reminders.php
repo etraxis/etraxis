@@ -47,6 +47,7 @@
 //  Artem Rodygin           2008-06-21      new-723: Wrap calls of 'mail' function.
 //  Artem Rodygin           2008-06-30      bug-727: Notifications are not sent via Lotus Domino SMTP server.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2009-12-05      new-863: Resistance to 'safe mode'.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -349,7 +350,10 @@ function reminder_send ($reminder)
     $account = account_find($_SESSION[VAR_USERID]);
 
     // Since sending email can takes a time, disable PHP execution timeout.
-    set_time_limit(0);
+    if (!ini_get('safe_mode'))
+    {
+        set_time_limit(0);
+    }
 
     switch ($reminder['group_flag'])
     {
@@ -464,7 +468,10 @@ function reminder_send ($reminder)
     }
 
     // Restore PHP execution timeout, disabled above.
-    ini_restore('max_execution_time');
+    if (!ini_get('safe_mode'))
+    {
+        ini_restore('max_execution_time');
+    }
 
     return NO_ERROR;
 }
