@@ -78,6 +78,7 @@
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
+//  Artem Rodygin           2009-12-06      bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -445,12 +446,6 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
         // If still not is tag, then it's definitely user's text between two BBCode tags.
         if (!$is_tag)
         {
-            // If this is just an empty line - remove it.
-            if ($text[$i] == "\n")
-            {
-                $text[$i] = NULL;
-            }
-
             // If search mode is on, add "[search]" tags for all corresponding matches.
             if (!is_null($search))
             {
