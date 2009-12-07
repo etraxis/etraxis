@@ -59,6 +59,7 @@
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
+//  Artem Rodygin           2009-12-06      new-859: Only several predefined columns should be default.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -344,7 +345,7 @@ function column_list ()
     // Find all columns of currently set view.
     if (get_user_level() == USER_LEVEL_GUEST)
     {
-        for ($i = COLUMN_TYPE_MINIMUM; $i <= COLUMN_TYPE_MAXIMUM; $i++)
+        for ($i = COLUMN_TYPE_MINIMUM; $i <= COLUMN_TYPE_AGE; $i++)
         {
             array_push($columns, array('column_id'    => $i,
                                        'state_name'   => NULL,
@@ -361,7 +362,7 @@ function column_list ()
         if ($rs->rows == 0)
         {
             // ... then create a default set of columns ...
-            for ($i = COLUMN_TYPE_MINIMUM; $i <= COLUMN_TYPE_MAXIMUM; $i++)
+            for ($i = COLUMN_TYPE_MINIMUM; $i <= COLUMN_TYPE_AGE; $i++)
             {
                 dal_query('columns/create.sql', $_SESSION[VAR_USERID], NULL, NULL, $i, $i);
             }
