@@ -65,6 +65,7 @@
 //  Artem Rodygin           2009-04-13      new-814: Password expiration should be turnable off.
 //  Alexandr Permyakov      2009-05-29      new-821: Remove redundant call of 'ldap_finduser' from 'login_user'.
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-12-05      new-862: Resistance to 'magic quotes'.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -401,6 +402,14 @@ function init_page ($guest_is_allowed = FALSE)
     global $line_endings_chars;
 
     session_start();
+
+    if (get_magic_quotes_gpc() != 0)
+    {
+        foreach ($_REQUEST as $key => $value)
+        {
+            $_REQUEST[$key] = stripslashes($value);
+        }
+    }
 
     if (get_user_level() == USER_LEVEL_GUEST)
     {
