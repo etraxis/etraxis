@@ -35,6 +35,7 @@
 //  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-01-12      bug-784: Logged in user must be forwarded to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2009-12-07      bug-857: Problem with russian language and filetype.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -70,10 +71,14 @@ if (!can_record_be_displayed($permissions))
     exit;
 }
 
+$filename = stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') === FALSE
+          ? $attachment['attachment_name']
+          : urlencode($attachment['attachment_name']);
+
 header('Pragma: private');
 header('Cache-Control: private, must-revalidate');
 header('Content-type: ' . $attachment['attachment_type']);
-header('Content-Disposition: attachment; filename=' . $attachment['attachment_name']);
+header('Content-Disposition: attachment; filename=' . $filename);
 
 readfile(ATTACHMENTS_PATH . $id);
 

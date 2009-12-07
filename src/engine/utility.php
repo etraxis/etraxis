@@ -74,6 +74,7 @@
 //  Artem Rodygin           2009-08-29      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
 //  Artem Rodygin           2009-10-13      bug-847: Email notification is broken when it's being sent with attachment.
+//  Sergey Zhdanov          2009-12-02      bug-857: Problem with russian language and filetype.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -557,7 +558,7 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
                                        '--' . $boundary,
                                        'Content-Type: ' . $attachment_type . '; name="' . $attachment_name . '"',
                                        'Content-Transfer-Encoding: base64',
-                                       'Content-Disposition: attachment; filename="' . $attachment_name . '"',
+                                       'Content-Disposition: attachment; filename="=?utf-8?b?' . base64_encode($attachment_name) . '?="',
                                        NULL,
                                        chunk_split(base64_encode(file_get_contents(ATTACHMENTS_PATH . $attachment_id))),
                                        NULL,
