@@ -9,7 +9,7 @@
 <xsl:text>/*------------------------------------------------------------------------------------------------*/
 /*                                                                                                */
 /*  eTraxis - Records tracking web-based system.                                                  */
-/*  Copyright (C) 2004-2009 by Artem Rodygin                                                      */
+/*  Copyright (C) 2004-2010 by Artem Rodygin                                                      */
 /*                                                                                                */
 /*  This program is free software; you can redistribute it and/or modify                          */
 /*  it under the terms of the GNU General Public License as published by                          */

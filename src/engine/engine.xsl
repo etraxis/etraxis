@@ -5,7 +5,7 @@
 <xsl:template match="page">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="author" content="Artem Rodygin"/>
-    <meta name="copyright" content="Copyright (C) 2003-2009 by Artem Rodygin"/>
+    <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
     <link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
     <title>
@@ -67,7 +67,7 @@
         <xsl:apply-templates select="path"/>
         <xsl:apply-templates select="content"/>
         <div id="footer">
-            <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2009 by </xsl:text>
+            <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by </xsl:text>
             <a href="mailto:etraxis@gmail.com">
             <xsl:text>Artem Rodygin</xsl:text>
             </a>
