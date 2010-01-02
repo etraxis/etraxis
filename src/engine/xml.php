@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -79,6 +79,7 @@
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //  Artem Rodygin           2009-12-06      bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
+//  Artem Rodygin           2010-01-01      bug-885: Other BBCode tags should be ignored inside the "[code]" one.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -149,6 +150,22 @@ define('BBCODE_ALL', 3);
 //--------------------------------------------------------------------------------------------------
 //  Functions.
 //--------------------------------------------------------------------------------------------------
+
+/**
+ * Strips all BBCode tags inside "[code]...[/code]".
+ *
+ * @param array $matches Resulted array of "[code](.*)[/code]" PCRE-match.
+ * @return string Replacement string for specified match.
+ */
+function bbcode_callback ($matches)
+{
+    debug_write_log(DEBUG_TRACE, '[bbcode_callback]');
+
+    $res = mb_ereg_replace('(\[)', "\x01", $matches[1]);
+    $res = mb_ereg_replace('(\])', "\x02", $res);
+
+    return "[code]{$res}[/code]";
+}
 
 /**
  * Transform BBCode tags into XML ones.
@@ -378,6 +395,9 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
         $search = preg_quote($search, '!');
     }
 
+    // Ignore all tags inside "[code]...[/code]".
+    $bbcode = preg_replace_callback('!\[code\](.*)\[/code\]!isu', 'bbcode_callback', $bbcode);
+
     // Transform "[url]...[/url]" and "[mail]...[/mail]" to "[url=...]...[/url]" and "[mail=...]...[/mail]".
     if ($mode == BBCODE_ALL)
     {
@@ -468,7 +488,12 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
     $bbcode = implode(NULL, $text);
 
     // Proceed with PCRE and return the result.
-    return preg_replace($bbcode_pcre, $bbcode_xml[$mode], $bbcode);
+    $bbcode = preg_replace($bbcode_pcre, $bbcode_xml[$mode], $bbcode);
+
+    $bbcode = mb_ereg_replace('(\x01)', '[', $bbcode);
+    $bbcode = mb_ereg_replace('(\x02)', ']', $bbcode);
+
+    return $bbcode;
 }
 
 /**
