@@ -2,6 +2,21 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-2 (2009-12-07)
+
+    new-859: Only several predefined columns should be default.
+    new-862: Resistance to 'magic quotes'.
+    new-863: Resistance to 'safe mode'.
+
+Bug fixes integrated in MAIN_2-1-2 (2009-12-07)
+
+    bug-857: Problem with russian language and filetype.
+    bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
+    bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
+    bug-864: Cyrillic characters are corrupted in subject of notifications.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-1 (2009-11-17)
 
     new-828: [SF2809460] Support for SMTP email

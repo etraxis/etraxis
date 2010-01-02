@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-2
-Release date : 2009-12-07
-Release size : 36688
+Release tag  : MAIN_2-1-3
+Release date : 2010-01-02
+Release size : 36703
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -17,6 +17,15 @@ UPGRADE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CHANGED FILES ([M]odified, [A]dded, [D]eleted)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[M] src/engine/engine.xsl
+[M] src/engine/sessions.php
+[M] src/engine/xml.php
+[M] src/images/favicon.ico
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -69,17 +78,14 @@ bug-696: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-859: Only several predefined columns should be default.
-new-862: Resistance to 'magic quotes'.
-new-863: Resistance to 'safe mode'.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-857: Problem with russian language and filetype.
-bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
-bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
-bug-864: Cyrillic characters are corrupted in subject of notifications.
+bug-865: [safe_mode] Warning: Invalid argument supplied for foreach()
+bug-885: Other BBCode tags should be ignored inside the "[code]" one.
+bug-886: Ignored opening BBCode tags should not be appended with closing ones.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
