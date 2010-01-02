@@ -79,6 +79,7 @@
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //  Artem Rodygin           2009-12-06      bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
+//  Artem Rodygin           2009-12-27      bug-886: Ignored opening BBCode tags should not be appended with closing ones.
 //  Artem Rodygin           2010-01-01      bug-885: Other BBCode tags should be ignored inside the "[code]" one.
 //--------------------------------------------------------------------------------------------------
 
@@ -472,16 +473,6 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
                 $text[$i] = preg_replace("!({$search})!isu", '[search]$1[/search]', $text[$i]);
             }
         }
-    }
-
-    // If stack of found tags is not empty, it contains all opening tags which were not closed.
-    // We have to add corresponding closing tags.
-    while (count($stack) > 0)
-    {
-        $k = array_pop($stack);
-
-        $close_tag = preg_replace('!(\!\(\\\\\[/(.*)\\\]\)\!isu)!isu', '[/$2]', $tags_close[$k]);
-        array_push($text, $close_tag);
     }
 
     // Merge the array into solid block of text.
