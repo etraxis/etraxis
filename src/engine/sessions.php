@@ -66,6 +66,7 @@
 //  Alexandr Permyakov      2009-05-29      new-821: Remove redundant call of 'ldap_finduser' from 'login_user'.
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-12-05      new-862: Resistance to 'magic quotes'.
+//  Artem Rodygin           2009-12-08      new-865: [safe_mode] Warning: Invalid argument supplied for foreach()
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -407,7 +408,17 @@ function init_page ($guest_is_allowed = FALSE)
     {
         foreach ($_REQUEST as $key => $value)
         {
-            $_REQUEST[$key] = stripslashes($value);
+            if (is_array($value))
+            {
+                foreach ($value as $subkey => $subvalue)
+                {
+                    $_REQUEST[$key][$subkey] = stripslashes($subvalue);
+                }
+            }
+            else
+            {
+                $_REQUEST[$key] = stripslashes($value);
+            }
         }
     }
 
@@ -427,7 +438,7 @@ function init_page ($guest_is_allowed = FALSE)
             save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
             debug_write_log(DEBUG_NOTICE, '[init_page] Guest must be logged in.');
             header('Location: ' . WEBROOT . 'logon/login.php');
-        	exit;
+            exit;
         }
     }
     else
@@ -468,7 +479,7 @@ function init_page ($guest_is_allowed = FALSE)
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
                 header('Location: ' . WEBROOT . 'chpasswd/index.php');
-            	exit;
+                exit;
             }
         }
     }
