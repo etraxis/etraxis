@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-3 (2010-01-02)
+
+    None.
+
+Bug fixes integrated in MAIN_2-1-3 (2010-01-02)
+
+    bug-865: [safe_mode] Warning: Invalid argument supplied for foreach()
+    bug-885: Other BBCode tags should be ignored inside the "[code]" one.
+    bug-886: Ignored opening BBCode tags should not be appended with closing ones.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-2 (2009-12-07)
 
     new-859: Only several predefined columns should be default.
