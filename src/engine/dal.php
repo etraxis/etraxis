@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -56,6 +56,7 @@
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-08-17      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
+//  Artem Rodygin           2010-01-08      bug-889: PHP Notice: Undefined index: code/message
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -365,7 +366,7 @@ class CRecordset
             $error  = sqlsrv_errors(SQLSRV_ERR_ALL);
             $retval = (is_null($error)
                     ? NULL
-                    : "MSSQL error {$error['code']}: {$error['message']}");
+                    : "MSSQL error {$error[0]['code']}: {$error[0]['message']}");
         }
         elseif (DATABASE_DRIVER == DRIVER_ORACLE9)
         {
