@@ -1,19 +1,7 @@
 select
 
-    a.username,
-    a.fullname,
-    e.event_time,
-    c.comment_body,
-    c.is_confidential
+    comment_body,
+    is_confidential
 
-from
-
-    tbl_comments c,
-    tbl_events   e
-        left outer join tbl_accounts a on
-            e.originator_id = a.account_id
-
-where
-
-    e.event_id = c.event_id and
-    e.event_id = %1
+from tbl_comments
+where event_id = %1
