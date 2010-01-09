@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -117,6 +117,7 @@
 //  Artem Rodygin           2009-07-29      new-833: Default responsible should be current user, when possible.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //  Artem Rodygin           2009-10-13      bug-849: 'Clone' button is available when should be disabled.
+//  Artem Rodygin           2010-01-08      bug-888: Cannot enter full size in comment
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -525,7 +526,7 @@ while (($row = $rs->fetch()))
             // one more comment to show
             $comments_to_show[] = $row['event_id'];
 
-            $xml .= '<group id="' . $row['event_id'] . '" title="' . get_html_resource(RES_COMMENT_ID) . ' - ' . get_datetime($comment['event_time']) . ' - ' . ustr2html($comment['fullname']) . ' (' . ustr2html(account_get_username($comment['username'])) . ')">'
+            $xml .= '<group id="' . $row['event_id'] . '" title="' . get_html_resource(RES_COMMENT_ID) . ' - ' . get_datetime($row['event_time']) . ' - ' . ustr2html($row['fullname']) . ' (' . ustr2html(account_get_username($row['username'])) . ')">'
                   . ($comment['is_confidential'] ? '<comment confidential="' . get_html_resource(RES_CONFIDENTIAL_ID) . '">' : '<comment>')
                   . update_references($comment['comment_body'])
                   . '</comment>'
