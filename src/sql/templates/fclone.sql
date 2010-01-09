@@ -1,10 +1,11 @@
 insert into tbl_fields
-(state_id, field_name, field_order, field_type, is_required, guest_access, registered_perm, author_perm, responsible_perm, add_separator, regex_check, regex_search, regex_replace, param1, param2, value_id)
+(state_id, field_name, removal_time, field_order, field_type, is_required, guest_access, registered_perm, author_perm, responsible_perm, add_separator, regex_check, regex_search, regex_replace, param1, param2, value_id)
 
     select distinct
 
         sd.state_id,
         f.field_name,
+        f.removal_time,
         f.field_order,
         f.field_type,
         f.is_required,
