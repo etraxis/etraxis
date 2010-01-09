@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -197,6 +197,7 @@
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //  Artem Rodygin           2009-11-30      bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
+//  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -286,14 +287,28 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 {
     debug_write_log(DEBUG_TRACE, '[record_list]');
 
-    $sort = try_request('sort', try_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW]));
-    $sort = ustr2int($sort, 1, count($columns) * 2);
+    $sort = explode(':', try_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW]), count($columns));
+    $new  = try_request('sort', 0);
+
+    if (try_request('reset', 0))
+    {
+        $sort = array($new);
+    }
+    else
+    {
+        foreach ($sort as $i => $s)
+        {
+            if (abs($s) == abs($new))
+            {
+                $sort[$i] = 0;
+            }
+        }
+
+        array_push($sort, $new);
+    }
 
     $page = try_request('page', try_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW]));
     $page = ustr2int($page, 1, MAXINT);
-
-    save_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW], $sort);
-    save_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW], $page);
 
     $time = time();
 
@@ -313,7 +328,33 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            't.template_id = s.template_id',
                            's.state_id = r.state_id');
 
-    $clause_order  = NULL;
+    $clause_order  = array();
+
+    foreach ($sort as $s)
+    {
+        $keys = array_keys($clause_order);
+
+        if (in_array(+$s, $keys) ||
+            in_array(-$s, $keys))
+        {
+            continue;
+        }
+
+        if (abs($s) > 0 && abs($s) <= count($columns))
+        {
+            $clause_order[$s] = NULL;
+        }
+    }
+
+    if (empty($clause_order))
+    {
+        $clause_order[1] = NULL;
+    }
+
+    $sort = array_keys($clause_order);
+
+    save_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW], implode(':', $sort));
+    save_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW], $page);
 
     if (get_user_level() == USER_LEVEL_GUEST)
     {
@@ -345,11 +386,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
     foreach ($columns as $i => $column)
     {
-        $sort_asc  = ($sort == $i + 1);
-        $sort_desc = ($sort == $i + 1 + count($columns));
-
-        $sort_mode = ($sort_desc ? ' desc' : NULL);
-        $is_sortby = ($sort_asc || $sort_desc);
+        $i += 1;
 
         switch ($column['column_type'])
         {
@@ -357,9 +394,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 't.template_prefix');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'r.record_id' . $sort_mode;
+                    $clause_order[$i] = 'r.record_id';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'r.record_id desc';
                 }
 
                 break;
@@ -368,9 +409,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 's.state_abbr');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 's.state_abbr' . $sort_mode;
+                    $clause_order[$i] = 's.state_abbr';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 's.state_abbr desc';
                 }
 
                 break;
@@ -379,9 +424,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 'p.project_name');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'p.project_name' . $sort_mode;
+                    $clause_order[$i] = 'p.project_name';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'p.project_name desc';
                 }
 
                 break;
@@ -390,9 +439,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 'r.subject');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'r.subject' . $sort_mode;
+                    $clause_order[$i] = 'r.subject';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'r.subject desc';
                 }
 
                 break;
@@ -402,9 +455,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_select, 'ac.fullname as author_fullname');
                 array_push($clause_join,   'left outer join tbl_accounts ac on ac.account_id = r.creator_id');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'author_fullname' . $sort_mode;
+                    $clause_order[$i] = 'author_fullname';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'author_fullname desc';
                 }
 
                 break;
@@ -414,18 +471,26 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_select, 'ar.fullname as responsible_fullname');
                 array_push($clause_join,   'left outer join tbl_accounts ar on ar.account_id = r.responsible_id');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'responsible_fullname' . $sort_mode;
+                    $clause_order[$i] = 'responsible_fullname';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'responsible_fullname desc';
                 }
 
                 break;
 
             case COLUMN_TYPE_LAST_EVENT:
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'change_time' . $sort_mode;
+                    $clause_order[$i] = 'change_time';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'change_time desc';
                 }
 
                 break;
@@ -435,9 +500,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_select, '(' . $time . ' - r.creation_time) as opened_age');
                 array_push($clause_select, '(r.closure_time - r.creation_time) as closed_age');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'closed_age' . $sort_mode . ', opened_age' . $sort_mode;
+                    $clause_order[$i] = 'closed_age, opened_age';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'closed_age desc, opened_age desc';
                 }
 
                 break;
@@ -446,9 +515,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 'r.creation_time');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'creation_time' . $sort_mode;
+                    $clause_order[$i] = 'creation_time';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'creation_time desc';
                 }
 
                 break;
@@ -457,9 +530,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 't.template_name');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 't.template_name' . $sort_mode;
+                    $clause_order[$i] = 't.template_name';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 't.template_name desc';
                 }
 
                 break;
@@ -468,16 +545,20 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 's.state_name');
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 's.state_name' . $sort_mode;
+                    $clause_order[$i] = 's.state_name';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 's.state_name desc';
                 }
 
                 break;
 
             case COLUMN_TYPE_STRING:
 
-                array_push($clause_select, 'v' . $column['column_id'] . '.value' . $column['column_id']);
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
 
                 array_push($clause_join,
                            "left outer join " .
@@ -487,9 +568,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_STRING . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'v' . $column['column_id'] . '.value' . $column['column_id'] . $sort_mode;
+                    $clause_order[$i] = "v{$column['column_id']}.value{$column['column_id']}";
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = "v{$column['column_id']}.value{$column['column_id']} desc";
                 }
 
                 break;
@@ -500,11 +585,11 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 if (DATABASE_DRIVER == DRIVER_ORACLE9)
                 {
-                    array_push($clause_select, 'to_char(v' . $column['column_id'] . '.value' . $column['column_id'] . ') as "value' . $column['column_id'] . '"');
+                    array_push($clause_select, "to_char(v{$column['column_id']}.value{$column['column_id']}) as \"value{$column['column_id']}\"");
                 }
                 else
                 {
-                    array_push($clause_select, 'v' . $column['column_id'] . '.value' . $column['column_id']);
+                    array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
                 }
 
                 array_push($clause_join,
@@ -515,23 +600,24 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_MULTILINED . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    if (DATABASE_DRIVER == DRIVER_ORACLE9)
-                    {
-                        $clause_order .= 'to_char(v' . $column['column_id'] . '.value' . $column['column_id'] . ')' . $sort_mode;
-                    }
-                    else
-                    {
-                        $clause_order .= 'v' . $column['column_id'] . '.value' . $column['column_id'] . $sort_mode;
-                    }
+                    $clause_order[$i] = (DATABASE_DRIVER == DRIVER_ORACLE9
+                                      ? "to_char(v{$column['column_id']}.value{$column['column_id']})"
+                                      : "v{$column['column_id']}.value{$column['column_id']}");
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = (DATABASE_DRIVER == DRIVER_ORACLE9
+                                       ? "to_char(v{$column['column_id']}.value{$column['column_id']}) desc"
+                                       : "v{$column['column_id']}.value{$column['column_id']} desc");
                 }
 
                 break;
 
             case COLUMN_TYPE_LIST_STRING:
 
-                array_push($clause_select, 'v' . $column['column_id'] . '.value' . $column['column_id']);
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
 
                 array_push($clause_join,
                            "left outer join " .
@@ -541,9 +627,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_LIST . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'v' . $column['column_id'] . '.value' . $column['column_id'] . $sort_mode;
+                    $clause_order[$i] = "v{$column['column_id']}.value{$column['column_id']}";
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = "v{$column['column_id']}.value{$column['column_id']} desc";
                 }
 
                 break;
@@ -565,7 +655,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                     COLUMN_TYPE_DURATION    => FIELD_TYPE_DURATION,
                 );
 
-                array_push($clause_select, 'v' . $column['column_id'] . '.value' . $column['column_id']);
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
 
                 array_push($clause_join,
                            "left outer join " .
@@ -574,20 +664,19 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = {$types[$column['column_type']]} and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if ($is_sortby)
+                if (in_array($i, $sort))
                 {
-                    $clause_order .= 'v' . $column['column_id'] . '.value' . $column['column_id'] . $sort_mode;
+                    $clause_order[$i] = "v{$column['column_id']}.value{$column['column_id']}";
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = "v{$column['column_id']}.value{$column['column_id']} desc";
                 }
 
                 break;
 
             default:
                 debug_write_log(DEBUG_WARNING, '[record_list] Unknown column type = ' . $column['column_type']);
-        }
-
-        if ($column['column_type'] != COLUMN_TYPE_ID && $is_sortby)
-        {
-            $clause_order .= ', r.record_id' . $sort_mode;
         }
     }
 
@@ -892,7 +981,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
         ' from '     . implode(', ',    array_unique($clause_from))   .
         ', '         . implode(' ',     array_unique($clause_join))   .
         ' where '    . implode(' and ', array_unique($clause_where))  .
-        ' order by ' . $clause_order;
+        ' order by ' . implode(', ',    array_unique($clause_order));
 
     return new CRecordset($sql);
 }

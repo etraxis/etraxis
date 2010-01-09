@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -94,6 +94,7 @@
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
+//  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -278,13 +279,17 @@ $rec_from = $rec_to = 0;
 
 if ($list->rows != 0)
 {
+    $reset = (try_request('sort', 0) == 0)
+           ? $reset = '&amp;reset=1'
+           : $reset = NULL;
+
     $xml .= '<list>'
           . gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to)
           . '<hrow>';
 
     foreach ($columns as $i => $column)
     {
-        $smode = ($sort == $i + 1 ? ($i + 1 + count($columns)) : $i + 1);
+        $smode = (in_array($i + 1, $sort) ? -($i + 1) : ($i + 1)) . $reset;
 
         $xml .= '<hcell url="index.php?sort=' . $smode . '&amp;page=' . $page . '" align="left">';
 
