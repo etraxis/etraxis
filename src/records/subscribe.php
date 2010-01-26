@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@
 //  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2010-01-26      bug-894: Some pages don't work in Google Chrome.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -111,7 +112,7 @@ while (($item = $list->fetch()))
 }
 
 $xml .= '</listbox>'
-      . '<button action="window.open(\'smodify.php?id=\'+lform.elements[2].value,\'_parent\');">' . get_html_resource(RES_MODIFY_ID) . '</button>'
+      . '<button action="window.open(\'smodify.php?id=\'+getElementsByName(\'subscribes[]\')[0].value,\'_parent\');">' . get_html_resource(RES_MODIFY_ID) . '</button>'
       . '<button action="lform.action=\'sdelete.php\';lform.submit();" prompt="' . get_html_resource(RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
       . '</group>'
       . '</dualleft>'
@@ -130,7 +131,7 @@ while (($item = $list->fetch()))
 }
 
 $xml .= '</listbox>'
-      . '<button action="window.open(\'smodify.php?id=\'+rform.elements[2].value,\'_parent\');">' . get_html_resource(RES_MODIFY_ID) . '</button>'
+      . '<button action="window.open(\'smodify.php?id=\'+getElementsByName(\'subscribes[]\')[1].value,\'_parent\');">' . get_html_resource(RES_MODIFY_ID) . '</button>'
       . '<button action="rform.action=\'sdelete.php\';rform.submit();" prompt="' . get_html_resource(RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
       . '</group>'
       . '</dualright>'
