@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2009 by Artem Rodygin
+//  Copyright (C) 2006-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -45,6 +45,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-07-14      bug-834: Permission to create records should be disabled for author and responsible.
 //  Artem Rodygin           2009-07-14      bug-835: Template permissions could not be accessed while no group is created yet.
+//  Artem Rodygin           2010-01-26      bug-894: Some pages don't work in Google Chrome.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -142,7 +143,8 @@ else
 }
 
 $script = '<script>function onList(){'
-        . 'for (i = 2; i != document.rform.length; i++) document.rform.elements[i].checked = false;'
+        . 'var elems=document.rform.getElementsByTagName(\'input\');'
+        . 'for(i=0;i!=elems.length;i++)if(elems[i].type==\'checkbox\')elems[i].checked=false;'
         . 'switch(document.lform.groups.value) {'
         . 'case \'' . TEMPLATE_ROLE_AUTHOR . '\':'
         . 'document.rform.permit0.disabled=true;'
@@ -294,7 +296,7 @@ $xml .= '</listbox>'
       . '</dualright>'
       . '</dualbox>'
       . '<button url="tview.php?id=' . $id . '">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . '<button action="for(i=2;i!=document.rform.length;i++)document.rform.elements[i].checked=true;">' . get_html_resource(RES_SELECT_ALL_ID) . '</button>'
+      . '<button action="var elems=document.rform.getElementsByTagName(\'input\');for(i=0;i!=elems.length;i++)if(elems[i].type==\'checkbox\')elems[i].checked=true;">' . get_html_resource(RES_SELECT_ALL_ID) . '</button>'
       . '<button action="rform.action=\'tperms.php?id=' . $id . '&amp;gid=\'+lform.groups.value; rform.submit();">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '</content>'
       . '</page>';

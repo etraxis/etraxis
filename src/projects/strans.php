@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -44,6 +44,7 @@
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2010-01-26      bug-894: Some pages don't work in Google Chrome.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -113,7 +114,8 @@ else
 }
 
 $script = '<script>function onList(){'
-        . 'for(i=2;i!=document.rform.length;i++)document.rform.elements[i].checked=false;'
+        . 'var elems=document.rform.getElementsByTagName(\'input\');'
+        . 'for(i=0;i!=elems.length;i++)if(elems[i].type==\'checkbox\')elems[i].checked=false;'
         . 'switch(document.lform.groups.value){';
 
 $states = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_AUTHOR);
