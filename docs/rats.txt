@@ -2,18 +2,30 @@
 RATS REPORT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-eTraxis version : 2.1.4
+eTraxis version : 2.1.5
 RATS version    : 2.0
 
-Total lines analyzed  : 40679
-Total vulnerabilities : 8 (2 high, 1 medium, 5 low)
-New vulnerabilities   : 0
+Total lines analyzed  : 40725
+Total vulnerabilities : 9 (2 high, 1 medium, 6 low)
+New vulnerabilities   : 1
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VULNERABILITIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. src/dbo/records.php:2062: Low: unlink
+1. src/dbo/records.php:1513: Low: unlink
+
+@unlink(ATTACHMENTS_PATH . $row['attachment_id']);
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+2. src/dbo/records.php:2071: Low: unlink
 
 @unlink(ATTACHMENTS_PATH . $attachment_id);
 
@@ -25,7 +37,7 @@ detected, however one could still exist that could not be detected.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2. src/diag/index.php:321: Low: is_dir
+3. src/diag/index.php:321: Low: is_dir
 
 elseif (!is_dir(ATTACHMENTS_PATH))
 
@@ -36,7 +48,7 @@ the first line where a check has occured. No matching uses were detected.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-3. src/diag/index.php:355: Low: is_dir
+4. src/diag/index.php:355: Low: is_dir
 
 elseif (!is_dir(DEBUG_LOGS))
 
@@ -47,7 +59,7 @@ the first line where a check has occured. No matching uses were detected.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-4. src/engine/debug.php:95: High: fopen
+5. src/engine/debug.php:95: High: fopen
 
 $this->handle = fopen(DEBUG_LOGS . session_id() . '.log', 'a');
 
@@ -59,7 +71,7 @@ dangerous.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-5. src/engine/debug.php:95: Low: fopen
+6. src/engine/debug.php:95: Low: fopen
 
 $this->handle = fopen(DEBUG_LOGS . session_id() . '.log', 'a');
 
@@ -71,7 +83,7 @@ detected, however one could still exist that could not be detected.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-6. src/engine/smtp.php:97: Medium: fsockopen
+7. src/engine/smtp.php:97: Medium: fsockopen
 
 $link = fsockopen(SMTP_SERVER_NAME, SMTP_SERVER_PORT);
 
@@ -83,7 +95,7 @@ dangerous.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-7. src/engine/utility.php:579: High: mail
+8. src/engine/utility.php:579: High: mail
 
 return @mail($to, $subject, $message, $headers);
 
@@ -96,7 +108,7 @@ formatted and contain no unexpected characters or extra data.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-8. src/records/download.php:83: Low: readfile
+9. src/records/download.php:83: Low: readfile
 
 readfile(ATTACHMENTS_PATH . $id);
 

@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-4
-Release date : 2010-01-09
-Release size : 36781
+Release tag  : MAIN_2-1-5
+Release date : 2010-01-26
+Release size : 36802
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,13 +22,25 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[M] src/dbo/accounts.php
+[M] src/dbo/filters.php
 [M] src/dbo/records.php
-[M] src/engine/dal.php
+[M] src/engine/config.php
+[M] src/engine/engine.php
+[M] src/engine/res/english.php
+[M] src/engine/resource.php
+[M] src/engine/sessions.php
 [M] src/engine/xml.php
+[M] src/logon/login.php
+[M] src/projects/strans.php
+[M] src/projects/tperms.php
+[M] src/records/fcreate.php
+[M] src/records/filter.php
+[M] src/records/fmodify.php
+[M] src/records/fsindex.php
 [M] src/records/index.php
-[M] src/records/view.php
-[M] src/sql/comments/fndk.sql
-[M] src/sql/templates/fclone.sql
+[M] src/records/subscribe.php
+[M] src/records/vindex.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -69,6 +81,8 @@ new-844: [SF2848827] Display records with past deadlines in red
 new-852: LDAP // Email should not be mandatory.
 new-853: LDAP // Active Directory groups.
 new-856: [SF2892425] Refferencing or quoting comments of others
+new-893: Expand All by default
+new-896: Export the whole project
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -80,14 +94,14 @@ bug-696: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-771: Multiple sort order.
+new-895: Improve UI of authentication page.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-888: Cannot enter full size in comment (MSSQL 2000)
-bug-889: PHP Notice: Undefined index: code/message (MSSQL 2000)
-bug-890: Error cloning template
+bug-891: Attachments are not deleted when record is deleted
+bug-892: English grammar correction
+bug-894: Some pages don't work in Google Chrome.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

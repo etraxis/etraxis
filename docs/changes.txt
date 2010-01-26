@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-4 (2010-01-09)
+
+    new-771: Multiple sort order.
+
+Bug fixes integrated in MAIN_2-1-4 (2010-01-09)
+
+    bug-888: Cannot enter full size in comment (MSSQL 2000)
+    bug-889: PHP Notice: Undefined index: code/message (MSSQL 2000)
+    bug-890: Error cloning template
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-3 (2010-01-02)
 
     None.
