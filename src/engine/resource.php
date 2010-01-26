@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -133,6 +133,7 @@
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
+//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -393,7 +394,7 @@ define('RES_ALL_TEMPLATES_ID',                      1148);
 define('RES_ALL_STATES_ID',                         1149);
 define('RES_VIEW_RECORD_ID',                        1150);
 define('RES_SHOW_CREATED_BY_ONLY_ID',               1151);
-define('RES_SHOW_ASSIGNED_ON_ONLY_ID',              1152);
+define('RES_SHOW_ASSIGNED_TO_ONLY_ID',              1152);
 define('RES_SHOW_UNCLOSED_ONLY_ID',                 1153);
 define('RES_SUBJECT_ID',                            1154);
 define('RES_SEARCH_ID',                             1155);
@@ -521,7 +522,7 @@ define('RES_LEFT_ID',                               1276);
 define('RES_CENTER_ID',                             1277);
 define('RES_RIGHT_ID',                              1278);
 define('RES_BANNER_ID',                             1279);
-define('RES_ALL_ASSIGNED_ON_ME_ID',                 1280);
+define('RES_ALL_ASSIGNED_TO_ME_ID',                 1280);
 define('RES_ALL_CREATED_BY_ME_ID',                  1281);
 define('RES_UNSELECT_ALL_ID',                       1282);
 define('RES_YYYY_MM_DD_ID',                         1283);

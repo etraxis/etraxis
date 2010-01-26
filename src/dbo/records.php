@@ -199,6 +199,7 @@
 //  Artem Rodygin           2009-11-30      bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
 //  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
 //  Artem Rodygin           2010-01-26      bug-891: Attachments are not deleted when record is deleted
+//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -773,14 +774,14 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            'where filter_id = ' . $filter['filter_id'] . ' and filter_flag = ' . FILTER_FLAG_CREATED_BY . ')');
             }
 
-            if ($filter['filter_flags'] & FILTER_FLAG_ASSIGNED_ON)
+            if ($filter['filter_flags'] & FILTER_FLAG_ASSIGNED_TO)
             {
                 array_push($clause_select, 'r.responsible_id');
                 array_push($clause_filter,
                            'r.responsible_id in ' .
                            '(select account_id ' .
                            'from tbl_filter_accounts ' .
-                           'where filter_id = ' . $filter['filter_id'] . ' and filter_flag = ' . FILTER_FLAG_ASSIGNED_ON . ')');
+                           'where filter_id = ' . $filter['filter_id'] . ' and filter_flag = ' . FILTER_FLAG_ASSIGNED_TO . ')');
             }
 
             if ($filter['filter_flags'] & FILTER_FLAG_UNASSIGNED)

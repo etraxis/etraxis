@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -89,6 +89,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -448,15 +449,15 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
     // Create 1st default filter for new account, which will show all records assigned to this account.
     dal_query('filters/create.sql',
               $account_id,
-              get_html_resource(RES_ALL_ASSIGNED_ON_ME_ID, $locale),
+              get_html_resource(RES_ALL_ASSIGNED_TO_ME_ID, $locale),
               FILTER_TYPE_ALL_PROJECTS,
-              FILTER_FLAG_ASSIGNED_ON,
+              FILTER_FLAG_ASSIGNED_TO,
               NULL);
 
     // Find 1st newly created default filter.
     $rs = dal_query('filters/fndk.sql',
                     $account_id,
-                    ustrtolower(get_html_resource(RES_ALL_ASSIGNED_ON_ME_ID, $locale)));
+                    ustrtolower(get_html_resource(RES_ALL_ASSIGNED_TO_ME_ID, $locale)));
 
     if ($rs->rows == 0)
     {
@@ -467,7 +468,7 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
         $filter_id = $rs->fetch('filter_id');
 
         // Complete filter settings and active the filter.
-        dal_query('filters/facreate.sql', $filter_id, FILTER_FLAG_ASSIGNED_ON, $account_id);
+        dal_query('filters/facreate.sql', $filter_id, FILTER_FLAG_ASSIGNED_TO, $account_id);
         dal_query('filters/set.sql', $filter_id, $account_id);
     }
 

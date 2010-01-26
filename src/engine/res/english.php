@@ -14,7 +14,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -142,6 +142,7 @@
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
+//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //--------------------------------------------------------------------------------------------------
 
 $resource_english = array
@@ -344,7 +345,7 @@ $resource_english = array
     'Timestamp',
     'Originator',
     'Record is created in state "%1".',
-    'Record is assigned on %1.',
+    'Record is assigned to %1.',
     'Record is modified.',
     /* 1110 */
     'State is changed to "%1".',
@@ -393,7 +394,7 @@ $resource_english = array
     /* 1150 */
     'View record',
     'Show only created by ...',
-    'Show only assigned on ...',
+    'Show only assigned to ...',
     'show unclosed only',
     'Subject',
     'Search',
@@ -534,7 +535,7 @@ $resource_english = array
     'right',
     'Service will be unavailable since %1 till %2 (%3)',
     /* 1280 */
-    'All assigned on me',
+    'All assigned to me',
     'All created by me',
     'Unselect all',
     'm/d/yyyy',
