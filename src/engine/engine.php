@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@
 //  Johannes Gelbaerchen    2009-03-23      bug-804: 'stripos' is not available in PHP4
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-21      new-828: [SF2809460] Support for SMTP email
+//  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
 //--------------------------------------------------------------------------------------------------
 
 /**
@@ -94,6 +95,7 @@ define('ERROR_UPLOAD_CANT_WRITE',          27);
 define('ERROR_UPLOAD_EXTENSION',           28);
 define('ERROR_VALUE_FAILS_REGEX_CHECK',    29);
 define('ERROR_XML_PARSER',                 30);
+define('ERROR_UNKNOWN_AUTH_TYPE',          31);
 /**#@-*/
 
 /**#@+

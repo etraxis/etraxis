@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@
 //  Artem Rodygin           2009-02-25      bug-792: [SF2635842] Short PHP tags in login.php
 //  Artem Rodygin           2009-02-27      bug-794: [SF2643676] Security problem when logout.
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -70,8 +71,6 @@
 require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
-
-define('VAR_REQUEST_CREDENTIALS', 'eTraxis_RequestCredentials');
 
 session_start();
 
@@ -82,52 +81,62 @@ if (get_user_level() != USER_LEVEL_GUEST)
     exit;
 }
 
+if (isset($_SESSION[VAR_ERROR]))
+{
+    switch ($_SESSION[VAR_ERROR])
+    {
+        case NO_ERROR:
+        case ERROR_UNAUTHORIZED:
+            $alert = NULL;
+            break;
+        case ERROR_UNKNOWN_USERNAME:
+            $alert = get_js_resource(RES_ALERT_UNKNOWN_USERNAME_ID);
+            break;
+        case ERROR_ACCOUNT_DISABLED:
+            $alert = get_js_resource(RES_ALERT_ACCOUNT_DISABLED_ID);
+            break;
+        case ERROR_ACCOUNT_LOCKED:
+            $alert = get_js_resource(RES_ALERT_ACCOUNT_LOCKED_ID);
+            break;
+        case ERROR_UNKNOWN_AUTH_TYPE:
+            $alert = get_js_resource(RES_ALERT_UNKNOWN_AUTH_TYPE_ID);
+            break;
+        default:
+            $alert = get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+    }
+
+    $_SESSION[VAR_ERROR] = NO_ERROR;
+}
+
 if (!isset($_SESSION[VAR_REQUEST_CREDENTIALS]))
 {
     $_SESSION[VAR_REQUEST_CREDENTIALS] = TRUE;
 }
 
-$message =
-    '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>' .
-    '<link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>' .
-    '<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>' .
-    '<title>eTraxis</title>' .
-    '<font color="darkred"><b>%1</b></font>';
-
 switch (AUTH_TYPE)
 {
     case AUTH_TYPE_BUILTIN:
 
+        $redirect = '../logon/login.php';
+
         if (!isset($_REQUEST['username']))
         {
             debug_write_log(DEBUG_NOTICE, 'Request username and password.');
-?>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<meta name="author" content="Artem Rodygin"/>
-<meta name="copyright" content="Copyright (C) 2003-2009 by Artem Rodygin"/>
-<link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
-<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
-<title>eTraxis</title>
-<body bgcolor="#FBFBFB">
-<table align="center" height="100%">
-<tr><td>
-<form target="_parent" method="post" action="login.php">
-<fieldset>
-<table cellpadding="0" cellspacing="0"><tr>
-<td><label for="username"><?php echo(get_html_resource(RES_USERNAME_ID)); ?>:</label></td>
-<td><input class="editbox" type="text" name="username" id="username" maxlength="<?php echo(MAX_ACCOUNT_USERNAME); ?>"/></td>
-</tr><tr>
-<td><label for="password"><?php echo(get_html_resource(RES_PASSWORD_ID)); ?>:</label></td>
-<td><input class="password" type="password" name="password" id="password" maxlength="<?php echo(MAX_ACCOUNT_PASSWORD); ?>"/></td>
-</tr><tr>
-<td align="center" colspan="2"><input class="button" type="submit" value="<?php echo(get_html_resource(RES_LOGIN_ID)); ?>"/></td>
-</tr></table>
-</fieldset>
-</form>
-</td></tr>
-</table>
-</body>
-<?php
+
+            $xml = '<page' . gen_xml_page_header(NULL, (isset($alert) ? $alert : NULL), 'loginform.username') . '>'
+                 . gen_xml_menu()
+                 . '<content>'
+                 . '<form name="loginform" method="post" action="login.php">'
+                 . '<group>'
+                 . '<editbox name="username" label="' . get_html_resource(RES_USERNAME_ID) . '" size="' . HTML_EDITBOX_SIZE_LONG . '" maxlen="' . MAX_ACCOUNT_USERNAME . '"/>'
+                 . '<passbox name="password" label="' . get_html_resource(RES_PASSWORD_ID) . '" size="' . HTML_EDITBOX_SIZE_LONG . '" maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
+                 . '<button default="true">' . get_html_resource(RES_LOGIN_ID) . '</button>'
+                 . '</group>'
+                 . '</form>'
+                 . '</content>'
+                 . '</page>';
+
+            echo(xml2html($xml));
             exit;
         }
         else
@@ -142,6 +151,8 @@ switch (AUTH_TYPE)
 
     case AUTH_TYPE_BASIC:
 
+        $redirect = '../records/index.php';
+
         if (!isset($_SERVER['PHP_AUTH_USER']) || $_SESSION[VAR_REQUEST_CREDENTIALS])
         {
             debug_write_log(DEBUG_NOTICE, 'Request username and password.');
@@ -151,7 +162,8 @@ switch (AUTH_TYPE)
 
             $_SESSION[VAR_REQUEST_CREDENTIALS] = FALSE;
 
-            echo(ustrprocess($message, get_html_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID)));
+            $_SESSION[VAR_ERROR] = ERROR_UNAUTHORIZED;
+            echo('<body onload="window.open(\'' . $redirect . '\',\'_parent\');"/>');
             exit;
         }
         else
@@ -167,7 +179,9 @@ switch (AUTH_TYPE)
     default:
 
         debug_write_log(DEBUG_WARNING, 'Unknown authentication type.');
-        echo(ustrprocess($message, get_html_resource(RES_ALERT_UNKNOWN_AUTH_TYPE_ID)));
+
+        $_SESSION[VAR_ERROR] = ERROR_UNKNOWN_AUTH_TYPE;
+        header('Location: ../records/index.php');
         exit;
 }
 
@@ -194,15 +208,15 @@ else
     $_SESSION[VAR_ERROR] = login_user($username, $passwd);
 }
 
-if ($_SESSION[VAR_ERROR] == NO_ERROR &&
-    is_cookie_saved(COOKIE_URI))
+if ($_SESSION[VAR_ERROR] == NO_ERROR)
 {
-    $redirect = try_cookie(COOKIE_URI, '../records/index.php');
-    clear_cookie(COOKIE_URI);
-}
-else
-{
-    $redirect = '../records/index.php';
+    $_SESSION[VAR_REQUEST_CREDENTIALS] = FALSE;
+
+    if (is_cookie_saved(COOKIE_URI))
+    {
+        $redirect = try_cookie(COOKIE_URI, $redirect);
+        clear_cookie(COOKIE_URI);
+    }
 }
 
 header('Location: ' . $redirect);
