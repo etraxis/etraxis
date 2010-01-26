@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -221,10 +222,10 @@ elseif (try_request('submitted') == 'mainform')
             $filter_flags |= FILTER_FLAG_CREATED_BY;
         }
 
-        if (isset($_REQUEST['assigned_on']) &&
-            count($_REQUEST['assigned_on']) != 0)
+        if (isset($_REQUEST['assigned_to']) &&
+            count($_REQUEST['assigned_to']) != 0)
         {
-            $filter_flags |= (in_array(0, $_REQUEST['assigned_on']) ? FILTER_FLAG_UNASSIGNED : FILTER_FLAG_ASSIGNED_ON);
+            $filter_flags |= (in_array(0, $_REQUEST['assigned_to']) ? FILTER_FLAG_UNASSIGNED : FILTER_FLAG_ASSIGNED_TO);
         }
 
         $error = filter_create($filter_name,
@@ -268,11 +269,11 @@ elseif (try_request('submitted') == 'mainform')
                     }
                 }
 
-                if (($filter_flags & FILTER_FLAG_ASSIGNED_ON) != 0)
+                if (($filter_flags & FILTER_FLAG_ASSIGNED_TO) != 0)
                 {
-                    foreach ($_REQUEST['assigned_on'] as $item)
+                    foreach ($_REQUEST['assigned_to'] as $item)
                     {
-                        dal_query('filters/facreate.sql', $id, FILTER_FLAG_ASSIGNED_ON, $item);
+                        dal_query('filters/facreate.sql', $id, FILTER_FLAG_ASSIGNED_TO, $item);
                     }
                 }
 
@@ -479,8 +480,8 @@ if ($form == 'mainform')
 
     $xml .= '</listbox>'
           . '</group>'
-          . '<group title="' . get_html_resource(RES_SHOW_ASSIGNED_ON_ONLY_ID) . '">'
-          . '<listbox name="assigned_on[]" multiple="true" size="' . HTML_LISTBOX_SIZE . '">'
+          . '<group title="' . get_html_resource(RES_SHOW_ASSIGNED_TO_ONLY_ID) . '">'
+          . '<listbox name="assigned_to[]" multiple="true" size="' . HTML_LISTBOX_SIZE . '">'
           . '<listitem value="0">' . get_html_resource(RES_NONE_ID) . '</listitem>';
 
     $rs->seek();

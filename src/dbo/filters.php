@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -105,7 +106,7 @@ define('FILTER_TYPE_SEL_STATES',    4);
  * Filter flag.
  */
 define('FILTER_FLAG_CREATED_BY',  0x0001);
-define('FILTER_FLAG_ASSIGNED_ON', 0x0002);
+define('FILTER_FLAG_ASSIGNED_TO', 0x0002);
 define('FILTER_FLAG_UNCLOSED',    0x0004);
 define('FILTER_FLAG_POSTPONED',   0x0008);
 define('FILTER_FLAG_ACTIVE',      0x0010);
