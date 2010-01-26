@@ -95,6 +95,7 @@
 //  Artem Rodygin           2009-10-13      new-839: Welcome screen should be blank if no guest is enabled.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
+//  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -121,6 +122,7 @@ if (isset($_SESSION[VAR_ERROR]))
             break;
         case ERROR_UNAUTHORIZED:
             $alert = get_js_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID);
+            $_SESSION[VAR_REQUEST_CREDENTIALS] = TRUE;
             break;
         case ERROR_UNKNOWN_USERNAME:
             $alert = get_js_resource(RES_ALERT_UNKNOWN_USERNAME_ID);
@@ -130,6 +132,9 @@ if (isset($_SESSION[VAR_ERROR]))
             break;
         case ERROR_ACCOUNT_LOCKED:
             $alert = get_js_resource(RES_ALERT_ACCOUNT_LOCKED_ID);
+            break;
+        case ERROR_UNKNOWN_AUTH_TYPE:
+            $alert = get_js_resource(RES_ALERT_UNKNOWN_AUTH_TYPE_ID);
             break;
         default:
             $alert = get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID);

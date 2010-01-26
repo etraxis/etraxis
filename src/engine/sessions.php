@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -67,6 +67,7 @@
 //  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-12-05      new-862: Resistance to 'magic quotes'.
 //  Artem Rodygin           2009-12-08      new-865: [safe_mode] Warning: Invalid argument supplied for foreach()
+//  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -87,21 +88,22 @@ require_once('../dbo/accounts.php');
 /**#@+
  * Session variable.
  */
-define('VAR_ERROR',         'eTraxis_Error');
-define('VAR_USERID',        'eTraxis_UserID');
-define('VAR_USERNAME',      'eTraxis_UserName');
-define('VAR_FULLNAME',      'eTraxis_FullName');
-define('VAR_PASSWD_EXPIRE', 'eTraxis_PasswdExpire');
-define('VAR_ISADMIN',       'eTraxis_IsAdmin');
-define('VAR_LDAPUSER',      'eTraxis_LdapUser');
-define('VAR_PAGEROWS',      'eTraxis_PageRows');
-define('VAR_PAGEBKMS',      'eTraxis_PageBkms');
-define('VAR_DELIMITER',     'eTraxis_Delimiter');
-define('VAR_ENCODING',      'eTraxis_Encoding');
-define('VAR_LINE_ENDINGS',  'eTraxis_LineEndings');
-define('VAR_FSET',          'eTraxis_FiltersSet');
-define('VAR_VIEW',          'eTraxis_View');
-define('VAR_USE_FILTERS',   'eTraxis_UseFilter');
+define('VAR_ERROR',                 'eTraxis_Error');
+define('VAR_USERID',                'eTraxis_UserID');
+define('VAR_USERNAME',              'eTraxis_UserName');
+define('VAR_FULLNAME',              'eTraxis_FullName');
+define('VAR_PASSWD_EXPIRE',         'eTraxis_PasswdExpire');
+define('VAR_ISADMIN',               'eTraxis_IsAdmin');
+define('VAR_LDAPUSER',              'eTraxis_LdapUser');
+define('VAR_PAGEROWS',              'eTraxis_PageRows');
+define('VAR_PAGEBKMS',              'eTraxis_PageBkms');
+define('VAR_DELIMITER',             'eTraxis_Delimiter');
+define('VAR_ENCODING',              'eTraxis_Encoding');
+define('VAR_LINE_ENDINGS',          'eTraxis_LineEndings');
+define('VAR_FSET',                  'eTraxis_FiltersSet');
+define('VAR_VIEW',                  'eTraxis_View');
+define('VAR_USE_FILTERS',           'eTraxis_UseFilter');
+define('VAR_REQUEST_CREDENTIALS',   'eTraxis_RequestCredentials');
 /**#@-*/
 
 /**#@+

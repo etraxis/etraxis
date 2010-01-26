@@ -10,7 +10,7 @@
  */
 
 # eTraxis - Records tracking web-based system.
-# Copyright (C) 2003-2009 by Artem Rodygin
+# Copyright (C) 2003-2010 by Artem Rodygin
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ define('DATABASE_PASSWORD', '');
 /**#@+
  * See {@link http://www.etraxis.org/docs-security.php online documentation} for details.
  */
-define('AUTH_TYPE',           2);
+define('AUTH_TYPE',           1);
 define('MIN_PASSWORD_LENGTH', 6);
 define('LOCKS_COUNT',         3);
 define('LOCKS_TIMEOUT',       30);
