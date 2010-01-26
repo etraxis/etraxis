@@ -198,6 +198,7 @@
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //  Artem Rodygin           2009-11-30      bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
 //  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
+//  Artem Rodygin           2010-01-26      bug-891: Attachments are not deleted when record is deleted
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -1503,6 +1504,13 @@ function record_delete ($id)
 {
     debug_write_log(DEBUG_TRACE, '[record_delete]');
     debug_write_log(DEBUG_DUMP,  '[record_delete] $id = ' . $id);
+
+    $rs = dal_query('attachs/list.sql', $id);
+
+    while (($row = $rs->fetch()))
+    {
+        @unlink(ATTACHMENTS_PATH . $row['attachment_id']);
+    }
 
     dal_query('comments/delall.sql',      $id);
     dal_query('attachs/delall.sql',       $id);
