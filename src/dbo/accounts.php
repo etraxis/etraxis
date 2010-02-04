@@ -90,6 +90,7 @@
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
+//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -811,6 +812,48 @@ function account_set_view ($id, $view_id = NULL)
     }
 
     return NO_ERROR;
+}
+
+/**
+ * Exports accounts of specified group IDs to XML code (see also {@link template_import}).
+ *
+ * @param array Array with {@link http://www.etraxis.org/docs-schema.php#tbl_groups_group_id Group IDs}
+ * @return string Generated XML code for accounts found.
+ */
+function accounts_export ($groups)
+{
+    debug_write_log(DEBUG_TRACE, '[accounts_export]');
+
+    // Remove duplicated group IDs.
+    $groups = array_unique($groups);
+    // List members of all global and local project groups.
+    $rs = dal_query('groups/mamongs2.sql', implode(',', $groups));
+
+    $xml_a = NULL;
+
+    if ($rs->rows != 0)
+    {
+        $xml_a = "  <accounts>\n";
+
+        // Add XML code for all enumerated accounts.
+        while (($account = $rs->fetch()))
+        {
+            // Add XML code for general account information.
+            $xml_a .= sprintf("    <account username=\"%s\" fullname=\"%s\" email=\"%s\" description=\"%s\" type=\"%s\" admin=\"%s\" disabled=\"%s\" locale=\"%s\"/>\n",
+                              account_get_username($account['username'], FALSE),
+                              ustr2html($account['fullname']),
+                              ustr2html($account['email']),
+                              ustr2html($account['description']),
+                              ($account['is_ldapuser'] ? 'ldap' : 'local'),
+                              ($account['is_admin']    ? 'yes'  : 'no'),
+                              ($account['is_disabled'] ? 'yes'  : 'no'),
+                              get_html_resource(RES_LOCALE_ID, $account['locale']));
+        }
+
+        $xml_a .= "  </accounts>\n";
+    }
+
+    return $xml_a;
 }
 
 ?>
