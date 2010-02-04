@@ -514,7 +514,7 @@ $resource_turkish = array
     'Kayýtlý',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Sýkýþtýrma',
 );
 
 ?>

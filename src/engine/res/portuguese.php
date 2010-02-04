@@ -511,7 +511,7 @@ $resource_portuguese = array
     'Registrado',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Compressão',
 );
 
 ?>

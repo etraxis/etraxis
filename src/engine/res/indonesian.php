@@ -514,7 +514,7 @@ $resource_indonesian = array
     'Terdaftar',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Kompresi',
 );
 
 ?>

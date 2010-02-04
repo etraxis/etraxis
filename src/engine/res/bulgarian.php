@@ -512,7 +512,7 @@ $resource_bulgarian = array
     'Регистриран',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Компресия',
 );
 
 ?>

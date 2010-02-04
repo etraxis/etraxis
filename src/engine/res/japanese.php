@@ -504,7 +504,7 @@ $resource_japanese = array
     '登録済み',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    '圧縮',
 );
 
 ?>

@@ -536,7 +536,7 @@ $resource_german = array
     'Registriert',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Kompression',
 );
 
 ?>
