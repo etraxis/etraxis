@@ -2,18 +2,18 @@
 RATS REPORT
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-eTraxis version : 2.1.5
+eTraxis version : 2.1.6
 RATS version    : 2.0
 
-Total lines analyzed  : 40725
-Total vulnerabilities : 9 (2 high, 1 medium, 6 low)
-New vulnerabilities   : 1
+Total lines analyzed  : 41507
+Total vulnerabilities : 16 (5 high, 1 medium, 10 low)
+New vulnerabilities   : 8
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 VULNERABILITIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. src/dbo/records.php:1513: Low: unlink
+1. src/dbo/records.php:1514: Low: unlink
 
 @unlink(ATTACHMENTS_PATH . $row['attachment_id']);
 
@@ -25,7 +25,7 @@ detected, however one could still exist that could not be detected.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-2. src/dbo/records.php:2071: Low: unlink
+2. src/dbo/records.php:2079: Low: unlink
 
 @unlink(ATTACHMENTS_PATH . $attachment_id);
 
@@ -95,7 +95,7 @@ dangerous.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-8. src/engine/utility.php:579: High: mail
+8. src/engine/utility.php:580: High: mail
 
 return @mail($to, $subject, $message, $headers);
 
@@ -108,9 +108,93 @@ formatted and contain no unexpected characters or extra data.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-9. src/records/download.php:83: Low: readfile
+9. src/engine/utility.php:664: High: fopen
 
-readfile(ATTACHMENTS_PATH . $id);
+$fp = fopen($srcName, 'rb');
+
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+10. src/engine/utility.php:664: Low: fopen
+
+$fp = fopen($srcName, 'rb');
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+11. src/engine/utility.php:668: High: gzopen
+
+$zp = gzopen($dstName, 'wb6');
+
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+12. src/engine/utility.php:668: Low: gzopen
+
+$zp = gzopen($dstName, 'wb6');
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+13. src/engine/utility.php:672: Low: unlink
+
+unlink($srcName);
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+14. src/engine/utility.php:673: Low: rename
+
+rename($dstName, $srcName);
+
+A potential race condition vulnerability exists here. Normally a call to this
+function is vulnerable only when a match check precedes it. No check was
+detected, however one could still exist that could not be detected.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+15. src/engine/utility.php:685: High: gzopen
+
+$fp = gzopen($srcName, 'rb');
+
+Argument 1 to this function call should be checked to ensure that it does not
+come from an untrusted source without first verifying that it contains nothing
+dangerous.
+
+[FALSE POSITIVE]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+16. src/engine/utility.php:685: Low: gzopen
+
+$fp = gzopen($srcName, 'rb');
 
 A potential race condition vulnerability exists here. Normally a call to this
 function is vulnerable only when a match check precedes it. No check was
