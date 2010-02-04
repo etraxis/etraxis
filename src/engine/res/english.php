@@ -143,6 +143,7 @@
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
+//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 $resource_english = array
@@ -611,6 +612,8 @@ $resource_english = array
     'Mark as read',
     'Registered',
     'TLS',
+    /* 1350 */
+    'Compression',
 );
 
 ?>

@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2009 by Artem Rodygin
+//  Copyright (C) 2006-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 //  Artem Rodygin           2009-01-12      bug-784: Logged in user must be forwarded to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-12-07      bug-857: Problem with russian language and filetype.
+//  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -80,6 +81,6 @@ header('Cache-Control: private, must-revalidate');
 header('Content-type: ' . $attachment['attachment_type']);
 header('Content-Disposition: attachment; filename=' . $filename);
 
-readfile(ATTACHMENTS_PATH . $id);
+readgzfile(ATTACHMENTS_PATH . $id);
 
 ?>

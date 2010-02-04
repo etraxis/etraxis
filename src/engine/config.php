@@ -83,9 +83,10 @@ define('LANG_DEFAULT', 1000);
 /**#@+
  * See {@link http://www.etraxis.org/docs-attachments.php online documentation} for details.
  */
-define('ATTACHMENTS_ENABLED', 1);
-define('ATTACHMENTS_MAXSIZE', 2048);
-define('ATTACHMENTS_PATH',    '/usr/local/etraxis/bins/');
+define('ATTACHMENTS_ENABLED',    1);
+define('ATTACHMENTS_MAXSIZE',    2048);
+define('ATTACHMENTS_COMPRESSED', 1);
+define('ATTACHMENTS_PATH',       '/usr/local/etraxis/bins/');
 /**#@-*/
 
 #---------------------------------------------------------------------------------------------------

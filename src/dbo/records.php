@@ -200,6 +200,7 @@
 //  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
 //  Artem Rodygin           2010-01-26      bug-891: Attachments are not deleted when record is deleted
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
+//  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -2023,7 +2024,14 @@ function attachment_add ($id, $name, $attachfile)
 
     $attachment_id = $rs->fetch('attachment_id');
 
-    @move_uploaded_file($attachfile['tmp_name'], ATTACHMENTS_PATH . $attachment_id);
+    $attachment_localname = ATTACHMENTS_PATH . $attachment_id;
+
+    @move_uploaded_file($attachfile['tmp_name'], $attachment_localname);
+
+    if (ATTACHMENTS_COMPRESSED)
+    {
+        compressfile($attachment_localname);
+    }
 
     event_mail($event, $attachment_id, $name, $attachfile['type'], $attachfile['size']);
 
