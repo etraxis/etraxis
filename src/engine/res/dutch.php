@@ -514,7 +514,7 @@ $resource_dutch = array
     'Geregistreerd',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Compression',
 );
 
 ?>

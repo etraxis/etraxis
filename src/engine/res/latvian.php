@@ -573,10 +573,10 @@ $resource_latvian = array
     'vçrtîbu saraksts',
     'Izveidots',
     'Atzîmçt kâ izlasîtos',
-    'Registered',  // TBT
+    'Reìistrçta',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Kompresija',
 );
 
 ?>

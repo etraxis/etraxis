@@ -34,6 +34,7 @@
 //  Author                  Date            Description of modifications
 //--------------------------------------------------------------------------------------------------
 //  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
+//  Artem Rodygin           2010-02-04      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 $resource_italian = array
@@ -502,6 +503,8 @@ $resource_italian = array
     'Segna come letto',
     'Registrato',
     'TLS',
+    /* 1350 */
+    'Compressione',
 );
 
 ?>

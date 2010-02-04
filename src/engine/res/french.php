@@ -514,7 +514,7 @@ $resource_french = array
     'Inscrit',
     'TLS',
     /* 1350 */
-    'Compression',  // TBT
+    'Compression',
 );
 
 ?>
