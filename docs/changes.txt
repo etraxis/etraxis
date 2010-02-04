@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-5 (2010-01-26)
+
+    new-895: Improve UI of authentication page.
+
+Bug fixes integrated in MAIN_2-1-5 (2010-01-26)
+
+    bug-891: Attachments are not deleted when record is deleted
+    bug-892: English grammar correction
+    bug-894: Some pages don't work in Google Chrome.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-4 (2010-01-09)
 
     new-771: Multiple sort order.
