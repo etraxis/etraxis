@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -70,6 +70,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -77,6 +78,7 @@
  */
 require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
+require_once('../dbo/groups.php');
 require_once('../dbo/states.php');
 require_once('../dbo/events.php');
 require_once('../dbo/importer.php');
@@ -514,12 +516,14 @@ function template_registered_perm_set ($id, $perm)
  * Exports specified template to XML code (see also {@link template_import}).
  *
  * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be exported.
+ * @param bool $just_the_node Whether the function should return the XML code of the template node alone instead of a complete XML schema.
  * @return string Generated XML code for specified template.
  */
-function template_export ($id)
+function template_export ($id, $just_the_node = FALSE)
 {
     debug_write_log(DEBUG_TRACE, '[template_export]');
-    debug_write_log(DEBUG_DUMP,  '[template_export] $id = ' . $id);
+    debug_write_log(DEBUG_DUMP,  '[template_export] $id            = ' . $id);
+    debug_write_log(DEBUG_DUMP,  '[template_export] $just_the_node = ' . $just_the_node);
 
     // Allocation of permissions to XML code.
     $permissions = array
@@ -632,68 +636,15 @@ function template_export ($id)
     $xml_t .= state_export($id, $groups);
     $xml_t .= "  </template>\n";
 
+    if ($just_the_node)
+    {
+        return $xml_t;
+    }
+
     $xml_a = $xml_g = NULL;
 
-    // Remove duplicated group IDs.
-    $groups = array_unique($groups);
-
-    // List members of all global and local project groups.
-    $rs = dal_query('groups/mamongs2.sql', implode(',', $groups));
-
-    if ($rs->rows != 0)
-    {
-        $xml_a = "  <accounts>\n";
-
-        // Add XML code for all enumerated accounts.
-        while (($account = $rs->fetch()))
-        {
-            // Add XML code for general account information.
-            $xml_a .= sprintf("    <account username=\"%s\" fullname=\"%s\" email=\"%s\" description=\"%s\" type=\"%s\" admin=\"%s\" disabled=\"%s\" locale=\"%s\"/>\n",
-                              account_get_username($account['username'], FALSE),
-                              ustr2html($account['fullname']),
-                              ustr2html($account['email']),
-                              ustr2html($account['description']),
-                              ($account['is_ldapuser'] ? 'ldap' : 'local'),
-                              ($account['is_admin']    ? 'yes'  : 'no'),
-                              ($account['is_disabled'] ? 'yes'  : 'no'),
-                              get_html_resource(RES_LOCALE_ID, $account['locale']));
-        }
-
-        $xml_a .= "  </accounts>\n";
-    }
-
-    // List all global and local project groups.
-    $rs = dal_query('templates/glist.sql', implode(',', $groups));
-
-    if ($rs->rows != 0)
-    {
-        $xml_g = "  <groups>\n";
-
-        // Add XML code for all enumerated groups.
-        while (($group = $rs->fetch()))
-        {
-            // Add XML code for general group information.
-            $xml_g .= sprintf("    <group name=\"%s\" type=\"%s\" description=\"%s\">\n",
-                              ustr2html($group['group_name']),
-                              (is_null($group['project_id']) ? 'global' : 'local'),
-                              ustr2html($group['description']));
-
-            // List all members of this group.
-            $rsm = dal_query('groups/mamongs.sql', $group['group_id']);
-
-            // Add XML code for name and type of each account.
-            while (($account = $rsm->fetch()))
-            {
-                $xml_g .= sprintf("      <account type=\"%s\">%s</account>\n",
-                                  ($account['is_ldapuser'] ? 'ldap' : 'local'),
-                                  account_get_username($account['username'], FALSE));
-            }
-
-            $xml_g .= "    </group>\n";
-        }
-
-        $xml_g .= "  </groups>\n";
-    }
+    $xml_a = accounts_export($groups);
+    $xml_g = groups_export($groups);
 
     $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 

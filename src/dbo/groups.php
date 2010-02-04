@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -437,6 +438,54 @@ function group_set_permissions ($gid, $tid, $perm)
     dal_query('groups/gpadd.sql',    $gid, $tid, $perm);
 
     return NO_ERROR;
+}
+
+/**
+ * Exports groups of specified group IDs to XML code (see also {@link template_import}).
+ *
+ * @param array Array with {@link http://www.etraxis.org/docs-schema.php#tbl_groups_group_id Group IDs}
+ * @return string Generated XML code for specified group IDs.
+ */
+function groups_export ($groups)
+{
+    debug_write_log(DEBUG_TRACE, '[groups_export]');
+
+    // List all global and local project groups.
+    $rs = dal_query('templates/glist.sql', implode(',', $groups));
+
+    $xml_g = NULL;
+
+    if ($rs->rows != 0)
+    {
+        $xml_g = "  <groups>\n";
+
+        // Add XML code for all enumerated groups.
+        while (($group = $rs->fetch()))
+        {
+            // Add XML code for general group information.
+            $xml_g .= sprintf("    <group name=\"%s\" type=\"%s\" description=\"%s\">\n",
+                              ustr2html($group['group_name']),
+                              (is_null($group['project_id']) ? 'global' : 'local'),
+                              ustr2html($group['description']));
+
+            // List all members of this group.
+            $rsm = dal_query('groups/mamongs.sql', $group['group_id']);
+
+            // Add XML code for name and type of each account.
+            while (($account = $rsm->fetch()))
+            {
+                $xml_g .= sprintf("      <account type=\"%s\">%s</account>\n",
+                                  ($account['is_ldapuser'] ? 'ldap' : 'local'),
+                                  account_get_username($account['username'], FALSE));
+            }
+
+            $xml_g .= "    </group>\n";
+        }
+
+        $xml_g .= "  </groups>\n";
+    }
+
+    return $xml_g;
 }
 
 ?>

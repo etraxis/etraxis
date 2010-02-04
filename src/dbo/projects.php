@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -54,12 +54,16 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
  * Dependency.
  */
 require_once('../engine/engine.php');
+require_once('../dbo/templates.php');
+require_once('../dbo/accounts.php');
+require_once('../dbo/groups.php');
 /**#@-*/
 
 //--------------------------------------------------------------------------------------------------
@@ -296,6 +300,57 @@ function project_delete ($id)
     dal_query('projects/delete.sql',   $id);
 
     return NO_ERROR;
+}
+
+/**
+ * Exports specified project to XML code (see also {@link template_import}).
+ *
+ * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id Project ID} of project to be exported.
+ * @return string Generated XML code for specified project.
+ */
+function project_export ($id)
+{
+    debug_write_log(DEBUG_TRACE, '[project_export]');
+    debug_write_log(DEBUG_DUMP,  '[project_export] $id = ' . $id);
+
+    // Find the project.
+    $project = project_find($id);
+
+    if (!$project)
+    {
+        return NULL;
+    }
+
+    // Generate XML code for groups.
+    $sort = $page = NULL;
+    $rs_g = group_list($id, $sort, $page);
+    $groups = array();
+
+    while (($group = $rs_g->fetch()))
+    {
+        array_push($groups, $group['group_id']);
+    }
+
+    $xml_a = accounts_export($groups);
+    $xml_g = groups_export($groups);
+
+    // Generate XML code for templates.
+    $rs_t = template_list($id, $sort, $page);
+    $xml_t = NULL;
+
+    while (($template = $rs_t->fetch()))
+    {
+        $xml_t .= template_export($template["template_id"], true);
+    }
+
+    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+    // Merge accounts XML code, groups XML code, and template XML code.
+    $xml .= sprintf("<project name=\"%s\" description=\"%s\">\n{$xml_a}{$xml_g}{$xml_t}</project>\n",
+                    ustr2html($project['project_name']),
+                    ustr2html($project['description']));
+
+    return $xml;
 }
 
 ?>

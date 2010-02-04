@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -42,6 +42,7 @@
 //  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
+//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -92,8 +93,9 @@ if (get_user_level() == USER_LEVEL_ADMIN)
         $xml .= '<button disabled="true">' . get_html_resource(RES_DELETE_ID) . '</button>';
     }
 
-    $xml .= '<button url="gindex.php?id=' . $id . '">' . get_html_resource(RES_GROUPS_ID)    . '</button>'
-          . '<button url="tindex.php?id=' . $id . '">' . get_html_resource(RES_TEMPLATES_ID) . '</button>';
+    $xml .= '<button url="gindex.php?id='  . $id . '">' . get_html_resource(RES_GROUPS_ID)    . '</button>'
+          . '<button url="tindex.php?id='  . $id . '">' . get_html_resource(RES_TEMPLATES_ID) . '</button>'
+          . '<button url="pexport.php?id=' . $id . '">' . get_html_resource(RES_EXPORT_ID)    . '</button>';
 }
 
 $xml .= '<button url="metrics.php?id=' . $id . '">' . get_html_resource(RES_METRICS_ID) . '</button>'
