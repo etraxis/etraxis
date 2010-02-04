@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -64,6 +64,7 @@
 //  Rodrigo Brayner         2008-07-28      new-737: Brazilian Portuguese localization.
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
 //  Masayoshi Ootsuka       2009-10-19      new-850: Japanese localization.
+//  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -81,6 +82,7 @@ require_once('../engine/utility.php');
 require_once('../engine/res/english.php');
 require_once('../engine/res/french.php');
 require_once('../engine/res/german.php');
+require_once('../engine/res/italian.php');
 require_once('../engine/res/spanish.php');
 require_once('../engine/res/portuguese.php');
 require_once('../engine/res/dutch.php');
@@ -222,6 +224,7 @@ define('LOCALE_TIME_FORMAT', 7);
 global $resource_english;
 global $resource_french;
 global $resource_german;
+global $resource_italian;
 global $resource_spanish;
 global $resource_portuguese;
 global $resource_dutch;
@@ -304,6 +307,18 @@ $locale_info = array
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
+        LOCALE_TIME_FORMAT => 'H:i',
+    ),
+
+    // Italian
+    LANG_ITALIAN => array
+    (
+        LOCALE_RES_TABLE   => $resource_italian,
+        LOCALE_SUFFIX      => NULL,
+        LOCALE_ENCODING    => 'ISO-8859-1',
+        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'H:i',
     ),
 
