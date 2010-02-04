@@ -14,7 +14,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2009 by Artem Rodygin
+//  Copyright (C) 2006-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -106,6 +106,7 @@
 //  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
+//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 $resource_latvian = array
@@ -574,6 +575,8 @@ $resource_latvian = array
     'Atzîmçt kâ izlasîtos',
     'Registered',  // TBT
     'TLS',
+    /* 1350 */
+    'Compression',  // TBT
 );
 
 ?>

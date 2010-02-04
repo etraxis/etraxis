@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-07-29      new-832: Required LDAP attributes should be configurable.
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
+//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -133,8 +134,9 @@ $xml .= '</group>'
 
 if (ATTACHMENTS_ENABLED)
 {
-    $xml .= '<text label="' . get_html_resource(RES_MAX_SIZE_ID) . '">' . ustrprocess(get_html_resource(RES_KB_ID), ATTACHMENTS_MAXSIZE) . '</text>'
-          . '<text label="' . get_html_resource(RES_STORAGE_ID)  . '">' . ustr2html(ATTACHMENTS_PATH) . '</text>';
+    $xml .= '<text label="' . get_html_resource(RES_MAX_SIZE_ID)    . '">' . ustrprocess(get_html_resource(RES_KB_ID), ATTACHMENTS_MAXSIZE) . '</text>'
+          . '<text label="' . get_html_resource(RES_COMPRESSION_ID) . '">' . ustrtolower(get_html_resource(ATTACHMENTS_COMPRESSED ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>'
+          . '<text label="' . get_html_resource(RES_STORAGE_ID)     . '">' . ustr2html(ATTACHMENTS_PATH) . '</text>';
 }
 
 $xml .= '</group>'

@@ -14,7 +14,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2009 by Artem Rodygin
+//  Copyright (C) 2009-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 //  Author                  Date            Description of modifications
 //--------------------------------------------------------------------------------------------------
 //  Masayoshi Ootsuka       2009-10-19      new-850: Japanese localization.
+//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 $resource_japanese = array
@@ -502,6 +503,8 @@ $resource_japanese = array
     '全て既読にする',
     '登録済み',
     'TLS',
+    /* 1350 */
+    'Compression',  // TBT
 );
 
 ?>

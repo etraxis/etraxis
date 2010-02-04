@@ -11,7 +11,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
+//  Copyright (C) 2004-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -76,6 +76,7 @@
 //  Artem Rodygin           2009-10-13      bug-847: Email notification is broken when it's being sent with attachment.
 //  Sergey Zhdanov          2009-12-02      bug-857: Problem with russian language and filetype.
 //  Artem Rodygin           2009-12-07      bug-864: Cyrillic characters are corrupted in subject of notifications.
+//  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -561,7 +562,7 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
                                        'Content-Transfer-Encoding: base64',
                                        'Content-Disposition: attachment; filename="=?utf-8?b?' . base64_encode($attachment_name) . '?="',
                                        NULL,
-                                       chunk_split(base64_encode(file_get_contents(ATTACHMENTS_PATH . $attachment_id))),
+                                       chunk_split(base64_encode(gzfile_get_contents(ATTACHMENTS_PATH . $attachment_id, $attachment_size))),
                                        NULL,
                                        '--' . $boundary . '--'));
     }
@@ -649,6 +650,43 @@ function get_http_auth_realm ()
     }
 
     return $realm;
+}
+
+/**
+ * Gzips specified file, keeping same name.
+ *
+ * @param string $srcName Name of the input file.
+ */
+function compressfile ($srcName)
+{
+    $dstName = "{$srcName}.gz";
+
+    $fp = fopen($srcName, 'rb');
+    $data = fread($fp, filesize($srcName));
+    fclose($fp);
+
+    $zp = gzopen($dstName, 'wb6');
+    gzwrite($zp, $data);
+    gzclose($zp);
+
+    unlink($srcName);
+    rename($dstName, $srcName);
+}
+
+/**
+ * Equivalent of standard {@link http://www.php.net/file-get-contents file_get_contents} function for a gzipped attachment.
+ *
+ * @param string $srcName Name of the gzipped file.
+ * @param int $uncompressedSize Uncompressed size of the input file.
+ * @return string Uncompressed file contents.
+ */
+function gzfile_get_contents ($srcName, $uncompressedSize)
+{
+    $fp = gzopen($srcName, 'rb');
+    $data = gzread($fp, $uncompressedSize);
+    gzclose($fp);
+
+    return $data;
 }
 
 ?>
