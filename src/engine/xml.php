@@ -81,6 +81,7 @@
 //  Artem Rodygin           2009-12-06      bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
 //  Artem Rodygin           2009-12-27      bug-886: Ignored opening BBCode tags should not be appended with closing ones.
 //  Artem Rodygin           2010-01-01      bug-885: Other BBCode tags should be ignored inside the "[code]" one.
+//  Artem Rodygin           2010-02-01      bug-898: BBCode // Several "[code]" blocks are merged into one.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -397,7 +398,7 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
     }
 
     // Ignore all tags inside "[code]...[/code]".
-    $bbcode = preg_replace_callback('!\[code\](.*)\[/code\]!isu', 'bbcode_callback', $bbcode);
+    $bbcode = preg_replace_callback('!\[code\](.*?)\[/code\]!isu', 'bbcode_callback', $bbcode);
 
     // Transform "[url]...[/url]" and "[mail]...[/mail]" to "[url=...]...[/url]" and "[mail=...]...[/mail]".
     if ($mode == BBCODE_ALL)
