@@ -1002,7 +1002,9 @@
 <xsl:template match="hrow">
     <thead>
     <tr>
+    <td/>
     <xsl:apply-templates select="hcell"/>
+    <td/>
     </tr>
     </thead>
 </xsl:template>
@@ -1034,11 +1036,14 @@
 <xsl:template match="row">
     <tr valign="top">
     <xsl:if test="boolean(@url)">
+        <xsl:attribute name="class">
+        <xsl:text>row</xsl:text>
+        </xsl:attribute>
         <xsl:attribute name="onmouseover">
-        <xsl:text>this.className='row'</xsl:text>
+        <xsl:text>this.className='hrow'</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="onmouseout">
-        <xsl:text>this.className='null'</xsl:text>
+        <xsl:text>this.className='row'</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <a>
@@ -1047,7 +1052,9 @@
         <xsl:value-of select="@url"/>
         </xsl:attribute>
     </xsl:if>
+    <td class="left"/>
     <xsl:apply-templates select="cell"/>
+    <td class="right"/>
     </a>
     </tr>
 </xsl:template>

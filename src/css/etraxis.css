@@ -340,8 +340,33 @@ p.header {
 }
 
 tr.row {
-  background: #E1E8EF;
   cursor: pointer;
+}
+
+tr.row td {
+  border-bottom: #FBFBFB 1px solid;
+  border-top:    #FBFBFB 1px solid;
+}
+
+tr.row td.left {
+  border-left: #FBFBFB 1px solid;
+}
+
+tr.row td.right {
+  border-right: #FBFBFB 1px solid;
+}
+
+tr.hrow td {
+  border-bottom: #505050 1px solid;
+  border-top:    #505050 1px solid;
+}
+
+tr.hrow td.left {
+  border-left: #505050 1px solid;
+}
+
+tr.hrow td.right {
+  border-right: #505050 1px solid;
 }
 
 p.row,
