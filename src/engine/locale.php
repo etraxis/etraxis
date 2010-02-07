@@ -66,6 +66,7 @@
 //  Masayoshi Ootsuka       2009-10-19      new-850: Japanese localization.
 //  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
 //  Dan Stoenescu           2010-02-05      new-910: Romanian localization.
+//  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -719,6 +720,31 @@ function ustr2time ($str)
         debug_write_log(DEBUG_NOTICE, '[ustr2time] \'mb_eregi\' has returned FALSE value.');
         return -1;
     }
+}
+
+/**
+ * Returns array of supported locales sorted alphabetically.
+ *
+ * @return array Array with supported locales.
+ */
+function get_supported_locales_sorted ()
+{
+    debug_write_log(DEBUG_TRACE, '[get_supported_locales_sorted]');
+
+    global $locale_info;
+
+    $supported_locales = array_keys($locale_info);
+    $supported_locales_names = array();
+
+    foreach ($supported_locales as $item)
+    {
+        debug_write_log(DEBUG_DUMP,  '[get_supported_locales_sorted] $item = ' . $item);
+        $supported_locales_names[$item] = get_html_resource(RES_LOCALE_ID, $item);
+    }
+
+    asort($supported_locales_names);
+
+    return $supported_locales_names;
 }
 
 ?>
