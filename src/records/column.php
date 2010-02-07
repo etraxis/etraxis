@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2007-2009 by Artem Rodygin
+//  Copyright (C) 2007-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 //  Artem Rodygin           2009-01-24      bug-790: Can't move columns of custom view up and down in the list (Safari).
 //  Artem Rodygin           2009-03-05      bug-789: Custom fields show empty values in a view (PostgreSQL).
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2010-02-05      bug-912: IE6 buttons with arrows rendering problem
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -266,8 +267,8 @@ foreach ($columns as $column)
 }
 
 $xml .= '</listbox>'
-      . '<button action="rform.action=\'column.php?move=up&amp;id=\'+document.getElementById(\'rcolumns[]\').value; rform.submit();">' . ustr2html('%uarr;') . '</button>'
-      . '<button action="rform.action=\'column.php?move=dn&amp;id=\'+document.getElementById(\'rcolumns[]\').value; rform.submit();">' . ustr2html('%darr;') . '</button>'
+      . '<button action="rform.action=\'column.php?move=up&amp;id=\'+document.getElementById(\'rcolumns[]\').value; rform.submit();">' . ustr2html('%and;') . '</button>'
+      . '<button action="rform.action=\'column.php?move=dn&amp;id=\'+document.getElementById(\'rcolumns[]\').value; rform.submit();">' . ustr2html('%or;')  . '</button>'
       . '<nbsp/>'
       . '<button url="vcreate.php">' . get_html_resource(RES_SAVE_VIEW_ID) . '</button>'
       . '</group>'

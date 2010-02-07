@@ -823,8 +823,8 @@
         <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
     </xsl:if>
     <xsl:if test="not(boolean(@nobuttons = 'true'))">
-        <input class="button dualbutton" type="button" onclick="lform.submit();" value="%rarr;"/><br/>
-        <input class="button dualbutton" type="button" onclick="rform.submit();" value="%larr;"/><br/>
+        <input class="button dualbutton" type="button" onclick="lform.submit();" value="%gt;%gt;"/><br/>
+        <input class="button dualbutton" type="button" onclick="rform.submit();" value="%lt;%lt;"/><br/>
     </xsl:if>
     </td>
     <td valign="top">

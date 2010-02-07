@@ -118,6 +118,7 @@
 //  Artem Rodygin           2009-10-13      new-838: Disabled buttons would be better grayed out than invisible.
 //  Artem Rodygin           2009-10-13      bug-849: 'Clone' button is available when should be disabled.
 //  Artem Rodygin           2010-01-08      bug-888: Cannot enter full size in comment
+//  Artem Rodygin           2010-02-05      bug-912: IE6 buttons with arrows rendering problem
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -236,20 +237,20 @@ if (!is_null($prev_id) || !is_null($next_id))
 {
     if (!is_null($prev_id))
     {
-        $xml .= '<button url="view.php?id=' . $prev_id . '">%uarr;</button>';
+        $xml .= '<button url="view.php?id=' . $prev_id . '">%and;</button>';
     }
     else
     {
-        $xml .= '<button disabled="true">%uarr;</button>';
+        $xml .= '<button disabled="true">%and;</button>';
     }
 
     if (!is_null($next_id))
     {
-        $xml .= '<button url="view.php?id=' . $next_id . '">%darr;</button>';
+        $xml .= '<button url="view.php?id=' . $next_id . '">%or;</button>';
     }
     else
     {
-        $xml .= '<button disabled="true">%darr;</button>';
+        $xml .= '<button disabled="true">%or;</button>';
     }
 }
 
