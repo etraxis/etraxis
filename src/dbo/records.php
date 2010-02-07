@@ -201,6 +201,7 @@
 //  Artem Rodygin           2010-01-26      bug-891: Attachments are not deleted when record is deleted
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-02-06      bug-914: Change e-mail subject encoding
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -2332,7 +2333,8 @@ function record_subscribe ($record_id, $account_id, $subscribed_by)
         $to = $account['email'];
 
         $rec_id  = record_id($record_id, $record['template_prefix']);
-        $subject = "[{$record['project_name']}] {$rec_id}: " . update_references($record['subject'], BBCODE_OFF);
+        $subject = "[{$record['project_name']}] {$rec_id}: "
+                 . htmlspecialchars_decode(update_references($record['subject'], BBCODE_OFF), ENT_COMPAT);
 
         $event = array('event_id'    => NULL,
                        'event_type'  => EVENT_RECORD_SUBSCRIBED,
@@ -2395,7 +2397,8 @@ function record_unsubscribe ($record_id, $account_id, $subscribed_by)
                 $recipients = implode(', ', array_unique($to));
 
                 $rec_id  = record_id($record_id, $record['template_prefix']);
-                $subject = "[{$record['project_name']}] {$rec_id}: " . update_references($record['subject'], BBCODE_OFF);
+                $subject = "[{$record['project_name']}] {$rec_id}: "
+                         . htmlspecialchars_decode(update_references($record['subject'], BBCODE_OFF), ENT_COMPAT);
 
                 $event = array('event_id'    => NULL,
                                'event_type'  => EVENT_RECORD_UNSUBSCRIBED,
