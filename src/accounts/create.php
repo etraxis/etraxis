@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -37,6 +37,7 @@
 //  Artem Rodygin           2006-10-08      bug-327: /src/accounts/create.php: Global variable $locale_info was used before it was defined.
 //  Artem Rodygin           2008-11-09      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -147,13 +148,12 @@ $xml = '<page' . gen_xml_page_header(get_html_resource(RES_NEW_ACCOUNT_ID), isse
      . '<passbox label="' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="passwd2"     size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ACCOUNT_PASSWORD    . '"/>'
      . '<combobox label="' . get_html_resource(RES_LANGUAGE_ID) . '" name="locale">';
 
-global $locale_info;
-$supported_locales = array_keys($locale_info);
+$supported_locales = get_supported_locales_sorted();
 
-foreach ($supported_locales as $item)
+foreach ($supported_locales as $locale_id => $locale_name)
 {
-    $xml .= '<listitem value="' . $item . ($locale == $item ? '" selected="true">' : '">')
-          . get_html_resource(RES_LOCALE_ID, $item)
+    $xml .= '<listitem value="' . $locale_id . ($locale == $locale_id ? '" selected="true">' : '">')
+          . $locale_name
           . '</listitem>';
 }
 
