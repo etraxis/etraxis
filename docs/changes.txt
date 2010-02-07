@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-6 (2010-02-04)
+
+    new-896: Export the whole project
+    new-902: Transparent gzip compression of attachments
+    new-904: Italian localization.
+
+Bug fixes integrated in MAIN_2-1-6 (2010-02-04)
+
+    bug-898: BBCode // Several "[code]" blocks are merged into one.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-5 (2010-01-26)
 
     new-895: Improve UI of authentication page.
