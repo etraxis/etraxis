@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-6
-Release date : 2010-02-04
-Release size : 36924
+Release tag  : MAIN_2-1-7
+Release date : 2010-02-07
+Release size : 37441
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,33 +22,28 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/config/index.php
-[M] src/dbo/accounts.php
-[M] src/dbo/groups.php
-[M] src/dbo/projects.php
+[M] src/accounts/create.php
+[M] src/css/etraxis.css
+[M] src/dbo/events.php
 [M] src/dbo/records.php
-[M] src/dbo/templates.php
-[M] src/engine/config.php
+[M] src/engine/engine.xsl
 [M] src/engine/locale.php
 [M] src/engine/res/bulgarian.php
 [M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
 [M] src/engine/res/french.php
 [M] src/engine/res/german.php
 [M] src/engine/res/indonesian.php
-[A] src/engine/res/italian.php
+[M] src/engine/res/italian.php
 [M] src/engine/res/japanese.php
 [M] src/engine/res/latvian.php
 [M] src/engine/res/portuguese.php
-[M] src/engine/res/russian.php
+[A] src/engine/res/romanian.php
 [M] src/engine/res/spanish.php
 [M] src/engine/res/turkish.php
-[M] src/engine/resource.php
-[M] src/engine/utility.php
 [M] src/engine/xml.php
-[A] src/projects/pexport.php
-[M] src/projects/view.php
-[M] src/records/download.php
+[M] src/records/column.php
+[M] src/records/view.php
+[M] src/settings/index.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -64,6 +59,7 @@ Italian
 Japanese
 Latvian
 Portuguese (Brazil)
+Romanian
 Russian
 Spanish
 Turkish
@@ -92,9 +88,10 @@ new-853: LDAP // Active Directory groups.
 new-856: [SF2892425] Refferencing or quoting comments of others
 new-893: Expand All by default
 new-905: BBCode // Support for new [spoiler] tag.
-new-906: Improve [url] tag compatibility
 new-907: Improve [list] tag compatibility
 new-908: Add short name to the field
+new-911: New field type - project
+new-913: Resizable text boxes
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -107,14 +104,15 @@ bug-903: BBCode // Nested lists look broken.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-896: Export the whole project
-new-902: Transparent gzip compression of attachments
-new-904: Italian localization.
+new-906: Improve [url] tag compatibility (issue #14)
+new-910: Romanian localization.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-898: BBCode // Several "[code]" blocks are merged into one.
+bug-909: Languages list not sorted (issue #17)
+bug-912: IE6 buttons with arrows rendering problem (issue #19)
+bug-914: Change e-mail subject encoding (issue #21)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
