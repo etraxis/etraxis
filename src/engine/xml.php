@@ -82,6 +82,7 @@
 //  Artem Rodygin           2009-12-27      bug-886: Ignored opening BBCode tags should not be appended with closing ones.
 //  Artem Rodygin           2010-01-01      bug-885: Other BBCode tags should be ignored inside the "[code]" one.
 //  Artem Rodygin           2010-02-01      bug-898: BBCode // Several "[code]" blocks are merged into one.
+//  Artem Rodygin           2010-02-06      new-906: Improve [url] tag compatibility
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -197,9 +198,13 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
         '!(\[s\](.*?)\[/s\])!isu',
         '!(\[sub\](.*?)\[/sub\])!isu',
         '!(\[sup\](.*?)\[/sup\])!isu',
+        '!(\[color\=&quot;(.*?)&quot;\](.*?)\[/color\])!isu',
         '!(\[color\=(.*?)\](.*?)\[/color\])!isu',
+        '!(\[size\=&quot;(.*?)&quot;\](.*?)\[/size\])!isu',
         '!(\[size\=(.*?)\](.*?)\[/size\])!isu',
+        '!(\[font\=&quot;(.*?)&quot;\](.*?)\[/font\])!isu',
         '!(\[font\=(.*?)\](.*?)\[/font\])!isu',
+        '!(\[align\=&quot;(left|center|right)&quot;\](.*?)\[/align\])!isu',
         '!(\[align\=(left|center|right)\](.*?)\[/align\])!isu',
         '!(\[h1\](.*?)\[/h1\])!isu',
         '!(\[h2\](.*?)\[/h2\])!isu',
@@ -210,7 +215,11 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
         '!(\[list\](.*?)\[/list\])!isu',
         '!(\[ulist\](.*?)\[/ulist\])!isu',
         '!(\[li\](.*?)\[/li\])!isu',
+        '!(\[url\](.*?)\[/url\])!isu',
+        '!(\[url\=&quot;(.*?)&quot;\](.*?)\[/url\])!isu',
         '!(\[url\=(.*?)\](.*?)\[/url\])!isu',
+        '!(\[mail\](.*?)\[/mail\])!isu',
+        '!(\[mail\=&quot;(.*?)&quot;\](.*?)\[/mail\])!isu',
         '!(\[mail\=(.*?)\](.*?)\[/mail\])!isu',
         '!(\[code\](.*?)\[/code\])!isu',
         '!(\[quote\](.*?)\[/quote\])!isu',
@@ -229,8 +238,12 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [sub]    */ '$2',
             /* [sup]    */ '$2',
             /* [color]  */ '$3',
+            /* [color]  */ '$3',
+            /* [size]   */ '$3',
             /* [size]   */ '$3',
             /* [font]   */ '$3',
+            /* [font]   */ '$3',
+            /* [align]  */ '$3',
             /* [align]  */ '$3',
             /* [h1]     */ '$2',
             /* [h2]     */ '$2',
@@ -242,6 +255,10 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [ulist]  */ '$2',
             /* [li]     */ '$2',
             /* [url]    */ '$3',
+            /* [url]    */ '$3',
+            /* [url]    */ '$3',
+            /* [mail]   */ '$3',
+            /* [mail]   */ '$3',
             /* [mail]   */ '$3',
             /* [code]   */ '$2',
             /* [quote]  */ '$2',
@@ -257,8 +274,12 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [sub]    */ '$2',
             /* [sup]    */ '$2',
             /* [color]  */ '$3',
+            /* [color]  */ '$3',
+            /* [size]   */ '$1',
             /* [size]   */ '$1',
             /* [font]   */ '$1',
+            /* [font]   */ '$1',
+            /* [align]  */ '$1',
             /* [align]  */ '$1',
             /* [h1]     */ '$1',
             /* [h2]     */ '$1',
@@ -270,6 +291,10 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [ulist]  */ '$1',
             /* [li]     */ '$1',
             /* [url]    */ '$1',
+            /* [url]    */ '$1',
+            /* [url]    */ '$1',
+            /* [mail]   */ '$1',
+            /* [mail]   */ '$1',
             /* [mail]   */ '$1',
             /* [code]   */ '$1',
             /* [quote]  */ '$1',
@@ -285,8 +310,12 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [sub]    */ '<sub>$2</sub>',
             /* [sup]    */ '<sup>$2</sup>',
             /* [color]  */ '<span style="color: $2;">$3</span>',
+            /* [color]  */ '<span style="color: $2;">$3</span>',
+            /* [size]   */ '$1',
             /* [size]   */ '$1',
             /* [font]   */ '$1',
+            /* [font]   */ '$1',
+            /* [align]  */ '$1',
             /* [align]  */ '$1',
             /* [h1]     */ '$1',
             /* [h2]     */ '$1',
@@ -298,6 +327,10 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [ulist]  */ '$1',
             /* [li]     */ '$1',
             /* [url]    */ '$1',
+            /* [url]    */ '$1',
+            /* [url]    */ '$1',
+            /* [mail]   */ '$1',
+            /* [mail]   */ '$1',
             /* [mail]   */ '$1',
             /* [code]   */ '$1',
             /* [quote]  */ '$1',
@@ -313,8 +346,12 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [sub]    */ '<sub>$2</sub>',
             /* [sup]    */ '<sup>$2</sup>',
             /* [color]  */ '<span style="color: $2;">$3</span>',
+            /* [color]  */ '<span style="color: $2;">$3</span>',
+            /* [size]   */ '<span style="font-size: $2;">$3</span>',
             /* [size]   */ '<span style="font-size: $2;">$3</span>',
             /* [font]   */ '<span style="font-family: $2;">$3</span>',
+            /* [font]   */ '<span style="font-family: $2;">$3</span>',
+            /* [align]  */ '<div style="text-align: $2;">$3</div>',
             /* [align]  */ '<div style="text-align: $2;">$3</div>',
             /* [h1]     */ '<h1>$2</h1>',
             /* [h2]     */ '<h2>$2</h2>',
@@ -325,7 +362,11 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [list]   */ '<ol>$2</ol>',
             /* [ulist]  */ '<ul>$2</ul>',
             /* [li]     */ '<li>$2</li>',
+            /* [url]    */ '<url address="$2">$2</url>',
             /* [url]    */ '<url address="$2">$3</url>',
+            /* [url]    */ '<url address="$2">$3</url>',
+            /* [mail]   */ '<url address="mailto:$2">$2</url>',
+            /* [mail]   */ '<url address="mailto:$2">$3</url>',
             /* [mail]   */ '<url address="mailto:$2">$3</url>',
             /* [code]   */ '<pre style="display: inline">$2</pre>',
             /* [quote]  */ '<q>$2</q>',
@@ -399,13 +440,6 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
 
     // Ignore all tags inside "[code]...[/code]".
     $bbcode = preg_replace_callback('!\[code\](.*?)\[/code\]!isu', 'bbcode_callback', $bbcode);
-
-    // Transform "[url]...[/url]" and "[mail]...[/mail]" to "[url=...]...[/url]" and "[mail=...]...[/mail]".
-    if ($mode == BBCODE_ALL)
-    {
-        $bbcode = preg_replace('!\[url\](.*?)\[/url\]!isu',   '[url=$1]$1[/url]',   $bbcode);
-        $bbcode = preg_replace('!\[mail\](.*?)\[/mail\]!isu', '[mail=$1]$1[/mail]', $bbcode);
-    }
 
     // Put zero byte before and after each BBCode tag, as a tag border.
     $bbcode = preg_replace($tags_open,  "\0\$1\0", $bbcode);
