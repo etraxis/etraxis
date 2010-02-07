@@ -65,6 +65,7 @@
 //  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
 //  Masayoshi Ootsuka       2009-10-19      new-850: Japanese localization.
 //  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
+//  Dan Stoenescu           2010-02-05      new-910: Romanian localization.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -89,6 +90,7 @@ require_once('../engine/res/dutch.php');
 require_once('../engine/res/latvian.php');
 require_once('../engine/res/russian.php');
 require_once('../engine/res/bulgarian.php');
+require_once('../engine/res/romanian.php');
 require_once('../engine/res/japanese.php');
 require_once('../engine/res/turkish.php');
 require_once('../engine/res/indonesian.php');
@@ -231,6 +233,7 @@ global $resource_dutch;
 global $resource_latvian;
 global $resource_russian;
 global $resource_bulgarian;
+global $resource_romanian;
 global $resource_japanese;
 global $resource_turkish;
 global $resource_indonesian;
@@ -391,6 +394,18 @@ $locale_info = array
         LOCALE_PATH2FONTS  => 'win1251',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.n.Y',
+        LOCALE_TIME_FORMAT => 'H:i',
+    ),
+
+    // Romanian
+    LANG_ROMANIAN => array
+    (
+        LOCALE_RES_TABLE   => $resource_romanian,
+        LOCALE_SUFFIX      => NULL,
+        LOCALE_ENCODING    => 'ISO-8859-1',
+        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'H:i',
     ),
 
