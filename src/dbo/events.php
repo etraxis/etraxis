@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -102,6 +102,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-12-05      new-863: Resistance to 'safe mode'.
+//  Artem Rodygin           2010-02-06      bug-914: Change e-mail subject encoding
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -625,7 +626,8 @@ function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $at
         {
             $recipients = implode(', ', $to);
             $rec_id     = record_id($record['record_id'], $record['template_prefix']);
-            $subject    = "[{$event['project_name']}] {$rec_id}: " . update_references($record['subject'], BBCODE_OFF);
+            $subject    = "[{$event['project_name']}] {$rec_id}: "
+                        . htmlspecialchars_decode(update_references($record['subject'], BBCODE_OFF), ENT_COMPAT);
             $message    = generate_message($record, $event, $locale);
 
             if (EMAIL_NOTIFICATIONS_ENABLED)
