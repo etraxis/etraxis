@@ -119,6 +119,7 @@
 //  Artem Rodygin           2009-10-13      bug-849: 'Clone' button is available when should be disabled.
 //  Artem Rodygin           2010-01-08      bug-888: Cannot enter full size in comment
 //  Artem Rodygin           2010-02-05      bug-912: IE6 buttons with arrows rendering problem
+//  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -607,7 +608,7 @@ if (can_comment_be_added($record, $permissions))
 {
     $xml .= '<form name="comment" action="comment.php?id=' . $id . '">'
           . '<group>'
-          . '<textbox label="' . get_html_resource(RES_COMMENT_ID) . '" form="comment" name="comment" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_HEIGHT . '" maxlen="' . MAX_COMMENT_BODY . '"></textbox>'
+          . '<textbox label="' . get_html_resource(RES_COMMENT_ID) . '" form="comment" name="comment" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '"></textbox>'
           . '</group>'
           . '<button default="true">' . get_html_resource(RES_ADD_COMMENT_ID) . '</button>';
 

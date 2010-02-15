@@ -1,7 +1,20 @@
-function onTextBox (control, maxlen)
+function onTextBox (control, maxlen, resizeable, minrows)
 {
-    if (eval('document.'+control).value.length > maxlen)
+    var textbox = eval('document.'+control);
+
+    if (textbox.value.length > maxlen)
     {
-        eval('document.'+control).value = eval('document.'+control).value.substring(0,maxlen);
+        textbox.value = textbox.value.substring(0,maxlen);
+    }
+
+    if (resizeable == true)
+    {
+        var curLineNum = textbox.value.replace((new RegExp(".{"+textbox.cols+"}","g")),"\n").split("\n").length;
+
+        if ( (curLineNum > 0) && (curLineNum != textbox.rows) )
+            if ( curLineNum > minrows - 1 )
+                textbox.rows = curLineNum;
+            else
+                textbox.rows = minrows;
     }
 }

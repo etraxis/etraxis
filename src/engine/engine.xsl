@@ -764,6 +764,11 @@
         <xsl:attribute name="readonly">
         </xsl:attribute>
     </xsl:if>
+    <xsl:if test="boolean(@resizeable = 'true')">
+        <xsl:attribute name="style">
+        <xsl:text>overflow-y:hidden;</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:attribute name="onchange">
         <xsl:text>onTextBox('</xsl:text>
         <xsl:if test="boolean(@form)">
@@ -776,6 +781,15 @@
         <xsl:value-of select="@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
+        <xsl:text>,</xsl:text>
+        <xsl:if test="boolean(@resizeable)">
+            <xsl:value-of select="@resizeable"/>
+        </xsl:if>
+        <xsl:if test="not(boolean(@resizeable))">
+            <xsl:text>false</xsl:text>
+        </xsl:if>
+        <xsl:text>,</xsl:text>
+        <xsl:value-of select="@height"/>
         <xsl:text>);</xsl:text>
     </xsl:attribute>
     <xsl:attribute name="onkeydown">
@@ -790,6 +804,15 @@
         <xsl:value-of select="@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
+        <xsl:text>,</xsl:text>
+        <xsl:if test="boolean(@resizeable)">
+            <xsl:value-of select="@resizeable"/>
+        </xsl:if>
+        <xsl:if test="not(boolean(@resizeable))">
+            <xsl:text>false</xsl:text>
+        </xsl:if>
+        <xsl:text>,</xsl:text>
+        <xsl:value-of select="@height"/>
         <xsl:text>);</xsl:text>
     </xsl:attribute>
     <xsl:attribute name="onkeyup">
@@ -804,6 +827,15 @@
         <xsl:value-of select="@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
+        <xsl:text>,</xsl:text>
+        <xsl:if test="boolean(@resizeable)">
+            <xsl:value-of select="@resizeable"/>
+        </xsl:if>
+        <xsl:if test="not(boolean(@resizeable))">
+            <xsl:text>false</xsl:text>
+        </xsl:if>
+        <xsl:text>,</xsl:text>
+        <xsl:value-of select="@height"/>
         <xsl:text>);</xsl:text>
     </xsl:attribute>
     <xsl:value-of select="."/>
