@@ -35,6 +35,7 @@
 //--------------------------------------------------------------------------------------------------
 //  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
 //  Artem Rodygin           2010-02-04      new-902: Transparent gzip compression of attachments
+//  Giacomo Giustozzi       2010-02-08      bug-916: Italian localization fixes
 //--------------------------------------------------------------------------------------------------
 
 $resource_italian = array
@@ -231,8 +232,8 @@ $resource_italian = array
     /* 1100 */
     'Storia',
     'Posponi',
-    'Resume',
-    'Assign',
+    'Riprendi',
+    'Assegna',
     'Cambia stato',
     'Timestamp',
     'Originatore',
@@ -368,7 +369,7 @@ $resource_italian = array
     'Abilitato',
     'Disabilitato',
     '%1 minuri',
-    'abilitazione alla sola visualizzare dei record',
+    'abilitazione alla sola visualizzazione dei record',
     'Seleziona tutto',
     'Autore',
     /* 1230 */
@@ -478,7 +479,7 @@ $resource_italian = array
     'PCRE di ricerca per modificare il valore',
     'PCRE di sostituzione per modificare il valore',
     'Stato successivo predefinito',
-    'Posponi stato',
+    'Record posposti',
     'mostra tutti',
     'mostra solo attivi',
     /* 1330 */
