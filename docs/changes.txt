@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-7 (2010-02-07)
+
+    new-906: Improve [url] tag compatibility (issue #14)
+    new-910: Romanian localization.
+
+Bug fixes integrated in MAIN_2-1-7 (2010-02-07)
+
+    bug-909: Languages list not sorted (issue #17)
+    bug-912: IE6 buttons with arrows rendering problem (issue #19)
+    bug-914: Change e-mail subject encoding (issue #21)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-6 (2010-02-04)
 
     new-896: Export the whole project
