@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -59,6 +59,7 @@
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -219,7 +220,7 @@ while (($row = $rs->fetch()))
 
                 case FIELD_TYPE_MULTILINED:
 
-                    $xml .= '<textbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_HEIGHT . '" maxlen="' . MAX_FIELD_MULTILINED . '">' . ustr2html(try_request($name, $value)) . '</textbox>';
+                    $xml .= '<textbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">' . ustr2html(try_request($name, $value)) . '</textbox>';
                     $flag = TRUE;
                     break;
 

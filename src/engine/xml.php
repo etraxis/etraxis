@@ -83,6 +83,7 @@
 //  Artem Rodygin           2010-01-01      bug-885: Other BBCode tags should be ignored inside the "[code]" one.
 //  Artem Rodygin           2010-02-01      bug-898: BBCode // Several "[code]" blocks are merged into one.
 //  Artem Rodygin           2010-02-06      new-906: Improve [url] tag compatibility
+//  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -112,6 +113,7 @@ define('HTML_EDITBOX_SIZE_LONG',   50);
 define('HTML_LISTBOX_SIZE',        10);
 define('HTML_TEXTBOX_WIDTH',       58);
 define('HTML_TEXTBOX_HEIGHT',      20);
+define('HTML_TEXTBOX_MIN_HEIGHT',  2);
 /**#@-*/
 
 /**

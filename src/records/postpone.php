@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -49,6 +49,7 @@
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -147,7 +148,7 @@ $xml = '<page' . gen_xml_page_header(record_id($id, $record['template_prefix']),
      . '<form name="mainform" action="postpone.php?id=' . $id . '">'
      . '<group>'
      . '<editbox label="' . sprintf('%s (%s)', get_html_resource(RES_DUEDATE_ID), get_html_resource(RES_YYYY_MM_DD_ID)) . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="duedate" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">' . ustr2html(get_date($duedate)) . '</editbox>'
-     . '<textbox label="' . get_html_resource(RES_COMMENT_ID) . '" name="comment" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_HEIGHT . '" maxlen="' . MAX_COMMENT_BODY . '">' . ustr2html($comment) . '</textbox>'
+     . '<textbox label="' . get_html_resource(RES_COMMENT_ID) . '" name="comment" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">' . ustr2html($comment) . '</textbox>'
      . '</group>'
      . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
