@@ -68,6 +68,7 @@
 //  Artem Rodygin           2009-07-29      bug-825: Database gets empty strings instead of NULL values.
 //  Artem Rodygin           2009-07-29      new-833: Default responsible should be current user, when possible.
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
+//  Giacomo Giustozzi       2010-02-12      new-918: Add Subject to Change State page
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -215,6 +216,9 @@ $xml = '<page' . gen_xml_page_header(record_id($id, $record['template_prefix']),
      . '</path>'
      . '<content>'
      . '<form name="mainform" action="state.php?id=' . $id . '&amp;state=' . $state_id . '">'
+     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
+     . '<text label="' . get_html_resource(RES_SUBJECT_ID) . '">' . update_references($record['subject'], BBCODE_MINIMUM) . '</text>'
+     . '</group>'
      . '<group title="' . ustr2html($state['state_name']) . '">';
 
 if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
