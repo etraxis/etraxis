@@ -120,6 +120,7 @@
 //  Artem Rodygin           2010-01-08      bug-888: Cannot enter full size in comment
 //  Artem Rodygin           2010-02-05      bug-912: IE6 buttons with arrows rendering problem
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
+//  Artem Rodygin           2010-02-14      new-919: Show record assignments on record detail page
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -131,6 +132,7 @@ require_once('../dbo/states.php');
 require_once('../dbo/fields.php');
 require_once('../dbo/values.php');
 require_once('../dbo/records.php');
+require_once('../dbo/events.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
@@ -513,6 +515,8 @@ else
     $xml .= '<button disabled="true">' . get_html_resource(RES_REMOVE_SUBRECORD_ID) . '</button>';
 }
 
+$responsible = FALSE;
+
 $rs = dal_query('records/elist2.sql', $id);
 
 // going through the list of all events
@@ -535,6 +539,10 @@ while (($row = $rs->fetch()))
                   . '</group>';
         }
     }
+    elseif ($row['event_type'] == EVENT_RECORD_ASSIGNED)
+    {
+        $responsible = account_find($row['event_param']);
+    }
     else
     {
         $rsf = dal_query('records/flist2.sql',
@@ -552,11 +560,12 @@ while (($row = $rs->fetch()))
 
         $xml .= '<group id="' . $row['event_id'] . '" title="' . ustr2html($row['state_name']) . ' - ' . get_datetime($row['event_time']) . ' - ' . ustr2html($row['fullname']) . ' (' . ustr2html(account_get_username($row['username'])) . ')">';
 
-        if ($rsf->rows == 0)
-        {
-            $xml .= '<text>' . get_html_resource(RES_NO_FIELDS_ID) . '</text>';
-        }
-        else
+        $xml .= '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">'
+              . ($responsible ? ustr2html($responsible['fullname']) . ' (' . ustr2html(account_get_username($responsible['username'])) . ')'
+                              : get_html_resource(RES_NONE_ID))
+              . '</text>';
+
+        if ($rsf->rows != 0)
         {
             while (($row = $rsf->fetch()))
             {
@@ -587,6 +596,11 @@ while (($row = $rs->fetch()))
         }
 
         $xml .= '</group>';
+
+        if ($row['responsible'] == STATE_RESPONSIBLE_REMOVE)
+        {
+            $responsible = FALSE;
+        }
     }
 }
 
