@@ -3,7 +3,7 @@ RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Release tag  : MAIN_2-1-9
-Release date : 2010-04-07
+Release date : 2010-04-08
 Release size : 37516
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -23,6 +23,7 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [M] src/engine/config.php
+[M] src/engine/engine.xsl
 [M] src/engine/sessions.php
 [M] src/engine/xml.php
 [M] src/records/view.php

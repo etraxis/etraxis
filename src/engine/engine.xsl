@@ -232,7 +232,7 @@
         </p>
     </td>
     </xsl:if>
-    <td class="text">
+    <td class="text" width="100%">
     <xsl:apply-templates/>
     </td>
     </tr>
@@ -1203,7 +1203,7 @@
 
 <xsl:template match="comment">
     <tr>
-    <td class="comment">
+    <td class="comment" colspan="2">
     <xsl:if test="boolean(@confidential)">
     <p class="hot">
     <xsl:value-of select="@confidential"/>
