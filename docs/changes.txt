@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-8 (2010-02-15)
+
+    new-913: Resizable text boxes (issue #20)
+    new-918: Add Subject to Change State page (issue #25)
+    new-919: Show record assignments on record detail page (issue #26)
+
+Bug fixes integrated in MAIN_2-1-8 (2010-02-15)
+
+    bug-916: Italian localization fixes (issue #23)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-7 (2010-02-07)
 
     new-906: Improve [url] tag compatibility (issue #14)
