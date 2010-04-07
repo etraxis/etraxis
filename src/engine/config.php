@@ -63,7 +63,7 @@ define('MIN_PASSWORD_LENGTH', 6);
 define('LOCKS_COUNT',         3);
 define('LOCKS_TIMEOUT',       30);
 define('PASSWORD_EXPIRATION', 90);
-define('SESSION_EXPIRE',      1440);
+define('SESSION_EXPIRE',      120);
 /**#@-*/
 
 #---------------------------------------------------------------------------------------------------

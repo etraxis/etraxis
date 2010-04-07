@@ -68,6 +68,7 @@
 //  Artem Rodygin           2009-12-05      new-862: Resistance to 'magic quotes'.
 //  Artem Rodygin           2009-12-08      new-865: [safe_mode] Warning: Invalid argument supplied for foreach()
 //  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
+//  Artem Rodygin           2010-04-07      new-926: Inactivity Logout
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -473,6 +474,8 @@ function init_page ($guest_is_allowed = FALSE)
             $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];
             $_SESSION[VAR_FSET]          = $account['fset_id'];
             $_SESSION[VAR_VIEW]          = $account['view_id'];
+
+            dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
 
             if ((strpos($_SERVER['PHP_SELF'], '/chpasswd/index.php') === FALSE            ) &&
                 (PASSWORD_EXPIRATION != 0                                                 ) &&
