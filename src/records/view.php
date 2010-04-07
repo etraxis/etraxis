@@ -533,6 +533,10 @@ while (($row = $rs->fetch()))
             $comments_to_show[] = $row['event_id'];
 
             $xml .= '<group id="' . $row['event_id'] . '" title="' . get_html_resource(RES_COMMENT_ID) . ' - ' . get_datetime($row['event_time']) . ' - ' . ustr2html($row['fullname']) . ' (' . ustr2html(account_get_username($row['username'])) . ')">'
+                  . '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">'
+                  . ($responsible ? ustr2html($responsible['fullname']) . ' (' . ustr2html(account_get_username($responsible['username'])) . ')'
+                                  : get_html_resource(RES_NONE_ID))
+                  . '</text>'
                   . ($comment['is_confidential'] ? '<comment confidential="' . get_html_resource(RES_CONFIDENTIAL_ID) . '">' : '<comment>')
                   . update_references($comment['comment_body'])
                   . '</comment>'
@@ -545,6 +549,18 @@ while (($row = $rs->fetch()))
     }
     else
     {
+        if ($row['responsible'] == STATE_RESPONSIBLE_REMOVE)
+        {
+            $responsible = FALSE;
+        }
+        elseif ($row['responsible'] == STATE_RESPONSIBLE_ASSIGN)
+        {
+            if (($responsible_id = $rs->fetch('event_param')))
+            {
+                $responsible = account_find($responsible_id);
+            }
+        }
+
         $rsf = dal_query('records/flist2.sql',
                          $id,
                          $row['event_id'],
@@ -596,11 +612,6 @@ while (($row = $rs->fetch()))
         }
 
         $xml .= '</group>';
-
-        if ($row['responsible'] == STATE_RESPONSIBLE_REMOVE)
-        {
-            $responsible = FALSE;
-        }
     }
 }
 

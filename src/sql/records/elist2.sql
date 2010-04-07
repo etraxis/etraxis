@@ -53,4 +53,4 @@ where
 order by
 
     event_time asc,
-    event_type asc
+    event_type desc
