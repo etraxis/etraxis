@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-8
-Release date : 2010-02-15
-Release size : 37501
+Release tag  : MAIN_2-1-9
+Release date : 2010-04-07
+Release size : 37516
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,15 +22,11 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/engine.xsl
-[M] src/engine/res/italian.php
+[M] src/engine/config.php
+[M] src/engine/sessions.php
 [M] src/engine/xml.php
-[M] src/records/create.php
-[M] src/records/modify.php
-[M] src/records/postpone.php
-[M] src/records/state.php
 [M] src/records/view.php
-[M] src/scripts/textbox.js
+[A] src/sql/accounts/settoken2.sql
 [M] src/sql/records/elist2.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -74,32 +70,34 @@ new-844: [SF2848827] Display records with past deadlines in red
 new-852: LDAP // Email should not be mandatory.
 new-853: LDAP // Active Directory groups.
 new-856: [SF2892425] Refferencing or quoting comments of others
-new-893: Expand All by default
-new-905: BBCode // Support for new [spoiler] tag.
-new-907: Improve [list] tag compatibility
-new-908: Add short name to the field
-new-911: New field type - project
-new-917: Add description/tooltip to fields
+new-893: Expand All by default (issue #7)
+new-905: BBCode // Support for new [spoiler] tag. (issue #13)
+new-907: Improve [list] tag compatibility (issue #14)
+new-908: Add short name to the field (issue #15)
+new-911: New field type - project (issue #18)
+new-917: Add description/tooltip to fields (issue #24)
+new-921: State with required attachment (issue #10)
+new-922: Greater Flexibility with emails. (issue #29)
+new-923: Support for subversion (issue #32)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 bug-696: Values of restricted fields are still accessible via custom view.
-bug-903: BBCode // Nested lists look broken.
+bug-903: BBCode // Nested lists look broken. (issue #11)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-913: Resizable text boxes (issue #20)
-new-918: Add Subject to Change State page (issue #25)
 new-919: Show record assignments on record detail page (issue #26)
+new-926: Inactivity Logout (issue #34)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-916: Italian localization fixes (issue #23)
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
