@@ -77,6 +77,7 @@
 //  Sergey Zhdanov          2009-12-02      bug-857: Problem with russian language and filetype.
 //  Artem Rodygin           2009-12-07      bug-864: Cyrillic characters are corrupted in subject of notifications.
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-20      new-928: Inline state changing.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -427,6 +428,24 @@ function ustr_getcsv ($str, $delimiter = ',', $enclosure = '"')
 function bool2sql ($value)
 {
     return ($value ? 1 : 0);
+}
+
+/**
+ * Parses JSON string and push retrieved values into global $_REQUEST array.
+ *
+ * @param string $json Input JSON string.
+ */
+function json2request ($json)
+{
+    $data = json_decode($json, true);
+
+    foreach ($data as $key => $value)
+    {
+        if (strlen($value) != 0)
+        {
+            $_REQUEST[$key] = $value;
+        }
+    }
 }
 
 /**

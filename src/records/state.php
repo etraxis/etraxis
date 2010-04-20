@@ -69,6 +69,7 @@
 //  Artem Rodygin           2009-07-29      new-833: Default responsible should be current user, when possible.
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //  Giacomo Giustozzi       2010-02-12      new-918: Add Subject to Change State page
+//  Artem Rodygin           2010-04-19      new-928: Inline state changing.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -131,9 +132,11 @@ if ($rs->rows == 0)
     exit;
 }
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'fieldsform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
+
+    json2request($HTTP_RAW_POST_DATA);
 
     switch ($state['responsible'])
     {
@@ -169,35 +172,41 @@ if (try_request('submitted') == 'mainform')
     switch ($error)
     {
         case ERROR_INCOMPLETE_FORM:
-            $alert = get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
+
         case ERROR_INVALID_INTEGER_VALUE:
-            $alert = get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID);
+            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
+
         case ERROR_INVALID_DATE_VALUE:
-            $alert = get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID);
+            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
             break;
+
         case ERROR_INVALID_TIME_VALUE:
-            $alert = get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID);
+            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
             break;
+
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            $alert = ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']);
+            header('HTTP/1.0 200 ' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['MIN_FIELD_INTEGER']);
             unset($_SESSION['MAX_FIELD_INTEGER']);
             break;
+
         case ERROR_RECORD_NOT_FOUND:
-            $alert = get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID);
+            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
             break;
+
         case ERROR_VALUE_FAILS_REGEX_CHECK:
-            $alert = ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']);
+            header('HTTP/1.0 200 ' . ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['FIELD_VALUE']);
             break;
-        default:
-            $alert = NULL;
+
+        default: ;  // nop
     }
 }
 else
@@ -207,18 +216,7 @@ else
     $responsible_id = NULL;
 }
 
-$xml = '<page' . gen_xml_page_header(record_id($id, $record['template_prefix']), isset($alert) ? $alert : NULL) . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . gen_xml_rec_root(try_cookie(COOKIE_SEARCH_MODE, FALSE))
-     . '<pathitem url="view.php?id='  . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</pathitem>'
-     . '<pathitem url="state.php?id=' . $id . '&amp;state=' . $state_id . '">' . get_html_resource(RES_CHANGE_STATE_ID) . '</pathitem>'
-     . '</path>'
-     . '<content>'
-     . '<form name="mainform" action="state.php?id=' . $id . '&amp;state=' . $state_id . '">'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-     . '<text label="' . get_html_resource(RES_SUBJECT_ID) . '">' . update_references($record['subject'], BBCODE_MINIMUM) . '</text>'
-     . '</group>'
+$xml = '<form name="fieldsform" action="javascript:submitFields()">'
      . '<group title="' . ustr2html($state['state_name']) . '">';
 
 if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
@@ -318,7 +316,7 @@ else
 
             case FIELD_TYPE_CHECKBOX:
 
-                $xml .= '<checkbox name="' . $name . ((try_request('submitted') == 'mainform' ? isset($_REQUEST[$name]) : $value) ? '" checked="true">' : '">') . ustr2html($row['field_name']) . '</checkbox>';
+                $xml .= '<checkbox name="' . $name . ((try_request('submitted') == 'fieldsform' ? isset($_REQUEST[$name]) : $value) ? '" checked="true">' : '">') . ustr2html($row['field_name']) . '</checkbox>';
                 break;
 
             case FIELD_TYPE_LIST:
@@ -386,12 +384,10 @@ if ($flag2)
 }
 
 $xml .= '</group>'
-      . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
+      . '<button default="true">'           . get_html_resource(RES_OK_ID)     . '</button>'
+      . '<button action="cancelFields();">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
-      . '</form>'
-      . '</content>'
-      . '</page>';
+      . '</form>';
 
 echo(xml2html($xml));
 
