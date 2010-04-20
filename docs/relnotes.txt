@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-9
-Release date : 2010-04-08
-Release size : 37516
+Release tag  : MAIN_2-1-10
+Release date : 2010-04-20
+Release size : 37796
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,13 +22,17 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/config.php
 [M] src/engine/engine.xsl
+[M] src/engine/locale.php
 [M] src/engine/sessions.php
+[M] src/engine/utility.php
 [M] src/engine/xml.php
+[M] engine/res/japanese.php
+[M] src/records/state.php
 [M] src/records/view.php
-[A] src/sql/accounts/settoken2.sql
-[M] src/sql/records/elist2.sql
+[A] src/scripts/ajax.js
+[A] src/scripts/index.php
+[A] src/scripts/json2.js
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -92,13 +96,12 @@ bug-903: BBCode // Nested lists look broken. (issue #11)
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-919: Show record assignments on record detail page (issue #26)
-new-926: Inactivity Logout (issue #34)
+new-928: Inline state changing.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+bug-929: PHP Deprecated: Function set_magic_quotes_runtime() is deprecated
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
