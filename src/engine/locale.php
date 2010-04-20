@@ -473,8 +473,11 @@ function get_resource ($res_id, $lang = NULL)
         $lang = (isset($_SESSION[VAR_LOCALE]) ? $_SESSION[VAR_LOCALE] : LANG_DEFAULT);
     }
 
-    $res = iconv($locale_info[$lang][LOCALE_ENCODING], 'UTF-8',
-                 $locale_info[$lang][LOCALE_RES_TABLE][$res_id]);
+    $res = (isset($locale_info[$lang][LOCALE_RES_TABLE][$res_id])
+            ? $locale_info[$lang][LOCALE_RES_TABLE][$res_id]
+            : $locale_info[LANG_ENGLISH_US][LOCALE_RES_TABLE][$res_id]);
+
+    $res = iconv($locale_info[$lang][LOCALE_ENCODING], 'UTF-8', $res);
 
     if ($res_id == RES_LOCALE_ID && !is_null($locale_info[$lang][LOCALE_SUFFIX]))
     {
