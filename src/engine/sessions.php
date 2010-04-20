@@ -69,6 +69,7 @@
 //  Artem Rodygin           2009-12-08      new-865: [safe_mode] Warning: Invalid argument supplied for foreach()
 //  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
 //  Artem Rodygin           2010-04-07      new-926: Inactivity Logout
+//  Artem Rodygin           2010-04-15      bug-929: PHP Deprecated: Function set_magic_quotes_runtime() is deprecated
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -192,7 +193,6 @@ define('MAX_PAGE_SIZE', 100);
 function create_session ()
 {
     error_reporting(E_ALL);
-    set_magic_quotes_runtime(0);
 
     if (DEBUG_MODE == DEBUG_MODE_OFF)
     {
