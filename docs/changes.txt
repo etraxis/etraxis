@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-9 (2010-04-08)
+
+    new-919: Show record assignments on record detail page (issue #26)
+    new-926: Inactivity Logout (issue #34)
+
+Bug fixes integrated in MAIN_2-1-9 (2010-04-08)
+
+    None.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-8 (2010-02-15)
 
     new-913: Resizable text boxes (issue #20)
