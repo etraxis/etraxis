@@ -121,6 +121,7 @@
 //  Artem Rodygin           2010-02-05      bug-912: IE6 buttons with arrows rendering problem
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //  Artem Rodygin           2010-02-14      new-919: Show record assignments on record detail page
+//  Artem Rodygin           2010-04-16      new-928: Inline state changing.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -196,6 +197,8 @@ while (($row = $list->fetch()))
 record_read($id);
 
 $xml = '<page' . gen_xml_page_header(record_id($id, $record['template_prefix'])) . '>'
+     . '<script src="../scripts/json2.js"/>'
+     . '<script src="../scripts/ajax.js"/>'
      . '<script src="../scripts/collapse.js"/>'
      . gen_xml_menu()
      . '<path>'
@@ -361,7 +364,76 @@ if (can_state_be_changed($record, $permissions))
     {
         $splitter = NULL;
 
-        $xml .= '<form name="stateform" action="state.php?id=' . $id . '">'
+        $script = <<<SCRIPT
+
+function getStateFields ()
+{
+    var url = "state.php?timestamp=" + new Date().getTime() + "&amp;id=${id}&amp;state=" + escape(document.stateform.state.value);
+
+    xmlHttpRequest.open(AJAX_METHOD_GET, url, true);
+    xmlHttpRequest.onreadystatechange = getStateFieldsCallback;
+    xmlHttpRequest.send(null);
+}
+
+function getStateFieldsCallback ()
+{
+    if (xmlHttpRequest.readyState == AJAX_STATE_DONE)
+    {
+        if (xmlHttpRequest.statusText != "OK")
+        {
+            alert(xmlHttpRequest.statusText);
+        }
+
+        if (xmlHttpRequest.status == HTTP_STATUS_OK)
+        {
+            document.getElementById("statefields").innerHTML = xmlHttpRequest.responseText;
+        }
+        else
+        {
+            document.getElementById("statefields").innerHTML = null;
+        }
+    }
+}
+
+function submitFields ()
+{
+    var url  = "state.php?submitted=fieldsform&amp;timestamp=" + new Date().getTime() + "&amp;id=${id}&amp;state=" + escape(document.stateform.state.value);
+    var data = form2json('fieldsform');
+
+    xmlHttpRequest.open(AJAX_METHOD_POST, url, false);
+    xmlHttpRequest.onreadystatechange = submitFieldsCallback;
+    xmlHttpRequest.setRequestHeader("Content-Type", "text/html;charset=utf-8");
+    xmlHttpRequest.send(data);
+}
+
+function submitFieldsCallback ()
+{
+    if (xmlHttpRequest.readyState == AJAX_STATE_DONE)
+    {
+        if (xmlHttpRequest.status == HTTP_STATUS_OK)
+        {
+            if (xmlHttpRequest.statusText == HTTP_STATUS_OK_TEXT)
+            {
+                window.open('view.php?id=${id}', '_parent');
+            }
+            else
+            {
+                alert(xmlHttpRequest.statusText);
+            }
+        }
+    }
+}
+
+function cancelFields ()
+{
+    document.getElementById("statefields").innerHTML = null;
+}
+
+SCRIPT;
+
+        $xml .= "<script>{$script}</script>\n";
+
+        $xml .= '<form name="stateform" action="javascript:getStateFields()">'
               . '<combobox name="state" extended="true">';
 
         while (($row = $rs->fetch()))
@@ -373,7 +445,8 @@ if (can_state_be_changed($record, $permissions))
 
         $xml .= '</combobox>'
               . '<button default="true">' . get_html_resource(RES_CHANGE_STATE_ID) . '</button>'
-              . '</form>';
+              . '</form>'
+              . '<div id="statefields"/>';
     }
 }
 else

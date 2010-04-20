@@ -1283,6 +1283,11 @@
     <xsl:attribute name="style">
     <xsl:value-of select="@style"/>
     </xsl:attribute>
+    <xsl:if test="boolean(@id)">
+        <xsl:attribute name="id">
+        <xsl:value-of select="@id"/>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:apply-templates/>
     </div>
 </xsl:template>
