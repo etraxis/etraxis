@@ -78,6 +78,7 @@
 //  Artem Rodygin           2009-12-07      bug-864: Cyrillic characters are corrupted in subject of notifications.
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //  Artem Rodygin           2010-04-20      new-928: Inline state changing.
+//  Artem Rodygin           2010-04-22      bug-931: Attachments compression issues.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -678,18 +679,21 @@ function get_http_auth_realm ()
  */
 function compressfile ($srcName)
 {
-    $dstName = "{$srcName}.gz";
+    if (extension_loaded('zlib'))
+    {
+        $dstName = "{$srcName}.gz";
 
-    $fp = fopen($srcName, 'rb');
-    $data = fread($fp, filesize($srcName));
-    fclose($fp);
+        $fp = fopen($srcName, 'rb');
+        $data = fread($fp, filesize($srcName));
+        fclose($fp);
 
-    $zp = gzopen($dstName, 'wb6');
-    gzwrite($zp, $data);
-    gzclose($zp);
+        $zp = gzopen($dstName, 'wb6');
+        gzwrite($zp, $data);
+        gzclose($zp);
 
-    unlink($srcName);
-    rename($dstName, $srcName);
+        unlink($srcName);
+        rename($dstName, $srcName);
+    }
 }
 
 /**
@@ -701,11 +705,18 @@ function compressfile ($srcName)
  */
 function gzfile_get_contents ($srcName, $uncompressedSize)
 {
-    $fp = gzopen($srcName, 'rb');
-    $data = gzread($fp, $uncompressedSize);
-    gzclose($fp);
+    if (extension_loaded('zlib'))
+    {
+        $fp = gzopen($srcName, 'rb');
+        $data = gzread($fp, $uncompressedSize);
+        gzclose($fp);
 
-    return $data;
+        return $data;
+    }
+    else
+    {
+        return file_get_contents($srcName);
+    }
 }
 
 ?>

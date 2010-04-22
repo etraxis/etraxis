@@ -37,6 +37,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-12-07      bug-857: Problem with russian language and filetype.
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-22      bug-931: Attachments compression issues.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -81,6 +82,13 @@ header('Cache-Control: private, must-revalidate');
 header('Content-type: ' . $attachment['attachment_type']);
 header('Content-Disposition: attachment; filename=' . $filename);
 
-readgzfile(ATTACHMENTS_PATH . $id);
+if (extension_loaded('zlib'))
+{
+    readgzfile(ATTACHMENTS_PATH . $id);
+}
+else
+{
+    readfile(ATTACHMENTS_PATH . $id);
+}
 
 ?>
