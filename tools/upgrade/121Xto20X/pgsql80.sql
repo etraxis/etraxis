@@ -36,7 +36,7 @@ declare
     const_rec record;
 begin
     for const_rec in select pg_class.relname, pg_constraint.conname from pg_class, pg_constraint where pg_class.oid = pg_constraint.conrelid and (pg_constraint.contype = 'f' or pg_constraint.contype = 'u') loop
-        execute 'alter table ' || quote_ident(const_rec.tblname) || ' drop constraint ' || quote_ident(const_rec.conname);
+        execute 'alter table ' || quote_ident(const_rec.relname) || ' drop constraint ' || quote_ident(const_rec.conname);
     end loop;
 end;
 $$ language plpgsql;
@@ -44,9 +44,9 @@ $$ language plpgsql;
 select etraxis_drop_constraints();
 drop function etraxis_drop_constraints();
 
-drop language plpgsql;
-drop function plpgsql_call_handler();
-drop function plpgsql_validator(oid);
+-- drop language plpgsql;
+-- drop function plpgsql_call_handler();
+-- drop function plpgsql_validator(oid);
 
 /*------------------------------------------------------------------------------------------------*/
 

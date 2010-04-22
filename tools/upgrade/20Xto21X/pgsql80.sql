@@ -32,7 +32,7 @@ alter table tbl_fields drop constraint ix_fields_order;
 
 alter table tbl_fields add column removal_time int null;
 update tbl_fields set removal_time = 0;
-alter table tbl_fields alter column rremoval_time set not null;
+alter table tbl_fields alter column removal_time set not null;
 
 alter table tbl_fields add constraint ix_fields_name unique
 (
