@@ -70,6 +70,7 @@
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //  Giacomo Giustozzi       2010-02-12      new-918: Add Subject to Change State page
 //  Artem Rodygin           2010-04-19      new-928: Inline state changing.
+//  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -164,7 +165,6 @@ if (try_request('submitted') == 'fieldsform')
 
         if ($error == NO_ERROR)
         {
-            header('Location: view.php?id=' . $id);
             exit;
         }
     }
@@ -172,42 +172,44 @@ if (try_request('submitted') == 'fieldsform')
     switch ($error)
     {
         case ERROR_INCOMPLETE_FORM:
-            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            echo(get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_INVALID_INTEGER_VALUE:
-            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            echo(get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
         case ERROR_INVALID_DATE_VALUE:
-            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            echo(get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
             break;
 
         case ERROR_INVALID_TIME_VALUE:
-            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            echo(get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            header('HTTP/1.0 200 ' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
+            echo(ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['MIN_FIELD_INTEGER']);
             unset($_SESSION['MAX_FIELD_INTEGER']);
             break;
 
         case ERROR_RECORD_NOT_FOUND:
-            header('HTTP/1.0 200 ' . get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
+            echo(get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
             break;
 
         case ERROR_VALUE_FAILS_REGEX_CHECK:
-            header('HTTP/1.0 200 ' . ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
+            echo(ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['FIELD_VALUE']);
             break;
 
         default: ;  // nop
     }
+
+    exit;
 }
 else
 {

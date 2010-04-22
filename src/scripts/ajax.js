@@ -17,8 +17,6 @@ var HTTP_STATUS_UNAUTHORIZED    = 401;
 var HTTP_STATUS_FORBIDDEN       = 403;
 var HTTP_STATUS_NOT_FOUND       = 404;
 
-var HTTP_STATUS_OK_TEXT         = "OK";
-
 var xmlHttpRequest = null;
 
 try { xmlHttpRequest = new XMLHttpRequest();                    } catch (exception) { }

@@ -122,6 +122,7 @@
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
 //  Artem Rodygin           2010-02-14      new-919: Show record assignments on record detail page
 //  Artem Rodygin           2010-04-16      new-928: Inline state changing.
+//  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -379,11 +380,6 @@ function getStateFieldsCallback ()
 {
     if (xmlHttpRequest.readyState == AJAX_STATE_DONE)
     {
-        if (xmlHttpRequest.statusText != "OK")
-        {
-            alert(xmlHttpRequest.statusText);
-        }
-
         if (xmlHttpRequest.status == HTTP_STATUS_OK)
         {
             document.getElementById("statefields").innerHTML = xmlHttpRequest.responseText;
@@ -412,13 +408,13 @@ function submitFieldsCallback ()
     {
         if (xmlHttpRequest.status == HTTP_STATUS_OK)
         {
-            if (xmlHttpRequest.statusText == HTTP_STATUS_OK_TEXT)
+            if (xmlHttpRequest.responseText.length == 0)
             {
                 window.open('view.php?id=${id}', '_parent');
             }
             else
             {
-                alert(xmlHttpRequest.statusText);
+                alert(xmlHttpRequest.responseText);
             }
         }
     }
