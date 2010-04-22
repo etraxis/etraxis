@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-10 (2010-04-20)
+
+    new-928: Inline state changing.
+
+Bug fixes integrated in MAIN_2-1-10 (2010-04-20)
+
+    bug-929: PHP Deprecated: Function set_magic_quotes_runtime() is deprecated
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-9 (2010-04-08)
 
     new-919: Show record assignments on record detail page (issue #26)
