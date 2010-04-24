@@ -79,6 +79,7 @@
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //  Artem Rodygin           2010-04-20      new-928: Inline state changing.
 //  Artem Rodygin           2010-04-22      bug-931: Attachments compression issues.
+//  Artem Rodygin           2010-04-23      bug-932: Auto-generated e-mail always has 2 identical recipients.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -557,7 +558,6 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
 
     $headers = implode($eol, array('Date: ' . date('r'),
                                    'From: ' . $sender . ' <' . (EMAIL_NOTIFICATIONS_ENABLED == SMTP_CLIENT_BUILDIN ? SMTP_MAILFROM : $from) . '>',
-                                   'To: ' . $to,
                                    'Reply-To: ' . $from,
                                    'Return-Path: ' . $from,
                                    'Message-ID: <' . md5(uniqid(time())) . '@' . $_SERVER['SERVER_NAME'] . '>',
