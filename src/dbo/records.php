@@ -202,6 +202,7 @@
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //  Artem Rodygin           2010-02-06      bug-914: Change e-mail subject encoding
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -556,6 +557,26 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 elseif (in_array(-$i, $sort))
                 {
                     $clause_order[-$i] = 's.state_name desc';
+                }
+
+                break;
+
+            case COLUMN_TYPE_LAST_STATE:
+
+                array_push($clause_select, 'st.state_time');
+                array_push($clause_from,   '(select record_id, max(event_time) as state_time' .
+                                           ' from tbl_events' .
+                                           ' where event_type = 1 or event_type = 4' .
+                                           ' group by record_id) st');
+                array_push($clause_where,  'r.record_id = st.record_id');
+
+                if (in_array($i, $sort))
+                {
+                    $clause_order[$i] = 'state_time';
+                }
+                elseif (in_array(-$i, $sort))
+                {
+                    $clause_order[-$i] = 'state_time desc';
                 }
 
                 break;
@@ -2532,6 +2553,19 @@ function get_record_last_event ($record)
     debug_write_log(DEBUG_TRACE, '[get_record_last_event]');
 
     return ceil((time() - $record['change_time'] + 1) / SECS_IN_DAY);
+}
+
+/**
+ * Calculates number of days since the last change of state of specified record.
+ *
+ * @param array $record Record information, as it returned by {@link record_list}.
+ * @return int Number of days.
+ */
+function get_record_last_state ($record)
+{
+    debug_write_log(DEBUG_TRACE, '[get_record_last_state]');
+
+    return ceil((time() - $record['state_time'] + 1) / SECS_IN_DAY);
 }
 
 /**

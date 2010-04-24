@@ -96,6 +96,7 @@
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
 //  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -413,6 +414,11 @@ if ($list->rows != 0)
 
                 case COLUMN_TYPE_STATE_NAME:
                     $value = ustr2html($row['state_name']);
+                    break;
+
+                case COLUMN_TYPE_LAST_STATE:
+                    $value = get_record_last_state($row);
+                    $align = ' align="right"';
                     break;
 
                 case COLUMN_TYPE_NUMBER:

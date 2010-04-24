@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2009 by Artem Rodygin
+//  Copyright (C) 2006-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -47,6 +47,7 @@
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -151,6 +152,10 @@ while (($row = $list->fetch()))
 
             case COLUMN_TYPE_STATE_NAME:
                 array_push($data, ustr2csv($row['state_name'], $_SESSION[VAR_DELIMITER]));
+                break;
+
+            case COLUMN_TYPE_LAST_STATE:
+                array_push($data, ustr2csv(get_record_last_state($row), $_SESSION[VAR_DELIMITER]));
                 break;
 
             case COLUMN_TYPE_NUMBER:

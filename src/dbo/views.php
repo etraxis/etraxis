@@ -13,7 +13,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2009 by Artem Rodygin
+//  Copyright (C) 2006-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -60,6 +60,7 @@
 //  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
 //  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
 //  Artem Rodygin           2009-12-06      new-859: Only several predefined columns should be default.
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -95,7 +96,8 @@ define('COLUMN_TYPE_AGE',           8);
 define('COLUMN_TYPE_CREATION_DATE', 9);
 define('COLUMN_TYPE_TEMPLATE',     10);
 define('COLUMN_TYPE_STATE_NAME',   11);
-define('COLUMN_TYPE_MAXIMUM',      11);
+define('COLUMN_TYPE_LAST_STATE',   12);
+define('COLUMN_TYPE_MAXIMUM',      12);
 /**#@-*/
 
 /**#@+
@@ -127,6 +129,7 @@ $column_type_res = array
     COLUMN_TYPE_CREATION_DATE => RES_CREATED_ID,
     COLUMN_TYPE_TEMPLATE      => RES_TEMPLATE_ID,
     COLUMN_TYPE_STATE_NAME    => RES_STATE_NAME_ID,
+    COLUMN_TYPE_LAST_STATE    => RES_LAST_STATE_ID,
 
     // custom
     COLUMN_TYPE_NUMBER        => RES_NUMBER_ID,

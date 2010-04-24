@@ -34,6 +34,7 @@
 //  Author                  Date            Description of modifications
 //--------------------------------------------------------------------------------------------------
 //  Dan Stoenescu           2010-02-05      new-910: Romanian localization.
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 $resource_romanian = array
@@ -472,7 +473,7 @@ $resource_romanian = array
     /* 1320 */
     'Ascunde toate detaliile',
     'Revino la valori prestabilite',
-    'L/E',
+    'U/E',
     'PCRE to check field values',
     'Search PCRE to transform field values',
     'Replace PCRE to transform field values',
@@ -504,6 +505,7 @@ $resource_romanian = array
     'TLS',
     /* 1350 */
     'Comprimare',
+    'U/S',
 );
 
 ?>
