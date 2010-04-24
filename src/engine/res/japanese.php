@@ -505,6 +505,7 @@ $resource_japanese = array
     'TLS',
     /* 1350 */
     '圧縮',
+    NULL,
 );
 
 ?>

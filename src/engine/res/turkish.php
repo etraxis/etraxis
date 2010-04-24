@@ -45,6 +45,7 @@
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 $resource_turkish = array
@@ -483,7 +484,7 @@ $resource_turkish = array
     /* 1320 */
     'Tümünü daralt',
     'Varsayýlanlara sýfýrla',
-    'L/E',
+    'S/O',
     'Alan deðerlerini denetleyecek PCRE',
     'Alan deðerlerini dönüþtürecek PCRE ara',
     'Alan deðerlerini dönüþtürecek PCRE deðiþtir',
@@ -515,6 +516,7 @@ $resource_turkish = array
     'TLS',
     /* 1350 */
     'Sýkýþtýrma',
+    'S/D',
 );
 
 ?>

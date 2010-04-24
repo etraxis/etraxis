@@ -144,6 +144,7 @@
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 $resource_english = array
@@ -614,6 +615,7 @@ $resource_english = array
     'TLS',
     /* 1350 */
     'Compression',
+    'L/S',
 );
 
 ?>

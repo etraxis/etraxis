@@ -45,6 +45,7 @@
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 $resource_dutch = array
@@ -483,7 +484,7 @@ $resource_dutch = array
     /* 1320 */
     'Alles samenvouwen',
     'Standaardwaarden herstellen',
-    'L/E',
+    'L/G',
     'PCRE om veldwaarden te controleren',
     'Doorzoek PCRE om veldwaarden om te zetten',
     'Vervang PCRE om veldwaarden om te zetten',
@@ -515,6 +516,7 @@ $resource_dutch = array
     'TLS',
     /* 1350 */
     'Compression',
+    'L/S',
 );
 
 ?>

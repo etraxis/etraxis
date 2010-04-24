@@ -43,6 +43,7 @@
 //  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 $resource_bulgarian = array
@@ -513,6 +514,7 @@ $resource_bulgarian = array
     'TLS',
     /* 1350 */
     'Компресия',
+    'П/У',
 );
 
 ?>

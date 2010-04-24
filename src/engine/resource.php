@@ -135,6 +135,7 @@
 //  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
 //  Artem Rodygin           2010-01-26      bug-892: English grammar correction
 //  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 //--------------------------------------------------------------------------------------------------
@@ -594,6 +595,7 @@ define('RES_MARK_AS_READ_ID',                       1347);
 define('RES_REGISTERED_ID',                         1348);
 define('RES_TLS_ID',                                1349);
 define('RES_COMPRESSION_ID',                        1350);
+define('RES_LAST_STATE_ID',                         1351);
 /**#@-*/
 
 ?>

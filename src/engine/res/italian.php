@@ -36,6 +36,7 @@
 //  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
 //  Artem Rodygin           2010-02-04      new-902: Transparent gzip compression of attachments
 //  Giacomo Giustozzi       2010-02-08      bug-916: Italian localization fixes
+//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
 //--------------------------------------------------------------------------------------------------
 
 $resource_italian = array
@@ -506,6 +507,7 @@ $resource_italian = array
     'TLS',
     /* 1350 */
     'Compressione',
+    'U/S',
 );
 
 ?>
