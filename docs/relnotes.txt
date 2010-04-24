@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-11
-Release date : 2010-04-22
-Release size : 37805
+Release tag  : MAIN_2-1-12
+Release date : 2010-04-24
+Release size : 37840
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,13 +22,27 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/diag/index.php
+[M] src/dbo/records.php
+[M] src/dbo/views.php
+[M] src/engine/resource.php
 [M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/records/download.php
-[M] src/records/state.php
-[M] src/records/view.php
-[M] src/scripts/ajax.js
+[M] src/engine/res/bulgarian.php
+[M] src/engine/res/dutch.php
+[M] src/engine/res/english.php
+[M] src/engine/res/french.php
+[M] src/engine/res/german.php
+[M] src/engine/res/indonesian.php
+[M] src/engine/res/italian.php
+[M] src/engine/res/japanese.php
+[M] src/engine/res/latvian.php
+[M] src/engine/res/portuguese.php
+[M] src/engine/res/romanian.php
+[M] src/engine/res/russian.php
+[M] src/engine/res/spanish.php
+[M] src/engine/res/turkish.php
+[M] src/records/export.php
+[M] src/records/index.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -92,13 +106,12 @@ bug-903: BBCode // Nested lists look broken. (issue #11)
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+new-933: New column LS/T(Last State Time)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-930: Some servers suppress error messages on state changing.
-bug-931: Attachments compression issues.
+bug-932: Auto-generated e-mail always has 2 identical recipients.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
