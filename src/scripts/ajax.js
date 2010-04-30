@@ -27,12 +27,17 @@ try { xmlHttpRequest = new ActiveXObject("Microsoft.XMLHTTP");  } catch (excepti
 
 function form2json (formname)
 {
-    var form = eval(formname);
+    var form = document.forms[formname];
     var data = {};
 
     for (var i = 0; i != form.elements.length; i++)
     {
         var element = form.elements[i];
+
+        if (element.name == undefined)
+        {
+            continue;
+        }
 
         if (element.name == "submitted"   ||
             element.name == "responsible" ||
