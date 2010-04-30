@@ -997,7 +997,7 @@
 <xsl:template match="note">
     <p>
     <img src="../images/note.gif" width="16" height="16" alt="Note:"/>
-    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+    <xsl:text disable-output-escaping="yes">%nbsp;</xsl:text>
     <xsl:value-of select="."/>
     </p>
 </xsl:template>
