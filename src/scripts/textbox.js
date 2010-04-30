@@ -1,6 +1,6 @@
 function onTextBox (control, maxlen, resizeable, minrows)
 {
-    var textbox = eval('document.'+control);
+    var textbox = document.getElementById(control);
 
     if (textbox.value.length > maxlen)
     {

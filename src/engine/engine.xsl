@@ -771,13 +771,6 @@
     </xsl:if>
     <xsl:attribute name="onchange">
         <xsl:text>onTextBox('</xsl:text>
-        <xsl:if test="boolean(@form)">
-            <xsl:value-of select="@form"/>
-        </xsl:if>
-        <xsl:if test="not(boolean(@form))">
-            <xsl:text>forms[0]</xsl:text>
-        </xsl:if>
-        <xsl:text>.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
@@ -794,13 +787,6 @@
     </xsl:attribute>
     <xsl:attribute name="onkeydown">
         <xsl:text>onTextBox('</xsl:text>
-        <xsl:if test="boolean(@form)">
-            <xsl:value-of select="@form"/>
-        </xsl:if>
-        <xsl:if test="not(boolean(@form))">
-            <xsl:text>forms[0]</xsl:text>
-        </xsl:if>
-        <xsl:text>.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
@@ -817,13 +803,6 @@
     </xsl:attribute>
     <xsl:attribute name="onkeyup">
         <xsl:text>onTextBox('</xsl:text>
-        <xsl:if test="boolean(@form)">
-            <xsl:value-of select="@form"/>
-        </xsl:if>
-        <xsl:if test="not(boolean(@form))">
-            <xsl:text>forms[0]</xsl:text>
-        </xsl:if>
-        <xsl:text>.</xsl:text>
         <xsl:value-of select="@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
