@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-12 (2010-04-24)
+
+    new-933: New column LS/T(Last State Time)
+
+Bug fixes integrated in MAIN_2-1-12 (2010-04-24)
+
+    bug-932: Auto-generated e-mail always has 2 identical recipients.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-11 (2010-04-22)
 
     None.

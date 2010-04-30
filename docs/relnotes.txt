@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-12
-Release date : 2010-04-24
-Release size : 37840
+Release tag  : MAIN_2-1-13
+Release date : 2010-04-30
+Release size : 37835
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,27 +22,22 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/records.php
-[M] src/dbo/views.php
-[M] src/engine/resource.php
+[M] src/diag/index.php
+[M] src/engine/engine.xsl
 [M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
-[M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
-[M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
-[M] src/records/export.php
-[M] src/records/index.php
+[A] src/engine/Zend
+[A] src/engine/Zend/Exception.php
+[A] src/engine/Zend/Json
+[A] src/engine/Zend/Json.php
+[A] src/engine/Zend/Json/Decoder.php
+[A] src/engine/Zend/Json/Encoder.php
+[A] src/engine/Zend/Json/Exception.php
+[A] src/engine/Zend/Json/Expr.php
+[M] src/records/state.php
+[M] src/records/view.php
+[M] src/scripts/ajax.js
+[M] src/scripts/textbox.js
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -106,12 +101,16 @@ bug-903: BBCode // Nested lists look broken. (issue #11)
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-933: New column LS/T(Last State Time)
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-932: Auto-generated e-mail always has 2 identical recipients.
+bug-934: Unable to change record state
+bug-935: Textbox doesn't auto resize
+bug-936: Changing a state doesn't work on PHP 5.1
+bug-937: &nbsp; is shown in JavaScript alerts when state is being changed.
+bug-938: Generated notes show "&nbsp;" when PHP-server is Windows.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
