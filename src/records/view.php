@@ -123,6 +123,7 @@
 //  Artem Rodygin           2010-02-14      new-919: Show record assignments on record detail page
 //  Artem Rodygin           2010-04-16      new-928: Inline state changing.
 //  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
+//  Artem Rodygin           2010-04-28      bug-934: Unable to change record state
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -371,7 +372,7 @@ function getStateFields ()
 {
     var url = "state.php?timestamp=" + new Date().getTime() + "&amp;id=${id}&amp;state=" + escape(document.stateform.state.value);
 
-    xmlHttpRequest.open(AJAX_METHOD_GET, url, true);
+    xmlHttpRequest.open(AJAX_METHOD_GET, url);
     xmlHttpRequest.onreadystatechange = getStateFieldsCallback;
     xmlHttpRequest.send(null);
 }
@@ -396,7 +397,7 @@ function submitFields ()
     var url  = "state.php?submitted=fieldsform&amp;timestamp=" + new Date().getTime() + "&amp;id=${id}&amp;state=" + escape(document.stateform.state.value);
     var data = form2json('fieldsform');
 
-    xmlHttpRequest.open(AJAX_METHOD_POST, url, false);
+    xmlHttpRequest.open(AJAX_METHOD_POST, url);
     xmlHttpRequest.onreadystatechange = submitFieldsCallback;
     xmlHttpRequest.setRequestHeader("Content-Type", "text/html;charset=utf-8");
     xmlHttpRequest.send(data);

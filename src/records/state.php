@@ -71,6 +71,7 @@
 //  Giacomo Giustozzi       2010-02-12      new-918: Add Subject to Change State page
 //  Artem Rodygin           2010-04-19      new-928: Inline state changing.
 //  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
+//  Artem Rodygin           2010-04-28      bug-934: Unable to change record state
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -138,6 +139,14 @@ if (try_request('submitted') == 'fieldsform')
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
     json2request($HTTP_RAW_POST_DATA);
+
+    $rs = dal_query('records/efnd.sql', $_SESSION[VAR_USERID], EVENT_RECORD_STATE_CHANGED, time() - 3, $state_id);
+
+    if ($rs->rows != 0)
+    {
+        debug_write_log(DEBUG_NOTICE, 'Double click issue is detected.');
+        exit;
+    }
 
     switch ($state['responsible'])
     {
