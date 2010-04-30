@@ -80,6 +80,7 @@
 //  Artem Rodygin           2010-04-20      new-928: Inline state changing.
 //  Artem Rodygin           2010-04-22      bug-931: Attachments compression issues.
 //  Artem Rodygin           2010-04-23      bug-932: Auto-generated e-mail always has 2 identical recipients.
+//  Artem Rodygin           2010-04-29      bug-936: Changing a state doesn't work on PHP 5.1
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -88,6 +89,14 @@
 require_once('../engine/debug.php');
 require_once('../engine/smtp.php');
 /**#@-*/
+
+/**
+ * JSON module from Zend Framework (standard 'json' extension is used as of PHP 5.2.0).
+ */
+if (version_compare(PHP_VERSION, '5.2.0') < 0)
+{
+    require_once('../engine/Zend/Json.php');
+}
 
 //--------------------------------------------------------------------------------------------------
 //  Definitions.
@@ -439,7 +448,9 @@ function bool2sql ($value)
  */
 function json2request ($json)
 {
-    $data = json_decode($json, true);
+    $data = (version_compare(PHP_VERSION, '5.2.0') >= 0)
+          ? json_decode($json, true)
+          : Zend_Json::decode($json);
 
     foreach ($data as $key => $value)
     {
