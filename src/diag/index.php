@@ -35,6 +35,7 @@
 //  Artem Rodygin           2009-09-10      new-826: Native unicode support for Microsoft SQL Server.
 //  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
 //  Artem Rodygin           2010-04-22      Required PHP 5 version is updated.
+//  Artem Rodygin           2010-04-29      bug-936: Changing a state doesn't work on PHP 5.1
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -49,7 +50,7 @@ define('PHP_V6',       6);
 define('PHP_OBSOLETE', 0);
 
 define('PHP4_MINIMUM', '4.3.2');
-define('PHP5_MINIMUM', '5.2.0');
+define('PHP5_MINIMUM', '5.1.0');
 
 define('DRIVER_MYSQL50', 1);  // MySQL 5.0 or later
 define('DRIVER_MSSQL2K', 2);  // Microsoft SQL Server 2000 or later
