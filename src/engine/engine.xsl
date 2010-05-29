@@ -43,8 +43,8 @@
         <div id="headerlt"></div>
         <div id="headerrt"></div>
         <div id="header">
-            <a class="title"><i>e</i>Traxis</a>
-            <a class="version"><xsl:value-of select="@version"/></a>
+            <a href="http://www.etraxis.org/" target="_blank" class="title"><i>e</i>Traxis</a>
+            <a href="http://www.etraxis.org/" target="_blank" class="version"><xsl:value-of select="@version"/></a>
         </div>
         <xsl:apply-templates select="menu"/>
     </div>
@@ -67,10 +67,7 @@
         <xsl:apply-templates select="path"/>
         <xsl:apply-templates select="content"/>
         <div id="footer">
-            <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by </xsl:text>
-            <a href="mailto:etraxis@gmail.com">
-            <xsl:text>Artem Rodygin</xsl:text>
-            </a>
+        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by Artem Rodygin</xsl:text>
         </div>
     </div>
     </td></tr>
