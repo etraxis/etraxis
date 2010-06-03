@@ -1,9 +1,6 @@
 var events_list  = new Array();
 var events_count = 0;
 
-var default_events_list  = new Array();
-var default_events_count = 0;
-
 function SwitchLayer (div_id)
 {
     ('none' == document.getElementById('div' + div_id).style.display) ? ShowLayer(div_id) : HideLayer(div_id);
@@ -41,16 +38,4 @@ function CollapseAll ()
     {
         HideLayer(events_list[event_id]);
     }
-}
-
-function ResetToDefaults ()
-{
-
-    CollapseAll();
-
-    for (event_id in default_events_list)
-    {
-        ShowLayer(default_events_list[event_id]);
-    }
-
 }

@@ -124,6 +124,7 @@
 //  Artem Rodygin           2010-04-16      new-928: Inline state changing.
 //  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
 //  Artem Rodygin           2010-04-28      bug-934: Unable to change record state
+//  Artem Rodygin           2010-04-30      new-893: Expand All by default
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -452,22 +453,14 @@ else
 }
 
 $xml .= $splitter
-      . '<button action="ExpandAll();">'       . get_html_resource(RES_EXPAND_ALL_ID)        . '</button>'
-      . '<button action="CollapseAll();">'     . get_html_resource(RES_COLLAPSE_ALL_ID)      . '</button>'
-      . '<button action="ResetToDefaults();">' . get_html_resource(RES_RESET_TO_DEFAULTS_ID) . '</button>';
+      . '<button action="ExpandAll();">'   . get_html_resource(RES_EXPAND_ALL_ID)   . '</button>'
+      . '<button action="CollapseAll();">' . get_html_resource(RES_COLLAPSE_ALL_ID) . '</button>';
 
 if (EMAIL_NOTIFICATIONS_ENABLED && (get_user_level() != USER_LEVEL_GUEST))
 {
     $xml .= '<button url="recsubsc.php?id=' . $id . '">' . get_html_resource(is_record_subscribed($id, $_SESSION[VAR_USERID]) ? RES_UNSUBSCRIBE_ID : RES_SUBSCRIBE_ID) . '</button>'
           . '<button url="subother.php?id=' . $id . '">' . get_html_resource(RES_SUBSCRIBE_OTHERS_ID) . '</button>';
 }
-
-// list of comments that will be shown
-$comments_to_show = array(-1, -2);
-$states_to_show   = array();
-
-// script for showing default fieldsets
-$script = NULL;
 
 $list = attachment_list($record['record_id']);
 
@@ -479,8 +472,6 @@ if ($list->rows == 0)
 }
 else
 {
-    $script .= "default_events_list[++default_events_count] = -1;\n";
-
     while (($row = $list->fetch()))
     {
         $xml .= '<attachment url="download.php?id=' . $row['attachment_id'] . '" size="' . ustrprocess(get_html_resource(RES_KB_ID), round($row['attachment_size'] / 1024)) . '">'
@@ -526,8 +517,6 @@ if ($list->rows == 0)
 }
 else
 {
-    $script .= "default_events_list[++default_events_count] = -2;\n";
-
     while (($row = $list->fetch()))
     {
         $url = ' url="view.php?id=' . $row['record_id'] . '"';
@@ -599,9 +588,6 @@ while (($row = $rs->fetch()))
 
         if ($comment)
         {
-            // one more comment to show
-            $comments_to_show[] = $row['event_id'];
-
             $xml .= '<group id="' . $row['event_id'] . '" title="' . get_html_resource(RES_COMMENT_ID) . ' - ' . get_datetime($row['event_time']) . ' - ' . ustr2html($row['fullname']) . ' (' . ustr2html(account_get_username($row['username'])) . ')">'
                   . '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">'
                   . ($responsible ? ustr2html($responsible['fullname']) . ' (' . ustr2html(account_get_username($responsible['username'])) . ')'
@@ -639,10 +625,6 @@ while (($row = $rs->fetch()))
                          is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
                          $_SESSION[VAR_USERID],
                          FIELD_ALLOW_TO_READ);
-
-        // new state transition - all comments have to be hidden
-        $comments_to_show = array();
-        $states_to_show[$row['state_id']] = $row['event_id'];
 
         $xml .= '<group id="' . $row['event_id'] . '" title="' . ustr2html($row['state_name']) . ' - ' . get_datetime($row['event_time']) . ' - ' . ustr2html($row['fullname']) . ' (' . ustr2html(account_get_username($row['username'])) . ')">';
 
@@ -684,20 +666,6 @@ while (($row = $rs->fetch()))
         $xml .= '</group>';
     }
 }
-
-// generating JavaScript array of default fieldsets to show
-foreach ($comments_to_show as $comment)
-{
-    $script .= "default_events_list[++default_events_count] = {$comment};\n";
-}
-
-foreach ($states_to_show as $state)
-{
-    $script .= "default_events_list[++default_events_count] = {$state};\n";
-}
-
-// JS for showing default fieldsets
-$xml .= "<script>\n{$script}ResetToDefaults();\n</script>\n";
 
 if (can_comment_be_added($record, $permissions))
 {
