@@ -9,7 +9,8 @@ select
     a.fullname,
     s.state_id,
     s.state_name,
-    s.responsible
+    s.responsible,
+    2 as event_order
 
 from
 
@@ -37,7 +38,8 @@ select
     a.fullname,
     null as state_id,
     null as state_name,
-    null as responsible
+    null as responsible,
+    1    as event_order
 
 from
 
@@ -52,5 +54,5 @@ where
 
 order by
 
-    event_time asc,
-    event_type desc
+    event_time  asc,
+    event_order asc

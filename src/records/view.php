@@ -125,6 +125,7 @@
 //  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
 //  Artem Rodygin           2010-04-28      bug-934: Unable to change record state
 //  Artem Rodygin           2010-04-30      new-893: Expand All by default
+//  Artem Rodygin           2010-04-29      bug-940: Incorrect Responsible values being displayed.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -608,13 +609,6 @@ while (($row = $rs->fetch()))
         if ($row['responsible'] == STATE_RESPONSIBLE_REMOVE)
         {
             $responsible = FALSE;
-        }
-        elseif ($row['responsible'] == STATE_RESPONSIBLE_ASSIGN)
-        {
-            if (($responsible_id = $rs->fetch('event_param')))
-            {
-                $responsible = account_find($responsible_id);
-            }
         }
 
         $rsf = dal_query('records/flist2.sql',
