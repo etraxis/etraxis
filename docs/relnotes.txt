@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-13
-Release date : 2010-04-30
-Release size : 37835
+Release tag  : MAIN_2-1-14
+Release date : 2010-06-04
+Release size : 37799
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,22 +22,10 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/diag/index.php
 [M] src/engine/engine.xsl
-[M] src/engine/utility.php
-[M] src/engine/xml.php
-[A] src/engine/Zend
-[A] src/engine/Zend/Exception.php
-[A] src/engine/Zend/Json
-[A] src/engine/Zend/Json.php
-[A] src/engine/Zend/Json/Decoder.php
-[A] src/engine/Zend/Json/Encoder.php
-[A] src/engine/Zend/Json/Exception.php
-[A] src/engine/Zend/Json/Expr.php
-[M] src/records/state.php
 [M] src/records/view.php
-[M] src/scripts/ajax.js
-[M] src/scripts/textbox.js
+[M] src/scripts/collapse.js
+[M] src/sql/records/elist2.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -101,16 +89,12 @@ bug-903: BBCode // Nested lists look broken. (issue #11)
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+new-893: Expand All by default
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-934: Unable to change record state
-bug-935: Textbox doesn't auto resize
-bug-936: Changing a state doesn't work on PHP 5.1
-bug-937: &nbsp; is shown in JavaScript alerts when state is being changed.
-bug-938: Generated notes show "&nbsp;" when PHP-server is Windows.
+bug-940: Incorrect Responsible values being displayed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

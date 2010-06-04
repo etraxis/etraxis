@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_2-1-13 (2010-04-30)
+
+    bug-934: Unable to change record state
+    bug-935: Textbox doesn't auto resize
+    bug-936: Changing a state doesn't work on PHP 5.1
+    bug-937: &nbsp; is shown in JavaScript alerts when state is being changed.
+    bug-938: Generated notes show "&nbsp;" when PHP-server is Windows.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-12 (2010-04-24)
 
     new-933: New column LS/T(Last State Time)
@@ -11,10 +21,6 @@ Bug fixes integrated in MAIN_2-1-12 (2010-04-24)
     bug-932: Auto-generated e-mail always has 2 identical recipients.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_2-1-11 (2010-04-22)
-
-    None.
 
 Bug fixes integrated in MAIN_2-1-11 (2010-04-22)
 
@@ -37,10 +43,6 @@ New features integrated in MAIN_2-1-9 (2010-04-08)
 
     new-919: Show record assignments on record detail page (issue #26)
     new-926: Inactivity Logout (issue #34)
-
-Bug fixes integrated in MAIN_2-1-9 (2010-04-08)
-
-    None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -105,10 +107,6 @@ Bug fixes integrated in MAIN_2-1-4 (2010-01-09)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_2-1-3 (2010-01-02)
-
-    None.
-
 Bug fixes integrated in MAIN_2-1-3 (2010-01-02)
 
     bug-865: [safe_mode] Warning: Invalid argument supplied for foreach()
@@ -136,10 +134,6 @@ New features integrated in MAIN_2-1-1 (2009-11-17)
 
     new-828: [SF2809460] Support for SMTP email
 
-Bug fixes integrated in MAIN_2-1-1 (2009-11-17)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New features integrated in MAIN_2-1-0 (2009-11-09)
@@ -149,19 +143,11 @@ New features integrated in MAIN_2-1-0 (2009-11-09)
     new-854: Remove disabled users from subscribers list.
     new-855: Show already subscribed users when subscribing others.
 
-Bug fixes integrated in MAIN_2-1-0 (2009-11-09)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New features integrated in MAIN_2-0-2 (2009-10-19)
 
     new-850: Japanese localization.
-
-Bug fixes integrated in MAIN_2-0-2 (2009-10-19)
-
-    None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -242,10 +228,6 @@ Bug fixes integrated in MAIN_1-21-7 (2009-04-14)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-21-6 (2009-03-31)
-
-    None.
-
 Bug fixes integrated in MAIN_1-21-6 (2009-03-31)
 
     bug-803: "XML parser error" on import of preliminary exported template.
@@ -278,19 +260,11 @@ Bug fixes integrated in MAIN_1-21-4 (2009-03-08)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-21-3 (2009-03-01)
-
-    None.
-
 Bug fixes integrated in MAIN_1-21-3 (2009-03-01)
 
     bug-794: [SF2643676] Security problem when logout.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-21-2 (2009-02-26)
-
-    None.
 
 Bug fixes integrated in MAIN_1-21-2 (2009-02-26)
 
@@ -298,10 +272,6 @@ Bug fixes integrated in MAIN_1-21-2 (2009-02-26)
     bug-793: [SF2637473] LDAP Guest users can't create records
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-21-1 (2009-01-27)
-
-    None.
 
 Bug fixes integrated in MAIN_1-21-1 (2009-01-27)
 
@@ -324,10 +294,6 @@ Bug fixes integrated in MAIN_1-21-0 (2009-01-14)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-20-1 (2008-12-26)
-
-    None.
-
 Bug fixes integrated in MAIN_1-20-1 (2008-12-26)
 
     bug-779: Chart displays "1.2E+6" instead of "1200000".
@@ -336,10 +302,6 @@ Bug fixes integrated in MAIN_1-20-1 (2008-12-26)
     bug-782: Call to undefined function xslt_errno()
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-20-0 (2008-12-16)
-
-    None.
 
 Bug fixes integrated in MAIN_1-20-0 (2008-12-16)
 
@@ -510,10 +472,6 @@ New features integrated in MAIN_1-16-0 (2008-04-20)
     new-704: Show name of user who is logged in.
     new-705: Multiple parents for subrecords.
 
-Bug fixes integrated in MAIN_1-16-0 (2008-04-20)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New features integrated in MAIN_1-15-5 (2008-04-14)
@@ -544,10 +502,6 @@ New features integrated in MAIN_1-15-3 (2008-04-03)
 
     new-693: Dutch localization.
 
-Bug fixes integrated in MAIN_1-15-3 (2008-04-03)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New features integrated in MAIN_1-15-2 (2008-03-31)
@@ -561,10 +515,6 @@ Bug fixes integrated in MAIN_1-15-2 (2008-03-31)
     bug-690: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint 'fk_filter_activation_filter_id'.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-15-1 (2008-03-17)
-
-    None.
 
 Bug fixes integrated in MAIN_1-15-1 (2008-03-17)
 
@@ -620,10 +570,6 @@ Bug fixes integrated in MAIN_1-14-2 (2008-02-10)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-14-1 (2008-02-06)
-
-    None.
-
 Bug fixes integrated in MAIN_1-14-1 (2008-02-06)
 
     bug-670: Hardcoded user ID in SQL query for records list.
@@ -651,10 +597,6 @@ Bug fixes integrated in MAIN_1-13-2 (2008-01-20)
     bug-667: XML Parsing Error: not well-formed
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-13-1 (2008-01-11)
-
-    None.
 
 Bug fixes integrated in MAIN_1-13-1 (2008-01-11)
 
@@ -758,10 +700,6 @@ Bug fixes integrated in MAIN_1-11-0 (2007-11-19)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-10-1 (2007-11-15)
-
-    None.
-
 Bug fixes integrated in MAIN_1-10-1 (2007-11-15)
 
     bug-627: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near 'limit'.
@@ -853,10 +791,6 @@ Bug fixes integrated in MAIN_1-8-2 (2007-10-03)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-8-1 (2007-10-01)
-
-    None.
-
 Bug fixes integrated in MAIN_1-8-1 (2007-10-01)
 
     bug-585: PHP Warning: odbc_exec(): SQL error: Operand data type numeric is invalid for modulo operator.
@@ -932,15 +866,7 @@ New features integrated in MAIN_1-5-0 (2007-08-06)
     new-139: Templates cloning.
     new-551: Rework dependencies into "parent-child" relations.
 
-Bug fixes integrated in MAIN_1-5-0 (2007-08-06)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-4-1 (2007-07-30)
-
-    None.
 
 Bug fixes integrated in MAIN_1-4-1 (2007-07-30)
 
@@ -953,10 +879,6 @@ Bug fixes integrated in MAIN_1-4-1 (2007-07-30)
 New features integrated in MAIN_1-4-0 (2007-07-16)
 
     new-546: Confidential comments.
-
-Bug fixes integrated in MAIN_1-4-0 (2007-07-16)
-
-    None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -997,10 +919,6 @@ Bug fixes integrated in MAIN_1-2-1 (2007-06-30)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-2-0 (2007-06-25)
-
-    None.
-
 Bug fixes integrated in MAIN_1-2-0 (2007-06-25)
 
     bug-524: Filters, created by default, are not properly set.
@@ -1025,20 +943,12 @@ Bug fixes integrated in MAIN_1-1-4 (2007-04-04)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-1-3 (2007-03-20)
-
-    None.
-
 Bug fixes integrated in MAIN_1-1-3 (2007-03-20)
 
     bug-508: [SF1680553] Unable to create view
     bug-509: PHP Notice: Undefined variable: view_name
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-1-2 (2007-03-19)
-
-    None.
 
 Bug fixes integrated in MAIN_1-1-2 (2007-03-19)
 
@@ -1064,10 +974,6 @@ New features integrated in MAIN_1-1-0 (2007-02-08)
 
     new-491: [SF1647212] Group-wide transition permission.
 
-Bug fixes integrated in MAIN_1-1-0 (2007-02-08)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New features integrated in MAIN_1-0-8 (2007-02-03)
@@ -1080,19 +986,11 @@ Bug fixes integrated in MAIN_1-0-8 (2007-02-03)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_1-0-7 (2007-01-31)
-
-    None.
-
 Bug fixes integrated in MAIN_1-0-7 (2007-01-31)
 
     bug-492: [SF1647591] 'root' login non-functional.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_1-0-6 (2007-01-22)
-
-    None.
 
 Bug fixes integrated in MAIN_1-0-6 (2007-01-22)
 
@@ -1166,10 +1064,6 @@ Bug fixes integrated in MAIN_1-0-1 (2006-12-27)
 New features integrated in MAIN_1-0-0 (2006-12-22)
 
     new-462: Postpone date should be displayed as separate field.
-
-Bug fixes integrated in MAIN_1-0-0 (2006-12-22)
-
-    None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -1259,10 +1153,6 @@ Bug fixes integrated in MAIN_0-73 (2006-12-10)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_0-72 (2006-12-06)
-
-    None.
-
 Bug fixes integrated in MAIN_0-72 (2006-12-06)
 
     bug-418: PHP Notice: Undefined index: change_time
@@ -1283,10 +1173,6 @@ Bug fixes integrated in MAIN_0-71 (2006-12-04)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_0-70 (2006-12-03)
-
-    None.
-
 Bug fixes integrated in MAIN_0-70 (2006-12-03)
 
     bug-408: Database import script corrupts text values.
@@ -1296,10 +1182,6 @@ Bug fixes integrated in MAIN_0-70 (2006-12-03)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_0-69 (2006-11-30)
-
-    None.
-
 Bug fixes integrated in MAIN_0-69 (2006-11-30)
 
     bug-396: Double click on record submitting causes two equal records creation.
@@ -1307,10 +1189,6 @@ Bug fixes integrated in MAIN_0-69 (2006-11-30)
     bug-403: Export to CSV doesn't work.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-68 (2006-11-27)
-
-    None.
 
 Bug fixes integrated in MAIN_0-68 (2006-11-27)
 
@@ -1337,10 +1215,6 @@ Bug fixes integrated in MAIN_0-67 (2006-11-26)
     bug-395: Unused div "menumd" in the page layout.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-66 (2006-11-18)
-
-    None.
 
 Bug fixes integrated in MAIN_0-66 (2006-11-18)
 
@@ -1411,15 +1285,7 @@ New features integrated in MAIN_0-61 (2006-10-16)
     new-137: Custom queries.
     new-360: Sablotron errors are hard to be debugged.
 
-Bug fixes integrated in MAIN_0-61 (2006-10-16)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-60 (2006-10-08)
-
-    None.
 
 Bug fixes integrated in MAIN_0-60 (2006-10-08)
 
@@ -1524,10 +1390,6 @@ Bug fixes integrated in MAIN_0-55 (2006-08-13)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_0-54 (2006-08-08)
-
-    None.
-
 Bug fixes integrated in MAIN_0-54 (2006-08-08)
 
     bug-298: PHP Notice: iconv(): Detected illegal character in input string
@@ -1560,10 +1422,6 @@ Bug fixes integrated in MAIN_0-52 (2006-07-23)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_0-51 (2006-07-10)
-
-    None.
-
 Bug fixes integrated in MAIN_0-51 (2006-07-10)
 
     bug-288: JScript Error: 'value.length' is null or not an object
@@ -1572,10 +1430,6 @@ Bug fixes integrated in MAIN_0-51 (2006-07-10)
     bug-291: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-50 (2006-06-29)
-
-    None.
 
 Bug fixes integrated in MAIN_0-50 (2006-06-29)
 
@@ -1618,10 +1472,6 @@ Bug fixes integrated in MAIN_0-48 (2006-06-27)
     bug-270: The 'tools/sql/ora9i.sql' script should not try to create database.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-47 (2006-06-13)
-
-    None.
 
 Bug fixes integrated in MAIN_0-47 (2006-06-13)
 
@@ -1708,10 +1558,6 @@ Bug fixes integrated in MAIN_0-41 (2006-04-09)
     bug-234: Unexpected message "State with entered name or abbreviation already exists".
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-40 (2006-04-01)
-
-    None.
 
 Bug fixes integrated in MAIN_0-40 (2006-04-01)
 
@@ -1831,15 +1677,7 @@ New features integrated in MAIN_0-31 (2005-11-26)
 
     new-176: Change eTraxis design.
 
-Bug fixes integrated in MAIN_0-31 (2005-11-26)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-30 (2005-11-13)
-
-    None.
 
 Bug fixes integrated in MAIN_0-30 (2005-11-13)
 
@@ -2039,10 +1877,6 @@ Bug fixes integrated in MAIN_0-16 (2005-09-05)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-New features integrated in MAIN_0-15 (2005-09-04)
-
-    None.
-
 Bug fixes integrated in MAIN_0-15 (2005-09-04)
 
     bug-072: Time periods in metrics are not valid.
@@ -2075,10 +1909,6 @@ Bug fixes integrated in MAIN_0-14 (2005-09-02)
     bug-083: Allowed length of usernames and passwords should be increased up to 104 characters.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-New features integrated in MAIN_0-13 (2005-08-28)
-
-    None.
 
 Bug fixes integrated in MAIN_0-13 (2005-08-28)
 
@@ -2193,10 +2023,6 @@ New features integrated in MAIN_0-05 (2005-08-08)
     new-019: Fields default values.
     new-021: Default permissions for new fields.
 
-Bug fixes integrated in MAIN_0-05 (2005-08-08)
-
-    None.
-
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 New features integrated in MAIN_0-04 (2005-08-01)
@@ -2204,10 +2030,6 @@ New features integrated in MAIN_0-04 (2005-08-01)
     new-006: Records search.
     new-013: UI scenarios should be changed.
     new-018: The 'History' menuitem is useless and should be removed.
-
-Bug fixes integrated in MAIN_0-04 (2005-08-01)
-
-    None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2239,9 +2061,5 @@ Bug fixes integrated in MAIN_0-02 (2005-07-17)
 New features integrated in MAIN_0-01 (2005-06-27)
 
     new-001: Records tracking web-based system should be implemented.
-
-Bug fixes integrated in MAIN_0-01 (2005-06-27)
-
-    None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
