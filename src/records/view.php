@@ -126,6 +126,7 @@
 //  Artem Rodygin           2010-04-28      bug-934: Unable to change record state
 //  Artem Rodygin           2010-04-30      new-893: Expand All by default
 //  Artem Rodygin           2010-04-29      bug-940: Incorrect Responsible values being displayed.
+//  Artem Rodygin           2010-07-16      bug-945: v.2.1.14: incorrect "Responsible" value of assigned record
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -609,6 +610,10 @@ while (($row = $rs->fetch()))
         if ($row['responsible'] == STATE_RESPONSIBLE_REMOVE)
         {
             $responsible = FALSE;
+        }
+        elseif ($row['responsible'] == STATE_RESPONSIBLE_ASSIGN)
+        {
+            $responsible = account_find($rs->fetch('event_param'));
         }
 
         $rsf = dal_query('records/flist2.sql',
