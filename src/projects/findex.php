@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  Copyright (C) 2005-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@
 //  Artem Rodygin           2008-06-16      bug-719: Global variable $field_type_res was used before it was defined
 //  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
+//  Artem Rodygin           2010-07-20      bug-949: field list not selectable over 20
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -110,7 +111,7 @@ if ($list->rows != 0)
     $widths = array (NULL, NULL, NULL, 100);
 
     $xml .= '<list>'
-          . gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to)
+          . gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'findex.php?id=' . $id . '&amp;')
           . '<hrow>';
 
     for ($i = 1; $i <= count($columns); $i++)
