@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-14 (2010-06-04)
+
+    new-893: Expand All by default
+
+Bug fixes integrated in MAIN_2-1-14 (2010-06-04)
+
+    bug-940: Incorrect Responsible values being displayed.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_2-1-13 (2010-04-30)
 
     bug-934: Unable to change record state

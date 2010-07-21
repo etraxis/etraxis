@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-14
-Release date : 2010-06-04
-Release size : 37799
+Release tag  : MAIN_2-1-15
+Release date : 2010-07-21
+Release size : 38266
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,9 +22,15 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/engine.xsl
+[M] src/dbo/importer.php
+[M] src/engine/locale.php
+[M] src/engine/xml.php
+[A] src/engine/res/czech.php
+[M] src/projects/findex.php
+[M] src/projects/gindex.php
+[M] src/projects/sindex.php
+[M] src/projects/tindex.php
 [M] src/records/view.php
-[M] src/scripts/collapse.js
 [M] src/sql/records/elist2.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -32,6 +38,7 @@ AVAILABLE LANGUAGES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Bulgarian
+Czech
 Dutch
 English
 French
@@ -77,6 +84,7 @@ new-917: Add description/tooltip to fields (issue #24)
 new-921: State with required attachment (issue #10)
 new-922: Greater Flexibility with emails. (issue #29)
 new-923: Support for subversion (issue #32)
+new-941: Show next state for each state on states view (issue #48)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -84,17 +92,21 @@ KNOWN ISSUES
 
 bug-696: Values of restricted fields are still accessible via custom view.
 bug-903: BBCode // Nested lists look broken. (issue #11)
+bug-946: Bad characters in notifications subject.
+bug-947: Error occurs on pressing "OK" button in the "Resolved" or "Closed" issue state. (issue #55)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-893: Expand All by default
+new-948: Czech localization. (issue #56)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-940: Incorrect Responsible values being displayed.
+bug-943: Project importer cdata with foreign characters (issue #52)
+bug-945: v.2.1.14: incorrect "Responsible" value of assigned record (issue #54)
+bug-949: field list not selectable over 20 (issue #58)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
