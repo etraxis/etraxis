@@ -10,7 +10,7 @@ select
     s.state_id,
     s.state_name,
     s.responsible,
-    2 as event_order
+    1 as event_order
 
 from
 
@@ -39,7 +39,7 @@ select
     null as state_id,
     null as state_name,
     null as responsible,
-    1    as event_order
+    2    as event_order
 
 from
 
