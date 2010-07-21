@@ -8,7 +8,7 @@
 //--------------------------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2008-2009 by Artem Rodygin
+//  Copyright (C) 2008-2010 by Artem Rodygin
 //
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@
 //  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
 //  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
 //  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
+//  Daniel Krejci           2010-06-21      bug-943: Project importer cdata with foreign characters
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -645,12 +646,20 @@ class CImporter
                 }
             }
         }
+        elseif ($this->level == 7)
+        {
+            if ($name == 'STATE')
+            {
+                array_push($this->params, '');
+            }
+        }
         elseif ($this->level == 8)
         {
             // add new item to the list
             if ($name == 'ITEM')
             {
                 array_push($this->params, (array_key_exists('VALUE', $attrs) ? $attrs['VALUE'] : NULL));
+                array_push($this->params, '');
             }
             // field permissions for group
             elseif ($name == 'GROUP')
@@ -795,12 +804,34 @@ class CImporter
                 array_pop($this->params);
             }
         }
+        elseif ($this->level == 7)
+        {
+            if ($name == 'STATE')
+            {
+                $stateName = array_pop($this->params);
+                array_push($this->transitions, array(end($this->params), $this->state_id, $stateName));
+            }
+        }
         elseif ($this->level == 8)
         {
             // field permissions for group
             if ($name == 'GROUP')
             {
                 $this->group_id = NULL;
+            }
+            // field list values
+            elseif ($name == 'ITEM')
+            {
+                $itemName = array_pop($this->params);
+                $value    = array_pop($this->params);
+
+                if (is_intvalue($value))
+                {
+                    dal_query('values/lvcreate.sql',
+                              $this->field_id,
+                              $value,
+                              $itemName);
+                }           
             }
         }
 
@@ -862,10 +893,13 @@ class CImporter
 
                 break;
 
-            // state transitions
+            // concat state transitions
             case '7:STATE':
 
-                array_push($this->transitions, array(end($this->params), $this->state_id, $cdata));
+                $concat = array_pop($this->params);
+                $concat .= $cdata;
+
+                array_push($this->params, $concat);
 
                 break;
 
@@ -881,18 +915,13 @@ class CImporter
 
                 break;
 
-            // add new list item
+            // concat new list item
             case '8:ITEM':
 
-                $value = array_pop($this->params);
+                $concat = array_pop($this->params);
+                $concat .= $cdata;
 
-                if (is_intvalue($value))
-                {
-                    dal_query('values/lvcreate.sql',
-                              $this->field_id,
-                              $value,
-                              $cdata);
-                }
+                array_push($this->params, $concat);
 
                 break;
 
