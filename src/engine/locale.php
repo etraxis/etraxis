@@ -69,6 +69,7 @@
 //  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
 //  Vit Popelka             2010-07-14      new-948: Czech localization.
 //  Radosław Wójtowicz      2010-08-06      new-953: Polish localization.
+//  Artem Rodygin           2010-08-08      bug-954: Latin2 GD font is missing.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -110,8 +111,8 @@ require_once('../engine/res/indonesian.php');
  */
 define('LANG_ENGLISH_US',   1000);
 define('LANG_ENGLISH_UK',   1001);
-define('LANG_ENGLISH_AUS',  1002);
-define('LANG_ENGLISH_CAN',  1003);
+define('LANG_ENGLISH_CAN',  1002);
+define('LANG_ENGLISH_AUS',  1003);
 define('LANG_FRENCH',       1010);
 define('LANG_GERMAN',       1020);
 define('LANG_ITALIAN',      1030);
@@ -409,7 +410,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_czech,
         LOCALE_SUFFIX      => NULL,
-        LOCALE_ENCODING    => 'UTF-8',
+        LOCALE_ENCODING    => 'ISO-8859-2',
         LOCALE_PATH2FONTS  => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
