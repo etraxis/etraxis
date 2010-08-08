@@ -102,7 +102,7 @@ require_once('../engine/sessions.php');
 /**
  * Version info.
  */
-define('VERSION', '2.1.15');
+define('VERSION', '2.1.16');
 
 /**#@+
  * Size of HTML control.
