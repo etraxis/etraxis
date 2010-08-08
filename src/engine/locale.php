@@ -68,6 +68,7 @@
 //  Dan Stoenescu           2010-02-05      new-910: Romanian localization.
 //  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
 //  Vit Popelka             2010-07-14      new-948: Czech localization.
+//  Radosław Wójtowicz      2010-08-06      new-953: Polish localization.
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -91,6 +92,7 @@ require_once('../engine/res/portuguese.php');
 require_once('../engine/res/dutch.php');
 require_once('../engine/res/latvian.php');
 require_once('../engine/res/russian.php');
+require_once('../engine/res/polish.php');
 require_once('../engine/res/czech.php');
 require_once('../engine/res/bulgarian.php');
 require_once('../engine/res/romanian.php');
@@ -235,6 +237,7 @@ global $resource_portuguese;
 global $resource_dutch;
 global $resource_latvian;
 global $resource_russian;
+global $resource_polish;
 global $resource_czech;
 global $resource_bulgarian;
 global $resource_romanian;
@@ -387,6 +390,18 @@ $locale_info = array
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'G:i',
+    ),
+
+    // Polish
+    LANG_POLISH => array
+    (
+        LOCALE_RES_TABLE   => $resource_polish,
+        LOCALE_SUFFIX      => NULL,
+        LOCALE_ENCODING    => 'ISO-8859-2',
+        LOCALE_PATH2FONTS  => 'latin2',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'Y.m.d',
+        LOCALE_TIME_FORMAT => 'H:i',
     ),
 
     // Czech
