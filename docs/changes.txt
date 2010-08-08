@@ -2,20 +2,33 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-15 (2010-07-21)
+
+    new-948: Czech localization. (issue #56)
+
+
+Bug fixes integrated in MAIN_2-1-15 (2010-07-21)
+
+    bug-943: Project importer cdata with foreign characters (issue #52)
+    bug-945: v.2.1.14: incorrect "Responsible" value of assigned record (issue #54)
+    bug-949: field list not selectable over 20 (issue #58)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-14 (2010-06-04)
 
-    new-893: Expand All by default
+    new-893: Expand All by default (issue #7)
 
 Bug fixes integrated in MAIN_2-1-14 (2010-06-04)
 
-    bug-940: Incorrect Responsible values being displayed.
+    bug-940: Incorrect Responsible values being displayed. (issue #43)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Bug fixes integrated in MAIN_2-1-13 (2010-04-30)
 
-    bug-934: Unable to change record state
-    bug-935: Textbox doesn't auto resize
+    bug-934: Unable to change record state (issue #40)
+    bug-935: Textbox doesn't auto resize (issue #41)
     bug-936: Changing a state doesn't work on PHP 5.1
     bug-937: &nbsp; is shown in JavaScript alerts when state is being changed.
     bug-938: Generated notes show "&nbsp;" when PHP-server is Windows.
@@ -24,11 +37,11 @@ Bug fixes integrated in MAIN_2-1-13 (2010-04-30)
 
 New features integrated in MAIN_2-1-12 (2010-04-24)
 
-    new-933: New column LS/T(Last State Time)
+    new-933: New column LS/T(Last State Time) (issue #39)
 
 Bug fixes integrated in MAIN_2-1-12 (2010-04-24)
 
-    bug-932: Auto-generated e-mail always has 2 identical recipients.
+    bug-932: Auto-generated e-mail always has 2 identical recipients. (issue #38)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -83,9 +96,9 @@ Bug fixes integrated in MAIN_2-1-7 (2010-02-07)
 
 New features integrated in MAIN_2-1-6 (2010-02-04)
 
-    new-896: Export the whole project
+    new-896: Export the whole project (issue #9)
     new-902: Transparent gzip compression of attachments
-    new-904: Italian localization.
+    new-904: Italian localization. (issue #12)
 
 Bug fixes integrated in MAIN_2-1-6 (2010-02-04)
 
@@ -99,8 +112,8 @@ New features integrated in MAIN_2-1-5 (2010-01-26)
 
 Bug fixes integrated in MAIN_2-1-5 (2010-01-26)
 
-    bug-891: Attachments are not deleted when record is deleted
-    bug-892: English grammar correction
+    bug-891: Attachments are not deleted when record is deleted (issue #5)
+    bug-892: English grammar correction (issue #6)
     bug-894: Some pages don't work in Google Chrome.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -111,9 +124,9 @@ New features integrated in MAIN_2-1-4 (2010-01-09)
 
 Bug fixes integrated in MAIN_2-1-4 (2010-01-09)
 
-    bug-888: Cannot enter full size in comment (MSSQL 2000)
+    bug-888: Cannot enter full size in comment (MSSQL 2000) (issue #3)
     bug-889: PHP Notice: Undefined index: code/message (MSSQL 2000)
-    bug-890: Error cloning template
+    bug-890: Error cloning template (issue #4)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-15
-Release date : 2010-07-21
-Release size : 38266
+Release tag  : MAIN_2-1-16
+Release date : 2010-08-08
+Release size : 37852
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,16 +22,15 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/importer.php
 [M] src/engine/locale.php
 [M] src/engine/xml.php
-[A] src/engine/res/czech.php
-[M] src/projects/findex.php
-[M] src/projects/gindex.php
-[M] src/projects/sindex.php
-[M] src/projects/tindex.php
-[M] src/records/view.php
-[M] src/sql/records/elist2.sql
+[M] src/engine/res/czech.php
+[A] src/engine/res/polish.php
+[A] src/fonts/latin2/giant.gdf
+[A] src/fonts/latin2/large.gdf
+[A] src/fonts/latin2/medium.gdf
+[A] src/fonts/latin2/small.gdf
+[A] src/fonts/latin2/tiny.gdf
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -47,6 +46,7 @@ Indonesian
 Italian
 Japanese
 Latvian
+Polish
 Portuguese (Brazil)
 Romanian
 Russian
@@ -62,7 +62,6 @@ new-171: Display graph of states and transitions.
 new-193: 3rd party software interfaces.
 new-500: Record custom categories.
 new-514: Project admins.
-new-555: Rework template customization interface.
 new-731: Custom fields with dynamic data.
 new-791: [SF2620701] Background color in the records list
 new-829: Subscribed as system role.
@@ -75,9 +74,6 @@ new-844: [SF2848827] Display records with past deadlines in red
 new-852: LDAP // Email should not be mandatory.
 new-853: LDAP // Active Directory groups.
 new-856: [SF2892425] Refferencing or quoting comments of others
-new-893: Expand All by default (issue #7)
-new-905: BBCode // Support for new [spoiler] tag. (issue #13)
-new-907: Improve [list] tag compatibility (issue #14)
 new-908: Add short name to the field (issue #15)
 new-911: New field type - project (issue #18)
 new-917: Add description/tooltip to fields (issue #24)
@@ -92,21 +88,18 @@ KNOWN ISSUES
 
 bug-696: Values of restricted fields are still accessible via custom view.
 bug-903: BBCode // Nested lists look broken. (issue #11)
-bug-946: Bad characters in notifications subject.
 bug-947: Error occurs on pressing "OK" button in the "Resolved" or "Closed" issue state. (issue #55)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-948: Czech localization. (issue #56)
+new-953: Polish localization.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-943: Project importer cdata with foreign characters (issue #52)
-bug-945: v.2.1.14: incorrect "Responsible" value of assigned record (issue #54)
-bug-949: field list not selectable over 20 (issue #58)
+bug-954: Latin2 GD font is missing.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
