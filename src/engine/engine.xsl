@@ -1270,9 +1270,16 @@
 
 <xsl:template match="span">
     <span>
-    <xsl:attribute name="style">
-    <xsl:value-of select="@style"/>
-    </xsl:attribute>
+    <xsl:if test="boolean(@class)">
+        <xsl:attribute name="class">
+        <xsl:value-of select="@class"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(@style)">
+        <xsl:attribute name="style">
+        <xsl:value-of select="@style"/>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:apply-templates/>
     </span>
 </xsl:template>

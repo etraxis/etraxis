@@ -84,6 +84,7 @@
 //  Artem Rodygin           2010-02-01      bug-898: BBCode // Several "[code]" blocks are merged into one.
 //  Artem Rodygin           2010-02-06      new-906: Improve [url] tag compatibility
 //  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
+//  Artem Rodygin           2010-08-12      new-951: BBCode // Restyle [quote] tag
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -371,7 +372,7 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
             /* [mail]   */ '<url address="mailto:$2">$3</url>',
             /* [mail]   */ '<url address="mailto:$2">$3</url>',
             /* [code]   */ '<pre style="display: inline">$2</pre>',
-            /* [quote]  */ '<q>$2</q>',
+            /* [quote]  */ '<span class="quote">$2</span>',
             /* [search] */ '<searchres>$2</searchres>',
         ),
     );
@@ -442,6 +443,24 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
 
     // Ignore all tags inside "[code]...[/code]".
     $bbcode = preg_replace_callback('!\[code\](.*?)\[/code\]!isu', 'bbcode_callback', $bbcode);
+
+    // Remove extra newline characters from "block" tags.
+    $no_extra_newlines    = array('list', 'ulist', 'quote');
+    $newlines_patterns    = array();
+    $newlines_replacement = array();
+
+    for ($i = 0; $i < count($no_extra_newlines); $i++)
+    {
+        $newlines_patterns[] = '!(\n\[' . $no_extra_newlines[$i] . '\]\n(.*?)\n\[/' . $no_extra_newlines[$i] . '\]\n)!isu';
+        $newlines_patterns[] = '!(^\['  . $no_extra_newlines[$i] . '\]\n(.*?)\n\[/' . $no_extra_newlines[$i] . '\]\n)!isu';
+        $newlines_patterns[] = '!(\n\[' . $no_extra_newlines[$i] . '\]\n(.*?)\n\[/' . $no_extra_newlines[$i] . '\]$)!isu';
+
+        $newlines_replacement[] = "\n[{$no_extra_newlines[$i]}]$2[/{$no_extra_newlines[$i]}]";
+        $newlines_replacement[] = "[{$no_extra_newlines[$i]}]$2[/{$no_extra_newlines[$i]}]";
+        $newlines_replacement[] = "[{$no_extra_newlines[$i]}]$2[/{$no_extra_newlines[$i]}]";
+    }
+
+    $bbcode = preg_replace($newlines_patterns, $newlines_replacement, $bbcode);
 
     // Put zero byte before and after each BBCode tag, as a tag border.
     $bbcode = preg_replace($tags_open,  "\0\$1\0", $bbcode);
