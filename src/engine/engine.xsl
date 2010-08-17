@@ -456,7 +456,7 @@
     <tr valign="middle">
     <td/>
     <td nowrap="">
-    <input type="checkbox" class="checkbox">
+    <input type="checkbox" class="checkbox" value="">
     <xsl:attribute name="name">
     <xsl:value-of select="@name"/>
     </xsl:attribute>
@@ -464,11 +464,19 @@
     <xsl:value-of select="@name"/>
     </xsl:attribute>
     <xsl:if test="boolean(@checked = 'true')">
+        <xsl:attribute name="value">
+        <xsl:text>on</xsl:text>
+        </xsl:attribute>
         <xsl:attribute name="checked">
         </xsl:attribute>
     </xsl:if>
     <xsl:if test="boolean(@disabled = 'true')">
         <xsl:attribute name="disabled">
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="not(boolean(@readonly = 'true'))">
+        <xsl:attribute name="onclick">
+        <xsl:text>this.value = (this.checked ? 'on' : '')</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:if test="boolean(@readonly = 'true')">
