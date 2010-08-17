@@ -203,6 +203,7 @@
 //  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
 //  Artem Rodygin           2010-02-06      bug-914: Change e-mail subject encoding
 //  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
+//  Artem Rodygin           2010-08-18      bug-973: Filter out postponed records with state filter active
 //--------------------------------------------------------------------------------------------------
 
 /**#@+
@@ -819,17 +820,15 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_filter, 'r.closure_time is null');
             }
 
-            if ($filter['filter_type'] != FILTER_TYPE_SEL_STATES)
-            {
-                if ($filter['filter_flags'] & FILTER_FLAG_POSTPONED)
-                {
-                    array_push($clause_filter, 'r.postpone_time > ' . $time);
-                }
 
-                if ($filter['filter_flags'] & FILTER_FLAG_ACTIVE)
-                {
-                    array_push($clause_filter, 'r.postpone_time <=' . $time);
-                }
+            if ($filter['filter_flags'] & FILTER_FLAG_POSTPONED)
+            {
+                array_push($clause_filter, 'r.postpone_time > ' . $time);
+            }
+
+            if ($filter['filter_flags'] & FILTER_FLAG_ACTIVE)
+            {
+                array_push($clause_filter, 'r.postpone_time <=' . $time);
             }
 
             if ($filter['filter_type'] == FILTER_TYPE_ALL_STATES ||
