@@ -2,10 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_2-1-16 (2010-08-08)
+
+    new-953: Polish localization.
+
+Bug fixes integrated in MAIN_2-1-16 (2010-08-08)
+
+    bug-954: Latin2 GD font is missing.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_2-1-15 (2010-07-21)
 
     new-948: Czech localization. (issue #56)
-
 
 Bug fixes integrated in MAIN_2-1-15 (2010-07-21)
 
