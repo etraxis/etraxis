@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-16
-Release date : 2010-08-08
-Release size : 37852
+Release tag  : MAIN_2-1-17
+Release date : 2010-08-18
+Release size : 35755
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 INSTALLATION
@@ -22,15 +22,10 @@ Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/locale.php
+[M] src/css/etraxis.css
+[M] src/dbo/records.php
+[M] src/engine/engine.xsl
 [M] src/engine/xml.php
-[M] src/engine/res/czech.php
-[A] src/engine/res/polish.php
-[A] src/fonts/latin2/giant.gdf
-[A] src/fonts/latin2/large.gdf
-[A] src/fonts/latin2/medium.gdf
-[A] src/fonts/latin2/small.gdf
-[A] src/fonts/latin2/tiny.gdf
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -67,11 +62,11 @@ new-791: [SF2620701] Background color in the records list
 new-829: Subscribed as system role.
 new-830: Shared filter sets.
 new-831: Display subrecords as tree of nodes.
-new-836: Value submitter as system role.
+new-836: Value submitter as system role. (issue #49)
 new-840: RSS feeds for record changes.
 new-843: User self registration.
 new-844: [SF2848827] Display records with past deadlines in red
-new-852: LDAP // Email should not be mandatory.
+new-852: LDAP // Email should not be mandatory. (issue #36)
 new-853: LDAP // Active Directory groups.
 new-856: [SF2892425] Refferencing or quoting comments of others
 new-908: Add short name to the field (issue #15)
@@ -81,6 +76,23 @@ new-921: State with required attachment (issue #10)
 new-922: Greater Flexibility with emails. (issue #29)
 new-923: Support for subversion (issue #32)
 new-941: Show next state for each state on states view (issue #48)
+new-955: Better info about parent records and subrecords (issue #60)
+new-956: Request: More details in the generated message (issue #61)
+new-957: Request: Mark record as unread (issue #62)
+new-958: Request: Labels (issue #63)
+new-959: field relationships (issue #64)
+new-960: symbology dependent on some field value (issue #65)
+new-961: Metrics API (issue #66)
+new-962: current field values (issue #67)
+new-963: group with all comments (issue #68)
+new-964: show reassign event in event group (issue #69)
+new-966: Request: Enhanced sorting (issue #71)
+new-967: Request: Notification of the project state (issue #72)
+new-968: Request: Localization of templates (issue #73)
+new-969: Request: Enhanced associations (issue #74)
+new-970: Request: Reporting (issue #75)
+new-971: Request: Work with links (issue #76)
+new-972: Request: Default sort with filter (issue #77)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -88,18 +100,18 @@ KNOWN ISSUES
 
 bug-696: Values of restricted fields are still accessible via custom view.
 bug-903: BBCode // Nested lists look broken. (issue #11)
-bug-947: Error occurs on pressing "OK" button in the "Resolved" or "Closed" issue state. (issue #55)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-953: Polish localization.
+new-951: BBCode // Restyle [quote] tag
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-954: Latin2 GD font is missing.
+bug-952: Check boxes always saved as true (issue #59)
+bug-973: Filter out postponed records with state filter active (issue #78)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
