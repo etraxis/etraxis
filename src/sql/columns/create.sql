@@ -1,6 +1,6 @@
-insert into tbl_def_columns
+insert into tbl_view_columns
 
-   (account_id,
+   (view_id,
     state_name,
     field_name,
     column_type,

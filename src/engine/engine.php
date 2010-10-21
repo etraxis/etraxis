@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2004-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Engine dummy file.
  *
@@ -9,57 +29,14 @@
  * @package Engine
  */
 
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2004-11-17      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-08-10      new-008: Predefined metrics.
-//  Artem Rodygin           2005-08-15      new-003: Authentication with Active Directory.
-//  Artem Rodygin           2005-09-07      new-100: 'Date' field type should be implemented.
-//  Artem Rodygin           2005-09-08      new-101: 'Duration' field type should be implemented.
-//  Artem Rodygin           2006-01-24      new-204: Active Directory Support functionality (new-003) should be conditionally "compiled".
-//  Artem Rodygin           2006-07-24      bug-201: 'Access Forbidden' error with cyrillic named attachments.
-//  Artem Rodygin           2006-08-21      new-313: Implement HTTP authentication.
-//  Artem Rodygin           2006-11-04      new-364: Default fields values.
-//  Artem Rodygin           2006-11-15      bug-381: Attachments of some types are not opened in valid applications.
-//  Artem Rodygin           2006-12-14      new-446: Add processing of new upload errors.
-//  Yury Udovichenko        2007-11-14      new-548: Custom links in text fields.
-//  Artem Rodygin           2007-11-30      bug-632: HTTP Authentication problem running as CGI
-//  Artem Rodygin           2008-02-06      new-601: [SF1814666] Export and Import Templates
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Johannes Gelbaerchen    2009-03-23      bug-804: 'stripos' is not available in PHP4
-//  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-21      new-828: [SF2809460] Support for SMTP email
-//  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
-//--------------------------------------------------------------------------------------------------
-
 /**
  * Engine configuration.
  */
 require_once('../engine/config.php');
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Error code.
@@ -107,9 +84,9 @@ define('AUTH_TYPE_DIGEST',  3);
 define('AUTH_TYPE_NTLM',    4);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Engine modules.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Engine module.
@@ -123,6 +100,7 @@ require_once('../engine/dal.php');
 require_once('../engine/ldap.php');
 require_once('../engine/sessions.php');
 require_once('../engine/charts.php');
+require_once('../engine/bbcode.php');
 require_once('../engine/xml.php');
 /**#@-*/
 

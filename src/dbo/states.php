@@ -1,23 +1,13 @@
 <?php
 
-/**
- * States
- *
- * This module provides API to work with eTraxis states.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_states tbl_states} database table.
- *
- * @package DBO
- * @subpackage States
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2009  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,46 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-03-06      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-24      new-009: Records filter.
-//  Artem Rodygin           2005-08-22      bug-046: Query 'filters/fsdelall.sql' is not found.
-//  Artem Rodygin           2005-08-23      bug-047: Removable state will not be removed in some cases.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-04      bug-087: New state with empty name or abbreviation can be created.
-//  Artem Rodygin           2005-09-12      new-108: Increase maximum length of state name up to 50 characters.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-22      bug-166: Some filters & subscriptions should be removed when a project, template, or state has been deleted.
-//  Artem Rodygin           2005-10-22      bug-163: Some filters are malfunctional.
-//  Artem Rodygin           2006-02-10      new-209: Default permissions for new states.
-//  Artem Rodygin           2006-03-16      new-175: Implement user roles in permissions.
-//  Artem Rodygin           2006-04-21      bug-242: Unexpected message "State with entered name or abbreviation already exists".
-//  Artem Rodygin           2006-04-21      new-247: The 'responsible' user role should be obliterated.
-//  Artem Rodygin           2006-06-25      new-222: Email reminders.
-//  Artem Rodygin           2006-10-17      new-361: Extended custom queries.
-//  Artem Rodygin           2007-01-05      new-491: [SF1647212] Group-wide transition permission.
-//  Artem Rodygin           2007-09-10      new-579: Rework "state abbreviation" into "state short name".
-//  Artem Rodygin           2007-09-11      new-574: Filter should allow to specify several states.
-//  Yury Udovichenko        2007-11-19      new-623: Default state in states list.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-01-28      new-531: LDAP Guest users
-//  Artem Rodygin           2008-02-03      new-601: [SF1814666] Export and Import Templates
-//  Artem Rodygin           2008-03-20      bug-687: "XML parser error" on template import, if zero is specified in 'critical_age' template's parameter.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-03-24      bug-803: "XML parser error" on import of preliminary exported template.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * States
+ *
+ * This module provides API to work with eTraxis states.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_states tbl_states} database table.
+ *
+ * @package DBO
+ * @subpackage States
+ */
 
 /**#@+
  * Dependency.
@@ -73,9 +37,9 @@ require_once('../engine/engine.php');
 require_once('../dbo/fields.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Data restriction.
@@ -92,6 +56,14 @@ define('STATE_TYPE_INTERMEDIATE', 2);
 define('STATE_TYPE_FINAL',        3);
 /**#@-*/
 
+// State type resources.
+$state_type_res = array
+(
+    STATE_TYPE_INITIAL      => RES_INITIAL_ID,
+    STATE_TYPE_INTERMEDIATE => RES_INTERMEDIATE_ID,
+    STATE_TYPE_FINAL        => RES_FINAL_ID,
+);
+
 /**#@+
  * State responsibility.
  */
@@ -99,6 +71,14 @@ define('STATE_RESPONSIBLE_REMAIN', 1);
 define('STATE_RESPONSIBLE_ASSIGN', 2);
 define('STATE_RESPONSIBLE_REMOVE', 3);
 /**#@-*/
+
+// State responsibility resources.
+$state_responsible_res = array
+(
+    STATE_RESPONSIBLE_REMAIN => RES_REMAIN_ID,
+    STATE_RESPONSIBLE_ASSIGN => RES_ASSIGN_ID,
+    STATE_RESPONSIBLE_REMOVE => RES_REMOVE_ID,
+);
 
 /**#@+
  * State role.
@@ -109,14 +89,14 @@ define('STATE_ROLE_REGISTERED',  -3);
 define('MIN_STATE_ROLE', STATE_ROLE_REGISTERED);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds in database and returns the information about specified state.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id State ID}.
+ * @param int $id State ID.
  * @return array Array with data if template is found in database, FALSE otherwise.
  */
 function state_find ($id)
@@ -133,17 +113,17 @@ function state_find ($id)
  * Returns {@link CRecordset DAL recordset} which contains all existing states of specified template,
  * sorted in accordance with current sort mode.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id Template ID}.
+ * @param int $id Template ID.
  * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
  * client cookie ({@link COOKIE_STATES_SORT}) and updates it, if it's out of valid range.
  * @param int &$page Number of current page tab (used as output only). The function retrieves current
  * page from client cookie ({@link COOKIE_STATES_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of states.
  */
-function state_list ($id, &$sort, &$page)
+function states_list ($id, &$sort, &$page)
 {
-    debug_write_log(DEBUG_TRACE, '[state_list]');
-    debug_write_log(DEBUG_DUMP,  '[state_list] $id = ' . $id);
+    debug_write_log(DEBUG_TRACE, '[states_list]');
+    debug_write_log(DEBUG_DUMP,  '[states_list] $id = ' . $id);
 
     $sort_modes = array
     (
@@ -172,8 +152,8 @@ function state_list ($id, &$sort, &$page)
 /**
  * Validates state information before creation or modification.
  *
- * @param string $state_name {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_name State name}.
- * @param string $state_abbr {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_abbr State abbreviation}.
+ * @param string $state_name State name.
+ * @param string $state_abbr State abbreviation.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -199,17 +179,16 @@ function state_validate ($state_name, $state_abbr)
 /**
  * Creates new state.
  *
- * @param int $template_id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template which new state will belong to.
- * @param string $state_name {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_name State name}.
- * @param string $state_abbr {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_abbr State abbreviation}.
- * @param int $state_type {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_type Type of state}.
- * @param int $next_state_id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state, which should be next by default in this dataflow (NULL by default).
- * @param int $responsible {@link http://www.etraxis.org/docs-schema.php#tbl_templates_description State responsibility} ({@STATE_RESPONSIBLE_REMOVE} by default).
+ * @param int $template_id ID of template which new state will belong to.
+ * @param string $state_name State name.
+ * @param string $state_abbr State abbreviation.
+ * @param int $state_type Type of state.
+ * @param int $next_state_id ID of state, which should be next by default in this dataflow (NULL by default).
+ * @param int $responsible State responsibility ({@STATE_RESPONSIBLE_REMOVE} by default).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - state is successfully created</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - state with specified {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_name name}
- * or {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_abbr abbreviation} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - state with specified name or abbreviation already exists</li>
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create state</li>
  * </ul>
  */
@@ -255,17 +234,16 @@ function state_create ($template_id, $state_name, $state_abbr, $state_type, $nex
 /**
  * Modifies specified state.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state to be modified.
- * @param int $template_id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template which the state belongs to.
- * @param string $state_name New {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_name state name}.
- * @param string $state_abbr New {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_abbr state abbreviation}.
- * @param int $next_state_id New {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state, which will be next by default in this dataflow.
- * @param int $responsible New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_description state responsibility}.
+ * @param int $id ID of state to be modified.
+ * @param int $template_id ID of template which the state belongs to.
+ * @param string $state_name New state name.
+ * @param string $state_abbr New state abbreviation.
+ * @param int $next_state_id New ID of state, which will be next by default in this dataflow.
+ * @param int $responsible New state responsibility.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - state is successfully modified</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - state with specified {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_name name}
- * or {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_abbr abbreviation} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - state with specified name or abbreviation already exists</li>
  * </ul>
  */
 function state_modify ($id, $template_id, $state_name, $state_abbr, $next_state_id, $responsible)
@@ -301,7 +279,7 @@ function state_modify ($id, $template_id, $state_name, $state_abbr, $next_state_
 /**
  * Checks whether state can be deleted.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state to be deleted.
+ * @param int $id ID of state to be deleted.
  * @return bool TRUE if state can be deleted, FALSE otherwise.
  */
 function is_state_removable ($id)
@@ -317,7 +295,7 @@ function is_state_removable ($id)
 /**
  * Deletes specified state.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state to be deleted.
+ * @param int $id ID of state to be deleted.
  * @return int Always {@link NO_ERROR}.
  */
 function state_delete ($id)
@@ -336,6 +314,7 @@ function state_delete ($id)
     dal_query('states/fdelall.sql',  $id);
     dal_query('states/gtdelall.sql', $id);
     dal_query('states/rtdelall.sql', $id);
+    dal_query('states/clrdef.sql',   $id);
     dal_query('states/delete.sql',   $id);
 
     return NO_ERROR;
@@ -344,8 +323,8 @@ function state_delete ($id)
 /**
  * Marks specified state as initial in its dataflow.
  *
- * @param int $template_id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template which the state belongs to.
- * @param int $state_id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state to be made initial.
+ * @param int $template_id ID of template which the state belongs to.
+ * @param int $state_id ID of state to be made initial.
  * @return int Always {@link NO_ERROR}.
  */
 function state_set_initial ($template_id, $state_id)
@@ -363,7 +342,7 @@ function state_set_initial ($template_id, $state_id)
 /**
  * Exports all states of the specified template to XML code (see also {@link template_export}).
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template, which states should be exported.
+ * @param int $id ID of template, which states should be exported.
  * @param array &$groups Array of IDs of groups, affected by this template (used for output only).
  * @return string Generated XML code.
  */

@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package DBO
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2008-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2008-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,28 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2008-02-24      new-601: [SF1814666] Export and Import Templates
-//  Artem Rodygin           2008-02-27      new-676: [SF1898731] Delete Issues from Workflow
-//  Artem Rodygin           2008-04-09      bug-697: XML import fails on date values.
-//  Artem Rodygin           2008-04-13      bug-698: XML import // All new line characters are lost in default value of multilined field.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-09-10      new-716: 'Today' value in date field range.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2008-12-11      bug-778: PHP Warning: Missing argument 8 for template_create()
-//  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-01-15      bug-788: Maximum value of 'number', 'date' and 'duration' fields becomes minimum on import.
-//  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//  Daniel Krejci           2010-06-21      bug-943: Project importer cdata with foreign characters
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package DBO
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -56,9 +38,9 @@ require_once('../dbo/fields.php');
 require_once('../dbo/events.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Importer.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * For internal use only.

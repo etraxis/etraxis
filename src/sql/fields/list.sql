@@ -6,6 +6,7 @@ select
     field_type,
     is_required,
     add_separator,
+    guest_access,
     regex_check,
     regex_search,
     regex_replace,

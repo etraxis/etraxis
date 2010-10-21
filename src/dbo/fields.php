@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Fields
- *
- * This module provides API to work with eTraxis fields.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_fields tbl_fields} database table.
- *
- * @package DBO
- * @subpackage Fields
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2009  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,66 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-03-23      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-08-06      new-021: Default permissions for new fields.
-//  Artem Rodygin           2005-08-23      bug-050: Removable field will not be removed in some cases.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-08-27      bug-062: List values are not set.
-//  Artem Rodygin           2005-08-27      bug-064: New field cannot be created if some existed field has been deleted before.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-07      new-102: Increase maximum length of comments and 'multilined text' fields up to 4000 characters.
-//  Artem Rodygin           2005-09-07      new-100: 'Date' field type should be implemented.
-//  Artem Rodygin           2005-09-08      new-101: 'Duration' field type should be implemented.
-//  Artem Rodygin           2005-09-12      new-105: Format of date values are being entered should depend on user locale settings.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-22      bug-163: Some filters are malfunctional.
-//  Artem Rodygin           2005-11-27      bug-179: Maximum valid date cannot be entered.
-//  Artem Rodygin           2006-03-16      new-175: Implement user roles in permissions.
-//  Artem Rodygin           2006-04-21      bug-243: Unexpected message "Field with entered name already exists".
-//  Artem Rodygin           2006-04-21      new-247: The 'responsible' user role should be obliterated.
-//  Artem Rodygin           2006-05-23      bug-262: PHP Warning: ocifetchinto(): OCILobRead: ORA-24806: LOB form mismatch
-//  Artem Rodygin           2006-06-25      bug-269: Multilined text values are cut to 1000 characters.
-//  Artem Rodygin           2006-07-23      new-296: Changing fields order.
-//  Artem Rodygin           2006-10-12      new-137: Custom queries.
-//  Artem Rodygin           2006-11-04      new-364: Default fields values.
-//  Artem Rodygin           2006-11-20      new-377: Custom views.
-//  Artem Rodygin           2006-12-06      bug-421: 1/1/1970 cannot be set as minimum value of date field.
-//  Artem Rodygin           2006-12-10      new-422: Increase maximum length of string fields.
-//  Artem Rodygin           2007-01-05      new-491: [SF1647212] Group-wide transition permission.
-//  Artem Rodygin           2007-02-25      bug-497: Cannot postpone record till tomorrow.
-//  Artem Rodygin           2007-04-04      bug-515: Wrong dates in note/alert when new date field is being created.
-//  Artem Rodygin           2007-09-09      new-563: Custom separators inside fields set.
-//  Yury Udovichenko        2007-11-14      new-548: Custom links in text fields.
-//  Artem Rodygin           2007-11-14      bug-626: eTraxis Error: [dal_execute] dbx_error(): Table 'etraxis.tbl_columns' doesn't exist
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-01-28      new-531: LDAP Guest users
-//  Artem Rodygin           2008-02-03      new-601: [SF1814666] Export and Import Templates
-//  Artem Rodygin           2008-02-08      bug-673: Newly created field always has empty strings as its regexps instead of NULL.
-//  Artem Rodygin           2008-02-08      new-671: Default value for 'date' fields should be relative.
-//  Artem Rodygin           2008-03-20      bug-687: "XML parser error" on template import, if zero is specified in 'critical_age' template's parameter.
-//  Artem Rodygin           2008-04-09      bug-697: XML import fails on date values.
-//  Artem Rodygin           2008-04-13      bug-698: XML import // All new line characters are lost in default value of multilined field.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-04-30      bug-699: Views // Names of custom columns are duplicated in the list of available columns, when there are two fields of different types with the same name.
-//  Artem Rodygin           2008-09-10      new-716: 'Today' value in date field range.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-01-15      bug-787: [SF2509057] Can't import template
-//  Artem Rodygin           2009-03-24      bug-803: "XML parser error" on import of preliminary exported template.
-//  Artem Rodygin           2009-04-24      new-817: Field permissions dialog refactoring.
-//  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2009-10-17      new-802: [SF2704057] possibility to disable fields
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Fields
+ *
+ * This module provides API to work with eTraxis fields.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_fields tbl_fields} database table.
+ *
+ * @package DBO
+ * @subpackage Fields
+ */
 
 /**#@+
  * Dependency.
@@ -93,9 +37,9 @@ require_once('../engine/engine.php');
 require_once('../dbo/values.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Data restriction.
@@ -164,14 +108,14 @@ $field_type_res = array
     FIELD_TYPE_DURATION   => RES_DURATION_ID,
 );
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds in database and returns the information about specified field.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id Field ID}.
+ * @param int $id Field ID.
  * @return array Array with data if field is found in database, FALSE otherwise.
  */
 function field_find ($id)
@@ -188,28 +132,30 @@ function field_find ($id)
  * Returns {@link CRecordset DAL recordset} which contains all existing fields of specified state,
  * sorted in accordance with current sort mode.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id State ID}.
+ * @param int $id State ID.
  * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
  * client cookie ({@link COOKIE_FIELDS_SORT}) and updates it, if it's out of valid range.
  * @param int &$page Number of current page tab (used as output only). The function retrieves current
  * page from client cookie ({@link COOKIE_FIELDS_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of fields.
  */
-function field_list ($id, &$sort, &$page)
+function fields_list ($id, &$sort, &$page)
 {
-    debug_write_log(DEBUG_TRACE, '[field_list]');
-    debug_write_log(DEBUG_DUMP,  '[field_list] $id = ' . $id);
+    debug_write_log(DEBUG_TRACE, '[fields_list]');
+    debug_write_log(DEBUG_DUMP,  '[fields_list] $id = ' . $id);
 
     $sort_modes = array
     (
-        1 => 'field_order asc',
-        2 => 'field_name asc',
-        3 => 'field_type asc, field_name asc',
-        4 => 'is_required asc, field_name asc',
-        5 => 'field_order desc',
-        6 => 'field_name desc',
-        7 => 'field_type desc, field_name desc',
-        8 => 'is_required desc, field_name desc',
+        1  => 'field_order asc',
+        2  => 'field_name asc',
+        3  => 'field_type asc, field_name asc',
+        4  => 'is_required asc, field_name asc',
+        5  => 'guest_access asc, field_name asc',
+        6  => 'field_order desc',
+        7  => 'field_name desc',
+        8  => 'field_type desc, field_name desc',
+        9  => 'is_required desc, field_name desc',
+        10 => 'guest_access desc, field_name desc',
     );
 
     $sort = try_request('sort', try_cookie(COOKIE_FIELDS_SORT, 1));
@@ -227,7 +173,7 @@ function field_list ($id, &$sort, &$page)
 /**
  * Returns number of fields for specified state.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id State ID}.
+ * @param int $id State ID.
  * @return int Current number of fields.
  */
 function field_count ($id)
@@ -243,8 +189,8 @@ function field_count ($id)
 /**
  * Returns list of all local and global groups which have specified permission for specified field.
  *
- * @param int $pid {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id Project ID}.
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id Field ID}.
+ * @param int $pid Project ID.
+ * @param int $fid Field ID.
  * @param int $perms Permission:
  * <ul>
  * <li>{@link FIELD_ALLOW_TO_READ}</li>
@@ -265,8 +211,8 @@ function field_amongs ($pid, $fid, $perms)
 /**
  * Returns list of all local and global groups which don't have specified permission for specified field.
  *
- * @param int $pid {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id Project ID}.
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id Field ID}.
+ * @param int $pid Project ID.
+ * @param int $fid Field ID.
  * @param int $perms Permission:
  * <ul>
  * <li>{@link FIELD_ALLOW_TO_READ}</li>
@@ -287,7 +233,7 @@ function field_others ($pid, $fid, $perms)
 /**
  * Validates general field information before creation or modification.
  *
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
+ * @param string $field_name Field name.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -311,7 +257,7 @@ function field_validate ($field_name)
 /**
  * Validates 'Number' field information before creation or modification.
  *
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
+ * @param string $field_name Field name.
  * @param int $min_value Minimum allowed value of the field.
  * @param int $max_value Maximum allowed value of the field.
  * @param int $def_value Default allowed value of the field (NULL by default).
@@ -378,7 +324,7 @@ function field_validate_number ($field_name, $min_value, $max_value, $def_value 
 /**
  * Validates 'String' field information before creation or modification.
  *
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
+ * @param string $field_name Field name.
  * @param int $max_length Maximum allowed length of string value in this field.
  * @return int Error code:
  * <ul>
@@ -421,7 +367,7 @@ function field_validate_string ($field_name, $max_length)
 /**
  * Validates 'Multilined text' field information before creation or modification.
  *
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
+ * @param string $field_name Field name.
  * @param int $max_length Maximum allowed length of string value in this field.
  * @return int Error code:
  * <ul>
@@ -464,7 +410,7 @@ function field_validate_multilined ($field_name, $max_length)
 /**
  * Validates 'Date' field information before creation or modification.
  *
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
+ * @param string $field_name Field name.
  * @param int $min_value Minimum allowed value of the field.
  * @param int $max_value Maximum allowed value of the field.
  * @param int $def_value Default allowed value of the field (NULL by default).
@@ -533,7 +479,7 @@ function field_validate_date ($field_name, $min_value, $max_value, $def_value = 
 /**
  * Validates 'Duration' field information before creation or modification.
  *
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
+ * @param string $field_name Field name.
  * @param int $min_value Minimum allowed value of the field.
  * @param int $max_value Maximum allowed value of the field.
  * @param int $def_value Default allowed value of the field (NULL by default).
@@ -713,23 +659,23 @@ function field_pickup_list_items ($field_id)
 /**
  * Creates new field.
  *
- * @param int $state_id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state which new field will belong to.
- * @param string $field_name {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name Field name}.
- * @param int $field_type {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_type Field type}.
+ * @param int $state_id ID of state which new field will belong to.
+ * @param string $field_name Field name.
+ * @param int $field_type Field type.
  * @param bool $is_required Whether the field is required.
  * @param bool $add_separator If TRUE, then eTraxis will add separator '<hr>' after the field, when record is being displayed.
- * @param bool $guest_access Ability of {@link http://www.etraxis.org/docs-schema.php#tbl_fields_guest_access guest access} to the field values.
+ * @param bool $guest_access Ability of guest access to the field values.
  * @param string $regex_check Perl-compatible regular expression, which values of the field must conform to.
  * @param string $regex_search Perl-compatible regular expression to modify values of the field, used to be searched for  (NULL by default).
  * @param string $regex_replace Perl-compatible regular expression to modify values of the field, used to replace with (NULL by default).
- * @param int $param1 {@link http://www.etraxis.org/docs-schema.php#tbl_fields_param1 First parameter} of the field, specific to its type (NULL by default).
- * @param int $param2 {@link http://www.etraxis.org/docs-schema.php#tbl_fields_param2 Second parameter} of the field, specific to its type (NULL by default).
- * @param int $value_id {@link http://www.etraxis.org/docs-schema.php#tbl_fields_value_id Default value} of the field, specific to its type (NULL by default).
+ * @param int $param1 First parameter of the field, specific to its type (NULL by default).
+ * @param int $param2 Second parameter of the field, specific to its type (NULL by default).
+ * @param int $value_id Default value of the field, specific to its type (NULL by default).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - field is successfully created</li>
  * <li>{@link ERROR_INCOMPLETE_FORM} - at least one of required data is empty</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - field with specified {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - field with specified name already exists</li>
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create field</li>
  * </ul>
  */
@@ -815,26 +761,26 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
 /**
  * Modifies specified field.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field to be modified.
- * @param int $state_id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state which the field belongs to.
- * @param string $field_name New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name field name}.
- * @param int $field_old_order Current {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_order field order}.
- * @param int $field_new_order New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_order field order}.
- * @param int $field_type Current {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_type field type} (field type is not modifiable).
+ * @param int $id ID of field to be modified.
+ * @param int $state_id ID of state which the field belongs to.
+ * @param string $field_name New field name.
+ * @param int $field_old_order Current field order.
+ * @param int $field_new_order New field order.
+ * @param int $field_type Current field type (field type is not modifiable).
  * @param bool $is_required Whether the field is required.
  * @param bool $add_separator If TRUE, then eTraxis will add separator '<hr>' after the field, when record is being displayed.
- * @param bool $guest_access Ability of {@link http://www.etraxis.org/docs-schema.php#tbl_fields_guest_access guest access} to the field values.
+ * @param bool $guest_access Ability of guest access to the field values.
  * @param string $regex_check New perl-compatible regular expression, which values of the field must conform to.
  * @param string $regex_search New perl-compatible regular expression to modify values of the field, used to be searched for  (NULL by default).
  * @param string $regex_replace New perl-compatible regular expression to modify values of the field, used to replace with (NULL by default).
- * @param int $param1 New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_param1 first parameter} of the field, specific to its type (NULL by default).
- * @param int $param2 New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_param2 second parameter} of the field, specific to its type (NULL by default).
- * @param int $value_id New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_value_id default value} of the field, specific to its type (NULL by default).
+ * @param int $param1 New first parameter of the field, specific to its type (NULL by default).
+ * @param int $param2 New second parameter of the field, specific to its type (NULL by default).
+ * @param int $value_id New default value of the field, specific to its type (NULL by default).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - field is successfully modified</li>
  * <li>{@link ERROR_INCOMPLETE_FORM} - at least one of required data is empty</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - another field with specified {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_name name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - another field with specified name already exists</li>
  * </ul>
  */
 function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access,
@@ -928,7 +874,7 @@ function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new
 /**
  * Checks whether field can be deleted.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field to be deleted.
+ * @param int $id ID of field to be deleted.
  * @return bool TRUE if field can be deleted, FALSE otherwise.
  */
 function is_field_removable ($id)
@@ -944,7 +890,7 @@ function is_field_removable ($id)
 /**
  * Deletes specified field if it's removable, or disables the field otherwise.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field to be deleted.
+ * @param int $id ID of field to be deleted.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - field is successfully deleted/disabled</li>
@@ -995,8 +941,8 @@ function field_delete ($id)
 /**
  * Sets permissions of system role 'author' for specified field.
  *
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field which permissions should be set for.
- * @param int $perm New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_author_perm permissions} set.
+ * @param int $fid ID of field which permissions should be set for.
+ * @param int $perm New permissions set.
  * @return int Always {@link NO_ERROR}.
  */
 function field_author_permission_set ($fid, $perm)
@@ -1013,8 +959,8 @@ function field_author_permission_set ($fid, $perm)
 /**
  * Sets permissions of system role 'responsible' for specified field.
  *
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field which permissions should be set for.
- * @param int $perm New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_responsible_perm permissions} set.
+ * @param int $fid ID of field which permissions should be set for.
+ * @param int $perm New permissions set.
  * @return int Always {@link NO_ERROR}.
  */
 function field_responsible_permission_set ($fid, $perm)
@@ -1031,8 +977,8 @@ function field_responsible_permission_set ($fid, $perm)
 /**
  * Sets permissions of system role 'registered' for specified field.
  *
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id ID} of field which permissions should be set for.
- * @param int $perm New {@link http://www.etraxis.org/docs-schema.php#tbl_fields_registered_perm permissions} set.
+ * @param int $fid ID of field which permissions should be set for.
+ * @param int $perm New permissions set.
  * @return int Always {@link NO_ERROR}.
  */
 function field_registered_permission_set ($fid, $perm)
@@ -1049,8 +995,8 @@ function field_registered_permission_set ($fid, $perm)
 /**
  * Gives to specified group a specified permission for specified field.
  *
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id Field ID}.
- * @param int $gid {@link http://www.etraxis.org/docs-schema.php#tbl_groups_group_id Group ID}.
+ * @param int $fid Field ID.
+ * @param int $gid Group ID.
  * @param int $perm Permission (exactly one of the following):
  * <ul>
  * <li>{@link FIELD_ALLOW_TO_READ}</li>
@@ -1073,8 +1019,8 @@ function field_permission_add ($fid, $gid, $perm)
 /**
  * Revokes from specified group all permissions for specified field.
  *
- * @param int $fid {@link http://www.etraxis.org/docs-schema.php#tbl_fields_field_id Field ID}.
- * @param int $gid {@link http://www.etraxis.org/docs-schema.php#tbl_groups_group_id Group ID}.
+ * @param int $fid Field ID.
+ * @param int $gid Group ID.
  * @return int Always {@link NO_ERROR}.
  */
 function field_permission_remove ($fid, $gid)
@@ -1091,7 +1037,7 @@ function field_permission_remove ($fid, $gid)
 /**
  * Exports all fields of the specified state to XML code (see also {@link template_export}).
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID} of state, which fields should be exported.
+ * @param int $id ID of state, which fields should be exported.
  * @param array &$groups Array of IDs of groups, affected by this template (used for output only).
  * @return string Generated XML code.
  */

@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2009-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2009-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,23 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2009-01-09      new-783: Script for eTraxis initial setup.
-//  Artem Rodygin           2009-02-25      bug-792: [SF2635842] Short PHP tags in login.php
-//  Artem Rodygin           2009-02-27      bug-794: [SF2643676] Security problem when logout.
-//  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-08-06      bug-841: The 'magic_quotes_runtime' option must be turned off.
-//  Artem Rodygin           2009-09-10      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
-//  Artem Rodygin           2010-04-22      Required PHP 5 version is updated.
-//  Artem Rodygin           2010-04-29      bug-936: Changing a state doesn't work on PHP 5.1
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -77,36 +64,36 @@ else
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="author" content="Artem Rodygin"/>
-<meta name="copyright" content="Copyright (C) 2003-2009 by Artem Rodygin"/>
-<link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
+<meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
 <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
+<link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
 <title>eTraxis</title>
-<body bgcolor="#FBFBFB" style="margin:10px">
-<!-- General information -------------------------------------------------------------------------->
+<body style="margin:10px">
+<!-- General information ------------------------------------------------------>
 <fieldset>
 <legend>General information</legend>
-<table cellpadding="0" cellspacing="0"><tr>
-<td><p class="label">Server OS:</p></td>
-<td><p class="text"><?php echo(php_uname()); ?></p></td>
+<table class="form"><tr>
+<td class="label">Server OS:</td>
+<td class="text"><?php echo(php_uname()); ?></td>
 </tr><tr>
-<td><p class="label">Server software:</p></td>
-<td><p class="text"><?php echo($_SERVER['SERVER_SOFTWARE']); ?></p></td>
+<td class="label">Server software:</td>
+<td class="text"><?php echo($_SERVER['SERVER_SOFTWARE']); ?></td>
 </tr><tr>
-<td><p class="label">User agent:</p></td>
-<td><p class="text"><?php echo($_SERVER['HTTP_USER_AGENT']); ?></p></td>
+<td class="label">User agent:</td>
+<td class="text"><?php echo($_SERVER['HTTP_USER_AGENT']); ?></td>
 </tr></table>
 </fieldset>
-<!-- PHP configuration ---------------------------------------------------------------------------->
+<!-- PHP configuration -------------------------------------------------------->
 <fieldset>
 <legend>PHP configuration</legend>
-<table cellpadding="0" cellspacing="0"><tr>
+<table class="form"><tr>
 <?php
 
 switch ($php_version)
 {
     case PHP_V4:
 
-        $message = '<b>FAIL</b> <i>(PHP 4 is discontinued, you need ' . PHP5_MINIMUM . ' at least)</i>';
+        $message = '<a class="fail">FAIL</a> <i>(PHP 4 is discontinued, you need ' . PHP5_MINIMUM . ' at least)</i>';
 
         break;
 
@@ -114,91 +101,91 @@ switch ($php_version)
 
         if (version_compare(PHP_VERSION, PHP5_MINIMUM) >= 0)
         {
-            $message = '<b>PASS</b> <i>(version ' . PHP_VERSION . ')</i>';
+            $message = '<a class="pass">PASS</a> <i>(version ' . PHP_VERSION . ')</i>';
         }
         else
         {
-            $message = '<b>FAIL</b> <i>(version ' . PHP_VERSION . ' is not supported, you need ' . PHP5_MINIMUM . ' at least)</i>';
+            $message = '<a class="fail">FAIL</a> <i>(version ' . PHP_VERSION . ' is not supported, you need ' . PHP5_MINIMUM . ' at least)</i>';
         }
 
         break;
 
     case PHP_V6:
 
-        $message = '<b>FAIL</b> <i>(PHP 6 is not production, eTraxis behaviour is unpredictable)</i>';
+        $message = '<a class="fail">FAIL</a> <i>(PHP 6 is not production, eTraxis behaviour is unpredictable)</i>';
 
         break;
 
     default:
 
-        $message = '<b>FAIL</b> <i>(version ' . PHP_VERSION . ' is obsolete or not supported)</i>';
+        $message = '<a class="fail">FAIL</a> <i>(version ' . PHP_VERSION . ' is obsolete or not supported)</i>';
 }
 
 ?>
-<td><p class="label">PHP version:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">PHP version:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if (ini_get('safe_mode'))
 {
-    $message = '<b>FAIL</b> <i>(safe mode is turned on, eTraxis behaviour is unpredictable)</i>';
+    $message = '<a class="fail">FAIL</a> <i>(safe mode is turned on, eTraxis behaviour is unpredictable)</i>';
 }
 else
 {
-    $message = '<b>PASS</b> <i>(safe mode is disabled)</i>';
+    $message = '<a class="pass">PASS</a> <i>(safe mode is disabled)</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">safe_mode:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">safe_mode:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if (get_magic_quotes_gpc() == 0)
 {
-    $message = '<b>PASS</b> <i>(magic quotes are disabled)</i>';
+    $message = '<a class="pass">PASS</a> <i>(magic quotes are disabled)</i>';
 }
 else
 {
-    $message = '<b>FAIL</b> <i>(magic quotes for GET/POST/Cookie are turned on, must be disabled)</i>';
+    $message = '<a class="fail">FAIL</a> <i>(magic quotes for GET/POST/Cookie are turned on, must be disabled)</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">magic_quotes_gpc:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">magic_quotes_gpc:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if (get_magic_quotes_runtime() == 0)
 {
-    $message = '<b>PASS</b> <i>(magic quotes are disabled)</i>';
+    $message = '<a class="pass">PASS</a> <i>(magic quotes are disabled)</i>';
 }
 else
 {
-    $message = '<b>FAIL</b> <i>(magic quotes for runtime data are turned on, must be disabled)</i>';
+    $message = '<a class="fail">FAIL</a> <i>(magic quotes for runtime data are turned on, must be disabled)</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">magic_quotes_runtime:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">magic_quotes_runtime:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 $default_charset = ini_get('default_charset');
 
 if (strlen($default_charset) == 0 || strtolower($default_charset) == 'utf-8')
 {
-    $message = '<b>PASS</b> <i>(' . (strlen($default_charset) == 0 ? 'empty' : $default_charset) . ')</i>';
+    $message = '<a class="pass">PASS</a> <i>(' . (strlen($default_charset) == 0 ? 'empty' : $default_charset) . ')</i>';
 }
 else
 {
-    $message = '<b>FAIL</b> <i>(should be either commented, or set to "UTF-8")</i>';
+    $message = '<a class="fail">FAIL</a> <i>(should be either commented, or set to "UTF-8")</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">default_charset:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">default_charset:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if ($php_version == PHP_V5)
@@ -207,27 +194,27 @@ if ($php_version == PHP_V5)
 
     if (strlen($timezone) == 0)
     {
-        $message = '<b>FAIL</b> <i>(undefined, should be set to one of <a href="http://www.php.net/manual/timezones.php">available timezones</a>)</i>';
+        $message = '<a class="fail">FAIL</a> <i>(undefined, should be set to one of <a href="http://www.php.net/manual/timezones.php">available timezones</a>)</i>';
     }
     else
     {
-        $message = '<b>PASS</b> <i>("' . $timezone . '")</i>';
+        $message = '<a class="pass">PASS</a> <i>("' . $timezone . '")</i>';
     }
 
 ?>
 </tr><tr>
-<td><p class="label">date.timezone:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">date.timezone:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 }
 
 ?>
 </tr></table>
 </fieldset>
-<!-- PHP extensions ------------------------------------------------------------------------------->
+<!-- PHP extensions ----------------------------------------------------------->
 <fieldset>
 <legend>PHP extensions</legend>
-<table cellpadding="0" cellspacing="0">
+<table class="form">
 <?php
 
 $extensions = array('iconv', 'mbstring', 'xsl',
@@ -265,30 +252,30 @@ sort($extensions);
 foreach ($extensions as $extension)
 {
 ?>
-<tr><td><p class="label"><?php echo($extension); ?>:</p></td>
+<tr><td class="label"><?php echo($extension); ?>:</td>
 <?php
 
     if (extension_loaded($extension))
     {
-        $message = '<b>PASS</b>';
+        $message = '<a class="pass">PASS</a>';
     }
     else
     {
-        $message = '<b>FAIL</b>';
+        $message = '<a class="fail">FAIL</a>';
     }
 
 ?>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 }
 
 ?>
 </table>
 </fieldset>
-<!-- eTraxis configuration ------------------------------------------------------------------------>
+<!-- eTraxis configuration ---------------------------------------------------->
 <fieldset>
 <legend>eTraxis configuration</legend>
-<table cellpadding="0" cellspacing="0"><tr>
+<table class="form"><tr>
 <?php
 
 $localroot = $_SERVER['SCRIPT_FILENAME'];
@@ -298,88 +285,88 @@ $str = substr($localroot, - strlen($substr));
 
 if (substr($localroot, - strlen($substr)) != $substr)
 {
-    $message = '<b>FAIL</b> <i>(can\'t determine valid "LOCALROOT")</i>';
+    $message = '<a class="fail">FAIL</a> <i>(can\'t determine valid "LOCALROOT")</i>';
 }
 elseif (LOCALROOT != ($localroot = substr($localroot, 0, - strlen($substr))))
 {
-    $message = '<b>FAIL</b> <i>("LOCALROOT" is probably wrong and should be "' . $localroot . '")</i>';
+    $message = '<a class="fail">FAIL</a> <i>("LOCALROOT" is probably wrong and should be "' . $localroot . '")</i>';
 }
 else
 {
-    $message = '<b>PASS</b> <i>("' . LOCALROOT . '")</i>';
+    $message = '<a class="pass">PASS</a> <i>("' . LOCALROOT . '")</i>';
 }
 
 ?>
-<td><p class="label">Local root path:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">Local root path:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if (ATTACHMENTS_ENABLED)
 {
     if (!file_exists(ATTACHMENTS_PATH))
     {
-        $message = '<b>FAIL</b> <i>("' . ATTACHMENTS_PATH . '" is not found)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . ATTACHMENTS_PATH . '" is not found)</i>';
     }
     elseif (!is_dir(ATTACHMENTS_PATH))
     {
-        $message = '<b>FAIL</b> <i>("' . ATTACHMENTS_PATH . '" is not a directory)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . ATTACHMENTS_PATH . '" is not a directory)</i>';
     }
     elseif (!is_writable(ATTACHMENTS_PATH))
     {
-        $message = '<b>FAIL</b> <i>("' . ATTACHMENTS_PATH . '" is not writeable)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . ATTACHMENTS_PATH . '" is not writeable)</i>';
     }
     elseif (substr(ATTACHMENTS_PATH, -1, 1) != '/')
     {
-        $message = '<b>FAIL</b> <i>("' . ATTACHMENTS_PATH . '" must be finished with "/" character)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . ATTACHMENTS_PATH . '" must be finished with "/" character)</i>';
     }
     else
     {
-        $message = '<b>PASS</b> <i>("' . ATTACHMENTS_PATH . '")</i>';
+        $message = '<a class="pass">PASS</a> <i>("' . ATTACHMENTS_PATH . '")</i>';
     }
 }
 else
 {
-    $message = '<b>PASS</b> <i>(disabled)</i>';
+    $message = '<a class="pass">PASS</a> <i>(disabled)</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">Attachments:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">Attachments:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if (DEBUG_MODE)
 {
     if (!file_exists(DEBUG_LOGS))
     {
-        $message = '<b>FAIL</b> <i>("' . DEBUG_LOGS . '" is not found)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . DEBUG_LOGS . '" is not found)</i>';
     }
     elseif (!is_dir(DEBUG_LOGS))
     {
-        $message = '<b>FAIL</b> <i>("' . DEBUG_LOGS . '" is not a directory)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . DEBUG_LOGS . '" is not a directory)</i>';
     }
     elseif (!is_writable(DEBUG_LOGS))
     {
-        $message = '<b>FAIL</b> <i>("' . DEBUG_LOGS . '" is not writeable)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . DEBUG_LOGS . '" is not writeable)</i>';
     }
     elseif (substr(DEBUG_LOGS, -1, 1) != '/')
     {
-        $message = '<b>FAIL</b> <i>("' . DEBUG_LOGS . '" must be finished with "/" character)</i>';
+        $message = '<a class="fail">FAIL</a> <i>("' . DEBUG_LOGS . '" must be finished with "/" character)</i>';
     }
     else
     {
-        $message = '<b>PASS</b> <i>("' . DEBUG_LOGS . '")</i>';
+        $message = '<a class="pass">PASS</a> <i>("' . DEBUG_LOGS . '")</i>';
     }
 }
 else
 {
-    $message = '<b>PASS</b> <i>(disabled)</i>';
+    $message = '<a class="pass">PASS</a> <i>(disabled)</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">Debug logs:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">Debug logs:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 switch (DATABASE_DRIVER)
@@ -404,7 +391,7 @@ switch (DATABASE_DRIVER)
                     {
                         if (mysql_free_result($res))
                         {
-                            $message = '<b>PASS</b> <i>(MySQL / feature level ' . $row['var_value'] . ')</i>';
+                            $message = '<a class="pass">PASS</a> <i>(MySQL / feature level ' . $row['var_value'] . ')</i>';
                         }
                         else
                         {
@@ -412,8 +399,8 @@ switch (DATABASE_DRIVER)
                             $error = mysql_error($link);
 
                             $message = ($errno == 0 || strlen($error) == 0)
-                                     ? '<b>FAIL</b> <i>(unknown MySQL error on releasing recordset)</i>'
-                                     : '<b>FAIL</b> <i>(MySQL error #' . $errno . ' on releasing recordset - ' . $error . ')</i>';
+                                     ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on releasing recordset)</i>'
+                                     : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on releasing recordset - ' . $error . ')</i>';
                         }
                     }
                     else
@@ -422,8 +409,8 @@ switch (DATABASE_DRIVER)
                         $error = mysql_error($link);
 
                         $message = ($errno == 0 || strlen($error) == 0)
-                                 ? '<b>FAIL</b> <i>(unknown MySQL error on fetching data)</i>'
-                                 : '<b>FAIL</b> <i>(MySQL error #' . $errno . ' on fetching data - ' . $error . ')</i>';
+                                 ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on fetching data)</i>'
+                                 : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on fetching data - ' . $error . ')</i>';
                     }
                 }
                 else
@@ -432,8 +419,8 @@ switch (DATABASE_DRIVER)
                     $error = mysql_error($link);
 
                     $message = ($errno == 0 || strlen($error) == 0)
-                             ? '<b>FAIL</b> <i>(unknown MySQL error on query database)</i>'
-                             : '<b>FAIL</b> <i>(MySQL error #' . $errno . ' on query database - ' . $error . ')</i>';
+                             ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on query database)</i>'
+                             : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on query database - ' . $error . ')</i>';
                 }
             }
             else
@@ -442,15 +429,15 @@ switch (DATABASE_DRIVER)
                 $error = mysql_error($link);
 
                 $message = ($errno == 0 || strlen($error) == 0)
-                         ? '<b>FAIL</b> <i>(unknown MySQL error on selecting database)</i>'
-                         : '<b>FAIL</b> <i>(MySQL error #' . $errno . ' on selecting database - ' . $error . ')</i>';
+                         ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on selecting database)</i>'
+                         : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on selecting database - ' . $error . ')</i>';
             }
 
             mysql_close($link);
         }
         else
         {
-            $message = '<b>FAIL</b> <i>(MySQL server cannot be connected)</i>';
+            $message = '<a class="fail">FAIL</a> <i>(MySQL server cannot be connected)</i>';
         }
 
         break;
@@ -485,15 +472,15 @@ switch (DATABASE_DRIVER)
                 {
                     if (sqlsrv_free_stmt($res))
                     {
-                        $message = '<b>PASS</b> <i>(Microsoft SQL Server / feature level ' . $row['var_value'] . ')</i>';
+                        $message = '<a class="pass">PASS</a> <i>(Microsoft SQL Server / feature level ' . $row['var_value'] . ')</i>';
                     }
                     else
                     {
                         $error = sqlsrv_errors(SQLSRV_ERR_ALL);
 
                         $message = (is_null($error))
-                                 ? '<b>FAIL</b> <i>(unknown Microsoft SQL Server error on releasing recordset)</i>'
-                                 : sprintf('<b>FAIL</b> <i>(Microsoft SQL Server error #%d on releasing recordset - %s)</i>',
+                                 ? '<a class="fail">FAIL</a> <i>(unknown Microsoft SQL Server error on releasing recordset)</i>'
+                                 : sprintf('<a class="fail">FAIL</a> <i>(Microsoft SQL Server error #%d on releasing recordset - %s)</i>',
                                            $error[0]['code'],
                                            $error[0]['message']);
                     }
@@ -503,8 +490,8 @@ switch (DATABASE_DRIVER)
                     $error = sqlsrv_errors(SQLSRV_ERR_ALL);
 
                     $message = (is_null($error))
-                             ? '<b>FAIL</b> <i>(unknown Microsoft SQL Server error on fetching data)</i>'
-                             : sprintf('<b>FAIL</b> <i>(Microsoft SQL Server error #%d on fetching data - %s)</i>',
+                             ? '<a class="fail">FAIL</a> <i>(unknown Microsoft SQL Server error on fetching data)</i>'
+                             : sprintf('<a class="fail">FAIL</a> <i>(Microsoft SQL Server error #%d on fetching data - %s)</i>',
                                        $error[0]['code'],
                                        $error[0]['message']);
                 }
@@ -514,8 +501,8 @@ switch (DATABASE_DRIVER)
                 $error = sqlsrv_errors(SQLSRV_ERR_ALL);
 
                 $message = (is_null($error))
-                         ? '<b>FAIL</b> <i>(unknown Microsoft SQL Server error on query database)</i>'
-                         : sprintf('<b>FAIL</b> <i>(Microsoft SQL Server error #%d on query database - %s)</i>',
+                         ? '<a class="fail">FAIL</a> <i>(unknown Microsoft SQL Server error on query database)</i>'
+                         : sprintf('<a class="fail">FAIL</a> <i>(Microsoft SQL Server error #%d on query database - %s)</i>',
                                    $error[0]['code'],
                                    $error[0]['message']);
             }
@@ -524,7 +511,7 @@ switch (DATABASE_DRIVER)
         }
         else
         {
-            $message = '<b>FAIL</b> <i>(Microsoft SQL Server cannot be connected)</i>';
+            $message = '<a class="fail">FAIL</a> <i>(Microsoft SQL Server cannot be connected)</i>';
         }
 
         break;
@@ -543,15 +530,15 @@ switch (DATABASE_DRIVER)
 
                 if (is_array($row))
                 {
-                    $message = '<b>PASS</b> <i>(Oracle / feature level ' . $row['var_value'] . ')</i>';
+                    $message = '<a class="pass">PASS</a> <i>(Oracle / feature level ' . $row['var_value'] . ')</i>';
                 }
                 else
                 {
                     $error = ocierror($link->handle);
 
                     $message = (strlen($error) == 0)
-                             ? '<b>FAIL</b> <i>(unknown Oracle error on query database)</i>'
-                             : '<b>FAIL</b> <i>(Oracle error #' . $error['code'] . ' on fetching data - ' . $error['message'] . ')</i>';
+                             ? '<a class="fail">FAIL</a> <i>(unknown Oracle error on query database)</i>'
+                             : '<a class="fail">FAIL</a> <i>(Oracle error #' . $error['code'] . ' on fetching data - ' . $error['message'] . ')</i>';
                 }
             }
             else
@@ -559,15 +546,15 @@ switch (DATABASE_DRIVER)
                 $error = ocierror($link->handle);
 
                 $message = (strlen($error) == 0)
-                         ? '<b>FAIL</b> <i>(unknown Oracle error on query database)</i>'
-                         : '<b>FAIL</b> <i>(Oracle error #' . $error['code'] . ' on query database - ' . $error['message'] . ')</i>';
+                         ? '<a class="fail">FAIL</a> <i>(unknown Oracle error on query database)</i>'
+                         : '<a class="fail">FAIL</a> <i>(Oracle error #' . $error['code'] . ' on query database - ' . $error['message'] . ')</i>';
             }
 
             dbx_close($link);
         }
         else
         {
-            $message = '<b>FAIL</b> <i>(Oracle server cannot be connected)</i>';
+            $message = '<a class="fail">FAIL</a> <i>(Oracle server cannot be connected)</i>';
         }
 
         break;
@@ -595,15 +582,15 @@ switch (DATABASE_DRIVER)
                 {
                     if (pg_free_result($res))
                     {
-                        $message = '<b>PASS</b> <i>(PostgreSQL / feature level ' . $row['var_value'] . ')</i>';
+                        $message = '<a class="pass">PASS</a> <i>(PostgreSQL / feature level ' . $row['var_value'] . ')</i>';
                     }
                     else
                     {
                         $error = pg_last_error($link);
 
                         $message = ($error)
-                                 ? '<b>FAIL</b> <i>(PostgreSQL error on releasing recordset - ' . $error . ')</i>'
-                                 : '<b>FAIL</b> <i>(unknown PostgreSQL error on releasing recordset)</i>';
+                                 ? '<a class="fail">FAIL</a> <i>(PostgreSQL error on releasing recordset - ' . $error . ')</i>'
+                                 : '<a class="fail">FAIL</a> <i>(unknown PostgreSQL error on releasing recordset)</i>';
                     }
                 }
                 else
@@ -611,8 +598,8 @@ switch (DATABASE_DRIVER)
                     $error = pg_last_error($link);
 
                     $message = ($error)
-                             ? '<b>FAIL</b> <i>(PostgreSQL error on fetching data - ' . $error . ')</i>'
-                             : '<b>FAIL</b> <i>(unknown PostgreSQL error on fetching data)</i>';
+                             ? '<a class="fail">FAIL</a> <i>(PostgreSQL error on fetching data - ' . $error . ')</i>'
+                             : '<a class="fail">FAIL</a> <i>(unknown PostgreSQL error on fetching data)</i>';
                 }
             }
             else
@@ -620,28 +607,28 @@ switch (DATABASE_DRIVER)
                 $error = pg_last_error($link);
 
                 $message = ($error)
-                         ? '<b>FAIL</b> <i>(PostgreSQL error on query database - ' . $error . ')</i>'
-                         : '<b>FAIL</b> <i>(unknown PostgreSQL error on query database)</i>';
+                         ? '<a class="fail">FAIL</a> <i>(PostgreSQL error on query database - ' . $error . ')</i>'
+                         : '<a class="fail">FAIL</a> <i>(unknown PostgreSQL error on query database)</i>';
             }
 
             pg_close($link);
         }
         else
         {
-            $message = '<b>FAIL</b> <i>(PostgreSQL server cannot be connected)</i>';
+            $message = '<a class="fail">FAIL</a> <i>(PostgreSQL server cannot be connected)</i>';
         }
 
         break;
 
     default:
 
-        $message = '<b>FAIL</b> <i>(unknown database type in "DATABASE_DRIVER")</i>';
+        $message = '<a class="fail">FAIL</a> <i>(unknown database type in "DATABASE_DRIVER")</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">Database:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">Database:</td>
+<td class="text"><?php echo($message); ?></td>
 <?php
 
 if (LDAP_ENABLED)
@@ -652,39 +639,39 @@ if (LDAP_ENABLED)
     {
         if (!@ldap_set_option($link, LDAP_OPT_PROTOCOL_VERSION, 3))
         {
-            $message = '<b>FAIL</b> <i>(LDAP protocol version cannot be set - ' . ldap_err2str(ldap_errno($link)) . ')</i>';
+            $message = '<a class="fail">FAIL</a> <i>(LDAP protocol version cannot be set - ' . ldap_err2str(ldap_errno($link)) . ')</i>';
         }
         elseif (!@ldap_set_option($link, LDAP_OPT_REFERRALS, 0))
         {
-            $message = '<b>FAIL</b> <i>(LDAP protocol option cannot be set - ' . ldap_err2str(ldap_errno($link)) . ')</i>';
+            $message = '<a class="fail">FAIL</a> <i>(LDAP protocol option cannot be set - ' . ldap_err2str(ldap_errno($link)) . ')</i>';
         }
         elseif (!@ldap_bind($link, LDAP_USERNAME, LDAP_PASSWORD))
         {
-            $message = '<b>FAIL</b> <i>(can\'t bind to LDAP server as \'' . (strlen(LDAP_USERNAME) == 0 ? 'anonymous' : LDAP_USERNAME) . '\' - ' . ldap_err2str(ldap_errno($link)) . ')</i>';
+            $message = '<a class="fail">FAIL</a> <i>(can\'t bind to LDAP server as \'' . (strlen(LDAP_USERNAME) == 0 ? 'anonymous' : LDAP_USERNAME) . '\' - ' . ldap_err2str(ldap_errno($link)) . ')</i>';
         }
         else
         {
-            $message = '<b>PASS</b> <i>(enabled)</i>';
+            $message = '<a class="pass">PASS</a> <i>(enabled)</i>';
         }
 
         ldap_close($link);
     }
     else
     {
-        $message = '<b>FAIL</b> <i>(LDAP server cannot be connected)</i>';
+        $message = '<a class="fail">FAIL</a> <i>(LDAP server cannot be connected)</i>';
     }
 }
 else
 {
-    $message = '<b>PASS</b> <i>(disabled)</i>';
+    $message = '<a class="pass">PASS</a> <i>(disabled)</i>';
 }
 
 ?>
 </tr><tr>
-<td><p class="label">Active Directory:</p></td>
-<td><p class="<?php echo(substr($message, 3, 4) == 'PASS' ? 'text' : 'hot'); ?>"><?php echo($message); ?></p></td>
+<td class="label">Active Directory:</td>
+<td class="text"><?php echo($message); ?></td>
 </tr></table>
 </fieldset>
-<input type="button" onclick="window.open('../records/index.php','_parent');" value="Back"/>
-<!------------------------------------------------------------------------------------------------->
+<input type="button" class="button" onclick="window.open('../records/index.php','_parent');" value="Back"/>
+<!----------------------------------------------------------------------------->
 </body>

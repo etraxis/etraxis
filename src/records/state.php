@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,60 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-04-21      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-04      bug-010: Missing 'require' operator.
-//  Artem Rodygin           2005-07-31      new-006: Records search.
-//  Artem Rodygin           2005-08-06      new-019: Fields default values.
-//  Artem Rodygin           2005-08-27      bug-063: No error message is displayed when non-existing record is specified in field of 'record' type.
-//  Artem Rodygin           2005-08-30      bug-080: 'Record' type fields of some record should not accept ID of this record.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-07      bug-098: List of users when record is being assigned should contain only allowed users.
-//  Artem Rodygin           2005-09-07      new-100: 'Date' field type should be implemented.
-//  Artem Rodygin           2005-09-08      new-101: 'Duration' field type should be implemented.
-//  Artem Rodygin           2005-09-12      new-105: Format of date values are being entered should depend on user locale settings.
-//  Artem Rodygin           2005-09-15      new-120: Default field values of cloned records.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-03-18      new-175: Implement user roles in permissions.
-//  Artem Rodygin           2006-07-12      bug-292: Sablotron fails if page contains '&' character.
-//  Artem Rodygin           2006-07-27      new-261: UI design should be adopted to slow connection.
-//  Artem Rodygin           2006-08-13      new-305: Note with explanation of links to other records should be added where needed.
-//  Artem Rodygin           2006-09-26      new-318: Group permissions should be template-wide.
-//  Artem Rodygin           2006-11-04      new-364: Default fields values.
-//  Artem Rodygin           2006-11-20      new-392: Local users should not be extended with '@eTraxis' when LDAP is disabled.
-//  Artem Rodygin           2006-12-23      new-463: Date field names should be extended with date format explanation.
-//  Artem Rodygin           2007-03-24      bug-511: Selected responsible is not restored.
-//  Artem Rodygin           2007-07-04      new-533: Links between records.
-//  Artem Rodygin           2007-09-09      new-563: Custom separators inside fields set.
-//  Yury Udovichenko        2007-11-14      new-548: Custom links in text fields.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-01-11      bug-663: Author permissions are ignored.
-//  Artem Rodygin           2008-02-08      new-671: Default value for 'date' fields should be relative.
-//  Artem Rodygin           2008-02-25      bug-678: Default value of combo box field is ignored.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-06-20      new-725: Extend combo box.
-//  Artem Rodygin           2008-09-11      new-716: 'Today' value in date field range.
-//  Artem Rodygin           2008-09-11      bug-742: Not all expected notes are present when record is being created/modified.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-07-29      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-07-29      new-833: Default responsible should be current user, when possible.
-//  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
-//  Giacomo Giustozzi       2010-02-12      new-918: Add Subject to Change State page
-//  Artem Rodygin           2010-04-19      new-928: Inline state changing.
-//  Artem Rodygin           2010-04-21      bug-930: Some servers suppress error messages on state changing.
-//  Artem Rodygin           2010-04-28      bug-934: Unable to change record state
-//  Artem Rodygin           2010-04-29      bug-937: &nbsp; is shown in JavaScript alerts when state is being changed.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -84,9 +34,12 @@ require_once('../dbo/states.php');
 require_once('../dbo/fields.php');
 require_once('../dbo/values.php');
 require_once('../dbo/records.php');
+require_once('../dbo/events.php');
 /**#@-*/
 
 init_page();
+
+// check that requested record exists
 
 $id     = ustr2int(try_request('id'));
 $record = record_find($id);
@@ -98,6 +51,8 @@ if (!$record)
     exit;
 }
 
+// check that requested state exists
+
 $state_id = ustr2int(try_request('state'));
 $state    = state_find($state_id);
 
@@ -108,6 +63,8 @@ if (!$state)
     exit;
 }
 
+// get current user's permissions and verify them
+
 $permissions = record_get_permissions($record['template_id'], $record['creator_id'], $record['responsible_id']);
 
 if (!can_state_be_changed($record, $permissions))
@@ -117,14 +74,21 @@ if (!can_state_be_changed($record, $permissions))
     exit;
 }
 
-$rs = dal_query('depends/listuc.sql', $id);
+// if state is final, check whether there are no unclosed dependencies
 
-if ($rs->rows != 0 && $state['state_type'] == STATE_TYPE_FINAL)
+if ($state['state_type'] == STATE_TYPE_FINAL)
 {
-    debug_write_log(DEBUG_NOTICE, 'The record has unclosed dependencies.');
-    header('Location: view.php?id=' . $id);
-    exit;
+    $rs = dal_query('depends/listuc.sql', $id);
+
+    if ($rs->rows != 0)
+    {
+        debug_write_log(DEBUG_NOTICE, 'The record has unclosed dependencies.');
+        header('Location: view.php?id=' . $id);
+        exit;
+    }
 }
+
+// check whether the record can be moved to specified state from current one
 
 $rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], '');
 
@@ -135,11 +99,11 @@ if ($rs->rows == 0)
     exit;
 }
 
-if (try_request('submitted') == 'fieldsform')
+// state form is submitted
+
+if (try_request('submitted') == 'stateform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
-
-    json2request($HTTP_RAW_POST_DATA);
 
     $rs = dal_query('records/efnd.sql', $_SESSION[VAR_USERID], EVENT_RECORD_STATE_CHANGED, time() - 3, $state_id);
 
@@ -172,11 +136,6 @@ if (try_request('submitted') == 'fieldsform')
                               $state_id,
                               $responsible_id,
                               ($state['state_type'] == STATE_TYPE_FINAL));
-
-        if ($error == NO_ERROR)
-        {
-            exit;
-        }
     }
 
     switch ($error)
@@ -228,8 +187,12 @@ else
     $responsible_id = NULL;
 }
 
-$xml = '<form name="fieldsform" action="javascript:submitFields()">'
+// generate state form
+
+$xml = '<form name="stateform" action="javascript:submitStateForm(' . $id . ',' . $state_id . ')">'
      . '<group title="' . ustr2html($state['state_name']) . '">';
+
+// if state must be assigned, generate list of accounts
 
 if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
 {
@@ -241,14 +204,21 @@ if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
     {
         $default_responsible = (is_null($record['responsible_id']) ? $_SESSION[VAR_USERID] : $record['responsible_id']);
 
-        $xml .= '<combobox label="' . get_html_resource(RES_RESPONSIBLE_ID) . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="responsible" extended="true">';
+        $xml .= '<control name="responsible" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+              . '<label>' . get_html_resource(RES_RESPONSIBLE_ID) . '</label>'
+              . '<combobox>';
 
         while (($row = $rs->fetch()))
         {
-            $xml .= '<listitem value="' . $row['account_id'] . ($row['account_id'] == $default_responsible ? '" selected="true">' : '">') . ustr2html($row['fullname']) . ' (' . ustr2html(account_get_username($row['username'])) . ')</listitem>';
+            $xml .= ($row['account_id'] == $default_responsible
+                        ? '<listitem value="' . $row['account_id'] . '" selected="true">'
+                        : '<listitem value="' . $row['account_id'] . '">')
+                  . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username'])))
+                  . '</listitem>';
         }
 
-        $xml .= '</combobox>';
+        $xml .= '</combobox>'
+              . '</control>';
     }
 }
 
@@ -256,7 +226,11 @@ $flag1 = FALSE;
 $flag2 = FALSE;
 $notes = NULL;
 
+// get list of latest values of related fields
+
 $rs = dal_query('fields/listv.sql', $id, $state_id);
+
+// if state is being used first time (no latest values yet), then get list of fields
 
 if ($rs->rows == 0)
 {
@@ -274,12 +248,16 @@ if ($rs->rows == 0)
 }
 else
 {
+    // go through the list of fields
+
     debug_write_log(DEBUG_NOTICE, 'Fields of specified state are being enumerated.');
 
     while (($row = $rs->fetch()))
     {
         $name  = 'field' . $row['field_id'];
         $value = NULL;
+
+        // determine default value of the field
 
         $clone_id = is_record_cloned($id);
 
@@ -306,43 +284,84 @@ else
             $flag1 = TRUE;
         }
 
+        // generate control for the field
+
+        $xml .= ($row['is_required']
+                    ? '<control name="' . $name . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+                    : '<control name="' . $name . '">');
+
         switch ($row['field_type'])
         {
             case FIELD_TYPE_NUMBER:
 
-                $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . (ustrlen(MAX_FIELD_INTEGER) + 1) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], $row['param1'], $row['param2']) . '</note>';
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<editbox maxlen="' . (ustrlen(MAX_FIELD_INTEGER) + 1) . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</editbox>';
+
+                $notes .= '<note>'
+                        . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), $row['param1'], $row['param2'])
+                        . '</note>';
+
                 break;
 
             case FIELD_TYPE_STRING:
 
-                $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_LONG . '" maxlen="' . $row['param1'] . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<editbox maxlen="' . $row['param1'] . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</editbox>';
+
                 $flag2 = TRUE;
+
                 break;
 
             case FIELD_TYPE_MULTILINED:
 
-                $xml .= '<textbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">' . ustr2html(try_request($name, $value)) . '</textbox>';
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</textbox>';
+
                 $flag2 = TRUE;
+
                 break;
 
             case FIELD_TYPE_CHECKBOX:
 
-                $xml .= '<checkbox name="' . $name . ((try_request('submitted') == 'fieldsform' ? isset($_REQUEST[$name]) : $value) ? '" checked="true">' : '">') . ustr2html($row['field_name']) . '</checkbox>';
+                $user_value = (try_request('submitted') == 'fieldsform')
+                            ? isset($_REQUEST[$name])
+                            : $value;
+
+                $xml .= '<label/>';
+
+                $xml .= ($user_value
+                            ? '<checkbox checked="true">'
+                            : '<checkbox>')
+                      . ustr2html($row['field_name'])
+                      . '</checkbox>';
+
                 break;
 
             case FIELD_TYPE_LIST:
 
                 $selected = try_request($name, $value);
 
-                $xml .= '<combobox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '">' . ustr2html(try_request($name))
-                      . '<listitem value=""></listitem>';
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<combobox>'
+                      . '<listitem value=""/>';
 
                 $rsv = dal_query('values/lvlist.sql', $row['field_id']);
 
                 while (($item = $rsv->fetch()))
                 {
-                    $xml .= '<listitem value="' . $item['int_value'] . ($selected == $item['int_value'] ? '" selected="true">' : '">')
+                    $xml .= ($selected == $item['int_value']
+                                ? '<listitem value="' . $item['int_value'] . '" selected="true">'
+                                : '<listitem value="' . $item['int_value'] . '">')
                           . ustr2html($item['str_value'])
                           . '</listitem>';
                 }
@@ -353,8 +372,16 @@ else
 
             case FIELD_TYPE_RECORD:
 
-                $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(MAXINT) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], 1, MAXINT) . '</note>';
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<editbox maxlen="' . ustrlen(MAXINT) . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</editbox>';
+
+                $notes .= '<note>'
+                        . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), 1, MAXINT)
+                        . '</note>';
+
                 break;
 
             case FIELD_TYPE_DATE:
@@ -364,19 +391,38 @@ else
                 $row['param1'] = date_offset($today, $row['param1']);
                 $row['param2'] = date_offset($today, $row['param2']);
 
-                $xml .= '<editbox label="' . sprintf('%s (%s)', ustr2html($row['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], get_date($row['param1']), get_date($row['param2'])) . '</note>';
+                $xml .= '<label>' . sprintf('%s (%s)', ustr2html($row['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>';
+
+                $xml .= '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</editbox>';
+
+                $notes .= '<note>'
+                        . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), get_date($row['param1']), get_date($row['param2']))
+                        . '</note>';
+
                 break;
 
             case FIELD_TYPE_DURATION:
 
-                $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(time2ustr(MAX_FIELD_DURATION)) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], time2ustr($row['param1']), time2ustr($row['param2'])) . '</note>';
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<editbox maxlen="' . ustrlen(time2ustr(MAX_FIELD_DURATION)) . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</editbox>';
+
+                $notes .= '<note>'
+                        . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), time2ustr($row['param1']), time2ustr($row['param2']))
+                        . '</note>';
+
                 break;
 
             default:
+
                 debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $row['field_type']);
         }
+
+        $xml .= '</control>';
 
         if ($row['add_separator'])
         {
@@ -396,8 +442,8 @@ if ($flag2)
 }
 
 $xml .= '</group>'
-      . '<button default="true">'           . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button action="cancelFields();">' . get_html_resource(RES_CANCEL_ID) . '</button>'
+      . '<button default="true">'             . get_html_resource(RES_OK_ID)     . '</button>'
+      . '<button action="cancelStateForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
       . '</form>';
 

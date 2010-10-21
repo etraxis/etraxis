@@ -1,7 +1,11 @@
 select distinct
 
     r.reminder_id,
-    r.reminder_name
+    r.reminder_name,
+    p.project_name,
+    t.template_name,
+    s.state_name,
+    r.subject_text
 
 from
 
@@ -28,4 +32,4 @@ where
 
     gp.perms % 2048 >= 1024
 
-order by reminder_name
+order by %2

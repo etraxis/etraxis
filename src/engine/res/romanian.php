@@ -1,24 +1,13 @@
 <?php
 
-/**
- * Localization
- *
- * This module contains prompts translated in Romanian.
- * All the prompts are in ISO-8859-1 encoding.
- *
- * @package Engine
- * @subpackage Localization
- * @author Dan Stoenescu
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -26,16 +15,21 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Dan Stoenescu           2010-02-05      new-910: Romanian localization.
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Localization
+ *
+ * This module contains prompts translated in Romanian.
+ * All the prompts are in ISO-8859-2 encoding.
+ *
+ * @package Engine
+ * @subpackage Localization
+ * @author Dan Stoenescu
+ */
 
 $resource_romanian = array
 (
@@ -119,7 +113,7 @@ $resource_romanian = array
 
     RES_SECTION_PROMPTS =>
     /* 1000 */
-    'Romana',
+    'Românã',
     'Autentificare',
     '  OK  ',
     'Renunta',
@@ -506,6 +500,7 @@ $resource_romanian = array
     /* 1350 */
     'Comprimare',
     'U/S',
+    'Comentarii',
 );
 
 ?>

@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2006-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,25 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2006-11-15      bug-381: Attachments of some types are not opened in valid applications.
-//  Artem Rodygin           2006-11-30      bug-402: Attachments cannot be downloaded.
-//  Artem Rodygin           2008-01-11      bug-663: Author permissions are ignored.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-04-21      bug-706: PHP Notice: Undefined variable: record
-//  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
-//  Artem Rodygin           2009-01-12      bug-784: Logged in user must be forwarded to the page he has tried to open before authentication.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-12-07      bug-857: Problem with russian language and filetype.
-//  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
-//  Artem Rodygin           2010-04-22      bug-931: Attachments compression issues.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.

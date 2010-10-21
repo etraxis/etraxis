@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Projects
- *
- * This module provides API to work with eTraxis projects.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_projects tbl_projects} database table.
- *
- * @package DBO
- * @subpackage Projects
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,37 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-02-18      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-24      new-009: Records filter.
-//  Artem Rodygin           2005-08-11      new-008: Predefined metrics.
-//  Artem Rodygin           2005-08-19      bug-039: PHP Warning: file_get_contents: failed to open stream: No such file or directory
-//  Artem Rodygin           2005-08-23      bug-049: Removable project will not be removed in some cases.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-08-24      bug-054: User can gain access to restricted projects.
-//  Artem Rodygin           2005-08-27      new-058: Global groups should be implemented.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-22      bug-166: Some filters & subscriptions should be removed when a project, template, or state has been deleted.
-//  Artem Rodygin           2005-10-22      bug-163: Some filters are malfunctional.
-//  Artem Rodygin           2006-03-26      bug-226: PHP Warning: odbc_exec(): SQL error: Ambiguous column name 'description'.
-//  Artem Rodygin           2006-04-21      bug-240: Unexpected message "Project with entered name already exists".
-//  Artem Rodygin           2006-09-26      new-318: Group permissions should be template-wide.
-//  Artem Rodygin           2007-01-05      new-491: [SF1647212] Group-wide transition permission.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-07-31      bug-735: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint 'fk_group_perms_template_id'.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Projects
+ *
+ * This module provides API to work with eTraxis projects.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_projects tbl_projects} database table.
+ *
+ * @package DBO
+ * @subpackage Projects
+ */
 
 /**#@+
  * Dependency.
@@ -66,9 +39,9 @@ require_once('../dbo/accounts.php');
 require_once('../dbo/groups.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Data restriction.
@@ -84,14 +57,14 @@ define('METRICS_OPENED_RECORDS',      0);
 define('METRICS_CREATION_VS_CLOSURE', 1);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds in database and returns the information about specified project.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id Project ID}.
+ * @param int $id Project ID.
  * @return array Array with data if project is found in database, FALSE otherwise.
  */
 function project_find ($id)
@@ -121,9 +94,9 @@ function project_find ($id)
  * page from client cookie ({@link COOKIE_PROJECTS_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of projects.
  */
-function project_list (&$sort, &$page)
+function projects_list (&$sort, &$page)
 {
-    debug_write_log(DEBUG_TRACE, '[project_list]');
+    debug_write_log(DEBUG_TRACE, '[projects_list]');
 
     $sort_modes = array
     (
@@ -159,7 +132,7 @@ function project_list (&$sort, &$page)
 /**
  * Validates project information before creation or modification.
  *
- * @param string $project_name {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_name Project name}.
+ * @param string $project_name Project name.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -183,12 +156,12 @@ function project_validate ($project_name)
 /**
  * Creates new project.
  *
- * @param string $project_name {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_name Project name}.
- * @param string $description Optional {@link http://www.etraxis.org/docs-schema.php#tbl_projects_description description}.
+ * @param string $project_name Project name.
+ * @param string $description Optional description.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - account is successfully created</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - project with specified {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_name project name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - project with specified project name already exists</li>
  * </ul>
  */
 function project_create ($project_name, $description)
@@ -218,23 +191,21 @@ function project_create ($project_name, $description)
 /**
  * Modifies specified project.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project to be modified.
- * @param string $project_name New {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_name project name}.
- * @param string $description New {@link http://www.etraxis.org/docs-schema.php#tbl_projects_description description}.
- * @param bool $is_suspended Whether the project should be suspended (see '{@link http://www.etraxis.org/docs-schema.php#tbl_projects_is_suspended is_suspended}' DBO field).
+ * @param int $id ID of project to be modified.
+ * @param string $project_name New project name.
+ * @param string $description New description.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - project is successfully modified</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - another project with specified {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_name project name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - another project with specified project name already exists</li>
  * </ul>
  */
-function project_modify ($id, $project_name, $description, $is_suspended)
+function project_modify ($id, $project_name, $description)
 {
     debug_write_log(DEBUG_TRACE, '[project_modify]');
     debug_write_log(DEBUG_DUMP,  '[project_modify] $id           = ' . $id);
     debug_write_log(DEBUG_DUMP,  '[project_modify] $project_name = ' . $project_name);
     debug_write_log(DEBUG_DUMP,  '[project_modify] $description  = ' . $description);
-    debug_write_log(DEBUG_DUMP,  '[project_modify] $is_suspended = ' . $is_suspended);
 
     // Check that there is no project with the same project name, besides this one.
     $rs = dal_query('projects/fndku.sql', $id, ustrtolower($project_name));
@@ -249,8 +220,7 @@ function project_modify ($id, $project_name, $description, $is_suspended)
     dal_query('projects/modify.sql',
               $id,
               $project_name,
-              ustrlen($description) == 0 ? NULL : $description,
-              bool2sql($is_suspended));
+              ustrlen($description) == 0 ? NULL : $description);
 
     return NO_ERROR;
 }
@@ -258,7 +228,7 @@ function project_modify ($id, $project_name, $description, $is_suspended)
 /**
  * Checks whether project can be deleted.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project to be deleted.
+ * @param int $id ID of project to be deleted.
  * @return bool TRUE if project can be deleted, FALSE otherwise.
  */
 function is_project_removable ($id)
@@ -274,7 +244,7 @@ function is_project_removable ($id)
 /**
  * Deletes specified project.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project to be deleted.
+ * @param int $id ID of project to be deleted.
  * @return int Always {@link NO_ERROR}.
  */
 function project_delete ($id)
@@ -282,7 +252,7 @@ function project_delete ($id)
     debug_write_log(DEBUG_TRACE, '[project_delete]');
     debug_write_log(DEBUG_DUMP,  '[project_delete] $id = ' . $id);
 
-    dal_query('subscribes/sdelallp.sql', $id);
+    dal_query('subscriptions/sdelallp.sql', $id);
 
     dal_query('filters/fadelallp.sql', $id);
     dal_query('filters/fdelallp.sql',  $id);
@@ -305,7 +275,7 @@ function project_delete ($id)
 /**
  * Exports specified project to XML code (see also {@link template_import}).
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id Project ID} of project to be exported.
+ * @param int $id Project ID of project to be exported.
  * @return string Generated XML code for specified project.
  */
 function project_export ($id)
@@ -323,7 +293,7 @@ function project_export ($id)
 
     // Generate XML code for groups.
     $sort = $page = NULL;
-    $rs_g = group_list($id, $sort, $page);
+    $rs_g = groups_list($id, $sort, $page);
     $groups = array();
 
     while (($group = $rs_g->fetch()))
@@ -335,7 +305,7 @@ function project_export ($id)
     $xml_g = groups_export($groups);
 
     // Generate XML code for templates.
-    $rs_t = template_list($id, $sort, $page);
+    $rs_t = templates_list($id, $sort, $page);
     $xml_t = NULL;
 
     while (($template = $rs_t->fetch()))
@@ -349,6 +319,88 @@ function project_export ($id)
     $xml .= sprintf("<project name=\"%s\" description=\"%s\">\n{$xml_a}{$xml_g}{$xml_t}</project>\n",
                     ustr2html($project['project_name']),
                     ustr2html($project['description']));
+
+    return $xml;
+}
+
+/**
+ * Generates XML code for context menu on project's pages for specified project.
+ *
+ * @param string $template_url URL for using in template links.
+ * @param string $state_url URL for using in state links.
+ * @param string $field_url URL for using in field links.
+ * @param int $project_id ID of project which context menu should be generated.
+ * @param int $template_id ID of template to be expanded (NULL to keep all collapsed).
+ * @param int $state_id ID of state to be expanded (NULL to keep all collapsed).
+ * @return string Generated XML code.
+ */
+function gen_context_menu ($template_url, $state_url, $field_url, $project_id, $template_id = NULL, $state_id = NULL)
+{
+    debug_write_log(DEBUG_TRACE, '[gen_context_menu]');
+    debug_write_log(DEBUG_DUMP,  '[gen_context_menu] $template_url = ' . $template_url);
+    debug_write_log(DEBUG_DUMP,  '[gen_context_menu] $state_url    = ' . $state_url);
+    debug_write_log(DEBUG_DUMP,  '[gen_context_menu] $field_url    = ' . $field_url);
+    debug_write_log(DEBUG_DUMP,  '[gen_context_menu] $project_id   = ' . $project_id);
+    debug_write_log(DEBUG_DUMP,  '[gen_context_menu] $template_id  = ' . $template_id);
+    debug_write_log(DEBUG_DUMP,  '[gen_context_menu] $state_id     = ' . $state_id);
+
+    $xml = NULL;
+
+    $templates = dal_query('templates/list.sql', $project_id, 'template_name asc');
+
+    if ($templates->rows != 0)
+    {
+        $xml = '<contextmenu>';
+
+        while (($template = $templates->fetch()))
+        {
+            $xml .= ($template['template_id'] == $template_id
+                        ? '<submenu url="' . $template_url . $template['template_id'] . '" text="' . ustr2html($template['template_name']) . '" expanded="true">'
+                        : '<submenu url="' . $template_url . $template['template_id'] . '" text="' . ustr2html($template['template_name']) . '">');
+
+            $states = dal_query('states/list.sql', $template['template_id'], 'state_name asc');
+
+            if ($states->rows == 0)
+            {
+                $xml .= '<menuitem>'
+                      . get_html_resource(RES_NONE_ID)
+                      . '</menuitem>';
+            }
+            else
+            {
+                while (($state = $states->fetch()))
+                {
+                    $xml .= ($state['state_id'] == $state_id
+                                ? '<submenu url="' . $state_url . $state['state_id'] . '" text="' . ustr2html($state['state_name']) . '" expanded="true">'
+                                : '<submenu url="' . $state_url . $state['state_id'] . '" text="' . ustr2html($state['state_name']) . '">');
+
+                    $fields = dal_query('fields/list.sql', $state['state_id'], 'field_order asc');
+
+                    if ($fields->rows == 0)
+                    {
+                        $xml .= '<menuitem>'
+                              . get_html_resource(RES_NONE_ID)
+                              . '</menuitem>';
+                    }
+                    else
+                    {
+                        while (($field = $fields->fetch()))
+                        {
+                            $xml .= '<menuitem url="' . $field_url . $field['field_id'] . '">'
+                                  . ustr2html($field['field_name'])
+                                  . '</menuitem>';
+                        }
+                    }
+
+                    $xml .= '</submenu>';
+                }
+            }
+
+            $xml .= '</submenu>';
+        }
+
+        $xml .= '</contextmenu>';
+    }
 
     return $xml;
 }

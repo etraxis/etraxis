@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2004-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Cookies
  *
@@ -9,41 +29,6 @@
  * @subpackage Cookies
  */
 
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2009 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2004-11-17      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-31      new-006: Records search.
-//  Artem Rodygin           2005-09-18      new-073: Implement search folders.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2005-10-15      new-160: Cookies values should not be dumped into debug logs.
-//  Artem Rodygin           2006-08-20      new-313: Implement HTTP authentication.
-//  Artem Rodygin           2006-11-20      new-377: Custom views.
-//  Artem Rodygin           2006-12-09      new-423: Client cookies should be instance-depended.
-//  Artem Rodygin           2006-12-15      bug-409: User session expires too quick.
-//  Artem Rodygin           2007-11-05      new-571: View should show all records of current filters set.
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//--------------------------------------------------------------------------------------------------
-
 /**#@+
  * Dependency.
  */
@@ -51,9 +36,9 @@ require_once('../engine/debug.php');
 require_once('../engine/utility.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Storage method.
@@ -85,34 +70,44 @@ define('COOKIE_SEARCH_TEXT', 'SearchText');
 /**#@+
  * Sort mode cookie.
  */
-define('COOKIE_ACCOUNTS_SORT',  'AccountsSort');
-define('COOKIE_PROJECTS_SORT',  'ProjectsSort');
-define('COOKIE_GROUPS_SORT',    'GroupsSort');
-define('COOKIE_TEMPLATES_SORT', 'TemplatesSort');
-define('COOKIE_STATES_SORT',    'StatesSort');
-define('COOKIE_FIELDS_SORT',    'FieldsSort');
-define('COOKIE_RECORDS_SORT',   'RecordsSort');
-define('COOKIE_EVENTS_SORT',    'EventsSort');
-define('COOKIE_CHANGES_SORT',   'ChangesSort');
+define('COOKIE_ACCOUNTS_SORT',      'AccountsSort');
+define('COOKIE_PROJECTS_SORT',      'ProjectsSort');
+define('COOKIE_GROUPS_SORT',        'GroupsSort');
+define('COOKIE_TEMPLATES_SORT',     'TemplatesSort');
+define('COOKIE_STATES_SORT',        'StatesSort');
+define('COOKIE_FIELDS_SORT',        'FieldsSort');
+define('COOKIE_RECORDS_SORT',       'RecordsSort');
+define('COOKIE_EVENTS_SORT',        'EventsSort');
+define('COOKIE_CHANGES_SORT',       'ChangesSort');
+define('COOKIE_ATTACHMENTS_SORT',   'AttachmentsSort');
+define('COOKIE_FILTERS_SORT',       'FiltersSort');
+define('COOKIE_VIEWS_SORT',         'ViewsSort');
+define('COOKIE_SUBSCRIPTIONS_SORT', 'SubscriptionsSort');
+define('COOKIE_REMINDERS_SORT',     'RemindersSort');
 /**#@-*/
 
 /**#@+
  * Current page cookie.
  */
-define('COOKIE_ACCOUNTS_PAGE',  'AccountsPage');
-define('COOKIE_PROJECTS_PAGE',  'ProjectsPage');
-define('COOKIE_GROUPS_PAGE',    'GroupsPage');
-define('COOKIE_TEMPLATES_PAGE', 'TemplatesPage');
-define('COOKIE_STATES_PAGE',    'StatesPage');
-define('COOKIE_FIELDS_PAGE',    'FieldsPage');
-define('COOKIE_RECORDS_PAGE',   'RecordsPage');
-define('COOKIE_EVENTS_PAGE',    'EventsPage');
-define('COOKIE_CHANGES_PAGE',   'ChangesPage');
+define('COOKIE_ACCOUNTS_PAGE',      'AccountsPage');
+define('COOKIE_PROJECTS_PAGE',      'ProjectsPage');
+define('COOKIE_GROUPS_PAGE',        'GroupsPage');
+define('COOKIE_TEMPLATES_PAGE',     'TemplatesPage');
+define('COOKIE_STATES_PAGE',        'StatesPage');
+define('COOKIE_FIELDS_PAGE',        'FieldsPage');
+define('COOKIE_RECORDS_PAGE',       'RecordsPage');
+define('COOKIE_EVENTS_PAGE',        'EventsPage');
+define('COOKIE_CHANGES_PAGE',       'ChangesPage');
+define('COOKIE_ATTACHMENTS_PAGE',   'AttachmentsPage');
+define('COOKIE_FILTERS_PAGE',       'FiltersPage');
+define('COOKIE_VIEWS_PAGE',         'ViewsPage');
+define('COOKIE_SUBSCRIPTIONS_PAGE', 'SubscriptionsPage');
+define('COOKIE_REMINDERS_PAGE',     'RemindersPage');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Saves specified value in specified cookie.

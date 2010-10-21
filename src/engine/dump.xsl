@@ -1,10 +1,36 @@
+<!--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+  eTraxis - Records tracking web-based system
+  Copyright (C) 2007-2010  Artem Rodygin
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-->
+
 <xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
 
 <xsl:output method="text" version="1.0" encoding="UTF-8"/>
 
 <xsl:template match="page">
-    <xsl:apply-templates select="content"/>
+    <xsl:apply-templates select="tabs|content"/>
     <xsl:text>--------------------------------------------------------------------------------&#10;</xsl:text>
+</xsl:template>
+
+<xsl:template match="tabs">
+    <xsl:apply-templates select="content"/>
 </xsl:template>
 
 <xsl:template match="content">
@@ -18,7 +44,7 @@
         <xsl:text>&#10;</xsl:text>
         <xsl:text>--------------------------------------------------------------------------------&#10;</xsl:text>
     </xsl:if>
-    <xsl:apply-templates select="text|comment|attachment|row"/>
+    <xsl:apply-templates select="text"/>
     <xsl:text>&#10;</xsl:text>
 </xsl:template>
 
@@ -28,62 +54,6 @@
         <xsl:text>: </xsl:text>
     </xsl:if>
     <xsl:apply-templates/>
-    <xsl:text>&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="row">
-    <xsl:apply-templates select="cell"/>
-    <xsl:text>&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="cell">
-    <xsl:value-of select="."/>
-    <xsl:text>&#9;</xsl:text>
-</xsl:template>
-
-<xsl:template match="record">
-    <xsl:value-of select="."/>
-</xsl:template>
-
-<xsl:template match="searchres">
-    <xsl:apply-templates/>
-</xsl:template>
-
-<xsl:template match="comment">
-    <xsl:if test="boolean(@confidential)">
-    <xsl:value-of select="@confidential"/>
-    <xsl:text>&#10;</xsl:text>
-    </xsl:if>
-    <xsl:apply-templates/>
-    <xsl:text>&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="attachment">
-    <xsl:value-of select="."/>
-    <xsl:text> (</xsl:text>
-    <xsl:value-of select="@size"/>
-    <xsl:text>)&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="br">
-    <xsl:text>&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="url">
-    <xsl:value-of select="."/>
-</xsl:template>
-
-<xsl:template match="li">
-    <xsl:choose>
-       <xsl:when test="name(parent::node()) = 'ol'">
-           <xsl:value-of select="position()"/>
-           <xsl:text>. </xsl:text>
-       </xsl:when>
-       <xsl:otherwise>
-           <xsl:text>- </xsl:text>
-       </xsl:otherwise>
-    </xsl:choose>
-    <xsl:value-of select="."/>
     <xsl:text>&#10;</xsl:text>
 </xsl:template>
 

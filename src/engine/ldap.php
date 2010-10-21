@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2009  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * LDAP
  *
@@ -9,52 +29,6 @@
  * @subpackage LDAP
  */
 
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-08-14      new-003: Authentication with Active Directory.
-//  Artem Rodygin           2005-08-22      new-040: LDAP: list of Organization Units should be supported.
-//  Artem Rodygin           2005-08-29      bug-067: AD user cannot login using second BASEDN from BASEDN list.
-//  Artem Rodygin           2005-08-29      new-070: The 'ldap_finduser' should not generate 'ERROR' debug log when LDAP server returns no results.
-//  Artem Rodygin           2005-08-29      new-071: The 'ldap_login' should not generate 'ERROR' debug log when user credentials are invalid.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-08-29      new-088: The 'ldap_finduser' should not generate 'ERROR' debug log when LDAP server returns no results.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2005-11-13      bug-177: Multibyte string functions should be used instead of 'eregi' and 'split'.
-//  Artem Rodygin           2006-01-24      new-204: Active Directory Support functionality (new-003) should be conditionally "compiled".
-//  Artem Rodygin           2006-07-14      new-206: User password should not be stored in client cookies.
-//  Artem Rodygin           2006-08-07      bug-300: Cannot login with Active Directory credentials.
-//  Artem Rodygin           2006-10-17      new-363: Multiple BASE DNs are obsolete.
-//  Artem Rodygin           2006-11-11      bug-378: LDAP: BASE DN is not multiple anymore (new-363).
-//  Artem Rodygin           2006-11-18      bug-389: Motorola LDAP server returns "Insufficient rights" error.
-//  Artem Rodygin           2006-12-27      bug-471: The 'displayName' LDAP attribute should be used instead of 'CN' one.
-//  Daniel Jungbluth        2007-10-08      new-594: [SF1809444] Assigning users to groups via listbox
-//  Artem Rodygin           2007-10-12      bug-598: PHP Notice: Undefined index: mail
-//  Artem Rodygin           2008-10-12      new-751: LDAP // Multiple Base DN support.
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Artem Rodygin           2009-07-29      new-832: Required LDAP attributes should be configurable.
-//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
-//--------------------------------------------------------------------------------------------------
-
 /**#@+
  * Dependency.
  */
@@ -63,9 +37,9 @@ require_once('../engine/debug.php');
 require_once('../engine/utility.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * LDAP error code.
@@ -133,9 +107,9 @@ define('LDAP_CLIENT_LOOP',                    0x60);
 define('LDAP_REFERRAL_LIMIT_EXCEEDED',        0x61);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Searches for specified username on LDAP server.

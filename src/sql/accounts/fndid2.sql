@@ -11,7 +11,6 @@ select
     csv_delim,
     csv_encoding,
     csv_line_ends,
-    fset_id,
     view_id
 
 from tbl_accounts

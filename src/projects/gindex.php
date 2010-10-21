@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,40 +15,22 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-02-26      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-23      new-011: Color scheme should be modified.
-//  Artem Rodygin           2005-08-01      new-013: UI scenarios should be changed.
-//  Artem Rodygin           2005-08-18      new-036: Groups should be editable without suspending a project.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-08-25      new-058: Global groups should be implemented.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-17      new-128: Lists are malfunctioning in Opera.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-08      bug-174: Generated pages should contain <!DOCTYPE> tag.
-//  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-07-27      new-261: UI design should be adopted to slow connection.
-//  Artem Rodygin           2006-10-08      bug-346: /src/projects/gindex.php: Global variables $page and $sort were used before they were defined.
-//  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2010-07-20      bug-949: field list not selectable over 20
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/projects.php');
 require_once('../dbo/groups.php');
+require_once('../dbo/projects.php');
 /**#@-*/
 
 init_page();
@@ -61,19 +38,13 @@ init_page();
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
+    header('Location: ../index.php');
     exit;
 }
 
-$id = ustr2int(try_request('id'));
+// check that requested project exists
 
-if ($id == 0)
-{
-    debug_write_log(DEBUG_NOTICE, 'Redirect to global groups list.');
-    header('Location: ../groups/index.php');
-    exit;
-}
-
+$id      = ustr2int(try_request('id'));
 $project = project_find($id);
 
 if (!$project)
@@ -83,68 +54,71 @@ if (!$project)
     exit;
 }
 
+// get list of groups
+
 $sort = $page = NULL;
-$list = group_list($id, $sort, $page);
+$list = groups_list($id, $sort, $page);
 
-$rec_from = $rec_to = 0;
+$from = $to = 0;
 
-$xml = '<page' . gen_xml_page_header(get_html_resource(RES_GROUPS_ID)) . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . '<pathitem url="index.php">'                 . get_html_resource(RES_PROJECTS_ID)                                                    . '</pathitem>'
-     . '<pathitem url="view.php?id='   . $id . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</pathitem>'
-     . '<pathitem url="gindex.php?id=' . $id . '">' . get_html_resource(RES_GROUPS_ID)                                                      . '</pathitem>'
-     . '</path>'
+// page's title
+
+$title = ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name']));
+
+// generate breadcrumbs and tabs
+
+$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
+     . '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
+     . '<breadcrumb url="gindex.php?id=' . $id . '">' . $title . '</breadcrumb>'
+     . '</breadcrumbs>'
+     . '<tabs>'
+     . '<tab url="view.php?id='    . $id . '"><i>'            . ustr2html($project['project_name']) . '</i></tab>'
+     . '<tab url="gindex.php?id='  . $id . '" active="true">' . get_html_resource(RES_GROUPS_ID)    . '</tab>'
+     . '<tab url="tindex.php?id='  . $id . '">'               . get_html_resource(RES_TEMPLATES_ID) . '</tab>'
+     . '<tab url="metrics.php?id=' . $id . '">'               . get_html_resource(RES_METRICS_ID)   . '</tab>'
      . '<content>';
+
+// generate buttons
+
+$xml .= '<button url="gcreate.php?id=' . $id . '">' . get_html_resource(RES_CREATE_ID) . '</button>';
+
+// generate list of groups
 
 if ($list->rows != 0)
 {
-    $columns = array
-    (
-        RES_GROUP_NAME_ID,
-        RES_DESCRIPTION_ID,
-    );
+    $bookmarks = gen_xml_bookmarks($page, $list->rows, $from, $to, 'gindex.php?id=' . $id . '&amp;');
 
-    $widths = array (NULL, 100);
+    $sort1 = ($sort == 1 ? 3 : 1);
+    $sort2 = ($sort == 2 ? 4 : 2);
 
     $xml .= '<list>'
-          . gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'gindex.php?id=' . $id . '&amp;')
-          . '<hrow>';
+          . '<hrow>'
+          . "<hcell url=\"gindex.php?id={$id}&amp;sort={$sort1}&amp;page={$page}\">" . get_html_resource(RES_GROUP_NAME_ID)  . '</hcell>'
+          . "<hcell/>"
+          . "<hcell url=\"gindex.php?id={$id}&amp;sort={$sort2}&amp;page={$page}\">" . get_html_resource(RES_DESCRIPTION_ID) . '</hcell>'
+          . '</hrow>';
 
-    for ($i = 1; $i <= count($columns); $i++)
-    {
-        $smode = ($sort == $i ? ($i + count($columns)) : $i);
-        $width = (is_null($widths[$i - 1]) ? NULL : ' width="' . $widths[$i - 1] . '"');
+    $list->seek($from - 1);
 
-        $xml .= '<hcell url="gindex.php?id=' . $id . '&amp;sort=' . $smode . '&amp;page=' . $page . '"' . $width . '>'
-              . get_html_resource($columns[$i - 1])
-              . '</hcell>';
-    }
-
-    $xml .= '</hrow>';
-
-    $list->seek($rec_from - 1);
-
-    for ($i = $rec_from; $i <= $rec_to; $i++)
+    for ($i = $from; $i <= $to; $i++)
     {
         $row = $list->fetch();
 
-        $url = ' url="gview.php?id=' . $row['group_id'] . '&amp;pid=' . $id . '"';
-
-        $xml .= '<row'  . $url . '>'
-              . '<cell' . $url . ' align="left">'             . ustr2html($row['group_name'])  . ' (' . get_html_resource($row['is_global'] ? RES_GLOBAL_ID : RES_LOCAL_ID) . ')' . '</cell>'
-              . '<cell' . $url . ' align="left" wrap="true">' . ustr2html($row['description']) . '</cell>'
+        $xml .= "<row url=\"gview.php?pid={$id}&amp;id={$row['group_id']}\">"
+              . '<cell>' . ustr2html($row['group_name']) . '</cell>'
+              . '<cell>' . get_html_resource($row['is_global'] ? RES_GLOBAL_ID : RES_LOCAL_ID) . '</cell>'
+              . '<cell>' . ustr2html($row['description']) . '</cell>'
               . '</row>';
     }
 
-    $xml .= '</list>';
+    $xml .= '</list>'
+          . $bookmarks;
 }
 
-$xml .= '<button url="view.php?id='    . $id . '" default="true">' . get_html_resource(RES_BACK_ID)   . '</button>'
-      . '<button url="gcreate.php?id=' . $id . '">'                . get_html_resource(RES_CREATE_ID) . '</button>'
-      . '</content>'
-      . '</page>';
+$xml .= '</content>'
+      . '</tabs>';
 
-echo(xml2html($xml));
+echo(xml2html($xml, $title));
 
 ?>

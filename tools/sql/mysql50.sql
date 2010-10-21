@@ -1,25 +1,24 @@
-/*------------------------------------------------------------------------------------------------*/
-/*                                                                                                */
-/*  eTraxis - Records tracking web-based system.                                                  */
-/*  Copyright (C) 2004-2009 by Artem Rodygin                                                      */
-/*                                                                                                */
-/*  This program is free software; you can redistribute it and/or modify                          */
-/*  it under the terms of the GNU General Public License as published by                          */
-/*  the Free Software Foundation; either version 2 of the License, or                             */
-/*  (at your option) any later version.                                                           */
-/*                                                                                                */
-/*  This program is distributed in the hope that it will be useful,                               */
-/*  but WITHOUT ANY WARRANTY; without even the implied warranty of                                */
-/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 */
-/*  GNU General Public License for more details.                                                  */
-/*                                                                                                */
-/*  You should have received a copy of the GNU General Public License along                       */
-/*  with this program; if not, write to the Free Software Foundation, Inc.,                       */
-/*  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.                                   */
-/*                                                                                                */
-/*------------------------------------------------------------------------------------------------*/
-/*  Server type: MySQL 5.0                                                                        */
-/*------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*  eTraxis - Records tracking web-based system                               */
+/*  Copyright (C) 2005-2010  Artem Rodygin                                    */
+/*                                                                            */
+/*  This program is free software: you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation, either version 3 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program.  If not, see <http://www.gnu.org/licenses/>.     */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+/*  Server type: MySQL 5.0                                                    */
+/*----------------------------------------------------------------------------*/
 
 create database etraxis
 character set utf8
@@ -60,7 +59,6 @@ create table tbl_accounts
     csv_delim int not null,
     csv_encoding int not null,
     csv_line_ends int not null,
-    fset_id int null,
     view_id int null
 );
 
@@ -949,58 +947,6 @@ references tbl_fields
     field_id
 );
 
-create table tbl_fsets
-(
-    fset_id int not null auto_increment primary key,
-    account_id int not null,
-    fset_name varchar (50) not null
-);
-
-alter table tbl_fsets add constraint unique ix_fsets
-(
-    account_id,
-    fset_name
-);
-
-alter table tbl_fsets add constraint foreign key fk_fsets_account_id
-(
-    account_id
-)
-references tbl_accounts
-(
-    account_id
-);
-
-create table tbl_fset_filters
-(
-    fset_id int not null,
-    filter_id int not null
-);
-
-alter table tbl_fset_filters add primary key
-(
-    fset_id,
-    filter_id
-);
-
-alter table tbl_fset_filters add constraint foreign key fk_fset_filters_fset_id
-(
-    fset_id
-)
-references tbl_fsets
-(
-    fset_id
-);
-
-alter table tbl_fset_filters add constraint foreign key fk_fset_filters_filter_id
-(
-    filter_id
-)
-references tbl_filters
-(
-    filter_id
-);
-
 create table tbl_views
 (
     view_id int not null auto_increment primary key,
@@ -1056,37 +1002,34 @@ references tbl_views
     view_id
 );
 
-create table tbl_def_columns
+create table tbl_view_filters
 (
-    column_id int not null auto_increment primary key,
-    account_id int not null,
-    state_name varchar (50) null,
-    field_name varchar (50) null,
-    column_type int not null,
-    column_order int not null
+    view_id int not null,
+    filter_id int not null
 );
 
-alter table tbl_def_columns add constraint unique ix_def_columns_name
+alter table tbl_view_filters add primary key
 (
-    account_id,
-    state_name,
-    field_name,
-    column_type
+    view_id,
+    filter_id
 );
 
-alter table tbl_def_columns add constraint unique ix_def_columns_order
+alter table tbl_view_filters add constraint foreign key fk_view_filters_view_id
 (
-    account_id,
-    column_order
-);
-
-alter table tbl_def_columns add constraint foreign key fk_def_columns_account_id
-(
-    account_id
+    view_id
 )
-references tbl_accounts
+references tbl_views
 (
-    account_id
+    view_id
+);
+
+alter table tbl_view_filters add constraint foreign key fk_view_filters_filter_id
+(
+    filter_id
+)
+references tbl_filters
+(
+    filter_id
 );
 
 create table tbl_subscribes
@@ -1164,7 +1107,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MySQL 5.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '2.1');
+values ('FEATURE_LEVEL', '3.0');
 
 insert into tbl_accounts
 (

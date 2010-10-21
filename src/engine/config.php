@@ -1,5 +1,25 @@
 <?php
 
+#-------------------------------------------------------------------------------
+#
+#  eTraxis - Records tracking web-based system
+#  Copyright (C) 2003-2010  Artem Rodygin
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#-------------------------------------------------------------------------------
+
 /**
  * Instance configuration
  *
@@ -9,26 +29,9 @@
  * @package Engine
  */
 
-# eTraxis - Records tracking web-based system.
-# Copyright (C) 2003-2010 by Artem Rodygin
-
-# This program is free software; you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 2 of the License, or
-# (at your option) any later version.
-
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-
-# You should have received a copy of the GNU General Public License along
-# with this program; if not, write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-#---------------------------------------------------------------------------------------------------
-# Location
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Location
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-config-etraxis.php online documentation} for details.
@@ -37,9 +40,9 @@ define('LOCALROOT', '/usr/local/apache/htdocs/etraxis/');
 define('WEBROOT',   'http://www.example.com/etraxis/');
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Database
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Database
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-config-etraxis.php online documentation} for details.
@@ -51,9 +54,9 @@ define('DATABASE_USERNAME', '%');
 define('DATABASE_PASSWORD', '');
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Security Options
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Security Options
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-security.php online documentation} for details.
@@ -66,9 +69,9 @@ define('PASSWORD_EXPIRATION', 90);
 define('SESSION_EXPIRE',      120);
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Localization
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Localization
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-localization.php online documentation} for details.
@@ -76,9 +79,9 @@ define('SESSION_EXPIRE',      120);
 define('LANG_DEFAULT', 1000);
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Attachments
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Attachments
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-attachments.php online documentation} for details.
@@ -89,9 +92,9 @@ define('ATTACHMENTS_COMPRESSED', 1);
 define('ATTACHMENTS_PATH',       '/usr/local/etraxis/bins/');
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Email Notifications
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Email Notifications
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-emails.php online documentation} for details.
@@ -100,9 +103,9 @@ define('EMAIL_NOTIFICATIONS_ENABLED', 1);
 define('EMAIL_ATTACHMENTS_MAXSIZE',   0);
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# SMTP Settings
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  SMTP Settings
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-smtp.php online documentation} for details.
@@ -116,9 +119,9 @@ define('SMTP_MAILFROM',       'mailfrom@example.com');
 define('SMTP_USE_TLS',        0);
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# LDAP Authentication
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  LDAP Authentication
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-ldap-auth.php online documentation} for details.
@@ -137,9 +140,9 @@ define('LDAP_ENUMERATION',   0);
 define('LDAP_ADMINS',        'Administrator');
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Maintenance
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Maintenance
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-maintenance.php online documentation} for details.
@@ -151,9 +154,9 @@ define('MAINTENANCE_FINISH_DATE', '2037-12-31');
 define('MAINTENANCE_FINISH_TIME', '00:00');
 /**#@-*/
 
-#---------------------------------------------------------------------------------------------------
-# Debug Logging
-#---------------------------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
+#  Debug Logging
+#-------------------------------------------------------------------------------
 
 /**#@+
  * See {@link http://www.etraxis.org/docs-debug.php online documentation} for details.

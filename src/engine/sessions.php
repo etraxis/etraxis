@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2004-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Sessions
  *
@@ -8,69 +28,6 @@
  * @package Engine
  * @subpackage Sessions
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2004-11-22      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-08-15      new-003: Authentication with Active Directory.
-//  Artem Rodygin           2005-08-18      new-030: UI language should be set for each user separately.
-//  Artem Rodygin           2005-08-18      new-035: Customizable list size.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2005-10-13      new-157: Name of logged in user should be displayed.
-//  Artem Rodygin           2006-01-24      new-204: Active Directory Support functionality (new-003) should be conditionally "compiled".
-//  Artem Rodygin           2006-08-20      new-313: Implement HTTP authentication.
-//  Artem Rodygin           2006-09-24      new-315: User should have several attempts to login.
-//  Artem Rodygin           2006-11-08      new-366: Export to CSV.
-//  Artem Rodygin           2006-11-20      new-392: Local users should not be extended with '@eTraxis' when LDAP is disabled.
-//  Artem Rodygin           2006-11-20      new-377: Custom views.
-//  Artem Rodygin           2006-12-15      bug-409: User session expires too quick.
-//  Artem Rodygin           2007-06-24      bug-529: Largest amount of records (1000) is displayed more than 30 seconds.
-//  Artem Rodygin           2007-09-12      bug-581: PHP Warning: session_destroy(): Session object destruction failed
-//  Artem Rodygin           2007-09-12      new-576: [SF1788286] Export to CSV
-//  Artem Rodygin           2007-09-13      new-566: Choose encoding for record dump and export of records list.
-//  Artem Rodygin           2007-10-02      new-513: Apply current filter set to search results.
-//  Artem Rodygin           2007-10-29      new-564: Filters set.
-//  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
-//  Dmitry Gorev            2007-12-10      new-414: Passwords expiration.
-//  Dmitry Gorev            2007-12-18      bug-645: Account is locked for specified amount of seconds, not minutes.
-//  Artem Rodygin           2008-04-19      new-704: Show name of user who is logged in.
-//  Artem Rodygin           2008-06-17      bug-724: Import MYSQL41.SQL failed
-//  Artem Rodygin           2008-10-29      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
-//  Artem Rodygin           2008-11-19      bug-766: PHP Notice: Undefined index: eTraxis_FullName
-//  Artem Rodygin           2009-01-12      bug-784: Logged in user must be forwarded to the page he has tried to open before authentication.
-//  Artem Rodygin           2009-01-13      new-785: Favorites icon.
-//  Artem Rodygin           2009-02-26      bug-792: [SF2635842] Short PHP tags in login.php
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Artem Rodygin           2009-04-13      new-814: Password expiration should be turnable off.
-//  Alexandr Permyakov      2009-05-29      new-821: Remove redundant call of 'ldap_finduser' from 'login_user'.
-//  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-12-05      new-862: Resistance to 'magic quotes'.
-//  Artem Rodygin           2009-12-08      new-865: [safe_mode] Warning: Invalid argument supplied for foreach()
-//  Artem Rodygin           2010-01-26      new-895: Improve UI of authentication page.
-//  Artem Rodygin           2010-04-07      new-926: Inactivity Logout
-//  Artem Rodygin           2010-04-15      bug-929: PHP Deprecated: Function set_magic_quotes_runtime() is deprecated
-//--------------------------------------------------------------------------------------------------
 
 /**#@+
  * Dependency.
@@ -83,9 +40,9 @@ require_once('../engine/ldap.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Session variable.
@@ -102,8 +59,8 @@ define('VAR_PAGEBKMS',              'eTraxis_PageBkms');
 define('VAR_DELIMITER',             'eTraxis_Delimiter');
 define('VAR_ENCODING',              'eTraxis_Encoding');
 define('VAR_LINE_ENDINGS',          'eTraxis_LineEndings');
-define('VAR_FSET',                  'eTraxis_FiltersSet');
 define('VAR_VIEW',                  'eTraxis_View');
+define('VAR_SEARCH_TEXT',           'eTraxis_SearchText');
 define('VAR_USE_FILTERS',           'eTraxis_UseFilter');
 define('VAR_REQUEST_CREDENTIALS',   'eTraxis_RequestCredentials');
 /**#@-*/
@@ -181,9 +138,9 @@ define('MIN_PAGE_SIZE', 10);
 define('MAX_PAGE_SIZE', 100);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Creates (initializes) anonymous session before user is authorized.
@@ -236,8 +193,8 @@ function open_session ($userid)
     $_SESSION[VAR_DELIMITER]     = chr(DEFAULT_DELIMITER);
     $_SESSION[VAR_ENCODING]      = $encodings[DEFAULT_ENCODING];
     $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[DEFAULT_LINE_ENDINGS];
-    $_SESSION[VAR_FSET]          = NULL;
     $_SESSION[VAR_VIEW]          = NULL;
+    $_SESSION[VAR_SEARCH_TEXT]   = get_html_resource(RES_SEARCH_ID);
     $_SESSION[VAR_USE_FILTERS]   = FALSE;
 
     return session_id();
@@ -261,8 +218,8 @@ function close_session ()
     unset($_SESSION[VAR_DELIMITER]);
     unset($_SESSION[VAR_ENCODING]);
     unset($_SESSION[VAR_LINE_ENDINGS]);
-    unset($_SESSION[VAR_FSET]);
     unset($_SESSION[VAR_VIEW]);
+    unset($_SESSION[VAR_SEARCH_TEXT]);
     unset($_SESSION[VAR_USE_FILTERS]);
 
     @session_destroy();
@@ -271,8 +228,8 @@ function close_session ()
 /**
  * Tries to log user in eTraxis with specified credentials.
  *
- * @param string $username {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username User name}.
- * @param string $passwd {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd Password}.
+ * @param string $username User name.
+ * @param string $passwd Password.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - user is successfully authenticated</li>
@@ -405,7 +362,7 @@ function init_page ($guest_is_allowed = FALSE)
     global $encodings;
     global $line_endings_chars;
 
-    session_start();
+    @session_start();
 
     if (get_magic_quotes_gpc() != 0)
     {
@@ -472,18 +429,17 @@ function init_page ($guest_is_allowed = FALSE)
             $_SESSION[VAR_DELIMITER]     = chr($account['csv_delim']);
             $_SESSION[VAR_ENCODING]      = $encodings[$account['csv_encoding']];
             $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];
-            $_SESSION[VAR_FSET]          = $account['fset_id'];
             $_SESSION[VAR_VIEW]          = $account['view_id'];
 
             dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
 
-            if ((strpos($_SERVER['PHP_SELF'], '/chpasswd/index.php') === FALSE            ) &&
+            if ((strpos($_SERVER['PHP_SELF'], '/settings/index.php') === FALSE            ) &&
                 (PASSWORD_EXPIRATION != 0                                                 ) &&
                 ($_SESSION[VAR_PASSWD_EXPIRE] + PASSWORD_EXPIRATION * SECS_IN_DAY < time()) &&
                 (!$_SESSION[VAR_LDAPUSER]                                                 ))
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
-                header('Location: ' . WEBROOT . 'chpasswd/index.php');
+                header('Location: ' . WEBROOT . 'settings/index.php');
                 exit;
             }
         }

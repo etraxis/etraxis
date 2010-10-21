@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,27 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-08-18      new-030: UI language should be set for each user separately.
-//  Artem Rodygin           2005-08-18      new-035: Customizable list size.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-16      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-10-08      bug-359: /src/settings/index.php: Global variable $locale_info was used before it was defined.
-//  Artem Rodygin           2007-09-12      new-576: [SF1788286] Export to CSV
-//  Artem Rodygin           2007-09-13      new-566: Choose encoding for record dump and export of records list.
-//  Artem Rodygin           2007-10-12      bug-597: /src/settings/index.php: Global variables $encodings and $line_endings_names were used before they were defined.
-//  Artem Rodygin           2008-11-09      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -54,6 +37,10 @@ global $line_endings_names;
 global $line_endings_chars;
 
 init_page();
+
+$error = NO_ERROR;
+
+// settings form is submitted
 
 if (try_request('submitted') == 'mainform')
 {
@@ -73,6 +60,7 @@ if (try_request('submitted') == 'mainform')
     }
 
     locale_change($_SESSION[VAR_USERID], $locale);
+
     dal_query('accounts/settings.sql',
               $_SESSION[VAR_USERID],
               $page_rows,
@@ -81,8 +69,28 @@ if (try_request('submitted') == 'mainform')
               $encoding,
               $line_endings);
 
-    header('Location: ../index.php');
-    exit;
+    if (!$_SESSION[VAR_LDAPUSER])
+    {
+        $passwd1 = ustrcut($_REQUEST['passwd1'], MAX_ACCOUNT_PASSWORD);
+        $passwd2 = ustrcut($_REQUEST['passwd2'], MAX_ACCOUNT_PASSWORD);
+
+        if (ustrlen($passwd1) != 0 ||
+            ustrlen($passwd2) != 0)
+        {
+            $error = password_validate($passwd1, $passwd2);
+
+            if ($error == NO_ERROR)
+            {
+                $error = password_change($_SESSION[VAR_USERID], $passwd1);
+            }
+        }
+    }
+
+    if ($error == NO_ERROR)
+    {
+        header('Location: ../index.php');
+        exit;
+    }
 }
 else
 {
@@ -96,58 +104,150 @@ else
     $line_endings = $_SESSION[VAR_LINE_ENDINGS];
 }
 
-$xml = '<page' . gen_xml_page_header(get_html_resource(RES_SETTINGS_ID), NULL, 'mainform.locale') . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . '<pathitem url="index.php">' . get_html_resource(RES_SETTINGS_ID) . '</pathitem>'
-     . '</path>'
-     . '<content>'
-     . '<form name="mainform" action="index.php">'
-     . '<group>'
-     . '<combobox label="' . get_html_resource(RES_LANGUAGE_ID) . '" name="locale">';
+// generate breadcrumbs
+
+$xml = '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_SETTINGS_ID) . '</breadcrumb>'
+     . '</breadcrumbs>';
+
+// generate tabs
+
+$xml .= '<tabs>';
+
+if ($_SESSION[VAR_LDAPUSER])
+{
+    $xml .= '<tab id="2" active="true">' . get_html_resource(RES_APPEARANCE_ID) . '</tab>'
+          . '<tab id="3">'               . get_html_resource(RES_CSV_ID)        . '</tab>';
+}
+else
+{
+    $xml .= '<tab id="1" active="true">' . get_html_resource(RES_CHANGE_PASSWORD_ID) . '</tab>'
+          . '<tab id="2">'               . get_html_resource(RES_APPEARANCE_ID)      . '</tab>'
+          . '<tab id="3">'               . get_html_resource(RES_CSV_ID)             . '</tab>';
+}
+
+$xml .= '<content>'
+      . '<form name="mainform" action="index.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">';
+
+// generate "Change password" tab
+
+if (!$_SESSION[VAR_LDAPUSER])
+{
+    $xml .= '<subpage id="1" active="true">'
+          . '<group>'
+          . '<control name="passwd1">'
+          . '<label>' . get_html_resource(RES_PASSWORD_ID) . '</label>'
+          . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
+          . '</control>'
+          . '<control name="passwd2">'
+          . '<label>' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '</label>'
+          . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
+          . '</control>'
+          . '</group>'
+          . '<note>' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '</note>'
+          . '</subpage>';
+}
+
+// generate "Appearance" tab
+
+$xml .= ($_SESSION[VAR_LDAPUSER]
+            ? '<subpage id="2" active="true">'
+            : '<subpage id="2">')
+      . '<group>'
+      . '<control name="locale">'
+      . '<label>' . get_html_resource(RES_LANGUAGE_ID) . '</label>'
+      . '<combobox>';
 
 $supported_locales = get_supported_locales_sorted();
 
 foreach ($supported_locales as $locale_id => $locale_name)
 {
-    $xml .= '<listitem value="' . $locale_id . ($locale == $locale_id ? '" selected="true">' : '">')
+    $xml .= ($locale == $locale_id
+                ? '<listitem value="' . $locale_id . '" selected="true">'
+                : '<listitem value="' . $locale_id . '">')
           . $locale_name
           . '</listitem>';
 }
 
 $xml .= '</combobox>'
-      . '<editbox label="' . get_html_resource(RES_ROWS_PER_PAGE_ID)      . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="page_rows" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(MAX_PAGE_SIZE) . '">' . ustr2html($page_rows) . '</editbox>'
-      . '<editbox label="' . get_html_resource(RES_BOOKMARKS_PER_PAGE_ID) . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="page_bkms" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(MAX_PAGE_SIZE) . '">' . ustr2html($page_bkms) . '</editbox>'
-      . '<editbox label="' . get_html_resource(RES_CSV_DELIMITER_ID)      . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="delimiter" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="1">' . ustr2html($delimiter) . '</editbox>'
-      . '<combobox label="' . get_html_resource(RES_CSV_ENCODING_ID) . '" name="encoding">';
+      . '</control>'
+      . '<control name="page_rows" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_ROWS_PER_PAGE_ID) . '</label>'
+      . '<editbox maxlen="' . ustrlen(MAX_PAGE_SIZE) . '">' . ustr2html($page_rows) . '</editbox>'
+      . '</control>'
+      . '<control name="page_bkms" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_BOOKMARKS_PER_PAGE_ID) . '</label>'
+      . '<editbox maxlen="' . ustrlen(MAX_PAGE_SIZE) . '">' . ustr2html($page_bkms) . '</editbox>'
+      . '</control>'
+      . '</group>'
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_PAGE_SIZE, MAX_PAGE_SIZE) . '</note>'
+      . '</subpage>';
+
+// generate "CSV" tab
+
+$xml .= '<subpage id="3">'
+      . '<group>'
+      . '<control name="delimiter" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_CSV_DELIMITER_ID) . '</label>'
+      . '<editbox maxlen="1">' . ustr2html($delimiter) . '</editbox>'
+      . '</control>'
+      . '<control name="encoding">'
+      . '<label>' . get_html_resource(RES_CSV_ENCODING_ID) . '</label>'
+      . '<combobox>';
 
 foreach ($encodings as $i => $item)
 {
-    $xml .= '<listitem value="' . $i . ($encoding == $item ? '" selected="true">' : '">')
+    $xml .= ($encoding == $item
+                ? '<listitem value="' . $i . '" selected="true">'
+                : '<listitem value="' . $i . '">')
           . ustr2html($item)
           . '</listitem>';
 }
 
 $xml .= '</combobox>'
-      . '<combobox label="' . get_html_resource(RES_CSV_LINE_ENDINGS_ID) . '" name="line_endings">';
+      . '</control>'
+      . '<control name="line_endings">'
+      . '<label>' . get_html_resource(RES_CSV_LINE_ENDINGS_ID) . '</label>'
+      . '<combobox>';
 
 foreach ($line_endings_names as $i => $item)
 {
-    $xml .= '<listitem value="' . $i . ($line_endings == $line_endings_chars[$i] ? '" selected="true">' : '">')
+    $xml .= ($line_endings == $line_endings_chars[$i]
+                ? '<listitem value="' . $i . '" selected="true">'
+                : '<listitem value="' . $i . '">')
           . ustr2html($item)
           . '</listitem>';
 }
 
 $xml .= '</combobox>'
+      . '</control>'
       . '</group>'
-      . '<button name="ok" default="true">'                       . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button name="cancel" url="javascript:history.back();">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID)                                                    . '</note>'
-      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_PAGE_SIZE, MAX_PAGE_SIZE) . '</note>'
-      . '</form>'
-      . '</content>'
-      . '</page>';
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '</subpage>';
 
-echo(xml2html($xml));
+// generate buttons
+
+$xml .= '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
+      . '</form>';
+
+// if some error was specified to display, force an alert
+
+switch ($error)
+{
+    case ERROR_INCOMPLETE_FORM:
+    case ERROR_PASSWORDS_DO_NOT_MATCH:
+        $xml .= "<script>alert('" . get_js_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . "');</script>";
+        break;
+    case ERROR_PASSWORD_TOO_SHORT:
+        $xml .= "<script>alert('" . ustrprocess(get_js_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . "');</script>";
+        break;
+    default: ;  // nop
+}
+
+$xml .= '</content>'
+      . '</tabs>';
+
+echo(xml2html($xml, get_html_resource(RES_SETTINGS_ID)));
 
 ?>

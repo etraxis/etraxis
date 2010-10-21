@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Templates
- *
- * This module provides API to work with eTraxis templates.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_templates tbl_templates} database table.
- *
- * @package DBO
- * @subpackage Templates
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,53 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-02-27      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-24      new-009: Records filter.
-//  Artem Rodygin           2005-08-18      new-037: Any template should be locked to be modified without suspending a project.
-//  Artem Rodygin           2005-08-19      bug-039: PHP Warning: file_get_contents: failed to open stream: No such file or directory
-//  Artem Rodygin           2005-08-23      bug-048: Removable template will not be removed in some cases.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-04      bug-086: New template with empty name or prefix can be created.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-22      bug-166: Some filters & subscriptions should be removed when a project, template, or state has been deleted.
-//  Artem Rodygin           2005-10-22      bug-163: Some filters are malfunctional.
-//  Artem Rodygin           2006-04-21      bug-241: Unexpected message "Template with entered name or prefix already exists".
-//  Artem Rodygin           2006-05-07      new-251: Traceability logging review.
-//  Artem Rodygin           2006-09-26      new-318: Group permissions should be template-wide.
-//  Artem Rodygin           2006-11-20      new-377: Custom views.
-//  Artem Rodygin           2007-01-05      new-491: [SF1647212] Group-wide transition permission.
-//  Artem Rodygin           2007-08-02      new-139: Templates cloning.
-//  Artem Rodygin           2007-08-08      bug-554: List values are not cloned.
-//  Artem Rodygin           2007-09-29      new-584: Extend maxsize of template name.
-//  Artem Rodygin           2007-11-07      new-571: View should show all records of current filters set.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-01-05      new-648: Template-wide author permissions.
-//  Artem Rodygin           2008-01-11      bug-664: Template cannot be deleted.
-//  Artem Rodygin           2008-01-28      new-531: LDAP Guest users
-//  Artem Rodygin           2008-02-03      new-601: [SF1814666] Export and Import Templates
-//  Artem Rodygin           2008-02-27      new-676: [SF1898731] Delete Issues from Workflow
-//  Artem Rodygin           2008-02-29      bug-680: Template export doesn't work.
-//  Artem Rodygin           2008-03-12      bug-684: Guest and author permissions are not copied when template is cloned.
-//  Artem Rodygin           2008-03-20      bug-687: "XML parser error" on template import, if zero is specified in 'critical_age' template's parameter.
-//  Artem Rodygin           2008-04-09      bug-701: PHP Notice: Undefined variables: xml_a / xml_g
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2008-12-16      bug-769: user local group see bugs from other projects
-//  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-03-24      bug-803: "XML parser error" on import of preliminary exported template.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Templates
+ *
+ * This module provides API to work with eTraxis templates.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_templates tbl_templates} database table.
+ *
+ * @package DBO
+ * @subpackage Templates
+ */
 
 /**#@+
  * Dependency.
@@ -84,9 +41,9 @@ require_once('../dbo/events.php');
 require_once('../dbo/importer.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Data restriction.
@@ -107,14 +64,14 @@ define('TEMPLATE_ROLE_REGISTERED',  -3);
 define('MIN_TEMPLATE_ROLE', TEMPLATE_ROLE_REGISTERED);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds in database and returns the information about specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id Template ID}.
+ * @param int $id Template ID.
  * @return array Array with data if template is found in database, FALSE otherwise.
  */
 function template_find ($id)
@@ -131,17 +88,17 @@ function template_find ($id)
  * Returns {@link CRecordset DAL recordset} which contains all existing templates of specified project,
  * sorted in accordance with current sort mode.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id Project ID}.
+ * @param int $id Project ID.
  * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
  * client cookie ({@link COOKIE_TEMPLATES_SORT}) and updates it, if it's out of valid range.
  * @param int &$page Number of current page tab (used as output only). The function retrieves current
  * page from client cookie ({@link COOKIE_TEMPLATES_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of templates.
  */
-function template_list ($id, &$sort, &$page)
+function templates_list ($id, &$sort, &$page)
 {
-    debug_write_log(DEBUG_TRACE, '[template_list]');
-    debug_write_log(DEBUG_DUMP,  '[template_list] $id = ' . $id);
+    debug_write_log(DEBUG_TRACE, '[templates_list]');
+    debug_write_log(DEBUG_DUMP,  '[templates_list] $id = ' . $id);
 
     $sort_modes = array
     (
@@ -172,10 +129,10 @@ function template_list ($id, &$sort, &$page)
 /**
  * Validates template information before creation or modification.
  *
- * @param string $template_name {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_name Template name}.
- * @param string $template_prefix {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_prefix Template prefix}.
- * @param int $critical_age {@link http://www.etraxis.org/docs-schema.php#tbl_templates_critical_age Critical age}.
- * @param int $frozen_time {@link http://www.etraxis.org/docs-schema.php#tbl_templates_frozen_time Frozen time}.
+ * @param string $template_name Template name.
+ * @param string $template_prefix Template prefix.
+ * @param int $critical_age Critical age.
+ * @param int $frozen_time Frozen time.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -241,18 +198,17 @@ function template_validate ($template_name, $template_prefix, $critical_age, $fr
 /**
  * Creates new template.
  *
- * @param int $project_id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project which new template will belong to.
- * @param string $template_name {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_name Template name}.
- * @param string $template_prefix {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_prefix Template prefix}.
- * @param int $critical_age {@link http://www.etraxis.org/docs-schema.php#tbl_templates_critical_age Critical age}.
- * @param int $frozen_time {@link http://www.etraxis.org/docs-schema.php#tbl_templates_frozen_time Frozen time}.
- * @param string $description Optional {@link http://www.etraxis.org/docs-schema.php#tbl_templates_description description}.
- * @param bool $guest_access Ability of {@link http://www.etraxis.org/docs-schema.php#tbl_templates_guest_access guest access} to the template records.
+ * @param int $project_id ID of project which new template will belong to.
+ * @param string $template_name Template name.
+ * @param string $template_prefix Template prefix.
+ * @param int $critical_age Critical age.
+ * @param int $frozen_time Frozen time.
+ * @param string $description Optional description.
+ * @param bool $guest_access Ability of guest access to the template records.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - template is successfully created</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - template with specified {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_name name}
- * or {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_prefix prefix} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - template with specified name or prefix already exists</li>
  * </ul>
  */
 function template_create ($project_id, $template_name, $template_prefix, $critical_age, $frozen_time, $description, $guest_access)
@@ -291,8 +247,8 @@ function template_create ($project_id, $template_name, $template_prefix, $critic
 /**
  * Clones everything (states, fields, permissions, etc) from one template to another (must be pre-created).
  *
- * @param int $source_id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be cloned.
- * @param int $dest_id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of new template.
+ * @param int $source_id ID of template to be cloned.
+ * @param int $dest_id ID of new template.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - template is successfully cloned</li>
@@ -332,19 +288,18 @@ function template_clone ($source_id, $dest_id)
 /**
  * Modifies specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be modified.
- * @param int $project_id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project which the template belongs to.
- * @param string $template_name New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_name template name}.
- * @param string $template_prefix New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_prefix template prefix}.
- * @param int $critical_age New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_critical_age critical age}.
- * @param int $frozen_time New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_frozen_time frozen time}.
- * @param string $description New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_description description}.
- * @param bool $guest_access Ability of {@link http://www.etraxis.org/docs-schema.php#tbl_templates_guest_access guest access} to the template records.
+ * @param int $id ID of template to be modified.
+ * @param int $project_id ID of project which the template belongs to.
+ * @param string $template_name New template name.
+ * @param string $template_prefix New template prefix.
+ * @param int $critical_age New critical age.
+ * @param int $frozen_time New frozen time.
+ * @param string $description New description.
+ * @param bool $guest_access Ability of guest access to the template records.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - template is successfully modified</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - another template with specified {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_name name}
- * or {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_prefix prefix} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - another template with specified name or prefix already exists</li>
  * </ul>
  */
 function template_modify ($id, $project_id, $template_name, $template_prefix, $critical_age, $frozen_time, $description, $guest_access)
@@ -384,7 +339,7 @@ function template_modify ($id, $project_id, $template_name, $template_prefix, $c
 /**
  * Checks whether template can be deleted.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be deleted.
+ * @param int $id ID of template to be deleted.
  * @return bool TRUE if template can be deleted, FALSE otherwise.
  */
 function is_template_removable ($id)
@@ -400,7 +355,7 @@ function is_template_removable ($id)
 /**
  * Deletes specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be deleted.
+ * @param int $id ID of template to be deleted.
  * @return int Always {@link NO_ERROR}.
  */
 function template_delete ($id)
@@ -408,7 +363,7 @@ function template_delete ($id)
     debug_write_log(DEBUG_TRACE, '[template_delete]');
     debug_write_log(DEBUG_DUMP,  '[template_delete] $id = ' . $id);
 
-    dal_query('subscribes/sdelallt.sql', $id);
+    dal_query('subscriptions/sdelallt.sql', $id);
 
     dal_query('filters/fadelallt.sql', $id);
     dal_query('filters/fdelallt.sql',  $id);
@@ -429,7 +384,7 @@ function template_delete ($id)
 /**
  * Locks specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be locked.
+ * @param int $id ID of template to be locked.
  * @return int Always {@link NO_ERROR}.
  */
 function template_lock ($id)
@@ -445,7 +400,7 @@ function template_lock ($id)
 /**
  * Unlocks specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be unlocked.
+ * @param int $id ID of template to be unlocked.
  * @return int Always {@link NO_ERROR}.
  */
 function template_unlock ($id)
@@ -461,8 +416,8 @@ function template_unlock ($id)
 /**
  * Sets permissions of system role 'author' for specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template which permissions should be set for.
- * @param int $perm New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_author_perm permissions} set.
+ * @param int $id ID of template which permissions should be set for.
+ * @param int $perm New permissions set.
  * @return int Always {@link NO_ERROR}.
  */
 function template_author_perm_set ($id, $perm)
@@ -479,8 +434,8 @@ function template_author_perm_set ($id, $perm)
 /**
  * Sets permissions of system role 'responsible' for specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template which permissions should be set for.
- * @param int $perm New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_responsible_perm permissions} set.
+ * @param int $id ID of template which permissions should be set for.
+ * @param int $perm New permissions set.
  * @return int Always {@link NO_ERROR}.
  */
 function template_responsible_perm_set ($id, $perm)
@@ -497,8 +452,8 @@ function template_responsible_perm_set ($id, $perm)
 /**
  * Sets permissions of system role 'registered' for specified template.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template which permissions should be set for.
- * @param int $perm New {@link http://www.etraxis.org/docs-schema.php#tbl_templates_registered_perm permissions} set.
+ * @param int $id ID of template which permissions should be set for.
+ * @param int $perm New permissions set.
  * @return int Always {@link NO_ERROR}.
  */
 function template_registered_perm_set ($id, $perm)
@@ -515,7 +470,7 @@ function template_registered_perm_set ($id, $perm)
 /**
  * Exports specified template to XML code (see also {@link template_import}).
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of template to be exported.
+ * @param int $id ID of template to be exported.
  * @param bool $just_the_node Whether the function should return the XML code of the template node alone instead of a complete XML schema.
  * @return string Generated XML code for specified template.
  */
@@ -660,7 +615,7 @@ function template_export ($id, $just_the_node = FALSE)
  * Imports template specified as XML code (see also {@link template_export}).
  *
  * @param string $xmlfile File with XML code uploaded as described {@link http://www.php.net/features.file-upload here}.
- * @param int &$id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of newly imported template (used as output only).
+ * @param int &$id ID of newly imported template (used as output only).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - template is successfully imported</li>

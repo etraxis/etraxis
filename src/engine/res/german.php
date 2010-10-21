@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2007-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Localization
  *
@@ -10,65 +30,6 @@
  * @subpackage Localization
  * @author Daniel Jungbluth
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2007-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Daniel Jungbluth        2007-09-09      new-577: German localization.
-//  Daniel Jungbluth        2007-09-09      new-563: Custom separators inside fields set.
-//  Daniel Jungbluth        2007-09-12      new-576: [SF1788286] Export to CSV
-//  Daniel Jungbluth        2007-09-13      new-566: Choose encoding for record dump and export of records list.
-//  Daniel Jungbluth        2007-10-02      new-513: Apply current filter set to search results.
-//  Daniel Jungbluth        2007-10-29      new-564: Filters set.
-//  Daniel Jungbluth        2007-11-05      new-562: Ability to show only last values of any state.
-//  Daniel Jungbluth        2007-11-07      new-571: View should show all records of current filters set.
-//  Daniel Jungbluth        2007-11-19      bug-624: dbx_error(): Too many tables; MySQL can only use 61 tables in a join
-//  Daniel Jungbluth        2007-11-19      new-599: Separated "Age" in custom views.
-//  Daniel Jungbluth        2007-11-19      new-548: Custom links in text fields.
-//  Daniel Jungbluth        2007-11-19      new-623: Default state in states list.
-//  Daniel Jungbluth        2007-11-20      new-536: Ability to hide postpone records from the list.
-//  Daniel Jungbluth        2007-11-29      new-637: Subject of notifications should contain subject of records.
-//  Daniel Jungbluth        2007-11-29      new-617: Add 'no view' and 'no filter set' to related comboboxes.
-//  Daniel Jungbluth        2007-12-27      new-659: Set default language
-//  Artem Rodygin           2007-12-30      bug-660: [SF1860788] PHP4 html_entity_decode() is not working
-//  Daniel Jungbluth        2008-01-21      new-666: Buttons "Previous" & "Next" on record view page.
-//  Daniel Jungbluth        2008-01-28      new-531: LDAP Guest users
-//  Daniel Jungbluth        2008-01-31      new-601: [SF1814666] Export and Import Templates
-//  Daniel Jungbluth        2008-02-27      new-676: [SF1898731] Delete Issues from Workflow
-//  Artem Rodygin           2008-02-28      new-294: PostgreSQL support.
-//  Daniel Jungbluth        2008-03-03      bug-681: Update configuration page with new options.
-//  Daniel Jungbluth        2008-04-30      bug-699: Views // Names of custom columns are duplicated in the list of available columns, when there are two fields of different types with the same name.
-//  Daniel Jungbluth        2008-05-01      new-715: Show creation time in the list of records.
-//  Daniel Jungbluth        2008-08-16      new-729: [SF2008579] Mark all records as read
-//  Daniel Jungbluth        2009-01-12      new-749: Guest access for unauthorized users.
-//  Daniel Jungbluth        2009-01-12      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-04-12      bug-806: German translation causes two ambiguous "zuruck" buttons.
-//  Artem Rodygin           2009-04-26      new-817: Field permissions dialog refactoring.
-//  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
-//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
-//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
-//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//--------------------------------------------------------------------------------------------------
 
 $resource_german = array
 (
@@ -324,7 +285,7 @@ $resource_german = array
     'Betreff',
     'Suche',
     'Suchparameter',
-    'Suchergebnis (gefiltert)',
+    'Suchergebnis',
     'Zu suchender Text',
     'In Zusätzen suchen',
     /* 1160 */
@@ -539,6 +500,7 @@ $resource_german = array
     /* 1350 */
     'Kompression',
     'L.S.',
+    'Kommentare',
 );
 
 ?>

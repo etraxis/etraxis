@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Records
- *
- * This module provides API to work with records.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_records tbl_records} database table.
- *
- * @package DBO
- * @subpackage Records
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,186 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-04-09      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-02      bug-007: Descending sorting of records by ID sorts them wrong.
-//  Artem Rodygin           2005-07-04      new-002: Email notifications.
-//  Artem Rodygin           2005-07-28      new-012: Records field 'description' should be renamed with 'subject'.
-//  Artem Rodygin           2005-07-28      bug-014: PHP Notice: Undefined variable: event2
-//  Artem Rodygin           2005-07-31      new-006: Records search.
-//  Artem Rodygin           2005-08-02      new-017: Email notifications filter.
-//  Artem Rodygin           2005-08-13      new-022: New records should be viewed immediately after creation.
-//  Artem Rodygin           2005-08-13      new-020: Clone the records.
-//  Artem Rodygin           2005-08-23      bug-045: When record is being cloned wrong event is recorded.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-08-24      bug-055: List of changes does not filter values of forbidden fields.
-//  Artem Rodygin           2005-08-26      new-058: Global groups should be implemented.
-//  Artem Rodygin           2005-08-29      bug-066: Metrics of different projects contain same data.
-//  Artem Rodygin           2005-08-30      new-074: Increase maximum length of attachment name up to 100 characters.
-//  Artem Rodygin           2005-08-30      bug-080: 'Record' type fields of some record should not accept ID of this record.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-04      bug-085: Members of global groups cannot view project records if they haven't any permissions in the project.
-//  Artem Rodygin           2005-09-05      bug-091: Members of global groups are not able to create records while are allowed.
-//  Artem Rodygin           2005-09-06      new-095: Newly created records should be displayed as unread.
-//  Artem Rodygin           2005-09-07      new-099: Record creator should be displayed in list of record.
-//  Artem Rodygin           2005-09-07      new-102: Increase maximum length of comments and 'multilined text' fields up to 4000 characters.
-//  Artem Rodygin           2005-09-07      new-100: 'Date' field type should be implemented.
-//  Artem Rodygin           2005-09-08      new-101: 'Duration' field type should be implemented.
-//  Artem Rodygin           2005-09-13      new-114: Change order of columns in the records list.
-//  Artem Rodygin           2005-09-15      new-120: Default field values of cloned records.
-//  Artem Rodygin           2005-09-15      new-122: User should be able to create a filter to display postponed records only.
-//  Artem Rodygin           2005-09-17      new-126: States/field values and comments should be displayed one by one.
-//  Artem Rodygin           2005-09-18      new-073: Implement search folders.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-16      bug-161: False modification event.
-//  Artem Rodygin           2005-12-11      bug-180: Previous field values are lost.
-//  Artem Rodygin           2006-01-22      bug-198: Attached pictures are not shown properly in Opera.
-//  Artem Rodygin           2006-01-23      new-200: User should not been requested for attachment name - current one should be always used.
-//  Artem Rodygin           2006-01-24      new-203: Email notification functionality (new-002) should be conditionally "compiled".
-//  Artem Rodygin           2006-02-10      new-197: Postpone should have a timer for autoresume.
-//  Artem Rodygin           2006-03-15      bug-212: Wrong message when date value is out of range.
-//  Artem Rodygin           2006-03-19      new-175: Implement user roles in permissions.
-//  Artem Rodygin           2006-03-19      bug-216: Permission to create records is ignored.
-//  Artem Rodygin           2006-03-20      bug-217: Cannot create new record.
-//  Artem Rodygin           2006-03-20      bug-218: Server is overloaded.
-//  Artem Rodygin           2006-03-24      new-224: 'Age' column should contain number of days since last action was applied to record (opened only).
-//  Artem Rodygin           2006-03-24      new-223: Links should be functional.
-//  Artem Rodygin           2006-03-25      bug-225: User is remained on record modification page when 'OK' button has been clicked.
-//  Artem Rodygin           2006-03-26      bug-229: Records filters are malfunctional.
-//  Artem Rodygin           2006-04-01      bug-232: Links started with 'www' contain invalid URL.
-//  Artem Rodygin           2006-04-09      new-235: Records with new events should be marked as "unread".
-//  Artem Rodygin           2006-04-21      new-247: The 'responsible' user role should be obliterated.
-//  Artem Rodygin           2006-04-22      new-237: Found text should be marked with red when search is activated.
-//  Artem Rodygin           2006-04-26      bug-248: Search text in filter is ignored and text from last search is used instead of.
-//  Artem Rodygin           2006-04-26      bug-249: Unexpected usage of search text when list of records is being displayed.
-//  Artem Rodygin           2006-05-07      new-251: Traceability logging review.
-//  Artem Rodygin           2006-05-17      new-005: Oracle support.
-//  Artem Rodygin           2006-05-23      bug-262: PHP Warning: ocifetchinto(): OCILobRead: ORA-24806: LOB form mismatch
-//  Artem Rodygin           2006-06-19      new-236: Single record subscription.
-//  Artem Rodygin           2006-06-25      bug-269: Multilined text values are cut to 1000 characters.
-//  Artem Rodygin           2006-06-25      new-222: Email reminders.
-//  Artem Rodygin           2006-06-29      bug-287: dbx_error(): Unknown table 'r' in order clause
-//  Artem Rodygin           2006-07-24      bug-201: 'Access Forbidden' error with cyrillic named attachments.
-//  Artem Rodygin           2006-08-03      bug-299: PHP Warning: mb_strpos(): Empty needle
-//  Artem Rodygin           2006-08-13      new-304: Updated records should be displayed as unread.
-//  Artem Rodygin           2006-08-14      bug-310: No records are displayed when list has been sorted by responsible.
-//  Artem Rodygin           2006-08-21      bug-314: Newly created record shows zero age.
-//  Artem Rodygin           2006-09-26      new-318: Group permissions should be template-wide.
-//  Artem Rodygin           2006-10-08      bug-334: /src/dbo/records.php: Variable $strvalue appears only once.
-//  Artem Rodygin           2006-10-16      new-137: Custom queries.
-//  Artem Rodygin           2006-10-17      new-361: Extended custom queries.
-//  Artem Rodygin           2006-11-12      bug-380: Single record subscription functionality (new-236) should be conditionally "compiled".
-//  Artem Rodygin           2006-11-13      new-368: User should be able to subscribe other persons.
-//  Artem Rodygin           2006-11-15      bug-381: Attachments of some types are not opened in valid applications.
-//  Artem Rodygin           2006-11-22      new-377: Custom views.
-//  Artem Rodygin           2006-11-26      bug-397: View contains records of all existing templates.
-//  Artem Rodygin           2006-11-26      bug-400: PHP Warning: odbc_exec(): SQL error: Invalid column name 'author_fullname'.
-//  Artem Rodygin           2006-11-26      bug-401: PHP Warning: odbc_exec(): SQL error: The text data type cannot be compared or sorted.
-//  Artem Rodygin           2006-12-04      bug-416: Metrics charts display wrong numbers.
-//  Artem Rodygin           2006-12-04      bug-417: SQL time is too large when no filters are applied.
-//  Artem Rodygin           2006-12-10      new-422: Increase maximum length of string fields.
-//  Artem Rodygin           2006-12-10      new-433: Replacing URLs with links is faster with regular expressions.
-//  Artem Rodygin           2006-12-11      bug-437: URLs with '<' and '>' characters are not correctly highlighted.
-//  Artem Rodygin           2006-12-14      new-446: Add processing of new upload errors.
-//  Artem Rodygin           2006-12-15      bug-449: URLs with spaces are cut.
-//  Artem Rodygin           2006-12-17      bug-456: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00904: "CEILING": invalid identifier
-//  Artem Rodygin           2006-12-26      bug-465: When template is locked all records created by this template must be read only.
-//  Artem Rodygin           2006-12-27      bug-470: State permissions must not be used when record is being created.
-//  Artem Rodygin           2007-01-11      new-477: User should have ability to comment postponed records.
-//  Artem Rodygin           2007-01-11      new-479: Assigned user should not receive notification about changed state.
-//  Artem Rodygin           2007-02-03      new-496: [SF1650934] to show value of "list" instead of index in "records" list
-//  Artem Rodygin           2007-03-18      bug-498: XML Error: extra content at the end of the document.
-//  Artem Rodygin           2007-07-04      new-533: Links between records.
-//  Artem Rodygin           2007-07-04      bug-541: PHP Warning: mb_strpos(): Empty delimiter.
-//  Artem Rodygin           2007-07-12      new-544: The 'ctype' library should not be used.
-//  Artem Rodygin           2007-07-16      new-546: Confidential comments.
-//  Artem Rodygin           2007-08-06      new-551: Rework dependencies into "parent-child" relations.
-//  Artem Rodygin           2007-08-18      bug-557: PHP Warning: Missing argument 4 for comment_add()
-//  Artem Rodygin           2007-09-12      new-574: Filter should allow to specify several states.
-//  Artem Rodygin           2007-09-29      new-568: Permissions to operate with record should not depend on permission to view the record.
-//  Artem Rodygin           2007-10-01      bug-586: PHP Warning: odbc_exec(): SQL error: Invalid column name 'date1'.
-//  Artem Rodygin           2007-10-01      bug-585: PHP Warning: odbc_exec(): SQL error: Operand data type numeric is invalid for modulo operator.
-//  Artem Rodygin           2007-10-01      bug-587: Filtering by field values doesn't work correct.
-//  Artem Rodygin           2007-10-02      new-513: Apply current filter set to search results.
-//  Artem Rodygin           2007-10-08      bug-591: When URL is put in round brackets, it's being opened with right bracket on the end.
-//  Artem Rodygin           2007-10-23      bug-604: Search of 'MMC / MME' causes broken page.
-//  Artem Rodygin           2007-11-05      new-571: View should show all records of current filters set.
-//  Artem Rodygin           2007-11-13      new-599: Separated "Age" in custom views.
-//  Artem Rodygin           2007-11-13      new-622: Rename 'children' into 'subrecords'.
-//  Yury Udovichenko        2007-11-14      new-548: Custom links in text fields.
-//  Artem Rodygin           2007-11-15      bug-628: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near ','.
-//  Yury Udovichenko        2007-11-15      bug-629: Having '&' in field's regex could break the page generation.
-//  Ewoudt Kellerman        2007-11-19      bug-630: Error when choosing a multiline value to include as a column.
-//  Yury Udovichenko        2007-11-20      new-536: Ability to hide postpone records from the list.
-//  Yury Udovichenko        2007-11-20      bug-631: Links with port numbers are not shown as links.
-//  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
-//  Yury Udovichenko        2007-11-26      new-485: Text formating in comments.
-//  Artem Rodygin           2007-12-24      bug-650: Search overloads server.
-//  Artem Rodygin           2007-12-27      new-657: BBCode // Ability to display tags as is.
-//  Yury Udovichenko        2007-12-28      new-656: BBCode // List of tags, allowed in subject, should be limited.
-//  Artem Rodygin           2008-01-05      new-648: Template-wide author permissions.
-//  Artem Rodygin           2008-01-11      bug-661: MS SQL Server is overloaded.
-//  Artem Rodygin           2008-01-11      bug-663: Author permissions are ignored.
-//  Artem Rodygin           2008-01-16      bug-665: Notifications // Author permissions are ignored.
-//  Yury Udovichenko        2008-01-18      bug-667: XML Parsing Error: not well-formed
-//  Artem Rodygin           2008-01-28      new-531: LDAP Guest users
-//  Artem Rodygin           2008-01-31      bug-670: Hardcoded user ID in SQL query for records list.
-//  Artem Rodygin           2008-02-08      bug-673: Newly created field always has empty strings as its regexps instead of NULL.
-//  Denis Makovkin          2008-02-15      bug-674: [SF1893539] Incorrect charset in "Subject" email notifications
-//  Artem Rodygin           2008-02-20      bug-675: PHP Warning: preg_replace(): Unknown modifier ')'
-//  Artem Rodygin           2008-02-27      new-535: Permissions to attachments removal.
-//  Artem Rodygin           2008-02-27      new-676: [SF1898731] Delete Issues from Workflow
-//  Artem Rodygin           2008-02-28      new-294: PostgreSQL support.
-//  Artem Rodygin           2008-03-15      new-683: Filters should be sharable with groups, not with accounts.
-//  Artem Rodygin           2008-03-15      new-501: Filter should allow to specify 'none' value of 'list' fields.
-//  Artem Rodygin           2008-04-03      new-694: Filter for unassigned records.
-//  Artem Rodygin           2008-04-19      new-705: Multiple parents for subrecords.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-04-24      bug-711: Cannot skip optional field if it has checking PCRE.
-//  Artem Rodygin           2008-04-25      bug-712: Search doesn't work with MySQL 4.1.
-//  Artem Rodygin           2008-04-26      bug-707: Permission to view records for responsible does not work in the list of records.
-//  Artem Rodygin           2008-05-01      new-715: Show creation time in the list of records.
-//  Artem Rodygin           2008-06-21      new-723: Wrap calls of 'mail' function.
-//  Artem Rodygin           2008-06-21      bug-721: [SF1982395] DBX error when saving multi-lined textbox
-//  Yury Udovichenko        2008-06-26      bug-726: References to other records are parsed wrong, when there are several of them.
-//  Artem Rodygin           2008-06-30      bug-727: Notifications are not sent via Lotus Domino SMTP server.
-//  Artem Rodygin           2008-07-31      bug-736: Search tags are contained in subject of notification when event is for one of records from the search results list.
-//  Artem Rodygin           2008-09-09      bug-741: BBCode tag [code] adds extra newline-character at bottom of code block.
-//  Artem Rodygin           2008-09-11      new-716: 'Today' value in date field range.
-//  Artem Rodygin           2008-09-17      new-743: Include attached files in the notification.
-//  Artem Rodygin           2008-10-27      bug-695: BBCode // Address between [url] and [/url] is cut when contains a space.
-//  Artem Rodygin           2008-11-08      bug-760: Backslashes are lost in checking PCRE patterns for textual fields.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2008-11-18      bug-765: Query for list of records is slowed down.
-//  Artem Rodygin           2008-12-03      bug-767: Multiple words search slows down database server.
-//  Artem Rodygin           2008-12-09      bug-770: MySQL server hangs up on searching.
-//  Artem Rodygin           2009-01-09      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-03-02      bug-796: 'rec#' reference doesn't work when leading zero is present.
-//  Artem Rodygin           2009-03-27      bug-805: Regular expressions are ignored.
-//  Artem Rodygin           2009-03-30      bug-811: Multilined text is cut on export to CSV.
-//  Artem Rodygin           2009-04-12      bug-815: Empty "event" field in notification about subscription.
-//  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
-//  Artem Rodygin           2009-06-05      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-08-31      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
-//  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
-//  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
-//  Artem Rodygin           2009-11-30      bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
-//  Artem Rodygin           2010-01-02      new-771: Multiple sort order.
-//  Artem Rodygin           2010-01-26      bug-891: Attachments are not deleted when record is deleted
-//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
-//  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
-//  Artem Rodygin           2010-02-06      bug-914: Change e-mail subject encoding
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//  Artem Rodygin           2010-08-18      bug-973: Filter out postponed records with state filter active
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Records
+ *
+ * This module provides API to work with records.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_records tbl_records} database table.
+ *
+ * @package DBO
+ * @subpackage Records
+ */
 
 /**#@+
  * Dependency.
@@ -217,9 +41,9 @@ require_once('../dbo/values.php');
 require_once('../dbo/events.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Data restrictions.
@@ -239,15 +63,28 @@ define('OPERATION_MODIFY_RECORD', 2);
 define('OPERATION_CHANGE_STATE',  3);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+/**#@+
+ * Tabs on record view page.
+ */
+define('RECORD_TAB_MAIN',           0);
+define('RECORD_TAB_HISTORY',        1);
+define('RECORD_TAB_CHANGES',        2);
+define('RECORD_TAB_EVENTS',         3);
+define('RECORD_TAB_COMMENTS',       4);
+define('RECORD_TAB_ATTACHMENTS',    5);
+define('RECORD_TAB_PARENT',         6);
+define('RECORD_TAB_SUBRECORDS',     7);
+/**#@-*/
+
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Formats specified record ID, adding template prefix if specified and leading zeroes if required.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param string $prefix {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_prefix Template prefix}.
+ * @param int $id Record ID.
+ * @param string $prefix Template prefix.
  * @return string Formatted record ID.
  */
 function record_id ($id, $prefix = NULL)
@@ -262,7 +99,7 @@ function record_id ($id, $prefix = NULL)
 /**
  * Finds in database and returns the information about specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
+ * @param int $id Record ID.
  * @return array Array with data if record is found in database, FALSE otherwise.
  */
 function record_find ($id)
@@ -289,29 +126,12 @@ function record_find ($id)
  * @param string $search_text Text to be searched (ignored when search mode is off).
  * @return CRecordset Recordset with list of records.
  */
-function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_text = NULL)
+function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_text = NULL)
 {
-    debug_write_log(DEBUG_TRACE, '[record_list]');
+    debug_write_log(DEBUG_TRACE, '[records_list]');
 
-    $sort = explode(':', try_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW]), count($columns));
-    $new  = try_request('sort', 0);
-
-    if (try_request('reset', 0))
-    {
-        $sort = array($new);
-    }
-    else
-    {
-        foreach ($sort as $i => $s)
-        {
-            if (abs($s) == abs($new))
-            {
-                $sort[$i] = 0;
-            }
-        }
-
-        array_push($sort, $new);
-    }
+    $sort = try_request('sort', try_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW]));
+    $sort = ustr2int($sort, -count($columns), count($columns));
 
     $page = try_request('page', try_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW]));
     $page = ustr2int($page, 1, MAXINT);
@@ -336,30 +156,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
     $clause_order  = array();
 
-    foreach ($sort as $s)
-    {
-        $keys = array_keys($clause_order);
-
-        if (in_array(+$s, $keys) ||
-            in_array(-$s, $keys))
-        {
-            continue;
-        }
-
-        if (abs($s) > 0 && abs($s) <= count($columns))
-        {
-            $clause_order[$s] = NULL;
-        }
-    }
-
-    if (empty($clause_order))
-    {
-        $clause_order[1] = NULL;
-    }
-
-    $sort = array_keys($clause_order);
-
-    save_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW], implode(':', $sort));
+    save_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW], $sort);
     save_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW], $page);
 
     if (get_user_level() == USER_LEVEL_GUEST)
@@ -400,13 +197,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 't.template_prefix');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'r.record_id';
+                    array_push($clause_order, 'r.record_id asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'r.record_id desc';
+                    array_push($clause_order, 'r.record_id desc');
                 }
 
                 break;
@@ -415,13 +212,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 's.state_abbr');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 's.state_abbr';
+                    array_push($clause_order, 's.state_abbr asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 's.state_abbr desc';
+                    array_push($clause_order, 's.state_abbr desc');
                 }
 
                 break;
@@ -430,13 +227,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 'p.project_name');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'p.project_name';
+                    array_push($clause_order, 'p.project_name asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'p.project_name desc';
+                    array_push($clause_order, 'p.project_name desc');
                 }
 
                 break;
@@ -445,13 +242,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 'r.subject');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'r.subject';
+                    array_push($clause_order, 'r.subject asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'r.subject desc';
+                    array_push($clause_order, 'r.subject desc');
                 }
 
                 break;
@@ -461,13 +258,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_select, 'ac.fullname as author_fullname');
                 array_push($clause_join,   'left outer join tbl_accounts ac on ac.account_id = r.creator_id');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'author_fullname';
+                    array_push($clause_order, 'author_fullname asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'author_fullname desc';
+                    array_push($clause_order, 'author_fullname desc');
                 }
 
                 break;
@@ -477,26 +274,26 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_select, 'ar.fullname as responsible_fullname');
                 array_push($clause_join,   'left outer join tbl_accounts ar on ar.account_id = r.responsible_id');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'responsible_fullname';
+                    array_push($clause_order, 'responsible_fullname asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'responsible_fullname desc';
+                    array_push($clause_order, 'responsible_fullname desc');
                 }
 
                 break;
 
             case COLUMN_TYPE_LAST_EVENT:
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'change_time';
+                    array_push($clause_order, 'change_time asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'change_time desc';
+                    array_push($clause_order, 'change_time desc');
                 }
 
                 break;
@@ -506,13 +303,15 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                 array_push($clause_select, '(' . $time . ' - r.creation_time) as opened_age');
                 array_push($clause_select, '(r.closure_time - r.creation_time) as closed_age');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'closed_age, opened_age';
+                    array_push($clause_order, 'closed_age asc');
+                    array_push($clause_order, 'opened_age asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'closed_age desc, opened_age desc';
+                    array_push($clause_order, 'closed_age desc');
+                    array_push($clause_order, 'opened_age desc');
                 }
 
                 break;
@@ -521,13 +320,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 'r.creation_time');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'creation_time';
+                    array_push($clause_order, 'creation_time asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'creation_time desc';
+                    array_push($clause_order, 'creation_time desc');
                 }
 
                 break;
@@ -536,13 +335,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 't.template_name');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 't.template_name';
+                    array_push($clause_order, 't.template_name asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 't.template_name desc';
+                    array_push($clause_order, 't.template_name desc');
                 }
 
                 break;
@@ -551,13 +350,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
                 array_push($clause_select, 's.state_name');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 's.state_name';
+                    array_push($clause_order, 's.state_name asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 's.state_name desc';
+                    array_push($clause_order, 's.state_name desc');
                 }
 
                 break;
@@ -571,13 +370,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                                            ' group by record_id) st');
                 array_push($clause_where,  'r.record_id = st.record_id');
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = 'state_time';
+                    array_push($clause_order, 'state_time asc');
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = 'state_time desc';
+                    array_push($clause_order, 'state_time desc');
                 }
 
                 break;
@@ -594,13 +393,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_STRING . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = "v{$column['column_id']}.value{$column['column_id']}";
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = "v{$column['column_id']}.value{$column['column_id']} desc";
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
                 }
 
                 break;
@@ -626,17 +425,17 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_MULTILINED . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = (DATABASE_DRIVER == DRIVER_ORACLE9
-                                      ? "to_char(v{$column['column_id']}.value{$column['column_id']})"
-                                      : "v{$column['column_id']}.value{$column['column_id']}");
+                    array_push($clause_order, DATABASE_DRIVER == DRIVER_ORACLE9
+                                                    ? "to_char(v{$column['column_id']}.value{$column['column_id']}) asc"
+                                                    : "v{$column['column_id']}.value{$column['column_id']} asc");
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = (DATABASE_DRIVER == DRIVER_ORACLE9
-                                       ? "to_char(v{$column['column_id']}.value{$column['column_id']}) desc"
-                                       : "v{$column['column_id']}.value{$column['column_id']} desc");
+                    array_push($clause_order, DATABASE_DRIVER == DRIVER_ORACLE9
+                                                    ? "to_char(v{$column['column_id']}.value{$column['column_id']}) desc"
+                                                    : "v{$column['column_id']}.value{$column['column_id']} desc");
                 }
 
                 break;
@@ -653,13 +452,13 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_LIST . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = "v{$column['column_id']}.value{$column['column_id']}";
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = "v{$column['column_id']}.value{$column['column_id']} desc";
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
                 }
 
                 break;
@@ -690,25 +489,25 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                            "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = {$types[$column['column_type']]} and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
-                if (in_array($i, $sort))
+                if ($i == $sort)
                 {
-                    $clause_order[$i] = "v{$column['column_id']}.value{$column['column_id']}";
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
                 }
-                elseif (in_array(-$i, $sort))
+                elseif (-$i == $sort)
                 {
-                    $clause_order[-$i] = "v{$column['column_id']}.value{$column['column_id']} desc";
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
                 }
 
                 break;
 
             default:
-                debug_write_log(DEBUG_WARNING, '[record_list] Unknown column type = ' . $column['column_type']);
+                debug_write_log(DEBUG_WARNING, '[records_list] Unknown column type = ' . $column['column_type']);
         }
     }
 
     if ($search_mode)
     {
-        debug_write_log(DEBUG_NOTICE, '[record_list] Search mode is turned on.');
+        debug_write_log(DEBUG_NOTICE, '[records_list] Search mode is turned on.');
 
         $search = array();
 
@@ -747,11 +546,12 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
 
     if (!$search_mode || $_SESSION[VAR_USE_FILTERS])
     {
-        debug_write_log(DEBUG_NOTICE, '[record_list] Search mode is turned off.');
+        debug_write_log(DEBUG_NOTICE, '[records_list] Search mode is turned off.');
 
         $filters = array();
 
-        $rs = filters_list($_SESSION[VAR_USERID]);
+        $fsort = $fpage = NULL;
+        $rs = filters_list($_SESSION[VAR_USERID], TRUE, $fsort, $fpage);
 
         while (($filter = $rs->fetch()))
         {
@@ -785,7 +585,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
                     break;
 
                 default:
-                    debug_write_log(DEBUG_WARNING, '[record_list] Unknown filter type = ' . $filter['filter_type']);
+                    debug_write_log(DEBUG_WARNING, '[records_list] Unknown filter type = ' . $filter['filter_type']);
             }
 
             if ($filter['filter_flags'] & FILTER_FLAG_CREATED_BY)
@@ -819,7 +619,6 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
             {
                 array_push($clause_filter, 'r.closure_time is null');
             }
-
 
             if ($filter['filter_flags'] & FILTER_FLAG_POSTPONED)
             {
@@ -1000,6 +799,15 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
         }
     }
 
+    if ($sort < 0)
+    {
+        array_push($clause_order, 'r.record_id desc');
+    }
+    else
+    {
+        array_push($clause_order, 'r.record_id asc');
+    }
+
     $sql =
         'select '    . implode(', ',    array_unique($clause_select)) .
         ' from '     . implode(', ',    array_unique($clause_from))   .
@@ -1018,7 +826,7 @@ function record_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_te
  * <li><b>amount</b> - number of records, created during this week</li>
  * </ul>
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project which records should be counted.
+ * @param int $id ID of project which records should be counted.
  * @return CRecordset Recordset with list of counts.
  */
 function record_opened ($id)
@@ -1037,7 +845,7 @@ function record_opened ($id)
  * <li><b>amount</b> - number of records, closed during this week</li>
  * </ul>
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_projects_project_id ID} of project which records should be counted.
+ * @param int $id ID of project which records should be counted.
  * @return CRecordset Recordset with list of counts.
  */
 function record_closed ($id)
@@ -1057,11 +865,11 @@ function record_closed ($id)
  * <li>{@link OPERATION_MODIFY_RECORD} - record is going to be modified</li>
  * <li>{@link OPERATION_CHANGE_STATE} - state of record is going to be changed</li>
  * </ul>
- * @param string $subject {@link http://www.etraxis.org/docs-schema.php#tbl_records_subject Subject} of the record (ignored on state change).
- * @param int $record_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID} (should be NULL on creation).
- * @param int $state_id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID of new state} (current on modification).
- * @param int $creator_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_creator_id Author of record} (used only on modification, otherwise ignored).
- * @param int $responsible_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_responsible_id Responsible of record} (used only on modification, otherwise ignored).
+ * @param string $subject Subject of the record (ignored on state change).
+ * @param int $record_id Record ID (should be NULL on creation).
+ * @param int $state_id ID of new state (current on modification).
+ * @param int $creator_id Author of record (used only on modification, otherwise ignored).
+ * @param int $responsible_id Responsible of record (used only on modification, otherwise ignored).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -1306,11 +1114,11 @@ function record_validate ($operation, $subject, $record_id, $state_id, $creator_
 /**
  * Creates new record.
  *
- * @param int &$id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of newly created record (used as output only).
- * @param string $subject {@link http://www.etraxis.org/docs-schema.php#tbl_records_subject Subject} of new record.
- * @param int $state_id {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id ID of initial state} of new record.
- * @param int $responsible_id If record should be assigned on creation, then {@link http://www.etraxis.org/docs-schema.php#tbl_records_responsible_id ID of responsible} of new record; NULL (default) otherwise.
- * @param int $clone_id If record is being cloned from another, {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID of original record}, 0 (default) otherwise.
+ * @param int &$id ID of newly created record (used as output only).
+ * @param string $subject Subject of new record.
+ * @param int $state_id ID of initial state of new record.
+ * @param int $responsible_id If record should be assigned on creation, then ID of responsible of new record; NULL (default) otherwise.
+ * @param int $clone_id If record is being cloned from another, ID of original record, 0 (default) otherwise.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - record is successfully created</li>
@@ -1410,10 +1218,10 @@ function record_create (&$id, $subject, $state_id, $responsible_id = NULL, $clon
 /**
  * Modifies specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record to be modified.
- * @param string $subject New {@link http://www.etraxis.org/docs-schema.php#tbl_records_subject subject} of the record.
- * @param int $creator_id Current {@link http://www.etraxis.org/docs-schema.php#tbl_records_creator_id author of record}.
- * @param int $responsible_id Current {@link http://www.etraxis.org/docs-schema.php#tbl_records_responsible_id responsible of record} (NULL, if record is not assigned).
+ * @param int $id ID of record to be modified.
+ * @param string $subject New subject of the record.
+ * @param int $creator_id Current author of record.
+ * @param int $responsible_id Current responsible of record (NULL, if record is not assigned).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - record is successfully modified</li>
@@ -1520,7 +1328,7 @@ function record_modify ($id, $subject, $creator_id, $responsible_id)
 /**
  * Deletes specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record to be deleted.
+ * @param int $id ID of record to be deleted.
  * @return int Always {@link NO_ERROR}.
  */
 function record_delete ($id)
@@ -1551,8 +1359,8 @@ function record_delete ($id)
 /**
  * Postpones specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record to be postponed.
- * @param int $date {@link http://www.etraxis.org/docs-schema.php#tbl_records_postpone_time Unix timestamp} of the date when record will be resumed automatically.
+ * @param int $id ID of record to be postponed.
+ * @param int $date Unix timestamp of the date when record will be resumed automatically.
  * @return int Always {@link NO_ERROR}.
  */
 function record_postpone ($id, $date)
@@ -1569,7 +1377,7 @@ function record_postpone ($id, $date)
 /**
  * Resumes specified postponed record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record to be resumed.
+ * @param int $id ID of record to be resumed.
  * @return int Always {@link NO_ERROR}.
  */
 function record_resume ($id)
@@ -1585,8 +1393,8 @@ function record_resume ($id)
 /**
  * Assigns specified record.
  *
- * @param int $rid {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record to be assigned.
- * @param int $aid {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of new responsible.
+ * @param int $rid ID of record to be assigned.
+ * @param int $aid ID of new responsible.
  * @return int Always {@link NO_ERROR}.
  */
 function record_assign ($rid, $aid)
@@ -1603,7 +1411,7 @@ function record_assign ($rid, $aid)
 /**
  * Marks specified record as read (for current user).
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record to be marked as read.
+ * @param int $id ID of record to be marked as read.
  * @return int Always {@link NO_ERROR}.
  */
 function record_read ($id)
@@ -1621,13 +1429,32 @@ function record_read ($id)
 }
 
 /**
+ * Marks specified record as unread (for current user).
+ *
+ * @param int $id ID of record to be marked as unread.
+ * @return int Always {@link NO_ERROR}.
+ */
+function record_unread ($id)
+{
+    debug_write_log(DEBUG_TRACE, '[record_unread]');
+    debug_write_log(DEBUG_DUMP,  '[record_unread] $id = ' . $id);
+
+    if (get_user_level() != USER_LEVEL_GUEST)
+    {
+        dal_query('records/unread.sql', $id, $_SESSION[VAR_USERID]);
+    }
+
+    return NO_ERROR;
+}
+
+/**
  * Change state of specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID} of record which state should be changed.
- * @param int $state_id New {@link http://www.etraxis.org/docs-schema.php#tbl_states_state_id state} of the record.
- * @param int $responsible_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_responsible_id ID of new responsible}:
+ * @param int $id ID of record which state should be changed.
+ * @param int $state_id New state of the record.
+ * @param int $responsible_id ID of new responsible:
  * <ul>
- * <li>{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id account ID}, if the record should be assigned</li>
+ * <li>account ID, if the record should be assigned</li>
  * <li>NULL, if the current assignment should be removed</li>
  * <li>0, if current assignment should be remained as is</li>
  * </ul>
@@ -1714,8 +1541,8 @@ function state_change ($id, $state_id, $responsible_id, $close = FALSE)
  * Returns {@link CRecordset DAL recordset} which contains all events of specified record,
  * sorted in accordance with current sort mode.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $id Record ID.
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
  * client cookie ({@link COOKIE_EVENTS_SORT}) and updates it, if it's out of valid range.
  * @param int &$page Number of current page tab (used as output only). The function retrieves current
@@ -1754,9 +1581,9 @@ function history_list ($id, $permissions, &$sort, &$page)
  * Returns {@link CRecordset DAL recordset} which contains all changes of specified record,
  * sorted in accordance with current sort mode.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $creator_id Current {@link http://www.etraxis.org/docs-schema.php#tbl_records_creator_id author of the record}.
- * @param int $responsible_id Current {@link http://www.etraxis.org/docs-schema.php#tbl_records_responsible_id responsible of the record} (NULL, if record is not assigned).
+ * @param int $id Record ID.
+ * @param int $creator_id Current author of the record.
+ * @param int $responsible_id Current responsible of the record (NULL, if record is not assigned).
  * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
  * client cookie ({@link COOKIE_CHANGES_SORT}) and updates it, if it's out of valid range.
  * @param int &$page Number of current page tab (used as output only). The function retrieves current
@@ -1804,8 +1631,8 @@ function changes_list ($id, $creator_id, $responsible_id, &$sort, &$page)
 /**
  * Finds in database and returns the information about specified comment.
  *
- * @param int $event_id {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_id ID of event}, registered when comment has been added.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $event_id ID of event, registered when comment has been added.
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return array Array with data if comment is found in database, FALSE otherwise.
  */
 function comment_find ($event_id, $permissions)
@@ -1823,9 +1650,9 @@ function comment_find ($event_id, $permissions)
 /**
  * Adds new comment to specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param string $comment {@link http://www.etraxis.org/docs-schema.php#tbl_comments_comment_body Text of comment}.
- * @param bool $is_confidential Whether the comment is {@link http://www.etraxis.org/docs-schema.php#tbl_comments_is_confidential confidential}.
+ * @param int $id Record ID.
+ * @param string $comment Text of comment.
+ * @param bool $is_confidential Whether the comment is confidential.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - template is successfully created</li>
@@ -1894,7 +1721,7 @@ function comment_add ($id, $comment, $is_confidential = FALSE)
 /**
  * Finds in database and returns the information about specified attachment.
  *
- * @param int $attachment_id {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_id Attachment ID}.
+ * @param int $attachment_id Attachment ID.
  * @return array Array with data if attachment is found in database, FALSE otherwise.
  */
 function attachment_find ($attachment_id)
@@ -1909,41 +1736,55 @@ function attachment_find ($attachment_id)
 
 /**
  * Returns {@link CRecordset DAL recordset} which contains all attachments of specified record,
- * sorted by {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_name attachment name}.
+ * sorted by attachment name.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $id Record ID.
+ * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
+ * client cookie ({@link COOKIE_ATTACHMENTS_SORT}) and updates it, if it's out of valid range.
+ * @param int &$page Number of current page tab (used as output only). The function retrieves current
+ * page from client cookie ({@link COOKIE_ATTACHMENTS_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of attachments.
  */
-function attachment_list ($id, $permissions = PERMIT_REMOVE_FILES)
+function attachments_list ($id, &$sort, &$page)
 {
-    debug_write_log(DEBUG_TRACE, '[attachment_list]');
-    debug_write_log(DEBUG_DUMP,  '[attachment_list] $id          = ' . $id);
-    debug_write_log(DEBUG_DUMP,  '[attachment_list] $permissions = ' . $permissions);
+    debug_write_log(DEBUG_TRACE, '[attachments_list]');
+    debug_write_log(DEBUG_DUMP,  '[attachments_list] $id = ' . $id);
 
-    if ($permissions & PERMIT_REMOVE_FILES)
-    {
-        $rs = dal_query('attachs/list.sql', $id);
-    }
-    else
-    {
-        $rs = dal_query('attachs/list2.sql', $id, $_SESSION[VAR_USERID]);
-    }
+    $sort_modes = array
+    (
+        1 => 'attachment_name asc',
+        2 => 'attachment_size asc, attachment_name asc',
+        3 => 'fullname asc, username asc, attachment_name asc',
+        4 => 'event_time asc, attachment_name asc',
+        5 => 'attachment_name desc',
+        6 => 'attachment_size desc, attachment_name desc',
+        7 => 'fullname desc, username desc, attachment_name desc',
+        8 => 'event_time desc, attachment_name desc',
+    );
 
-    return $rs;
+    $sort = try_request('sort', try_cookie(COOKIE_ATTACHMENTS_SORT));
+    $sort = ustr2int($sort, 1, count($sort_modes));
+
+    $page = try_request('page', try_cookie(COOKIE_ATTACHMENTS_PAGE));
+    $page = ustr2int($page, 1, MAXINT);
+
+    save_cookie(COOKIE_ATTACHMENTS_SORT, $sort);
+    save_cookie(COOKIE_ATTACHMENTS_PAGE, $page);
+
+    return dal_query('attachs/list.sql', $id, $sort_modes[$sort]);
 }
 
 /**
  * Adds new attachment to specified record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param string $name {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_name Attachment name}.
+ * @param int $id Record ID.
+ * @param string $name Attachment name.
  * @param array $attachfile Information about uploaded user file (see {@link http://www.php.net/features.file-upload} for details).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - attachment is successfully created</li>
  * <li>{@link ERROR_NOT_FOUND} - record cannot be found</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - attachment with specified {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_name name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - attachment with specified name already exists</li>
  * <li>{@link ERROR_UPLOAD_INI_SIZE} - the uploaded file exceeds the {@link http://www.php.net/ini.core#ini.upload-max-filesize upload_max_filesize} directive in <i>php.ini</i></li>
  * <li>{@link ERROR_UPLOAD_FORM_SIZE} - the uploaded file exceeds the {@link EMAIL_ATTACHMENTS_MAXSIZE}</li>
  * <li>{@link ERROR_UPLOAD_PARTIAL} - the uploaded file was only partially uploaded</li>
@@ -2062,9 +1903,9 @@ function attachment_add ($id, $name, $attachfile)
 /**
  * Removes specified attachment from its record.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
- * @param int $attachment_id {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_id ID} of attachment to be removed.
+ * @param int $id Record ID.
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
+ * @param int $attachment_id ID of attachment to be removed.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - attachment is successfully removed</li>
@@ -2105,10 +1946,9 @@ function attachment_remove ($id, $permissions, $attachment_id)
 }
 
 /**
- * Returns {@link CRecordset DAL recordset} which contains all subrecords of specified record,
- * sorted by {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id ID}.
+ * Returns {@link CRecordset DAL recordset} which contains all subrecords of specified record, sorted by ID.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
+ * @param int $id Record ID.
  * @return CRecordset Recordset with list of subrecords.
  */
 function subrecords_list ($id)
@@ -2122,8 +1962,8 @@ function subrecords_list ($id)
 /**
  * Validates subrecord information before creation.
  *
- * @param int $parent_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Parent record ID}.
- * @param int $subrecord_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Subrecord ID}.
+ * @param int $parent_id Parent record ID.
+ * @param int $subrecord_id Subrecord ID.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -2170,8 +2010,8 @@ function subrecord_validate ($parent_id, $subrecord_id)
 /**
  * Adds new subrecord to specified record.
  *
- * @param int $parent_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Parent record ID}.
- * @param int $subrecord_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Subrecord ID}.
+ * @param int $parent_id Parent record ID.
+ * @param int $subrecord_id Subrecord ID.
  * @param bool $is_dependency .
  * @return int Error code:
  * <ul>
@@ -2216,8 +2056,8 @@ function subrecord_add ($parent_id, $subrecord_id, $is_dependency)
 /**
  * Removes specified subrecord.
  *
- * @param int $parent_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Parent record ID}.
- * @param int $subrecord_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Subrecord ID}.
+ * @param int $parent_id Parent record ID.
+ * @param int $subrecord_id Subrecord ID.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - subrecord is successfully removed</li>
@@ -2258,9 +2098,9 @@ function subrecord_remove ($parent_id, $subrecord_id)
 /**
  * Determines and returns set of permissions of current user for some record.
  *
- * @param int $template_id {@link http://www.etraxis.org/docs-schema.php#tbl_templates_template_id ID} of record's template.
- * @param int $creator_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_creator_id Author of record}.
- * @param int $responsible_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_responsible_id Responsible of record}.
+ * @param int $template_id ID of record's template.
+ * @param int $creator_id Author of record.
+ * @param int $responsible_id Responsible of record.
  * @return int Set of binary flags:
  * <ul>
  * <li>{@link PERMIT_CREATE_RECORD} - permission to create new records</li>
@@ -2327,9 +2167,9 @@ function record_get_permissions ($template_id, $creator_id, $responsible_id)
 /**
  * Subscribes specified account to all events of specified record.
  *
- * @param int $record_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $account_id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID of account} which is being subscribed.
- * @param int $subscribed_by {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID of account} which is subscribing another one.
+ * @param int $record_id Record ID.
+ * @param int $account_id ID of account which is being subscribed.
+ * @param int $subscribed_by ID of account which is subscribing another one.
  * @return int Always {@link NO_ERROR}.
  */
 function record_subscribe ($record_id, $account_id, $subscribed_by)
@@ -2379,9 +2219,9 @@ function record_subscribe ($record_id, $account_id, $subscribed_by)
 /**
  * Unsubscribes specified account off specified record.
  *
- * @param int $record_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $account_id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID of account} which is being unsubscribed.
- * @param int $subscribed_by {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID of account} which is unsubscribing another one.
+ * @param int $record_id Record ID.
+ * @param int $account_id ID of account which is being unsubscribed.
+ * @param int $subscribed_by ID of account which is unsubscribing another one.
  * @return int Always {@link NO_ERROR}.
  */
 function record_unsubscribe ($record_id, $account_id, $subscribed_by)
@@ -2451,8 +2291,8 @@ function record_unsubscribe ($record_id, $account_id, $subscribed_by)
 /**
  * Checks whether specified account is subscribed to specified record.
  *
- * @param int $record_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $account_id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID}.
+ * @param int $record_id Record ID.
+ * @param int $account_id Account ID.
  * @return bool TRUE if account is subscribed, FALSE otherwise.
  */
 function is_record_subscribed ($record_id, $account_id)
@@ -2526,7 +2366,7 @@ function is_record_closed ($record)
 /**
  * Checks whether a specified record was cloned from another one.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
+ * @param int $id Record ID.
  * @return int ID of original record if specified one was cloned from it, 0 otherwise.
  */
 function is_record_cloned ($id)
@@ -2557,7 +2397,7 @@ function get_record_last_event ($record)
 /**
  * Calculates number of days since the last change of state of specified record.
  *
- * @param array $record Record information, as it returned by {@link record_list}.
+ * @param array $record Record information, as it returned by {@link records_list}.
  * @return int Number of days.
  */
 function get_record_last_state ($record)
@@ -2585,7 +2425,7 @@ function get_record_age ($record)
 /**
  * Checks whether specified permissions allow to see a record.
  *
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if record can be displayed, FALSE otherwise.
  */
 function can_record_be_displayed ($permissions)
@@ -2625,7 +2465,7 @@ function can_record_be_created ()
  * Checks whether specified permissions allow to modify specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if record can be modified, FALSE otherwise.
  */
 function can_record_be_modified ($record, $permissions)
@@ -2644,7 +2484,7 @@ function can_record_be_modified ($record, $permissions)
  * Checks whether specified permissions allow to delete specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if record can be deleted, FALSE otherwise.
  */
 function can_record_be_deleted ($record, $permissions)
@@ -2663,7 +2503,7 @@ function can_record_be_deleted ($record, $permissions)
  * Checks whether specified permissions allow to postpone specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if record can be postponed, FALSE otherwise.
  */
 function can_record_be_postponed ($record, $permissions)
@@ -2682,7 +2522,7 @@ function can_record_be_postponed ($record, $permissions)
  * Checks whether specified permissions allow to resume specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if record can be resumed, FALSE otherwise.
  */
 function can_record_be_resumed ($record, $permissions)
@@ -2701,7 +2541,7 @@ function can_record_be_resumed ($record, $permissions)
  * Checks whether specified permissions allow to reassign specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if record can be reassigned, FALSE otherwise.
  */
 function can_record_be_reassigned ($record, $permissions)
@@ -2721,7 +2561,7 @@ function can_record_be_reassigned ($record, $permissions)
  * Checks whether specified permissions allow to change state of specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if state of the record can be changed, FALSE otherwise.
  */
 function can_state_be_changed ($record, $permissions)
@@ -2742,7 +2582,7 @@ function can_state_be_changed ($record, $permissions)
  * Checks whether specified permissions allow to post a comment in specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if comment can be posted, FALSE otherwise.
  */
 function can_comment_be_added ($record, $permissions)
@@ -2760,7 +2600,7 @@ function can_comment_be_added ($record, $permissions)
  * Checks whether specified permissions allow to attach file to specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if file can be attached, FALSE otherwise.
  */
 function can_file_be_attached ($record, $permissions)
@@ -2775,7 +2615,6 @@ function can_file_be_attached ($record, $permissions)
     return (get_user_level() != USER_LEVEL_GUEST &&
             !$record['is_suspended']             &&
             !$record['is_locked']                &&
-            !is_record_postponed($record)        &&
             !is_record_frozen($record)           &&
             ($permissions & PERMIT_ATTACH_FILES));
 }
@@ -2784,10 +2623,10 @@ function can_file_be_attached ($record, $permissions)
  * Checks whether specified permissions allow to remove attached file from specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if attached file can be removed, FALSE otherwise.
  */
-function can_file_be_removed ($record, $permissions)
+function can_file_be_removed ($record)
 {
     debug_write_log(DEBUG_TRACE, '[can_file_be_removed]');
 
@@ -2796,32 +2635,17 @@ function can_file_be_removed ($record, $permissions)
         return FALSE;
     }
 
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        return FALSE;
-    }
-
-    if ($permissions & PERMIT_REMOVE_FILES)
-    {
-        $rs = dal_query('attachs/list.sql', $record['record_id']);
-    }
-    else
-    {
-        $rs = dal_query('attachs/list2.sql', $record['record_id'], $_SESSION[VAR_USERID]);
-    }
-
-    return (!$record['is_suspended']      &&
-            !$record['is_locked']         &&
-            !is_record_postponed($record) &&
-            !is_record_frozen($record)    &&
-            ($rs->rows != 0));
+    return (get_user_level() != USER_LEVEL_GUEST &&
+            !$record['is_suspended']             &&
+            !$record['is_locked']                &&
+            !is_record_frozen($record));
 }
 
 /**
  * Checks whether specified permissions allow to add subrecord to specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if subrecord can be added, FALSE otherwise.
  */
 function can_subrecord_be_added ($record, $permissions)
@@ -2840,7 +2664,7 @@ function can_subrecord_be_added ($record, $permissions)
  * Checks whether specified permissions allow to remove subrecord from specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User {@link http://www.etraxis.org/docs-schema.php#tbl_group_perms_perms permissions} (see also {@link record_get_permissions}).
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if subrecord can be removed, FALSE otherwise.
  */
 function can_subrecord_be_removed ($record, $permissions)
@@ -2922,16 +2746,84 @@ function update_references ($value, $bbcode_mode = BBCODE_ALL, $regex_search = N
     $value = ustr_replace("[code]\n",  "[code]",  $value);
     $value = ustr_replace("\n[/code]", "[/code]", $value);
 
+    // Replace newline characters with "%br;".
+    $value = ustr_replace("\n", '%br;', $value);
+
     // Process BBCode tags.
     $search_text = (try_cookie(COOKIE_SEARCH_MODE, FALSE) ? try_cookie(COOKIE_SEARCH_TEXT) : NULL);
     $value = bbcode2xml($value, $bbcode_mode, $search_text);
 
-    // Replace newline characters with "%br;".
-    $value = ustr_replace("\n", '%br;', $value);
-
     debug_write_log(DEBUG_DUMP, '[update_references] return = ' . $value);
 
     return $value;
+}
+
+/**
+ * Generates XML code for tabs on record's view page for specified record.
+ *
+ * @param array $record Record information, as it returned by {@link record_find}.
+ * @param int $tab ID of active tab.
+ * @return string Generated XML code.
+ */
+function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
+{
+    debug_write_log(DEBUG_TRACE, '[gen_record_tabs]');
+
+    $url = array(RECORD_TAB_MAIN        => 'view.php?id='        . $record['record_id'],
+                 RECORD_TAB_HISTORY     => 'history.php?id='     . $record['record_id'],
+                 RECORD_TAB_CHANGES     => 'changes.php?id='     . $record['record_id'],
+                 RECORD_TAB_EVENTS      => 'events.php?id='      . $record['record_id'],
+                 RECORD_TAB_COMMENTS    => 'comments.php?id='    . $record['record_id'],
+                 RECORD_TAB_ATTACHMENTS => 'attachments.php?id=' . $record['record_id'],
+                 RECORD_TAB_PARENT      => 'parent.php?id='      . $record['record_id'],
+                 RECORD_TAB_SUBRECORDS  => 'subrecords.php?id='  . $record['record_id']);
+
+    $title = array(RECORD_TAB_MAIN        => '<i>' . record_id($record['record_id'], $record['template_prefix']) . '</i>',
+                   RECORD_TAB_HISTORY     => get_html_resource(RES_HISTORY_ID),
+                   RECORD_TAB_CHANGES     => get_html_resource(RES_CHANGES_ID),
+                   RECORD_TAB_EVENTS      => get_html_resource(RES_EVENTS_ID),
+                   RECORD_TAB_COMMENTS    => get_html_resource(RES_COMMENTS_ID),
+                   RECORD_TAB_ATTACHMENTS => get_html_resource(RES_ATTACHMENTS_ID),
+                   RECORD_TAB_PARENT      => get_html_resource(RES_PARENT_RECORD_ID),
+                   RECORD_TAB_SUBRECORDS  => get_html_resource(RES_SUBRECORDS_ID));
+
+    // if no changes have been made, remove "Changes" tab
+
+    $rs = dal_query('changes/list.sql',
+                    $record['record_id'],
+                    $record['creator_id'],
+                    is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
+                    $_SESSION[VAR_USERID],
+                    'event_time asc, field_name asc');
+
+    if ($rs->rows == 0)
+    {
+        $url[RECORD_TAB_CHANGES] = NULL;
+    }
+
+    // if no parent record is present, remove "Parent record" tab
+
+    $rs = dal_query('depends/fnd.sql', $record['record_id']);
+
+    if ($rs->rows == 0)
+    {
+        $url[RECORD_TAB_PARENT] = NULL;
+    }
+
+    // generate tabs
+
+    $xml = NULL;
+
+    for ($i = 0; $i < count($url); $i++)
+    {
+        if (!is_null($url[$i]))
+        {
+            $xml .= ($i == $tab ? '<tab url="' . $url[$i] . '" active="true">' . $title[$i] . '</tab>'
+                                : '<tab url="' . $url[$i] . '">' . $title[$i] . '</tab>');
+        }
+    }
+
+    return $xml;
 }
 
 ?>

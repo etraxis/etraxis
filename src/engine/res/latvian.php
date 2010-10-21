@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2006-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Localization
  *
@@ -10,105 +30,6 @@
  * @subpackage Localization
  * @author Janis Kruminsch
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Janis Kruminsch         2006-05-16      new-258: Latvian localization.
-//  Janis Kruminsch         2006-05-16      new-005: Oracle support.
-//  Janis Kruminsch         2006-06-19      new-236: Single record subscription.
-//  Janis Kruminsch         2006-06-25      new-222: Email reminders.
-//  Janis Kruminsch         2006-06-28      new-272: When reminder is sent a notification should be displayed to user.
-//  Janis Kruminsch         2006-06-28      new-274: "Crumbs" for creation and modification of filters or subscriptions are not clear.
-//  Janis Kruminsch         2006-07-24      bug-201: 'Access Forbidden' error with cyrillic named attachments.
-//  Janis Kruminsch         2006-08-07      bug-300: Cannot login with Active Directory credentials.
-//  Janis Kruminsch         2006-08-13      new-305: Note with explanation of links to other records should be added where needed.
-//  Artem Rodygin           2006-08-20      new-313: Implement HTTP authentication.
-//  Janis Kruminsch         2006-10-14      new-137: Custom queries.
-//  Janis Kruminsch         2006-10-17      new-361: Extended custom queries.
-//  Janis Kruminsch         2006-11-04      new-364: Default fields values.
-//  Janis Kruminsch         2006-11-05      new-365: Filters sharing.
-//  Janis Kruminsch         2006-11-07      new-366: Export to CSV.
-//  Janis Kruminsch         2006-11-12      new-368: User should be able to subscribe other persons.
-//  Artem Rodygin           2006-11-15      bug-381: Attachments of some types are not opened in valid applications.
-//  Janis Kruminsch         2006-11-15      new-374: Carbon copies in subscriptions.
-//  Janis Kruminsch         2006-11-18      bug-388: "Configuration" page does not display path where binary attachments are stored.
-//  Janis Kruminsch         2006-11-18      bug-389: Motorola LDAP server returns "Insufficient rights" error.
-//  Janis Kruminsch         2006-11-20      new-377: Custom views.
-//  Janis Kruminsch         2006-12-04      new-405: Default filter for new user.
-//  Janis Kruminsch         2006-12-10      new-432: Maintenance notice banner.
-//  Janis Kruminsch         2006-12-14      new-446: Add processing of new upload errors.
-//  Janis Kruminsch         2006-12-17      new-457: Default filter for new user.
-//  Janis Kruminsch         2006-12-20      new-459: 'Filters' and 'Subscriptions' pages should contain ability to clear current selection.
-//  Artem Rodygin           2006-12-22      new-462: Postpone date should be displayed as separate field.
-//  Janis Kruminsch         2006-12-23      new-463: Date field names should be extended with date format explanation.
-//  Janis Kruminsch         2006-12-26      bug-467: Latvian prompts should be reviewed.
-//  Artem Rodygin           2006-12-27      bug-470: State permissions must not be used when record is being created.
-//  Artem Rodygin           2006-12-27      new-472: User must have ability to log out.
-//  Janis Kruminsch         2006-12-28      new-474: Rename field permissions to make them more clear.
-//  Artem Rodygin           2006-12-30      new-475: Turning subscriptions on and off is not clear.
-//  Janis Kruminsch         2007-01-15      new-483: JavaScript ability notice.
-//  Janis Kruminsch         2007-04-03      new-512: Banner about 'no reply on autogenerated message' for notifications.
-//  Janis Kruminsch         2007-04-03      new-499: Records dump to text file.
-//  Janis Kruminsch         2007-07-05      new-533: Links between records.
-//  Janis Kruminsch         2007-07-16      new-545: Chart legend is required.
-//  Janis Kruminsch         2007-07-16      new-546: Confidential comments.
-//  Janis Kruminsch         2007-08-06      new-551: Rework dependencies into "parent-child" relations.
-//  Artem Rodygin           2007-08-27      [rhonda] Hide author from 'Innovation' templates.
-//  Janis Kruminsch         2007-09-09      new-563: Custom separators inside fields set.
-//  Janis Kruminsch         2007-09-12      new-576: [SF1788286] Export to CSV
-//  Janis Kruminsch         2007-09-13      new-566: Choose encoding for record dump and export of records list.
-//  Janis Kruminsch         2007-10-02      new-513: Apply current filter set to search results.
-//  Janis Kruminsch         2007-10-30      new-564: Filters set.
-//  Artem Rodygin           2007-11-05      new-571: View should show all records of current filters set.
-//  Janis Kruminsch         2007-11-06      new-562: Ability to show only last values of any state.
-//  Janis Kruminsch         2007-11-11      bug-624: dbx_error(): Too many tables; MySQL can only use 61 tables in a join
-//  Janis Kruminsch         2007-11-13      new-599: Separated "Age" in custom views.
-//  Janis Kruminsch         2007-11-14      new-548: Custom links in text fields.
-//  Yury Udovichenko        2007-11-19      new-623: Default state in states list.
-//  Yury Udovichenko        2007-11-20      new-536: Ability to hide postpone records from the list.
-//  Janis Kruminsch         2007-11-29      new-637: Subject of notifications should contain subject of records.
-//  Janis Kruminsch         2007-11-29      new-617: Add 'no view' and 'no filter set' to related comboboxes.
-//  Janis Kruminsch         2007-12-27      new-659: Set default language
-//  Janis Kruminsch         2007-12-30      bug-660: [SF1860788] PHP4 html_entity_decode() is not working
-//  Janis Kruminsch         2008-01-16      new-666: Buttons "Previous" & "Next" on record view page.
-//  Janis Kruminsch         2008-01-28      new-531: LDAP Guest users
-//  Janis Kruminsch         2008-01-31      new-601: [SF1814666] Export and Import Templates
-//  Janis Kruminsch         2008-02-27      new-676: [SF1898731] Delete Issues from Workflow
-//  Artem Rodygin           2008-02-28      new-294: PostgreSQL support.
-//  Janis Kruminsch         2008-03-02      bug-681: Update configuration page with new options.
-//  Janis Kruminsch         2008-04-30      bug-699: Views // Names of custom columns are duplicated in the list of available columns, when there are two fields of different types with the same name.
-//  Janis Kruminsch         2008-05-01      new-715: Show creation time in the list of records.
-//  Janis Kruminsch         2008-07-02      new-729: [SF2008579] Mark all records as read
-//  Janis Kruminsch         2008-11-11      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-04-12      bug-806: German translation causes two ambiguous "zuruck" buttons.
-//  Artem Rodygin           2009-04-26      new-817: Field permissions dialog refactoring.
-//  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
-//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
-//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
-//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//--------------------------------------------------------------------------------------------------
 
 $resource_latvian = array
 (
@@ -364,7 +285,7 @@ $resource_latvian = array
     'Temats',
     'Meklçðana',
     'Meklçðanas parametri',
-    'Meklçðanas rezultâti (filtrçti)',
+    'Meklçðanas rezultâti',
     'Meklçjamais teksts',
     'meklçt atribûtos',
     /* 1160 */
@@ -579,6 +500,7 @@ $resource_latvian = array
     /* 1350 */
     'Kompresija',
     'P/S',
+    'Komentâri',
 );
 
 ?>

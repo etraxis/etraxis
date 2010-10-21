@@ -1,78 +1,134 @@
-<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'>
+<!--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-<xsl:output method="html" version="1.0" encoding="UTF-8" doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN" doctype-system="http://www.w3.org/TR/html4/loose.dtd"/>
+  eTraxis - Records tracking web-based system
+  Copyright (C) 2005-2010  Artem Rodygin
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-->
+
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+
+<xsl:output method="xml" version="1.0" encoding="UTF-8" doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN" doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+
+<xsl:template match="container">
+    <xsl:apply-templates/>
+</xsl:template>
 
 <xsl:template match="page">
+    <html>
+    <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="author" content="Artem Rodygin"/>
     <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
-    <link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
+    <link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/list.css"/>
     <title>
-    <xsl:if test="boolean(@title)">
         <xsl:value-of select="@title"/>
-        <xsl:text> - </xsl:text>
-    </xsl:if>
-    <xsl:text>eTraxis</xsl:text>
+        <xsl:text> - eTraxis</xsl:text>
     </title>
-    <script type="text/javascript" src="../scripts/textbox.js"/>
-    <script type="text/javascript">
-    <xsl:text>function onLoad() { </xsl:text>
-    <xsl:if test="boolean(@init)">
-        <xsl:value-of select="@init"/>
-    </xsl:if>
-    <xsl:if test="boolean(@focus)">
-        <xsl:text>document.</xsl:text>
-        <xsl:value-of select="@focus"/>
-        <xsl:text>.focus(); </xsl:text>
-    </xsl:if>
-    <xsl:if test="boolean(@alert)">
-        <xsl:if test="not(boolean(@alert = ''))">
-            <xsl:text>alert('</xsl:text>
-            <xsl:value-of select="@alert"/>
-            <xsl:text>'); </xsl:text>
-        </xsl:if>
-    </xsl:if>
-    <xsl:text>}</xsl:text>
-    </script>
+    </head>
+    <body>
+    <script type="text/javascript" src="../scripts/jquery.js"></script>
+    <script type="text/javascript" src="../scripts/etraxis.js"></script>
     <xsl:apply-templates select="script"/>
-    <body onload="onLoad();">
     <table class="container">
-    <tr><td>
-    <div id="topbox">
-        <div id="headerlt"></div>
-        <div id="headerrt"></div>
-        <div id="header">
-            <a href="http://www.etraxis.org/" target="_blank" class="title"><i>e</i>Traxis</a>
-            <a href="http://www.etraxis.org/" target="_blank" class="version"><xsl:value-of select="@version"/></a>
+    <tr valign="top">
+    <td>
+        <div id="logo"><a href="http://code.google.com/p/etraxis/" target="_blank"><img src="../images/etraxis.png" width="40" height="40" alt="eTraxis"/></a></div>
+        <xsl:apply-templates select="mainmenu"/>
+        <xsl:apply-templates select="contextmenu"/>
+        <div id="version">
+        <xsl:value-of select="@version"/>
         </div>
-        <xsl:apply-templates select="menu"/>
-    </div>
-    <div id="content">
+    </td>
+    <td width="100%">
+        <div id="topline">
+            <div id="search">
+                <div id="search_box">
+                    <form name="searchform" method="get" target="_parent" action="../records/index.php">
+                    <input type="text" class="search" name="search" maxlength="100">
+                    <xsl:attribute name="value">
+                    <xsl:value-of select="@last_search"/>
+                    </xsl:attribute>
+                    <xsl:attribute name="onfocus">
+                    <xsl:text>clear_topline(this, '</xsl:text>
+                    <xsl:value-of select="@search"/>
+                    <xsl:text>')</xsl:text>
+                    </xsl:attribute>
+                    <xsl:attribute name="onblur">
+                    <xsl:text>reset_topline(this, '</xsl:text>
+                    <xsl:value-of select="@search"/>
+                    <xsl:text>')</xsl:text>
+                    </xsl:attribute>
+                    </input>
+                    </form>
+                </div>
+                <div id="search_button" onclick="document.searchform.submit()"></div>
+            </div>
+            <div id="quickfind">
+                <div id="quickfind_box">
+                    <form name="quickfindform" method="get" target="_parent" action="../records/view.php">
+                    <input type="text" class="quickfind" name="id" maxlength="10" value="ID" onfocus="clear_topline(this, 'ID')" onblur="reset_topline(this, 'ID')"/>
+                    </form>
+                </div>
+                <div id="quickfind_button" onclick="document.quickfindform.submit()"></div>
+            </div>
+            <div id="logout">
+            <input type="button" class="button" id="logout_button" onclick="onLogoutButton()">
+            <xsl:attribute name="value">
+            <xsl:value-of select="@logout"/>
+            </xsl:attribute>
+            </input>
+            </div>
+            <div id="current_username">
+            <xsl:value-of select="@username"/>
+            </div>
+        </div>
         <noscript>
-        <p class="banner">
-        <xsl:value-of select="@noscript"/>
-        </p>
+            <div id="noscript">JavaScript must be enabled.</div>
         </noscript>
-        <xsl:if test="boolean(@guest)">
-            <p class="guestbox">
-            <xsl:value-of select="@guest"/>
-            </p>
-        </xsl:if>
-        <xsl:if test="boolean(@banner)">
-            <p class="banner">
-            <xsl:value-of select="@banner"/>
-            </p>
-        </xsl:if>
-        <xsl:apply-templates select="path"/>
-        <xsl:apply-templates select="content"/>
-        <div id="footer">
-        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by Artem Rodygin</xsl:text>
+        <div id="banner">
+        <xsl:value-of select="@banner"/>
         </div>
-    </div>
-    </td></tr>
+        <xsl:apply-templates select="breadcrumbs"/>
+        <xsl:apply-templates select="tabs|content"/>
+        <div id="copyright"><xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by Artem Rodygin</xsl:text></div>
+    </td>
+    </tr>
     </table>
     </body>
+    </html>
+</xsl:template>
+
+<xsl:template match="content">
+    <div>
+    <xsl:attribute name="id">
+        <xsl:choose>
+           <xsl:when test="name(parent::node()) = 'tabs'">
+               <xsl:text>tabbed_content</xsl:text>
+           </xsl:when>
+           <xsl:otherwise>
+               <xsl:text>simple_content</xsl:text>
+           </xsl:otherwise>
+        </xsl:choose>
+    </xsl:attribute>
+    <xsl:apply-templates/>
+    </div>
 </xsl:template>
 
 <xsl:template match="script">
@@ -88,59 +144,423 @@
     </script>
 </xsl:template>
 
-<xsl:template match="menu">
-    <div id="menult"></div>
-    <div id="menurt"></div>
-    <div id="menu">
-        <xsl:apply-templates select="menuitem"/>
-        <xsl:if test="boolean(@user)">
-            <a class="user">
-            <xsl:value-of select="@user"/>
-            </a>
-        </xsl:if>
-    </div>
+<!-- Menu -->
+
+<xsl:template match="mainmenu">
+    <ul class="mainmenu">
+    <xsl:apply-templates select="menuitem"/>
+    </ul>
+</xsl:template>
+
+<xsl:template match="contextmenu">
+    <ul class="contextmenu">
+    <xsl:apply-templates select="submenu|menuitem"/>
+    </ul>
+</xsl:template>
+
+<xsl:template match="submenu">
+    <xsl:variable name="id" select="generate-id()"/>
+    <li>
+    <xsl:attribute name="id">
+    <xsl:text>item</xsl:text>
+    <xsl:value-of select="$id"/>
+    </xsl:attribute>
+    <xsl:attribute name="onclick">
+    <xsl:text>toggle_menu('</xsl:text>
+    <xsl:value-of select="$id"/>
+    <xsl:text>')</xsl:text>
+    </xsl:attribute>
+    <xsl:attribute name="class">
+    <xsl:choose>
+        <xsl:when test="boolean(@expanded = 'true')">
+            <xsl:text>menuitem_m</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>menuitem_p</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <a class="menuitem">
+    <xsl:attribute name="href">
+    <xsl:value-of select="@url"/>
+    </xsl:attribute>
+    <xsl:value-of select="@text"/>
+    </a>
+    </li>
+    <li>
+    <ul class="submenu">
+    <xsl:attribute name="id">
+    <xsl:text>menu</xsl:text>
+    <xsl:value-of select="$id"/>
+    </xsl:attribute>
+    <xsl:attribute name="style">
+    <xsl:choose>
+        <xsl:when test="boolean(@expanded = 'true')">
+            <xsl:text>display:block</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>display:none</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <xsl:apply-templates select="submenu|menuitem"/>
+    </ul>
+    </li>
 </xsl:template>
 
 <xsl:template match="menuitem">
-    <a class="menu">
+    <li>
+    <xsl:attribute name="class">
+        <xsl:choose>
+           <xsl:when test="name(parent::node()) = 'contextmenu'">
+               <xsl:text>menuitem_b</xsl:text>
+           </xsl:when>
+           <xsl:when test="name(parent::node()) = 'submenu'">
+               <xsl:text>menuitem_b</xsl:text>
+           </xsl:when>
+           <xsl:otherwise>
+               <xsl:text>menuitem</xsl:text>
+           </xsl:otherwise>
+        </xsl:choose>
+    </xsl:attribute>
+    <a class="menuitem">
+    <xsl:choose>
+        <xsl:when test="boolean(@url)">
+            <xsl:attribute name="href">
+            <xsl:value-of select="@url"/>
+            </xsl:attribute>
+            <xsl:value-of select="."/>
+        </xsl:when>
+        <xsl:otherwise>
+            <i>
+            <xsl:value-of select="."/>
+            </i>
+        </xsl:otherwise>
+    </xsl:choose>
+    </a>
+    </li>
+</xsl:template>
+
+<!-- Breadcrumbs -->
+
+<xsl:template match="breadcrumbs">
+    <ul class="breadcrumbs">
+    <xsl:apply-templates select="breadcrumb"/>
+    </ul>
+</xsl:template>
+
+<xsl:template match="breadcrumb">
+    <xsl:if test="position() != 1">
+    <li class="splitter"/>
+    </xsl:if>
+    <li class="breadcrumb">
+    <a class="breadcrumb">
     <xsl:attribute name="href">
     <xsl:value-of select="@url"/>
     </xsl:attribute>
     <xsl:value-of select="."/>
     </a>
+    </li>
 </xsl:template>
 
-<xsl:template match="path">
-    <div id="crumb">
-    <xsl:apply-templates select="pathitem"/>
+<!-- Tabs -->
+
+<xsl:template match="tabs">
+    <script type="text/javascript">
+    <xsl:text>
+    function reset_tabs (id)
+    {
+    </xsl:text>
+    <xsl:for-each select="tab">
+        <xsl:if test="boolean(@id)">
+            <xsl:text>document.getElementById('tab</xsl:text>
+            <xsl:value-of select="@id"/>
+            <xsl:text>').className = 'btab';</xsl:text>
+            <xsl:text>document.getElementById('page</xsl:text>
+            <xsl:value-of select="@id"/>
+            <xsl:text>').style.display = 'none';</xsl:text>
+        </xsl:if>
+    </xsl:for-each>
+    <xsl:text>
+    document.getElementById('tab' + id).className = 'ftab';
+    document.getElementById('page' + id).style.display = 'block';
+    }
+    </xsl:text>
+    </script>
+    <ul class="tabs">
+    <xsl:apply-templates select="tab"/>
+    </ul>
+    <xsl:apply-templates select="content"/>
+</xsl:template>
+
+<xsl:template match="tab">
+    <li>
+    <xsl:if test="boolean(@id)">
+        <xsl:attribute name="id">
+        <xsl:text>tab</xsl:text>
+        <xsl:value-of select="@id"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="class">
+    <xsl:choose>
+        <xsl:when test="boolean(@active = 'true')">
+            <xsl:text>ftab</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>btab</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <a class="tab">
+    <xsl:choose>
+        <xsl:when test="boolean(@id)">
+            <xsl:attribute name="onclick">
+            <xsl:text>reset_tabs(</xsl:text>
+            <xsl:value-of select="@id"/>
+            <xsl:text>)</xsl:text>
+            </xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:attribute name="href">
+            <xsl:value-of select="@url"/>
+            </xsl:attribute>
+        </xsl:otherwise>
+    </xsl:choose>
+    <xsl:apply-templates/>
+    </a>
+    </li>
+</xsl:template>
+
+<xsl:template match="subpage">
+    <div>
+    <xsl:if test="boolean(@id)">
+        <xsl:attribute name="id">
+        <xsl:text>page</xsl:text>
+        <xsl:value-of select="@id"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="style">
+    <xsl:choose>
+        <xsl:when test="boolean(@active = 'true')">
+            <xsl:text>display:block</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>display:none</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <xsl:apply-templates/>
     </div>
 </xsl:template>
 
-<xsl:template match="pathitem">
-    <a class="crumb">
+<!-- Lists -->
+
+<xsl:template match="list">
+    <table class="list" cellpadding="0" cellspacing="0">
+    <xsl:apply-templates select="hrow"/>
+    <xsl:apply-templates select="row"/>
+    </table>
+</xsl:template>
+
+<xsl:template match="hrow">
+    <thead>
+    <tr class="header">
+    <td></td>
+    <xsl:apply-templates select="hcell"/>
+    <td></td>
+    </tr>
+    </thead>
+</xsl:template>
+
+<xsl:template match="hcell">
+    <td>
+    <xsl:choose>
+        <xsl:when test="boolean(@checkboxes = 'true')">
+            <input type="checkbox" class="check" value="">
+            <xsl:attribute name="onclick">
+            <xsl:for-each select="../../row">
+                <xsl:value-of select="@name"/>
+                <xsl:text>.checked = this.checked; </xsl:text>
+                <xsl:value-of select="@name"/>
+                <xsl:text>.onclick(); </xsl:text>
+            </xsl:for-each>
+            </xsl:attribute>
+            </input>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:if test="boolean(@url)">
+                <xsl:attribute name="onclick">
+                    <xsl:text>window.open('</xsl:text>
+                    <xsl:value-of select="@url"/>
+                    <xsl:text>', '_parent')</xsl:text>
+                </xsl:attribute>
+            </xsl:if>
+            <p>
+            <xsl:attribute name="class">
+            <xsl:choose>
+                <xsl:when test="boolean(@align)">
+                    <xsl:value-of select="@align"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:text>left</xsl:text>
+                </xsl:otherwise>
+            </xsl:choose>
+            </xsl:attribute>
+            <xsl:value-of select="."/>
+            </p>
+        </xsl:otherwise>
+    </xsl:choose>
+    </td>
+</xsl:template>
+
+<xsl:template match="row">
+    <tr>
+    <xsl:attribute name="class">
+        <xsl:text>row</xsl:text>
+        <xsl:value-of select="@color"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(@url)">
+        <xsl:attribute name="onmouseover">
+            <xsl:text>this.className='hrow</xsl:text>
+            <xsl:value-of select="@color"/>
+            <xsl:text>'</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="onmouseout">
+            <xsl:text>this.className='row</xsl:text>
+            <xsl:value-of select="@color"/>
+            <xsl:text>'</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <td class="left"/>
+    <xsl:if test="boolean(@name)">
+    <td class="check">
+    <input type="checkbox" class="check" value="">
+    <xsl:attribute name="id">
+    <xsl:value-of select="@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="onclick">
+    <xsl:text>this.value = (this.checked ? '</xsl:text>
+    <xsl:value-of select="@name"/>
+    <xsl:text>' : '')</xsl:text>
+    </xsl:attribute>
+    <xsl:if test="boolean(@checked)">
+        <xsl:attribute name="checked">
+        <xsl:text>checked</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    </input>
+    </td>
+    </xsl:if>
+    <xsl:apply-templates select="cell"/>
+    <td class="right"/>
+    </tr>
+</xsl:template>
+
+<xsl:template match="cell">
+    <td>
+    <xsl:if test="boolean(@nowrap = 'true')">
+        <xsl:attribute name="nowrap">
+        <xsl:text>nowrap</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <a>
+    <xsl:if test="boolean(../@url)">
+        <xsl:attribute name="href">
+        <xsl:value-of select="../@url"/>
+        </xsl:attribute>
+    </xsl:if>
+    <p>
+    <xsl:attribute name="class">
+    <xsl:choose>
+        <xsl:when test="boolean(@align)">
+            <xsl:value-of select="@align"/>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>left</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <xsl:choose>
+        <xsl:when test="boolean(@bold = 'true')">
+            <b><xsl:apply-templates/></b>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:apply-templates/>
+        </xsl:otherwise>
+    </xsl:choose>
+    </p>
+    </a>
+    </td>
+</xsl:template>
+
+<xsl:template match="bookmarks">
+    <table class="bookmarks">
+    <tr>
+    <xsl:apply-templates select="bookmark"/>
+    <td class="total"><a class="bookmark"><xsl:value-of select="@total"/></a></td>
+    </tr>
+    </table>
+</xsl:template>
+
+<xsl:template match="bookmark">
+    <td>
+    <xsl:attribute name="class">
+    <xsl:choose>
+        <xsl:when test="boolean(@active = 'true')">
+            <xsl:text>cbookmark</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>bookmark</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <a class="bookmark">
     <xsl:attribute name="href">
     <xsl:value-of select="@url"/>
     </xsl:attribute>
     <xsl:value-of select="."/>
     </a>
+    </td>
 </xsl:template>
 
-<xsl:template match="content">
+<!-- Forms & Controls -->
+
+<xsl:template match="dual">
+    <table class="dual">
+    <tr>
+    <td>
+    <xsl:apply-templates select="dualleft"/>
+    </td>
+    <td class="dual">
+    <xsl:for-each select="button">
+    <xsl:apply-templates select="."/>
+    <br/>
+    </xsl:for-each>
+    </td>
+    <td>
+    <xsl:apply-templates select="dualright"/>
+    </td>
+    </tr>
+    </table>
+</xsl:template>
+
+<xsl:template match="dualleft|dualright">
     <xsl:apply-templates/>
 </xsl:template>
 
 <xsl:template match="form">
-    <form target="_parent">
-    <xsl:if test="boolean(@method)">
-        <xsl:attribute name="method">
-        <xsl:value-of select="@method"/>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="not(boolean(@method))">
-        <xsl:attribute name="method">
-        <xsl:text>post</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
+    <form target="_parent" method="post">
     <xsl:attribute name="name">
     <xsl:value-of select="@name"/>
     </xsl:attribute>
@@ -157,545 +577,360 @@
         </xsl:attribute>
         </input>
     </xsl:if>
-    <xsl:if test="not(boolean(@method = 'get'))">
-        <input type="hidden" name="submitted">
-        <xsl:attribute name="value">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        </input>
-    </xsl:if>
+    <input type="hidden" name="submitted">
+    <xsl:attribute name="value">
+    <xsl:value-of select="@name"/>
+    </xsl:attribute>
+    </input>
     <xsl:apply-templates/>
     </form>
 </xsl:template>
 
 <xsl:template match="group">
+    <xsl:variable name="id" select="generate-id()"/>
     <fieldset>
     <xsl:if test="boolean(@title)">
         <legend>
-        <xsl:if test="boolean(@id)">
-            <a class="toggle">
-            <xsl:attribute name="id">
-            <xsl:text>toggle</xsl:text>
-            <xsl:value-of select="@id"/>
-            </xsl:attribute>
-            <xsl:attribute name="href">
-            <xsl:text>javascript:SwitchLayer(</xsl:text>
-            <xsl:value-of select="@id"/>
-            <xsl:text>);</xsl:text>
-            </xsl:attribute>
-            <xsl:text>%minus;</xsl:text>
-            </a>
-        </xsl:if>
+        <a class="toggle">
+        <xsl:attribute name="id">
+        <xsl:text>toggle</xsl:text>
+        <xsl:value-of select="$id"/>
+        </xsl:attribute>
+        <xsl:attribute name="href">
+        <xsl:text>javascript:toggle_group('</xsl:text>
+        <xsl:value-of select="$id"/>
+        <xsl:text>');</xsl:text>
+        </xsl:attribute>
+        <xsl:text disable-output-escaping="yes">&amp;minus;</xsl:text>
+        </a>
         <xsl:value-of select="@title"/>
         </legend>
     </xsl:if>
-    <xsl:if test="boolean(@id)">
-        <script type="text/javascript">
-        <xsl:text>events_list[++events_count] = </xsl:text>
-        <xsl:value-of select="@id"/>
-        <xsl:text>;</xsl:text>
-        </script>
-    </xsl:if>
-    <div>
-    <xsl:if test="boolean(@id)">
-        <xsl:attribute name="id">
-        <xsl:text>div</xsl:text>
-        <xsl:value-of select="@id"/>
-        </xsl:attribute>
-        <xsl:attribute name="class">
-        <xsl:text>groupdiv</xsl:text>
-        </xsl:attribute>
-        <xsl:attribute name="style">
-        <xsl:text>display:block</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <table cellpadding="0" cellspacing="0">
-    <xsl:apply-templates select="text|smallbox|editbox|passbox|filebox|checkbox|radios|combobox|listbox|textbox|fieldbox|fieldcheckbox|comment|attachment|image|row|hr"/>
-    <tr><td></td><td>
-    <xsl:apply-templates select="button|nbsp"/>
-    </td></tr>
+    <div style="display:block">
+    <xsl:attribute name="id">
+    <xsl:text>div</xsl:text>
+    <xsl:value-of select="$id"/>
+    </xsl:attribute>
+    <table class="form">
+    <xsl:apply-templates select="text|control|hr"/>
     </table>
+    <xsl:apply-templates select="button"/>
     </div>
     </fieldset>
 </xsl:template>
 
 <xsl:template match="text">
-    <tr valign="top">
+    <tr>
     <xsl:if test="boolean(@label)">
-    <td nowrap="">
-        <p class="label">
+        <td class="label">
         <xsl:value-of select="@label"/>
         <xsl:text>:</xsl:text>
-        </p>
-    </td>
+        </td>
     </xsl:if>
-    <td class="text" width="100%">
+    <td class="text">
     <xsl:apply-templates/>
     </td>
     </tr>
 </xsl:template>
 
-<xsl:template match="smallbox">
-    <input class="smallbox" type="text">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="size">
-    <xsl:value-of select="@size"/>
-    </xsl:attribute>
-    <xsl:attribute name="maxlength">
-    <xsl:value-of select="@maxlen"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="disabled">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@readonly = 'true')">
-        <xsl:attribute name="readonly">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="value">
-    <xsl:value-of select="."/>
-    </xsl:attribute>
-    </input>
-</xsl:template>
-
-<xsl:template match="editbox">
-    <xsl:if test="boolean(@label)">
-        <tr valign="middle">
+<xsl:template match="control">
+    <xsl:choose>
+    <xsl:when test="name(parent::node()) = 'group'">
+        <tr>
+        <xsl:for-each select="label">
         <td>
-        <label>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:value-of select="@label"/>
-        <xsl:text>:</xsl:text>
-        <xsl:if test="boolean(@required)">
-            <sup class="required">
-            <xsl:text> [</xsl:text>
-            <xsl:value-of select="@required"/>
-            <xsl:text>]</xsl:text>
-            </sup>
-        </xsl:if>
-        </label>
+        <xsl:apply-templates select="."/>
         </td>
+        </xsl:for-each>
         <td>
-        <input class="editbox" type="text">
-        <xsl:attribute name="name">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:attribute name="id">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:attribute name="size">
-        <xsl:value-of select="@size"/>
-        </xsl:attribute>
-        <xsl:attribute name="maxlength">
-        <xsl:value-of select="@maxlen"/>
-        </xsl:attribute>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="disabled">
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="boolean(@readonly = 'true')">
-            <xsl:attribute name="readonly">
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="value">
-        <xsl:value-of select="."/>
-        </xsl:attribute>
-        </input>
+        <xsl:apply-templates select="control|editbox|passbox|filebox|checkbox|radio|combobox|listbox|textbox"/>
         </td>
         </tr>
+    </xsl:when>
+    <xsl:otherwise>
+        <xsl:apply-templates select="control|editbox|passbox|filebox|checkbox|radio|combobox|listbox|textbox"/>
+    </xsl:otherwise>
+    </xsl:choose>
+</xsl:template>
+
+<xsl:template match="label">
+    <label>
+    <xsl:attribute name="for">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="class">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
     </xsl:if>
-    <xsl:if test="not(boolean(@label))">
-        <input class="editbox" type="text">
-        <xsl:attribute name="name">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
+    <xsl:if test="boolean(@checkmark)">
+        <input type="checkbox" class="checkbox" value="" onclick="this.value = (this.checked ? 'on' : '')">
         <xsl:attribute name="id">
-        <xsl:value-of select="@name"/>
+        <xsl:value-of select="../@name"/>
         </xsl:attribute>
-        <xsl:attribute name="size">
-        <xsl:value-of select="@size"/>
+        <xsl:attribute name="name">
+        <xsl:value-of select="../@name"/>
         </xsl:attribute>
-        <xsl:attribute name="maxlength">
-        <xsl:value-of select="@maxlen"/>
-        </xsl:attribute>
-        <xsl:if test="boolean(@disabled = 'true')">
+        <xsl:if test="boolean(@checked)">
+            <xsl:attribute name="checked">
+            <xsl:text>checked</xsl:text>
+            </xsl:attribute>
+            <xsl:attribute name="value">
+            <xsl:text>on</xsl:text>
+            </xsl:attribute>
+        </xsl:if>
+        <xsl:if test="boolean(../@disabled)">
             <xsl:attribute name="disabled">
+            <xsl:text>disabled</xsl:text>
             </xsl:attribute>
         </xsl:if>
-        <xsl:if test="boolean(@readonly = 'true')">
-            <xsl:attribute name="readonly">
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="value">
-        <xsl:value-of select="."/>
-        </xsl:attribute>
         </input>
     </xsl:if>
-</xsl:template>
-
-<xsl:template match="passbox">
-    <tr valign="middle">
-    <td>
-    <xsl:if test="boolean(@label)">
-        <label>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:value-of select="@label"/>
+    <xsl:if test="boolean(. != '')">
+        <xsl:value-of select="."/>
         <xsl:text>:</xsl:text>
-        <xsl:if test="boolean(@required)">
-            <sup class="required">
-            <xsl:text> [</xsl:text>
-            <xsl:value-of select="@required"/>
-            <xsl:text>]</xsl:text>
-            </sup>
-        </xsl:if>
-        </label>
     </xsl:if>
-    </td>
-    <td>
-    <input class="password" type="password">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="size">
-    <xsl:value-of select="@size"/>
-    </xsl:attribute>
-    <xsl:attribute name="maxlength">
-    <xsl:value-of select="@maxlen"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="disabled">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@readonly = 'true')">
-        <xsl:attribute name="readonly">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="value">
-    <xsl:value-of select="."/>
-    </xsl:attribute>
-    </input>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="filebox">
-    <tr valign="middle">
-    <td>
-    <xsl:if test="boolean(@label)">
-        <label>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:value-of select="@label"/>
-        <xsl:text>:</xsl:text>
-        <xsl:if test="boolean(@required)">
-            <sup class="required">
-            <xsl:text> [</xsl:text>
-            <xsl:value-of select="@required"/>
-            <xsl:text>]</xsl:text>
-            </sup>
-        </xsl:if>
-        </label>
-    </xsl:if>
-    </td>
-    <td>
-    <input class="editbox" type="file">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="size">
-    <xsl:value-of select="@size"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="disabled">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@readonly = 'true')">
-        <xsl:attribute name="readonly">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="value">
-    <xsl:value-of select="."/>
-    </xsl:attribute>
-    </input>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="checkbox">
-    <tr valign="middle">
-    <td/>
-    <td nowrap="">
-    <input type="checkbox" class="checkbox" value="">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@checked = 'true')">
-        <xsl:attribute name="value">
-        <xsl:text>on</xsl:text>
-        </xsl:attribute>
-        <xsl:attribute name="checked">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="disabled">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="not(boolean(@readonly = 'true'))">
-        <xsl:attribute name="onclick">
-        <xsl:text>this.value = (this.checked ? 'on' : '')</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@readonly = 'true')">
-        <xsl:attribute name="onclick">
+    <xsl:if test="boolean(../@required)">
+        <sup>
+        <xsl:attribute name="class">
         <xsl:choose>
-            <xsl:when test="boolean(@checked = 'true')">
-                <xsl:text>this.checked = true</xsl:text>
+            <xsl:when test="boolean(../@disabled)">
+                <xsl:text>disabled</xsl:text>
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>this.checked = false</xsl:text>
+                <xsl:text>required</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
         </xsl:attribute>
+        <xsl:text>[</xsl:text>
+        <xsl:value-of select="../@required"/>
+        <xsl:text>]</xsl:text>
+        </sup>
     </xsl:if>
-    </input>
-    <label>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="not(boolean(@disabled = 'true'))">
-        <xsl:attribute name="class">
-            <xsl:text>enabled</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="for">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:value-of select="."/>
     </label>
-    </td>
-    </tr>
 </xsl:template>
 
-<xsl:template match="radios">
-    <tr valign="middle">
-    <td valign="top">
-    <xsl:if test="boolean(@label)">
-        <label>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
+<xsl:template match="editbox">
+    <input type="text" class="editbox">
+    <xsl:if test="boolean(@small)">
+        <xsl:attribute name="class">
+        <xsl:text>small</xsl:text>
         </xsl:attribute>
-        <xsl:value-of select="@label"/>
-        <xsl:text>:</xsl:text>
-        </label>
     </xsl:if>
-    </td>
-    <td>
-    <xsl:apply-templates select="radio"/>
-    </td>
-    </tr>
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(@maxlen)">
+        <xsl:attribute name="maxlength">
+        <xsl:value-of select="@maxlen"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="value">
+    <xsl:value-of select="."/>
+    </xsl:attribute>
+    </input>
+</xsl:template>
+
+<xsl:template match="passbox">
+    <input type="password" class="password">
+    <xsl:if test="boolean(@small)">
+        <xsl:attribute name="class">
+        <xsl:text>small</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(@maxlen)">
+        <xsl:attribute name="maxlength">
+        <xsl:value-of select="@maxlen"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="value">
+    <xsl:value-of select="."/>
+    </xsl:attribute>
+    </input>
+</xsl:template>
+
+<xsl:template match="filebox">
+    <input type="file" class="editbox">
+    <xsl:if test="boolean(@small)">
+        <xsl:attribute name="class">
+        <xsl:text>small</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(@maxlen)">
+        <xsl:attribute name="maxlength">
+        <xsl:value-of select="@maxlen"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:attribute name="value">
+    <xsl:value-of select="."/>
+    </xsl:attribute>
+    </input>
+</xsl:template>
+
+<xsl:template match="checkbox">
+    <label>
+    <xsl:attribute name="for">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="class">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <input type="checkbox" class="checkbox" value="" onclick="this.value = (this.checked ? 'on' : '')">
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(@checked)">
+        <xsl:attribute name="checked">
+        <xsl:text>checked</xsl:text>
+        </xsl:attribute>
+        <xsl:attribute name="value">
+        <xsl:text>on</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    </input>
+    <xsl:value-of select="."/>
+    </label>
 </xsl:template>
 
 <xsl:template match="radio">
-    <input class="radio" type="radio">
+    <label>
+    <xsl:if test="boolean(@name)">
+        <xsl:attribute name="for">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="class">
+        <xsl:text>disabled</xsl:text>
+        </xsl:attribute>
+    </xsl:if>
+    <input type="radio" class="radio">
+    <xsl:if test="boolean(@name)">
+        <xsl:attribute name="id">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
+    <xsl:value-of select="../@name"/>
     </xsl:attribute>
     <xsl:attribute name="value">
     <xsl:value-of select="@value"/>
     </xsl:attribute>
-    <xsl:if test="boolean(@checked = 'true')">
+    <xsl:if test="boolean(@checked)">
         <xsl:attribute name="checked">
+        <xsl:text>checked</xsl:text>
         </xsl:attribute>
     </xsl:if>
-    <xsl:if test="boolean(@disabled = 'true')">
+    <xsl:if test="boolean(../@disabled)">
         <xsl:attribute name="disabled">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@readonly = 'true')">
-        <xsl:attribute name="readonly">
+        <xsl:text>disabled</xsl:text>
         </xsl:attribute>
     </xsl:if>
     </input>
-    <a>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="not(boolean(@disabled = 'true'))">
-        <xsl:attribute name="class">
-            <xsl:text>enabled</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
     <xsl:value-of select="."/>
-    </a>
-    <br/>
+    </label>
 </xsl:template>
 
 <xsl:template match="combobox">
-    <xsl:if test="boolean(@label)">
-        <tr valign="middle">
-        <td>
-        <label>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
+    <select size="1">
+    <xsl:if test="boolean(@small)">
+        <xsl:attribute name="class">
+        <xsl:text>small</xsl:text>
         </xsl:attribute>
-        <xsl:value-of select="@label"/>
-        <xsl:text>:</xsl:text>
-        <xsl:if test="boolean(@required)">
-            <sup class="required">
-            <xsl:text> [</xsl:text>
-            <xsl:value-of select="@required"/>
-            <xsl:text>]</xsl:text>
-            </sup>
-        </xsl:if>
-        </label>
-        </td>
-        <td>
-        <select>
-        <xsl:attribute name="name">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:attribute name="id">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:if test="boolean(@extended = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>extended</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="disabled">
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:apply-templates select="listitem"/>
-        </select>
-        </td>
-        </tr>
     </xsl:if>
-    <xsl:if test="not(boolean(@label))">
-        <select>
-        <xsl:attribute name="name">
-        <xsl:value-of select="@name"/>
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
         </xsl:attribute>
-        <xsl:attribute name="id">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:if test="boolean(@extended = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>extended</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="disabled">
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:apply-templates select="listitem"/>
-        </select>
     </xsl:if>
+    <xsl:apply-templates select="listitem"/>
+    </select>
 </xsl:template>
 
-<xsl:template match="listbox">
-    <tr valign="middle">
-    <td valign="top">
-    <xsl:if test="boolean(@label)">
-        <label>
-        <xsl:if test="boolean(@disabled = 'true')">
-            <xsl:attribute name="class">
-            <xsl:text>disabled</xsl:text>
-            </xsl:attribute>
-        </xsl:if>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:value-of select="@label"/>
-        <xsl:text>:</xsl:text>
-        <xsl:if test="boolean(@required)">
-            <sup class="required">
-            <xsl:text> [</xsl:text>
-            <xsl:value-of select="@required"/>
-            <xsl:text>]</xsl:text>
-            </sup>
-        </xsl:if>
-        </label>
-    </xsl:if>
-    </td>
-    <td>
-    <select>
-    <xsl:if test="boolean(@dualbox = 'true')">
-        <xsl:attribute name="class">
-        <xsl:text>dualbox</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="not(boolean(@dualbox = 'true'))">
-        <xsl:attribute name="class">
-        <xsl:text>list</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
+<xsl:template match="dropdown">
+    <select class="dropdown" size="1">
     <xsl:attribute name="id">
     <xsl:value-of select="@name"/>
     </xsl:attribute>
-    <xsl:attribute name="size">
-    <xsl:value-of select="@size"/>
+    <xsl:attribute name="name">
+    <xsl:value-of select="@name"/>
     </xsl:attribute>
-    <xsl:if test="boolean(@disabled = 'true')">
+    <xsl:if test="boolean(@disabled)">
         <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
         </xsl:attribute>
     </xsl:if>
-    <xsl:if test="boolean(@multiple = 'true')">
-        <xsl:attribute name="multiple">
+    <xsl:apply-templates select="listitem"/>
+    </select>
+</xsl:template>
+
+<xsl:template match="listbox">
+    <select multiple="multiple">
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="size">
+    <xsl:choose>
+        <xsl:when test="boolean(@size)">
+            <xsl:value-of select="@size"/>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>4</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
+    </xsl:attribute>
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:if test="boolean(@action)">
@@ -705,8 +940,6 @@
     </xsl:if>
     <xsl:apply-templates select="listitem"/>
     </select>
-    </td>
-    </tr>
 </xsl:template>
 
 <xsl:template match="listitem">
@@ -716,6 +949,7 @@
     </xsl:attribute>
     <xsl:if test="boolean(@selected = 'true')">
         <xsl:attribute name="selected">
+        <xsl:text>selected</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:value-of select="."/>
@@ -723,240 +957,97 @@
 </xsl:template>
 
 <xsl:template match="textbox">
-    <tr valign="middle">
-    <td valign="top">
-    <xsl:if test="boolean(@label)">
-        <label>
-        <xsl:attribute name="for">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:value-of select="@label"/>
-        <xsl:text>:</xsl:text>
-        <xsl:if test="boolean(@required)">
-            <sup class="required">
-            <xsl:text> [</xsl:text>
-            <xsl:value-of select="@required"/>
-            <xsl:text>]</xsl:text>
-            </sup>
-        </xsl:if>
-        </label>
-    </xsl:if>
-    </td>
-    <td>
-    <textarea>
-    <xsl:if test="boolean(@dualbox = 'true')">
-        <xsl:attribute name="class">
-        <xsl:text>dualbox</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
+    <textarea cols="0">
     <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
+    <xsl:value-of select="../@name"/>
     </xsl:attribute>
-    <xsl:attribute name="cols">
-    <xsl:value-of select="@width"/>
+    <xsl:attribute name="name">
+    <xsl:value-of select="../@name"/>
     </xsl:attribute>
-    <xsl:attribute name="rows">
-    <xsl:value-of select="@height"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@disabled = 'true')">
-        <xsl:attribute name="disabled">
+    <xsl:if test="boolean(@rows)">
+        <xsl:attribute name="rows">
+        <xsl:value-of select="@rows"/>
         </xsl:attribute>
     </xsl:if>
-    <xsl:if test="boolean(@readonly = 'true')">
-        <xsl:attribute name="readonly">
+    <xsl:if test="boolean(../@disabled)">
+        <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:if test="boolean(@resizeable = 'true')">
         <xsl:attribute name="style">
-        <xsl:text>overflow-y:hidden;</xsl:text>
+        <xsl:text>overflow-y:hidden</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:attribute name="onchange">
         <xsl:text>onTextBox('</xsl:text>
-        <xsl:value-of select="@name"/>
+        <xsl:value-of select="../@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
         <xsl:text>,</xsl:text>
-        <xsl:if test="boolean(@resizeable)">
-            <xsl:value-of select="@resizeable"/>
-        </xsl:if>
-        <xsl:if test="not(boolean(@resizeable))">
-            <xsl:text>false</xsl:text>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="boolean(@resizeable)">
+                <xsl:value-of select="@resizeable"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>false</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
         <xsl:text>,</xsl:text>
-        <xsl:value-of select="@height"/>
-        <xsl:text>);</xsl:text>
+        <xsl:value-of select="@rows"/>
+        <xsl:text>)</xsl:text>
     </xsl:attribute>
     <xsl:attribute name="onkeydown">
         <xsl:text>onTextBox('</xsl:text>
-        <xsl:value-of select="@name"/>
+        <xsl:value-of select="../@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
         <xsl:text>,</xsl:text>
-        <xsl:if test="boolean(@resizeable)">
-            <xsl:value-of select="@resizeable"/>
-        </xsl:if>
-        <xsl:if test="not(boolean(@resizeable))">
-            <xsl:text>false</xsl:text>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="boolean(@resizeable)">
+                <xsl:value-of select="@resizeable"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>false</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
         <xsl:text>,</xsl:text>
-        <xsl:value-of select="@height"/>
-        <xsl:text>);</xsl:text>
+        <xsl:value-of select="@rows"/>
+        <xsl:text>)</xsl:text>
     </xsl:attribute>
     <xsl:attribute name="onkeyup">
         <xsl:text>onTextBox('</xsl:text>
-        <xsl:value-of select="@name"/>
+        <xsl:value-of select="../@name"/>
         <xsl:text>',</xsl:text>
         <xsl:value-of select="@maxlen"/>
         <xsl:text>,</xsl:text>
-        <xsl:if test="boolean(@resizeable)">
-            <xsl:value-of select="@resizeable"/>
-        </xsl:if>
-        <xsl:if test="not(boolean(@resizeable))">
-            <xsl:text>false</xsl:text>
-        </xsl:if>
+        <xsl:choose>
+            <xsl:when test="boolean(@resizeable)">
+                <xsl:value-of select="@resizeable"/>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:text>false</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
         <xsl:text>,</xsl:text>
-        <xsl:value-of select="@height"/>
-        <xsl:text>);</xsl:text>
+        <xsl:value-of select="@rows"/>
+        <xsl:text>)</xsl:text>
     </xsl:attribute>
     <xsl:value-of select="."/>
     </textarea>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="dualbox">
-    <table cellpadding="0" cellspacing="0">
-    <tr>
-    <td valign="top">
-    <xsl:apply-templates select="dualleft"/>
-    </td>
-    <td valign="middle">
-    <xsl:if test="boolean(@nobuttons = 'true')">
-        <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-    </xsl:if>
-    <xsl:if test="not(boolean(@nobuttons = 'true'))">
-        <input class="button dualbutton" type="button" onclick="lform.submit();" value="%gt;%gt;"/><br/>
-        <input class="button dualbutton" type="button" onclick="rform.submit();" value="%lt;%lt;"/><br/>
-    </xsl:if>
-    </td>
-    <td valign="top">
-    <xsl:apply-templates select="dualright"/>
-    </td>
-    </tr>
-    </table>
-</xsl:template>
-
-<xsl:template match="dualleft">
-    <form method="post" target="_parent" name="lform">
-    <xsl:attribute name="action">
-    <xsl:value-of select="@action"/>
-    </xsl:attribute>
-    <input type="hidden" name="submitted" value="lform"/>
-    <xsl:apply-templates select="group"/>
-    </form>
-</xsl:template>
-
-<xsl:template match="dualright">
-    <form method="post" target="_parent" name="rform">
-    <xsl:attribute name="action">
-    <xsl:value-of select="@action"/>
-    </xsl:attribute>
-    <input type="hidden" name="submitted" value="rform"/>
-    <xsl:apply-templates select="group"/>
-    </form>
-</xsl:template>
-
-<xsl:template match="fieldbox">
-    <tr valign="middle">
-    <td>
-    <input type="checkbox" class="checkbox">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@used = 'true')">
-        <xsl:attribute name="checked">
-        </xsl:attribute>
-    </xsl:if>
-    </input>
-    </td>
-    <td nowrap="true">
-    <label>
-    <xsl:attribute name="for">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:value-of select="@label"/>
-    <xsl:text>:</xsl:text>
-    </label>
-    </td>
-    <td>
-    <xsl:apply-templates select="smallbox|editbox|combobox"/>
-    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="fieldcheckbox">
-    <tr valign="middle">
-    <td>
-    <input type="checkbox" class="checkbox">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@used = 'true')">
-        <xsl:attribute name="checked">
-        </xsl:attribute>
-    </xsl:if>
-    </input>
-    </td>
-    <td nowrap="true">
-    <label>
-    <xsl:attribute name="for">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:value-of select="@label"/>
-    <xsl:text>:</xsl:text>
-    </label>
-    </td>
-    <td>
-    <input type="checkbox" class="checkbox">
-    <xsl:attribute name="name">
-    <xsl:text>check_</xsl:text>
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="id">
-    <xsl:text>check_</xsl:text>
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:if test="boolean(@checked = 'true')">
-        <xsl:attribute name="checked">
-        </xsl:attribute>
-    </xsl:if>
-    </input>
-    </td>
-    </tr>
 </xsl:template>
 
 <xsl:template match="button">
     <input class="button">
     <xsl:attribute name="type">
-        <xsl:choose>
-            <xsl:when test="boolean(@default = 'true')">
-                <xsl:text>submit</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:text>button</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
+    <xsl:choose>
+        <xsl:when test="boolean(@default = 'true')">
+            <xsl:text>submit</xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:text>button</xsl:text>
+        </xsl:otherwise>
+    </xsl:choose>
     </xsl:attribute>
     <xsl:if test="boolean(@name)">
         <xsl:attribute name="id">
@@ -971,7 +1062,6 @@
         <xsl:text>if (confirm('</xsl:text>
         <xsl:value-of select="@prompt"/>
         <xsl:text>')) </xsl:text>
-        <xsl:text>{</xsl:text>
     </xsl:if>
     <xsl:choose>
         <xsl:when test="boolean(@url)">
@@ -983,293 +1073,201 @@
             <xsl:value-of select="@action"/>
         </xsl:when>
     </xsl:choose>
-    <xsl:if test="boolean(@prompt)">
-        <xsl:text>}</xsl:text>
-    </xsl:if>
     </xsl:attribute>
-    <xsl:if test="boolean(@disabled = 'true')">
+    <xsl:if test="boolean(@disabled)">
         <xsl:attribute name="disabled">
+        <xsl:text>disabled</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:attribute name="value">
-    <xsl:text> </xsl:text>
     <xsl:value-of select="."/>
-    <xsl:text> </xsl:text>
     </xsl:attribute>
     </input>
 </xsl:template>
 
 <xsl:template match="note">
-    <p>
-    <img src="../images/note.gif" width="16" height="16" alt="Note:"/>
-    <xsl:text disable-output-escaping="yes">%nbsp;</xsl:text>
+    <p class="note">
+    <img class="note" src="../images/note.png" alt="Note:"/>
+    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
     <xsl:value-of select="."/>
     </p>
 </xsl:template>
 
-<xsl:template match="list">
-    <table class="list" id="list" cellpadding="0" cellspacing="0">
-    <xsl:apply-templates select="hrow"/>
-    <xsl:apply-templates select="row"/>
-    </table>
-    <xsl:apply-templates select="bookmarks"/>
+<!-- BBCode -->
+
+<xsl:template match="bbcode_b">
+    <xsl:text>[b]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/b]</xsl:text>
 </xsl:template>
 
-<xsl:template match="hrow">
-    <thead>
-    <tr>
-    <td/>
-    <xsl:apply-templates select="hcell"/>
-    <td/>
-    </tr>
-    </thead>
+<xsl:template match="bbcode_i">
+    <xsl:text>[i]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/i]</xsl:text>
 </xsl:template>
 
-<xsl:template match="hcell">
-    <td nowrap="">
-    <xsl:if test="boolean(@width)">
-        <xsl:attribute name="width">
-        <xsl:value-of select="@width"/>
-        <xsl:text>%</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <a>
-    <xsl:if test="boolean(@url)">
-        <xsl:attribute name="href">
-        <xsl:value-of select="@url"/>
-        </xsl:attribute>
-    </xsl:if>
-    <p class="header">
-    <xsl:attribute name="align">
-    <xsl:value-of select="@align"/>
-    </xsl:attribute>
-    <xsl:value-of select="."/>
-    </p>
-    </a>
-    </td>
+<xsl:template match="bbcode_u">
+    <xsl:text>[u]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/u]</xsl:text>
 </xsl:template>
 
-<xsl:template match="row">
-    <tr valign="top">
-    <xsl:if test="boolean(@url)">
-        <xsl:attribute name="class">
-        <xsl:text>row</xsl:text>
-        </xsl:attribute>
-        <xsl:attribute name="onmouseover">
-        <xsl:text>this.className='hrow'</xsl:text>
-        </xsl:attribute>
-        <xsl:attribute name="onmouseout">
-        <xsl:text>this.className='row'</xsl:text>
-        </xsl:attribute>
-    </xsl:if>
-    <a>
-    <xsl:if test="boolean(@url)">
-        <xsl:attribute name="href">
-        <xsl:value-of select="@url"/>
-        </xsl:attribute>
-    </xsl:if>
-    <td class="left"/>
-    <xsl:apply-templates select="cell"/>
-    <td class="right"/>
-    </a>
-    </tr>
+<xsl:template match="bbcode_s">
+    <xsl:text>[s]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/s]</xsl:text>
 </xsl:template>
 
-<xsl:template match="cell">
-    <td>
-    <xsl:if test="not(boolean(@wrap = 'true'))">
-        <xsl:attribute name="nowrap">
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:if test="boolean(@url)">
-        <a>
-        <xsl:attribute name="href">
-        <xsl:value-of select="@url"/>
-        </xsl:attribute>
-        <p>
-        <xsl:attribute name="align">
-        <xsl:value-of select="@align"/>
-        </xsl:attribute>
-        <xsl:attribute name="class">
-        <xsl:choose>
-            <xsl:when test="boolean(@style = 'hot')">
-                <xsl:text>hot</xsl:text>
-            </xsl:when>
-            <xsl:when test="boolean(@style = 'cold')">
-                <xsl:text>cold</xsl:text>
-            </xsl:when>
-            <xsl:when test="boolean(@style = 'closed')">
-                <xsl:text>closed</xsl:text>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:text>row</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
-        </xsl:attribute>
-        <xsl:choose>
-            <xsl:when test="boolean(@bold = 'true')">
-                <b>
-                <xsl:apply-templates/>
-                </b>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:apply-templates/>
-            </xsl:otherwise>
-        </xsl:choose>
-        </p>
-        </a>
-    </xsl:if>
-    <xsl:if test="not(boolean(@url))">
-        <p class="row">
-        <xsl:attribute name="align">
-        <xsl:value-of select="@align"/>
-        </xsl:attribute>
+<xsl:template match="bbcode_sub">
+    <xsl:text>[sub]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/sub]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_sup">
+    <xsl:text>[sup]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/sup]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_color">
+    <xsl:text>[color=</xsl:text>
+    <xsl:value-of select="@value"/>
+    <xsl:text>]</xsl:text>
+    <xsl:text>[/color]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_size">
+    <xsl:text>[size=</xsl:text>
+    <xsl:value-of select="@value"/>
+    <xsl:text>]</xsl:text>
+    <xsl:text>[/size]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_font">
+    <xsl:text>[font=</xsl:text>
+    <xsl:value-of select="@value"/>
+    <xsl:text>]</xsl:text>
+    <xsl:text>[/font]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_align">
+    <xsl:text>[align=</xsl:text>
+    <xsl:value-of select="@value"/>
+    <xsl:text>]</xsl:text>
+    <xsl:text>[/align]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_h1">
+    <xsl:text>[h1]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/h1]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_h2">
+    <xsl:text>[h2]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/h2]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_h3">
+    <xsl:text>[h3]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/h3]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_h4">
+    <xsl:text>[h4]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/h4]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_h5">
+    <xsl:text>[h5]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/h5]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_h6">
+    <xsl:text>[h6]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/h6]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_list">
+    <xsl:text>[list]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/list]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_ulist">
+    <xsl:text>[ulist]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/ulist]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_li">
+    <xsl:text>[li]</xsl:text>
+    <xsl:apply-templates/>
+    <xsl:text>[/li]</xsl:text>
+</xsl:template>
+
+<xsl:template match="bbcode_url">
+    <xsl:if test="boolean(@value)">
+        <xsl:text>[url=</xsl:text>
+        <xsl:value-of select="@value"/>
+        <xsl:text>]</xsl:text>
         <xsl:apply-templates/>
-        </p>
+        <xsl:text>[/url]</xsl:text>
     </xsl:if>
-    </td>
-</xsl:template>
-
-<xsl:template match="bookmarks">
-    <table class="bookmark" cellpadding="0" cellspacing="0">
-    <tr>
-    <xsl:apply-templates select="bookmark|ibookmark"/>
-    <td class="total">
-    <p class="bookmark">
-    <xsl:value-of select="@total"/>
-    </p>
-    </td>
-    </tr>
-    </table>
-</xsl:template>
-
-<xsl:template match="bookmark">
-    <td>
-    <a>
-    <xsl:attribute name="href">
-    <xsl:value-of select="@url"/>
-    </xsl:attribute>
-    <p class="bookmark">
-    <xsl:value-of select="."/>
-    </p>
-    </a>
-    </td>
-</xsl:template>
-
-<xsl:template match="ibookmark">
-    <td class="bookmark">
-    <a>
-    <xsl:attribute name="href">
-    <xsl:value-of select="@url"/>
-    </xsl:attribute>
-    <p class="bookmark">
-    <xsl:value-of select="."/>
-    </p>
-    </a>
-    </td>
-</xsl:template>
-
-<xsl:template match="record">
-    <a>
-    <xsl:attribute name="href">
-    <xsl:text>view.php?id=</xsl:text>
-    <xsl:value-of select="@id"/>
-    </xsl:attribute>
-    <xsl:value-of select="."/>
-    </a>
-</xsl:template>
-
-<xsl:template match="searchres">
-    <span class="searchres">
-    <xsl:apply-templates/>
-    </span>
-</xsl:template>
-
-<xsl:template match="comment">
-    <tr>
-    <td class="comment" colspan="2">
-    <xsl:if test="boolean(@confidential)">
-    <p class="hot">
-    <xsl:value-of select="@confidential"/>
-    </p>
+    <xsl:if test="not(boolean(@value))">
+        <xsl:text>[url]</xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>[/url]</xsl:text>
     </xsl:if>
+</xsl:template>
+
+<xsl:template match="bbcode_mail">
+    <xsl:if test="boolean(@value)">
+        <xsl:text>[mail=</xsl:text>
+        <xsl:value-of select="@value"/>
+        <xsl:text>]</xsl:text>
+        <xsl:text>[/mail]</xsl:text>
+    </xsl:if>
+    <xsl:if test="not(boolean(@value))">
+        <xsl:text>[mail]</xsl:text>
+        <xsl:value-of select="."/>
+        <xsl:text>[/mail]</xsl:text>
+    </xsl:if>
+</xsl:template>
+
+<xsl:template match="bbcode_code">
     <xsl:apply-templates/>
-    </td>
-    </tr>
 </xsl:template>
 
-<xsl:template match="attachment">
-    <tr>
-    <td>
-    <a class="attachment">
-    <xsl:attribute name="href">
-    <xsl:value-of select="@url"/>
-    </xsl:attribute>
-    <xsl:attribute name="type">
-    <xsl:value-of select="@type"/>
-    </xsl:attribute>
-    <img src="../images/attach.gif" width="16" height="16" border="0"/>
-    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-    <xsl:value-of select="."/>
-    <xsl:text> (</xsl:text>
-    <xsl:value-of select="@size"/>
-    <xsl:text>)</xsl:text>
-    </a>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="image">
-    <tr>
-    <td>
-    <img border="0">
-    <xsl:attribute name="src">
-    <xsl:value-of select="."/>
-    </xsl:attribute>
-    </img>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="hr">
-    <tr>
-    <td colspan="2">
-    <hr/>
-    </td>
-    </tr>
-</xsl:template>
-
-<xsl:template match="nbsp">
-    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
-</xsl:template>
-
-<xsl:template match="br">
-    <br/>
-</xsl:template>
-
-<xsl:template match="url">
-    <a target="_blank">
-    <xsl:attribute name="href">
-    <xsl:value-of select="@address"/>
-    </xsl:attribute>
+<xsl:template match="bbcode_quote">
+    <xsl:text>[quote]</xsl:text>
     <xsl:apply-templates/>
-    </a>
+    <xsl:text>[/quote]</xsl:text>
 </xsl:template>
 
-<xsl:template match="b|i|u|s|sub|sup|h1|h2|h3|h4|h5|h6|ol|ul|li|q">
-    <xsl:copy>
+<xsl:template match="bbcode_search">
     <xsl:apply-templates/>
-    </xsl:copy>
 </xsl:template>
+
+<!-- Text & Format -->
 
 <xsl:template match="div">
     <div>
-    <xsl:attribute name="style">
-    <xsl:value-of select="@style"/>
-    </xsl:attribute>
     <xsl:if test="boolean(@id)">
         <xsl:attribute name="id">
         <xsl:value-of select="@id"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:if test="boolean(@style)">
+        <xsl:attribute name="style">
+        <xsl:value-of select="@style"/>
         </xsl:attribute>
     </xsl:if>
     <xsl:apply-templates/>
@@ -1294,11 +1292,69 @@
 
 <xsl:template match="pre">
     <pre>
-    <xsl:attribute name="style">
-    <xsl:value-of select="@style"/>
-    </xsl:attribute>
+    <xsl:if test="boolean(@class)">
+        <xsl:attribute name="class">
+        <xsl:value-of select="@class"/>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:apply-templates/>
     </pre>
+</xsl:template>
+
+<xsl:template match="blockquote">
+    <blockquote>
+    <xsl:if test="boolean(@class)">
+        <xsl:attribute name="class">
+        <xsl:value-of select="@class"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:apply-templates/>
+    </blockquote>
+</xsl:template>
+
+<xsl:template match="chart">
+    <iframe class="chart">
+    <xsl:attribute name="src">
+    <xsl:value-of select="."/>
+    </xsl:attribute>
+    </iframe>
+</xsl:template>
+
+<xsl:template match="record">
+    <a>
+    <xsl:attribute name="href">
+    <xsl:text>view.php?id=</xsl:text>
+    <xsl:value-of select="@id"/>
+    </xsl:attribute>
+    <xsl:value-of select="."/>
+    </a>
+</xsl:template>
+
+<xsl:template match="url">
+    <a target="_blank">
+    <xsl:attribute name="href">
+    <xsl:value-of select="@address"/>
+    </xsl:attribute>
+    <xsl:apply-templates/>
+    </a>
+</xsl:template>
+
+<xsl:template match="br">
+    <br/>
+</xsl:template>
+
+<xsl:template match="hr">
+    <tr>
+    <td colspan="2">
+    <hr/>
+    </td>
+    </tr>
+</xsl:template>
+
+<xsl:template match="b|i|u|s|sub|sup|h1|h2|h3|h4|h5|h6|ol|ul|li">
+    <xsl:copy>
+    <xsl:apply-templates/>
+    </xsl:copy>
 </xsl:template>
 
 </xsl:stylesheet>

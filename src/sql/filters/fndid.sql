@@ -1,5 +1,6 @@
 select
 
+    filter_id,
     filter_name,
     filter_type,
     filter_flags,

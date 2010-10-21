@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2004-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Utility functions
  *
@@ -8,81 +28,6 @@
  * @package Engine
  */
 
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2004-11-17      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-02      bug-007: Descending sorting of records by ID sorts them wrong.
-//  Artem Rodygin           2005-08-09      new-008: Predefined metrics.
-//  Artem Rodygin           2005-08-22      bug-041: PHP Warning: odbc_exec(): SQL error: The name 'ru0' is not permitted in this context.
-//  Artem Rodygin           2005-08-31      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-07      new-100: 'Date' field type should be implemented.
-//  Artem Rodygin           2005-09-08      new-101: 'Duration' field type should be implemented.
-//  Artem Rodygin           2005-09-12      new-105: Format of date values are being entered should depend on user locale settings.
-//  Artem Rodygin           2005-09-12      bug-104: XML parser failure on some UTF-8 characters.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2005-11-13      bug-177: Multibyte string functions should be used instead of 'eregi' and 'split'.
-//  Artem Rodygin           2006-04-22      new-237: Found text should be marked with red when search is activated.
-//  Artem Rodygin           2006-10-15      new-137: Custom queries.
-//  Artem Rodygin           2006-11-07      new-366: Export to CSV.
-//  Artem Rodygin           2006-12-09      bug-427: MySQL losts backslashes.
-//  Artem Rodygin           2006-12-11      bug-438: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near 'eTraxis'.
-//  Artem Rodygin           2006-12-14      bug-442: Backslash character is doubled in text values.
-//  Artem Rodygin           2006-12-17      bug-454: Backslash character is doubled in text values.
-//  Artem Rodygin           2006-12-28      bug-473: List item integer part must not be greater than 2^31.
-//  Artem Rodygin           2007-03-16      bug-504: [SF1674710] bad character in user's input leads to XML formatter error
-//  Artem Rodygin           2007-03-26      bug-516: Comma is removed in values of text fields.
-//  Artem Rodygin           2007-07-12      new-544: The 'ctype' library should not be used.
-//  Artem Rodygin           2007-09-12      new-576: [SF1788286] Export to CSV
-//  Artem Rodygin           2007-10-08      bug-593: Some valid email addresses are rejected.
-//  Artem Rodygin           2007-11-05      new-571: View should show all records of current filters set.
-//  Artem Rodygin           2008-03-02      new-294: PostgreSQL support.
-//  Artem Rodygin           2008-06-21      new-723: Wrap calls of 'mail' function.
-//  Artem Rodygin           2008-06-30      bug-727: Notifications are not sent via Lotus Domino SMTP server.
-//  Artem Rodygin           2008-09-11      new-716: 'Today' value in date field range.
-//  Artem Rodygin           2008-09-13      bug-744: Dots are lost at the beginning of each line in mail notifications.
-//  Artem Rodygin           2008-09-17      new-743: Include attached files in the notification.
-//  Artem Rodygin           2008-10-14      bug-753: XML failure on some search results.
-//  Artem Rodygin           2008-10-27      bug-695: BBCode // Address between [url] and [/url] is cut when contains a space.
-//  Artem Rodygin           2008-11-08      bug-760: Backslashes are lost in checking PCRE patterns for textual fields.
-//  Artem Rodygin           2009-02-28      bug-794: [SF2643676] Security problem when logout.
-//  Artem Rodygin           2009-03-02      bug-795: [SF2653127] Security problem when logon in konqueror
-//  Artem Rodygin           2009-03-05      bug-789: Custom fields show empty values in a view (PostgreSQL).
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Artem Rodygin           2009-04-13      bug-812: Strange Subject Messages in mail
-//  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
-//  Artem Rodygin           2009-06-21      new-828: [SF2809460] Support for SMTP email
-//  Artem Rodygin           2009-08-29      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
-//  Artem Rodygin           2009-10-13      bug-847: Email notification is broken when it's being sent with attachment.
-//  Sergey Zhdanov          2009-12-02      bug-857: Problem with russian language and filetype.
-//  Artem Rodygin           2009-12-07      bug-864: Cyrillic characters are corrupted in subject of notifications.
-//  Giacomo Giustozzi       2010-01-28      new-902: Transparent gzip compression of attachments
-//  Artem Rodygin           2010-04-20      new-928: Inline state changing.
-//  Artem Rodygin           2010-04-22      bug-931: Attachments compression issues.
-//  Artem Rodygin           2010-04-23      bug-932: Auto-generated e-mail always has 2 identical recipients.
-//  Artem Rodygin           2010-04-29      bug-936: Changing a state doesn't work on PHP 5.1
-//--------------------------------------------------------------------------------------------------
-
 /**#@+
  * Dependency.
  */
@@ -90,17 +35,9 @@ require_once('../engine/debug.php');
 require_once('../engine/smtp.php');
 /**#@-*/
 
-/**
- * JSON module from Zend Framework (standard 'json' extension is used as of PHP 5.2.0).
- */
-if (version_compare(PHP_VERSION, '5.2.0') < 0)
-{
-    require_once('../engine/Zend/Json.php');
-}
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Maximum integer value.
@@ -119,9 +56,9 @@ define('SECS_IN_WEEK', 604800);  // 60 * 60 * 24 * 7
  */
 define('CSV_DELIMITERS', '!#$%&\'()*+,-./:;<=>?@[\]^_`{|}~');
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Unicode (UTF-8) analogue of standard {@link http://www.php.net/strlen strlen} PHP function.
@@ -254,11 +191,17 @@ function ustr_replace ($search, $replace, $subject)
  *
  * @param string $str The UTF-8 encoded string being cut.
  * @param int $maxlen New length of the string (amount of UTF-8 characters).
+ * @param bool $trim Whether to trim string before cutting it.
  * @return string Cut string.
  */
-function ustrcut ($str, $maxlen)
+function ustrcut ($str, $maxlen, $trim = TRUE)
 {
-    return mb_substr(trim($str), 0, $maxlen, 'UTF-8');
+    if ($trim)
+    {
+        $str = trim($str);
+    }
+
+    return mb_strcut($str, 0, $maxlen, 'UTF-8');
 }
 
 /**
@@ -442,26 +385,6 @@ function bool2sql ($value)
 }
 
 /**
- * Parses JSON string and push retrieved values into global $_REQUEST array.
- *
- * @param string $json Input JSON string.
- */
-function json2request ($json)
-{
-    $data = (version_compare(PHP_VERSION, '5.2.0') >= 0)
-          ? json_decode($json, true)
-          : Zend_Json::decode($json);
-
-    foreach ($data as $key => $value)
-    {
-        if (strlen($value) != 0)
-        {
-            $_REQUEST[$key] = $value;
-        }
-    }
-}
-
-/**
  * Returns value of user HTML-form request, if it exists; otherwise returns specified default value.
  *
  * @param string $request Name of user HTML-form request.
@@ -536,10 +459,10 @@ function is_email ($str)
  * @param string $to Email addresses of recipients (comma-separated).
  * @param string $subject Subject of the notification.
  * @param string $message Body of the notification.
- * @param int $attachment_id {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_id ID} of attachment if it should be included in email, NULL otherwise.
- * @param string $attachment_name {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_name Name} of attachment if it should be included in email, NULL otherwise.
- * @param string $attachment_type {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_type MIME type} of attachment if it should be included in email, NULL otherwise.
- * @param int $attachment_size {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_size Size} of attachment if it should be included in email, NULL otherwise.
+ * @param int $attachment_id ID of attachment if it should be included in email, NULL otherwise.
+ * @param string $attachment_name Name of attachment if it should be included in email, NULL otherwise.
+ * @param string $attachment_type MIME type of attachment if it should be included in email, NULL otherwise.
+ * @param int $attachment_size Size of attachment if it should be included in email, NULL otherwise.
  * @return bool TRUE if the mail was successfully accepted for delivery, FALSE otherwise.
  */
 function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NULL, $attachment_name = NULL, $attachment_type = NULL, $attachment_size = NULL)

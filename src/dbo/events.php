@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Events
- *
- * This module provides API to work with events of records.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_events tbl_events} database table.
- *
- * @package DBO
- * @subpackage Events
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,85 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-04-10      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-04      new-002: Email notifications.
-//  Artem Rodygin           2005-07-28      new-012: Records field 'description' should be renamed with 'subject'.
-//  Artem Rodygin           2005-07-28      bug-015: PHP Notice: Undefined variable: to
-//  Artem Rodygin           2005-08-02      new-017: Email notifications filter.
-//  Artem Rodygin           2005-08-13      bug-024: PHP Warning: odbc_exec(): SQL error: Line 1: Incorrect syntax near '2'.
-//  Artem Rodygin           2005-08-13      new-020: Clone the records.
-//  Artem Rodygin           2005-08-16      bug-029: Email notifications are not received by recipients.
-//  Artem Rodygin           2005-08-18      new-030: UI language should be set for each user separately.
-//  Artem Rodygin           2005-08-23      bug-045: When record is being cloned wrong event is recorded.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-06      bug-093: Email notifications are not recieved.
-//  Artem Rodygin           2005-09-13      new-113: When record is being viewed the fields names and values should be aligned by top.
-//  Artem Rodygin           2005-09-13      new-115: Add record ID to the subject of email notifications.
-//  Artem Rodygin           2005-09-13      new-116: Remove user login from the subject of email notifications.
-//  Artem Rodygin           2005-09-14      bug-118: Email notifications are not sent.
-//  Artem Rodygin           2005-09-15      new-119: Record creator should be specified in general information of email notifications.
-//  Artem Rodygin           2005-09-17      new-125: Email notifications advanced filter.
-//  Artem Rodygin           2005-09-18      new-131: Comment text should be present in notification when new comment has been added.
-//  Artem Rodygin           2005-09-19      bug-132: Email notifications are not sent.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-09-27      bug-142: PHP Notice: Use of undefined constant DEFAULT_NOTIFY_FLAG
-//  Artem Rodygin           2005-10-05      bug-146: 'Author' in email notifications is not bold.
-//  Artem Rodygin           2005-10-05      bug-151: User should recieve email notifications in language of his current settings.
-//  Artem Rodygin           2005-10-09      bug-156: Email notifications are not sent.
-//  Artem Rodygin           2005-10-15      new-153: Users should *always* receieve notifications about records which are created by them or assigned on.
-//  Artem Rodygin           2005-10-16      bug-161: False modification event.
-//  Artem Rodygin           2005-10-27      new-169: Append 'add comment' URL to email notifications.
-//  Artem Rodygin           2005-10-27      bug-170: 'New line' characters are missed in email notifications.
-//  Artem Rodygin           2006-01-24      new-203: Email notification functionality (new-002) should be conditionally "compiled".
-//  Artem Rodygin           2006-02-10      new-197: Postpone should have a timer for autoresume.
-//  Artem Rodygin           2006-05-26      new-259: Notifications should be sent to all previous responsibles, not to current one only.
-//  Artem Rodygin           2006-06-19      new-236: Single record subscription.
-//  Artem Rodygin           2006-06-28      new-271: Maximum execution time should be temporary unlimited during sending mail operations.
-//  Artem Rodygin           2006-10-08      bug-331: /src/dbo/events.php: $item is passed by reference without being modified.
-//  Artem Rodygin           2006-11-13      new-368: User should be able to subscribe other persons.
-//  Artem Rodygin           2006-11-15      new-374: Carbon copies in subscriptions.
-//  Artem Rodygin           2006-11-15      bug-385: PHP Warning: in_array(): Wrong datatype for second argument
-//  Artem Rodygin           2006-11-15      bug-387: User receives notifications about his own events.
-//  Artem Rodygin           2006-11-20      new-392: Local users should not be extended with '@eTraxis' when LDAP is disabled.
-//  Artem Rodygin           2006-12-04      bug-417: SQL time is too large when no filters are applied.
-//  Artem Rodygin           2006-12-11      bug-434: Email notifications are malfunctional at UNIX systems.
-//  Artem Rodygin           2007-01-18      bug-488: Obsolete 'add comment' link in notifications.
-//  Artem Rodygin           2007-04-03      new-512: Banner about 'no reply on autogenerated message' for notifications.
-//  Artem Rodygin           2007-06-27      bug-523: Wrong language of "do not reply" banner in email notifications.
-//  Artem Rodygin           2007-06-30      bug-526: Persons, subscribed by others, do not recieve notifications.
-//  Artem Rodygin           2007-07-04      new-533: Links between records.
-//  Artem Rodygin           2007-07-16      new-546: Confidential comments.
-//  Artem Rodygin           2007-07-26      bug-547: Notifications about confidential comments are not sent.
-//  Artem Rodygin           2007-08-06      new-551: Rework dependencies into "parent-child" relations.
-//  Artem Rodygin           2007-11-13      new-622: Rename 'children' into 'subrecords'.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2007-11-29      new-637: Subject of notifications should contain subject of records.
-//  Artem Rodygin           2007-12-06      bug-643: /src/dbo/events.php: The value of variable $rec_id was never used.
-//  Yury Udovichenko        2007-12-25      new-485: Text formating in comments.
-//  Yury Udovichenko        2007-12-28      new-656: BBCode // List of tags, allowed in subject, should be limited.
-//  Artem Rodygin           2008-01-16      bug-665: Notifications // Author permissions are ignored.
-//  Denis Makovkin          2008-02-15      bug-674: [SF1893539] Incorrect charset in "Subject" email notifications
-//  Artem Rodygin           2008-02-27      new-676: [SF1898731] Delete Issues from Workflow
-//  Artem Rodygin           2008-06-21      new-723: Wrap calls of 'mail' function.
-//  Artem Rodygin           2008-06-22      bug-718: Carbon-copies in subscriptions are ignored.
-//  Artem Rodygin           2008-06-30      bug-727: Notifications are not sent via Lotus Domino SMTP server.
-//  Artem Rodygin           2008-07-31      bug-736: Search tags are contained in subject of notification when event is for one of records from the search results list.
-//  Artem Rodygin           2008-09-17      new-743: Include attached files in the notification.
-//  Artem Rodygin           2008-11-11      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2008-11-18      bug-764: PHP Warning: odbc_exec(): SQL error: Line 1: Incorrect syntax near '='.
-//  Artem Rodygin           2009-04-12      bug-815: Empty "event" field in notification about subscription.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-12-05      new-863: Resistance to 'safe mode'.
-//  Artem Rodygin           2010-02-06      bug-914: Change e-mail subject encoding
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Events
+ *
+ * This module provides API to work with events of records.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_events tbl_events} database table.
+ *
+ * @package DBO
+ * @subpackage Events
+ */
 
 /**#@+
  * Dependency.
@@ -113,9 +38,9 @@ require_once('../dbo/accounts.php');
 require_once('../dbo/states.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Event type.
@@ -194,15 +119,15 @@ $notifications_filter = array
     EVENT_CONFIDENTIAL_COMMENT => NOTIFY_COMMENT_ADDED,
 );
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds in database and returns the information about specified event of particular record.
  *
- * @param int $record_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $type {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_type Type of event}.
+ * @param int $record_id Record ID.
+ * @param int $type Type of event.
  * @param int $time {@link http://en.wikipedia.org/wiki/Unix_time Unix timestamp} of event.
  * @return array Array with data if event is found in database, FALSE otherwise.
  */
@@ -225,10 +150,10 @@ function event_find ($record_id, $type, $time)
 /**
  * Creates new event for specified record.
  *
- * @param int $record_id {@link http://www.etraxis.org/docs-schema.php#tbl_records_record_id Record ID}.
- * @param int $type {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_type Type of event}.
+ * @param int $record_id Record ID.
+ * @param int $type Type of event.
  * @param int $time {@link http://en.wikipedia.org/wiki/Unix_time Unix timestamp} of event.
- * @param int $param {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_param Parameter of event}, depends on the event type.
+ * @param int $param Parameter of event, depends on the event type.
  * @return array Array with data of event if it was successfully created, FALSE otherwise.
  */
 function event_create ($record_id, $type, $time, $param = NULL)
@@ -256,7 +181,7 @@ function event_create ($record_id, $type, $time, $param = NULL)
 /**
  * Deletes specified event.
  *
- * @param int $event_id {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_id ID} of event to be deleted.
+ * @param int $event_id ID of event to be deleted.
  * @return int Always {@link NO_ERROR}.
  */
 function event_destroy ($event_id)
@@ -272,9 +197,9 @@ function event_destroy ($event_id)
 /**
  * Generates and returns string of text, describing specified event.
  *
- * @param int $event_id {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_id ID} of event to be described.
- * @param int $event_type {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_type Type of event}.
- * @param int $event_param {@link http://www.etraxis.org/docs-schema.php#tbl_events_event_param Parameter of event}, depends on the event type.
+ * @param int $event_id ID of event to be described.
+ * @param int $event_type Type of event.
+ * @param int $event_param Parameter of event, depends on the event type.
  * @param int $locale ID of language. If omitted, then language of current user, or (when user is not logged in) default language will be used (see {@link LANG_DEFAULT}).
  * @return string Event description, or NULL on failure.
  */
@@ -297,7 +222,7 @@ function get_event_string ($event_id, $event_type, $event_param, $locale = NULL)
 
         case EVENT_RECORD_ASSIGNED:
             $account = account_find($event_param);
-            $res = ustrprocess(get_html_resource(RES_EVENT_RECORD_ASSIGNED_ID, $locale), ustr2html(is_null($locale) ? $account['fullname'] . ' (' . account_get_username($account['username']) . ')' : $account['fullname']));
+            $res = ustrprocess(get_html_resource(RES_EVENT_RECORD_ASSIGNED_ID, $locale), ustr2html(is_null($locale) ? sprintf('%s (%s)', $account['fullname'], account_get_username($account['username'])) : $account['fullname']));
             break;
 
         case EVENT_RECORD_MODIFIED:
@@ -403,11 +328,11 @@ function generate_message ($record, $event, $locale = NULL)
         '</tr>' .
         '<tr valign="top">' .
         '<td><b>' . get_html_resource(RES_AUTHOR_ID, $locale) . ':</b></td>' .
-        '<td>'  . ustr2html($record['author_fullname']) . ' (' . ustr2html(account_get_username($record['author_username'])) . ')</td>' .
+        '<td>'  . ustr2html(sprintf('%s (%s)', $record['author_fullname'], account_get_username($record['author_username']))) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
         '<td><b>' . get_html_resource(RES_RESPONSIBLE_ID, $locale) . ':</b></td>' .
-        '<td>'    . (is_null($record['username']) ? get_html_resource(RES_NONE_ID, $locale) : ustr2html($record['fullname']) . ' (' . ustr2html(account_get_username($record['username'])) . ')') . '</td>' .
+        '<td>'    . (is_null($record['username']) ? get_html_resource(RES_NONE_ID, $locale) : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username'])))) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
         '<td><b>' . get_html_resource(RES_EVENT_ID, $locale) . ':</b></td>' .
@@ -442,10 +367,10 @@ function generate_message ($record, $event, $locale = NULL)
  * Sends mail notification about specified event to all interested parties.
  *
  * @param array $event Array with data of event (e.g. how it's returned by {@link event_find}).
- * @param int $attachment_id {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_id ID} of new attachment if event is about attached file, NULL otherwise.
- * @param string $attachment_name {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_name Name} of new attachment if event is about attached file, NULL otherwise.
- * @param string $attachment_type {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_type MIME type} of new attachment if event is about attached file, NULL otherwise.
- * @param int $attachment_size {@link http://www.etraxis.org/docs-schema.php#tbl_attachments_attachment_size Size} of new attachment if event is about attached file, NULL otherwise.
+ * @param int $attachment_id ID of new attachment if event is about attached file, NULL otherwise.
+ * @param string $attachment_name Name of new attachment if event is about attached file, NULL otherwise.
+ * @param string $attachment_type MIME type of new attachment if event is about attached file, NULL otherwise.
+ * @param int $attachment_size Size of new attachment if event is about attached file, NULL otherwise.
  * @return int Always {@link NO_ERROR}.
  */
 function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $attachment_type = NULL, $attachment_size = NULL)
@@ -590,7 +515,7 @@ function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $at
         }
 
         // Enumerate all subscriptions for this template.
-        $rs = dal_query('subscribes/enum.sql', $record['project_id'], $record['template_id'], $locale);
+        $rs = dal_query('subscriptions/enum.sql', $record['project_id'], $record['template_id'], $locale);
 
         while (($row = $rs->fetch()))
         {
