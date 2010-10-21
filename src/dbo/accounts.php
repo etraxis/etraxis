@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Accounts
- *
- * This module provides API to work with eTraxis accounts.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_accounts tbl_accounts} database table.
- *
- * @package DBO
- * @subpackage Accounts
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,73 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-02-13      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-24      new-009: Records filter.
-//  Artem Rodygin           2005-08-03      new-017: Email notifications filter.
-//  Artem Rodygin           2005-08-15      new-003: Authentication with Active Directory.
-//  Artem Rodygin           2005-08-18      new-030: UI language should be set for each user separately.
-//  Artem Rodygin           2005-08-18      new-035: Customizable list size.
-//  Artem Rodygin           2005-08-22      bug-043: Removable account will not be removed in some cases.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-02      bug-083: Allowed length of usernames and passwords should be increased up to 104 characters.
-//  Artem Rodygin           2005-09-06      new-095: Newly created records should be displayed as unread.
-//  Artem Rodygin           2005-09-06      bug-097: When registered AD user logged in, all the records become read.
-//  Artem Rodygin           2005-09-17      new-125: Email notifications advanced filter.
-//  Artem Rodygin           2005-09-18      new-129: When new account is added, default subscription should be created.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-09-27      bug-142: PHP Notice: Use of undefined constant DEFAULT_NOTIFY_FLAG
-//  Artem Rodygin           2005-10-15      new-153: Users should *always* receieve notifications about records which are created by them or assigned on.
-//  Artem Rodygin           2005-10-22      bug-165: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint.
-//  Artem Rodygin           2005-11-13      bug-177: Multibyte string functions should be used instead of 'eregi' and 'split'.
-//  Artem Rodygin           2006-01-24      new-204: Active Directory Support functionality (new-003) should be conditionally "compiled".
-//  Artem Rodygin           2006-04-09      new-235: Records with new events should be marked as "unread".
-//  Artem Rodygin           2006-05-07      new-251: Traceability logging review.
-//  Artem Rodygin           2006-06-19      new-236: Single record subscription.
-//  Artem Rodygin           2006-06-25      new-222: Email reminders.
-//  Artem Rodygin           2006-07-14      new-206: User password should not be stored in client cookies.
-//  Artem Rodygin           2006-08-07      bug-300: Cannot login with Active Directory credentials.
-//  Artem Rodygin           2006-10-12      new-137: Custom queries.
-//  Artem Rodygin           2006-10-17      new-361: Extended custom queries.
-//  Artem Rodygin           2006-11-05      new-365: Filters sharing.
-//  Artem Rodygin           2006-11-18      bug-389: Motorola LDAP server returns "Insufficient rights" error.
-//  Artem Rodygin           2006-11-20      new-392: Local users should not be extended with '@eTraxis' when LDAP is disabled.
-//  Artem Rodygin           2006-11-20      bug-393: PHP Notice: Undefined variable: is_ldapuser//  Artem Rodygin           2006-11-20      new-377: Custom views.
-//  Artem Rodygin           2006-12-04      new-405: Default filter for new user.
-//  Artem Rodygin           2006-12-06      bug-420: Chosen locale ID is not verified on 'Settings' page.
-//  Artem Rodygin           2006-12-11      bug-440: Local users should not be extended with '@eTraxis' when being modified.
-//  Artem Rodygin           2006-12-15      bug-409: User session expires too quick.
-//  Artem Rodygin           2006-12-17      new-457: Default filter for new user.
-//  Artem Rodygin           2006-12-20      bug-458: PHP Warning: odbc_exec(): SQL error: Incorrect syntax near ''.
-//  Artem Rodygin           2006-12-20      new-460: Authentication token should contain client IP.
-//  Artem Rodygin           2007-05-09      bug-524: Filters, created by default, are not properly set.
-//  Artem Rodygin           2007-07-01      new-539: Existing records must not be marked as read for newly created user.
-//  Artem Rodygin           2007-07-12      new-544: The 'ctype' library should not be used.
-//  Artem Rodygin           2007-07-28      bug-553: Default filter for created records shows all records.
-//  Artem Rodygin           2007-09-11      new-574: Filter should allow to specify several states.
-//  Artem Rodygin           2007-09-12      new-576: [SF1788286] Export to CSV
-//  Artem Rodygin           2007-10-29      new-564: Filters set.
-//  Artem Rodygin           2007-11-07      new-571: View should show all records of current filters set.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Dmitry Gorev            2007-12-10      new-414: Passwords expiration.
-//  Dmitry Gorev            2007-12-18      bug-645: Account is locked for specified amount of seconds, not minutes.
-//  Artem Rodygin           2008-03-14      new-683: Filters should be sharable with groups, not with accounts.
-//  Artem Rodygin           2009-04-13      new-814: Password expiration should be turnable off.
-//  Alexandr Permyakov      2009-05-29      new-821: Remove redundant call of 'ldap_finduser' from 'login_user'.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
-//  Giacomo Giustozzi       2010-01-27      new-896: Export the whole project
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Accounts
+ *
+ * This module provides API to work with eTraxis accounts.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_accounts tbl_accounts} database table.
+ *
+ * @package DBO
+ * @subpackage Accounts
+ */
 
 /**#@+
  * Dependency.
@@ -100,9 +37,9 @@ require_once('../engine/engine.php');
 require_once('../dbo/filters.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Local accounts suffix.
@@ -124,15 +61,15 @@ define('MAX_ACCOUNT_DESCRIPTION', 100);
  */
 define('DEFAULT_NOTIFY_FLAG', 0x0000FFFF);
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Checks whether account with specified locking info is still locked.
  *
- * @param int $locks_count Current value of '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_locks_count locks_count}' DBO field.
- * @param int $lock_time Current value of '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_lock_time lock_time}' DBO field.
+ * @param int $locks_count Current value of 'locks_count' DBO field.
+ * @param int $lock_time Current value of 'lock_time' DBO field.
  * @return bool TRUE if account is locked, FALSE otherwise.
  */
 function is_account_locked ($locks_count, $lock_time)
@@ -145,10 +82,10 @@ function is_account_locked ($locks_count, $lock_time)
 }
 
 /**
- * Increase number of failed attempts to log in ('{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_locks_count locks_count}' DBO field) for specified account.
+ * Increase number of failed attempts to log in ('locks_count' DBO field) for specified account.
  * Account is locked when maximum allowed attempts to login is reached ({@link LOCKS_COUNT}).
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID}.
+ * @param int $id Account ID.
  * @return int Always {@link NO_ERROR}.
  */
 function account_lock ($id)
@@ -162,9 +99,9 @@ function account_lock ($id)
 }
 
 /**
- * Clears number of failed attempts to log in ('{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_locks_count locks_count}' DBO field) for specified account.
+ * Clears number of failed attempts to log in ('locks_count' DBO field) for specified account.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID}.
+ * @param int $id Account ID.
  * @return int Always {@link NO_ERROR}.
  */
 function account_unlock ($id)
@@ -178,12 +115,44 @@ function account_unlock ($id)
 }
 
 /**
- * Looks for {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID} and token,
- * which are stored in client cookies, and checks that token, stored in database for the same user, is equal.
+ * Disables specified account.
+ *
+ * @param int $id Account ID.
+ * @return int Always {@link NO_ERROR}.
+ */
+function account_disable ($id)
+{
+    debug_write_log(DEBUG_TRACE, '[account_disable]');
+    debug_write_log(DEBUG_DUMP,  '[account_disable] $id = ' . $id);
+
+    dal_query('accounts/disable.sql', $id, bool2sql(TRUE));
+
+    return NO_ERROR;
+}
+
+/**
+ * Enables specified account.
+ *
+ * @param int $id Account ID.
+ * @return int Always {@link NO_ERROR}.
+ */
+function account_enable ($id)
+{
+    debug_write_log(DEBUG_TRACE, '[account_enable]');
+    debug_write_log(DEBUG_DUMP,  '[account_enable] $id = ' . $id);
+
+    dal_query('accounts/disable.sql', $id, bool2sql(FALSE));
+
+    return NO_ERROR;
+}
+
+/**
+ * Looks for Account ID and token, which are stored in client cookies,
+ * and checks that token, stored in database for the same user, is equal.
  *
  * See also {@link account_set_token}.
  *
- * @return int {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID} if valid equal token is found in database, 0 otherwise.
+ * @return int Account ID if valid equal token is found in database, 0 otherwise.
  */
 function account_get_token ()
 {
@@ -200,17 +169,16 @@ function account_get_token ()
 }
 
 /**
- * Generates a token for specified {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID},
- * and saves it in the database and client cookies.
+ * Generates a token for specified Account ID, and saves it in the database and client cookies.
  *
- * <i>Token</i> is a special MD5 hash, specific to {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID},
- * client IP address, and time of generation. Tokens are stored in both database ({@link http://www.etraxis.org/docs-schema.php#tbl_accounts_auth_token auth_token}, {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_token_expire token_expire})
- * and client cookies ({@link COOKIE_AUTH_USERID}, {@link COOKIE_AUTH_TOKEN}), and has an expiration specified in {@link SESSION_EXPIRE}.
+ * <i>Token</i> is a special MD5 hash, specific to Account ID, client IP address, and time of generation.
+ * Tokens are stored in both database (auth_token, token_expire) and client cookies ({@link COOKIE_AUTH_USERID},
+ * {@link COOKIE_AUTH_TOKEN}), and has an expiration specified in {@link SESSION_EXPIRE}.
  * When user tries to log in, eTraxis checks for token of this user in database - if it equals to
  * token stored in client cookies and is not expired yet, than user is pretended as already logged in,
  * and eTraxis does not request for user's credentials.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID}.
+ * @param int $id Account ID.
  * @return int Always {@link NO_ERROR}.
  */
 function account_set_token ($id)
@@ -229,9 +197,9 @@ function account_set_token ($id)
 }
 
 /**
- * Finds in database and returns the information about specified {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID}.
+ * Finds in database and returns the information about specified Account ID.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id Account ID}.
+ * @param int $id Account ID.
  * @return array Array with data if account is found in database, FALSE otherwise.
  */
 function account_find ($id)
@@ -245,11 +213,11 @@ function account_find ($id)
 }
 
 /**
- * Finds in database and returns the information about account with specified {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username user name}.
- * To distinguish eTraxis accounts from LDAP ones, user name must be appended with {@link ACCOUNT_SUFFIX} to search among eTraxis accounts
- * (LDAP accounts otherwise).
+ * Finds in database and returns the information about account with specified user name.
+ * To distinguish eTraxis accounts from LDAP ones, user name must be appended with
+ * {@link ACCOUNT_SUFFIX} to search among eTraxis accounts (LDAP accounts otherwise).
  *
- * @param string $username {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username User name} of account.
+ * @param string $username User name of account.
  * @return array Array with data if account is found in database, FALSE otherwise.
  */
 function account_find_username ($username)
@@ -263,12 +231,11 @@ function account_find_username ($username)
 }
 
 /**
- * Removes {@link ACCOUNT_SUFFIX} from specified {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username user name}
- * if it presents and LDAP support is enabled.
+ * Removes {@link ACCOUNT_SUFFIX} from specified user name if it presents and LDAP support is enabled.
  *
- * @param string $username {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username User name}.
+ * @param string $username User name.
  * @param bool $ldap_enabled Whether LDAP support is enabled (current value of {@link LDAP_ENABLED} by default).
- * @return string Clear {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username user name}.
+ * @return string Clear user name.
  */
 function account_get_username ($username, $ldap_enabled = LDAP_ENABLED)
 {
@@ -289,9 +256,9 @@ function account_get_username ($username, $ldap_enabled = LDAP_ENABLED)
  * page from client cookie ({@link COOKIE_ACCOUNTS_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of accounts.
  */
-function account_list (&$sort, &$page)
+function accounts_list (&$sort, &$page)
 {
-    debug_write_log(DEBUG_TRACE, '[account_list]');
+    debug_write_log(DEBUG_TRACE, '[accounts_list]');
 
     $sort_modes = array
     (
@@ -322,11 +289,11 @@ function account_list (&$sort, &$page)
 /**
  * Validates account information before creation or modification.
  *
- * @param string $username {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username User name}.
- * @param string $fullname {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_fullname Full name}.
- * @param string $email {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_email Email address}.
- * @param string $passwd1 {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd First password entry}.
- * @param string $passwd2 {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd Second password entry}.
+ * @param string $username User name.
+ * @param string $fullname Full name.
+ * @param string $email Email address.
+ * @param string $passwd1 First password entry.
+ * @param string $passwd2 Second password entry.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -384,19 +351,19 @@ function account_validate ($username, $fullname, $email, $passwd1, $passwd2)
 /**
  * Creates new account.
  *
- * @param string $username {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username User name}.
- * @param string $fullname {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_fullname Full name}.
- * @param string $email {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_email Email address}.
- * @param string $passwd {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd Password}.
- * @param string $description Optional {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_description description}.
- * @param bool $is_admin Whether new account will have administration privileges (see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_is_admin is_admin}' DBO field).
- * @param bool $is_disabled Whether new account should be created in disabled state (see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_is_disabled is_disabled}' DBO field).
- * @param int $locale UI language (see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_locale locale}' DBO field).
- * @param bool $is_ldapuser Whether new account is LDAP one (FALSE by default, see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_is_ldapuser is_ldapuser}' DBO field).
+ * @param string $username User name.
+ * @param string $fullname Full name.
+ * @param string $email Email address.
+ * @param string $passwd Password.
+ * @param string $description Optional description.
+ * @param bool $is_admin Whether new account will have administration privileges (see 'is_admin' DBO field).
+ * @param bool $is_disabled Whether new account should be created in disabled state (see 'is_disabled' DBO field).
+ * @param int $locale UI language (see 'locale' DBO field).
+ * @param bool $is_ldapuser Whether new account is LDAP one (FALSE by default, see 'is_ldapuser' DBO field).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - account is successfully created</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - account with specified {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username user name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - account with specified user name already exists</li>
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create account</li>
  * </ul>
  */
@@ -505,19 +472,19 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
 /**
  * Modifies specified account.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of account to be modified.
- * @param string $username New {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username user name}.
- * @param string $fullname New {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_fullname full name}.
- * @param string $email New {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_email email address}.
- * @param string $description New {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_description description}.
- * @param bool $is_admin Whether the account should have administration privileges (see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_is_admin is_admin}' DBO field).
- * @param bool $is_disabled Whether the account should be disabled (see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_is_disabled is_disabled}' DBO field).
- * @param int $locks_count New value of '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_locks_count locks_count}' DBO field.
- * @param bool $is_ldapuser Whether the account is LDAP one (FALSE by default, see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_is_ldapuser is_ldapuser}' DBO field).
+ * @param int $id ID of account to be modified.
+ * @param string $username New user name.
+ * @param string $fullname New full name.
+ * @param string $email New email address.
+ * @param string $description New description.
+ * @param bool $is_admin Whether the account should have administration privileges (see 'is_admin' DBO field).
+ * @param bool $is_disabled Whether the account should be disabled (see 'is_disabled' DBO field).
+ * @param int $locks_count New value of 'locks_count' DBO field.
+ * @param bool $is_ldapuser Whether the account is LDAP one (FALSE by default, see 'is_ldapuser' DBO field).
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - account is successfully modified</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - another account with specified {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username user name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - another account with specified user name already exists</li>
  * </ul>
  */
 function account_modify ($id, $username, $fullname, $email, $description, $is_admin, $is_disabled, $locks_count, $is_ldapuser = FALSE)
@@ -531,6 +498,7 @@ function account_modify ($id, $username, $fullname, $email, $description, $is_ad
     debug_write_log(DEBUG_DUMP,  '[account_modify] $is_admin    = ' . $is_admin);
     debug_write_log(DEBUG_DUMP,  '[account_modify] $is_disabled = ' . $is_disabled);
     debug_write_log(DEBUG_DUMP,  '[account_modify] $locks_count = ' . $locks_count);
+    debug_write_log(DEBUG_DUMP,  '[account_modify] $is_ldapuser = ' . $is_ldapuser);
 
     // Check that there is no account with the same user name, besides this one.
     $rs = dal_query('accounts/fndku.sql', $id, ustrtolower($username . ($is_ldapuser ? NULL : ACCOUNT_SUFFIX)));
@@ -564,9 +532,9 @@ function account_modify ($id, $username, $fullname, $email, $description, $is_ad
  * If authorization is failed, NULL is returned, even when user with specified <i>username</i> was successfully found.
  * On success ID of new registered account is returned.
  *
- * @param string $username {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_username User name} for new account.
+ * @param string $username User name for new account.
  * @param string $password Password of user.
- * @return int {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of new account on success, NULL otherwise.
+ * @return int ID of new account on success, NULL otherwise.
  */
 function account_register_ldapuser ($username, $passwd = NULL)
 {
@@ -632,7 +600,7 @@ function account_register_ldapuser ($username, $passwd = NULL)
 /**
  * Checks whether account can be deleted.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of account to be deleted.
+ * @param int $id ID of account to be deleted.
  * @return bool TRUE if account can be deleted, FALSE otherwise.
  */
 function is_account_removable ($id)
@@ -648,7 +616,7 @@ function is_account_removable ($id)
 /**
  * Deletes specified account.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of account to be deleted.
+ * @param int $id ID of account to be deleted.
  * @return int Always {@link NO_ERROR}.
  */
 function account_delete ($id)
@@ -661,12 +629,8 @@ function account_delete ($id)
     dal_query('accounts/rsdelall.sql',  $id);
     dal_query('accounts/sdelall.sql',   $id);
     dal_query('accounts/setview.sql',   $id, NULL);
-    dal_query('accounts/cdelall.sql',   $id);
     dal_query('accounts/vcdelall.sql',  $id);
     dal_query('accounts/vdelall.sql',   $id);
-    dal_query('accounts/setfset.sql',   $id, NULL);
-    dal_query('accounts/fsfdelall.sql', $id);
-    dal_query('accounts/fs2delall.sql', $id);
     dal_query('accounts/ffdelall.sql',  $id);
     dal_query('accounts/ftdelall.sql',  $id);
     dal_query('accounts/fsdelall.sql',  $id);
@@ -683,8 +647,8 @@ function account_delete ($id)
 /**
  * Validates new password which user has entered to change his current one.
  *
- * @param string $passwd1 {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd First password entry}.
- * @param string $passwd2 {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd Second password entry}.
+ * @param string $passwd1 First password entry.
+ * @param string $passwd2 Second password entry.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - entered password is valid</li>
@@ -722,8 +686,8 @@ function password_validate ($passwd1, $passwd2)
 /**
  * Change password of specified user.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of user account.
- * @param string $passwd New {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_passwd password} string.
+ * @param int $id ID of user account.
+ * @param string $passwd New password string.
  * @return int Always {@link NO_ERROR}.
  */
 function password_change ($id, $passwd)
@@ -742,8 +706,8 @@ function password_change ($id, $passwd)
 /**
  * Change UI language for specified user.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of user account.
- * @param int $locale New UI language (see '{@link http://www.etraxis.org/docs-schema.php#tbl_accounts_locale locale}' DBO field).
+ * @param int $id ID of user account.
+ * @param int $locale New UI language (see 'locale' DBO field).
  * @return int Always {@link NO_ERROR}.
  */
 function locale_change ($id, $locale)
@@ -763,53 +727,17 @@ function locale_change ($id, $locale)
 }
 
 /**
- * Set current user's filters set to specified one, or disable all filters if NULL is specified.
- *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of user account.
- * @param int $fset_id {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_id Filters set ID} (NULL by default).
- * @return int Always {@link NO_ERROR}.
- */
-function account_set_fset ($id, $fset_id = NULL)
-{
-    debug_write_log(DEBUG_TRACE, '[account_set_fset]');
-    debug_write_log(DEBUG_DUMP,  '[account_set_fset] $id      = ' . $id);
-    debug_write_log(DEBUG_DUMP,  '[account_set_fset] $fset_id = ' . $fset_id);
-
-    // Change current user's filters set.
-    dal_query('accounts/setfset.sql', $id, is_null($fset_id) ? NULL : $fset_id);
-
-    // Activate all filters of specified filters set and disable all others.
-    if (!is_null($fset_id))
-    {
-        dal_query('filters/clearall.sql', $_SESSION[VAR_USERID]);
-        dal_query('filters/fsset.sql',    $_SESSION[VAR_USERID], $fset_id);
-    }
-
-    return NO_ERROR;
-}
-
-/**
  * Set current user's view to specified one, or restore default view if NULL is specified.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_accounts_account_id ID} of user account.
- * @param int $view_id {@link http://www.etraxis.org/docs-schema.php#tbl_views_view_id View ID} (NULL by default).
+ * @param int $view_id View ID (NULL by default).
  * @return int Always {@link NO_ERROR}.
  */
-function account_set_view ($id, $view_id = NULL)
+function account_set_view ($view_id = NULL)
 {
     debug_write_log(DEBUG_TRACE, '[account_set_view]');
-    debug_write_log(DEBUG_DUMP,  '[account_set_view] $id      = ' . $id);
     debug_write_log(DEBUG_DUMP,  '[account_set_view] $view_id = ' . $view_id);
 
-    // Change current user's view.
-    dal_query('accounts/setview.sql', $id, is_null($view_id) ? NULL : $view_id);
-
-    // Add all columns of specified view and remove all others.
-    if (!is_null($view_id))
-    {
-        dal_query('columns/cdelall.sql', $_SESSION[VAR_USERID]);
-        dal_query('columns/ccreate.sql', $_SESSION[VAR_USERID], $view_id);
-    }
+    dal_query('accounts/setview.sql', $_SESSION[VAR_USERID], is_null($view_id) ? NULL : $view_id);
 
     return NO_ERROR;
 }
@@ -817,7 +745,7 @@ function account_set_view ($id, $view_id = NULL)
 /**
  * Exports accounts of specified group IDs to XML code (see also {@link template_import}).
  *
- * @param array Array with {@link http://www.etraxis.org/docs-schema.php#tbl_groups_group_id Group IDs}
+ * @param array Array with Group IDs.
  * @return string Generated XML code for accounts found.
  */
 function accounts_export ($groups)

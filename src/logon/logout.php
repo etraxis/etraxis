@@ -1,26 +1,29 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2009  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * @package eTraxis
  * @ignore
  */
-
-//--------------------------------------------------------------------------------------------------
-//  Copyright (C) 2005-2009 by Artem Rodygin
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-01-08      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2006-12-27      new-472: User must have ability to log out.
-//  Daniel Jungbluth        2007-09-04      bug-575: Login and Logout
-//  Artem Rodygin           2007-11-30      bug-632: HTTP Authentication problem running as CGI
-//  Artem Rodygin           2007-12-27      new-659: Set default language
-//  Artem Rodygin           2007-12-30      bug-660: [SF1860788] PHP4 html_entity_decode() is not working
-//  Artem Rodygin           2008-03-27      bug-688: Short PHP tags should not be used.
-//  Artem Rodygin           2008-10-29      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-02-28      bug-794: [SF2643676] Security problem when logout.
-//  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
-//--------------------------------------------------------------------------------------------------
 
 /**#@+
  * Dependency.

@@ -2,32 +2,31 @@
 
 <xsl:output method="text" version="1.0" encoding="UTF-8"/>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="database">
 
-<xsl:text>/*------------------------------------------------------------------------------------------------*/
-/*                                                                                                */
-/*  eTraxis - Records tracking web-based system.                                                  */
-/*  Copyright (C) 2004-2010 by Artem Rodygin                                                      */
-/*                                                                                                */
-/*  This program is free software; you can redistribute it and/or modify                          */
-/*  it under the terms of the GNU General Public License as published by                          */
-/*  the Free Software Foundation; either version 2 of the License, or                             */
-/*  (at your option) any later version.                                                           */
-/*                                                                                                */
-/*  This program is distributed in the hope that it will be useful,                               */
-/*  but WITHOUT ANY WARRANTY; without even the implied warranty of                                */
-/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 */
-/*  GNU General Public License for more details.                                                  */
-/*                                                                                                */
-/*  You should have received a copy of the GNU General Public License along                       */
-/*  with this program; if not, write to the Free Software Foundation, Inc.,                       */
-/*  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.                                   */
-/*                                                                                                */
-/*------------------------------------------------------------------------------------------------*/
-/*  Server type: Oracle 9i                                                                        */
-/*------------------------------------------------------------------------------------------------*/
+<xsl:text>/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*  eTraxis - Records tracking web-based system                               */
+/*  Copyright (C) 2005-2010  Artem Rodygin                                    */
+/*                                                                            */
+/*  This program is free software: you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation, either version 3 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.     */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+/*  Server type: Oracle 9i                                                    */
+/*----------------------------------------------------------------------------*/
 
 connect etraxis/password@database;
 </xsl:text>
@@ -84,7 +83,7 @@ values
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="table">
 
@@ -132,7 +131,7 @@ end;
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="column">
 
@@ -221,7 +220,7 @@ end;
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="primary">
 
@@ -249,7 +248,7 @@ alter table </xsl:text>
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="unique">
 
@@ -277,7 +276,7 @@ alter table </xsl:text>
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="foreign">
 
@@ -312,7 +311,7 @@ references </xsl:text>
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 <xsl:template match="index">
 
@@ -335,6 +334,6 @@ create index </xsl:text>
 
 </xsl:template>
 
-<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
 </xsl:stylesheet>

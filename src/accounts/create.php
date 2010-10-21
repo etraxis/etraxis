@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,25 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-02-13      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-08-18      new-030: UI language should be set for each user separately.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-16      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-07-27      new-261: UI design should be adopted to slow connection.
-//  Artem Rodygin           2006-10-08      bug-327: /src/accounts/create.php: Global variable $locale_info was used before it was defined.
-//  Artem Rodygin           2008-11-09      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -49,12 +34,16 @@ require_once('../dbo/accounts.php');
 
 init_page();
 
+$error = NO_ERROR;
+
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
     header('Location: index.php');
     exit;
 }
+
+// new account has been submitted
 
 if (try_request('submitted') == 'mainform')
 {
@@ -93,30 +82,6 @@ if (try_request('submitted') == 'mainform')
             exit;
         }
     }
-
-    switch ($error)
-    {
-        case ERROR_INCOMPLETE_FORM:
-            $alert = get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
-            break;
-        case ERROR_INVALID_USERNAME:
-            $alert = get_js_resource(RES_ALERT_INVALID_USERNAME_ID);
-            break;
-        case ERROR_ALREADY_EXISTS:
-            $alert = get_js_resource(RES_ALERT_ACCOUNT_ALREADY_EXISTS_ID);
-            break;
-        case ERROR_INVALID_EMAIL:
-            $alert = get_js_resource(RES_ALERT_INVALID_EMAIL_ID);
-            break;
-        case ERROR_PASSWORDS_DO_NOT_MATCH:
-            $alert = get_js_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID);
-            break;
-        case ERROR_PASSWORD_TOO_SHORT:
-            $alert = ustrprocess(get_js_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH);
-            break;
-        default:
-            $alert = NULL;
-    }
 }
 else
 {
@@ -131,44 +96,108 @@ else
     $is_disabled = FALSE;
 }
 
-$xml = '<page' . gen_xml_page_header(get_html_resource(RES_NEW_ACCOUNT_ID), isset($alert) ? $alert : NULL, 'mainform.username') . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . '<pathitem url="index.php">'  . get_html_resource(RES_ACCOUNTS_ID)    . '</pathitem>'
-     . '<pathitem url="create.php">' . get_html_resource(RES_NEW_ACCOUNT_ID) . '</pathitem>'
-     . '</path>'
+// generate page
+
+$xml = '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_ACCOUNTS_ID) . '</breadcrumb>'
+     . '</breadcrumbs>'
+     . '<tabs>'
+     . '<tab url="index.php">'                . get_html_resource(RES_ACCOUNTS_ID) . '</tab>'
+     . '<tab url="create.php" active="true">' . get_html_resource(RES_CREATE_ID)   . '</tab>'
      . '<content>'
      . '<form name="mainform" action="create.php">'
      . '<group title="' . get_html_resource(RES_ACCOUNT_INFO_ID) . '">'
-     . '<editbox label="' . get_html_resource(RES_USERNAME_ID)         . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="username"    size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ACCOUNT_USERNAME    . '">' . ustr2html($username)    . '</editbox>'
-     . '<editbox label="' . get_html_resource(RES_FULLNAME_ID)         . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="fullname"    size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ACCOUNT_FULLNAME    . '">' . ustr2html($fullname)    . '</editbox>'
-     . '<editbox label="' . get_html_resource(RES_EMAIL_ID)            . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="email"       size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ACCOUNT_EMAIL       . '">' . ustr2html($email)       . '</editbox>'
-     . '<editbox label="' . get_html_resource(RES_DESCRIPTION_ID)      . '"                                                        name="description" size="' . HTML_EDITBOX_SIZE_LONG   . '" maxlen="' . MAX_ACCOUNT_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
-     . '<passbox label="' . get_html_resource(RES_PASSWORD_ID)         . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="passwd1"     size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ACCOUNT_PASSWORD    . '"/>'
-     . '<passbox label="' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="passwd2"     size="' . HTML_EDITBOX_SIZE_MEDIUM . '" maxlen="' . MAX_ACCOUNT_PASSWORD    . '"/>'
-     . '<combobox label="' . get_html_resource(RES_LANGUAGE_ID) . '" name="locale">';
+     . '<control name="username" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+     . '<label>' . get_html_resource(RES_USERNAME_ID) . '</label>'
+     . '<editbox maxlen="' . MAX_ACCOUNT_USERNAME . '">' . ustr2html($username) . '</editbox>'
+     . '</control>'
+     . '<control name="fullname" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+     . '<label>' . get_html_resource(RES_FULLNAME_ID) . '</label>'
+     . '<editbox maxlen="' . MAX_ACCOUNT_FULLNAME . '">' . ustr2html($fullname) . '</editbox>'
+     . '</control>'
+     . '<control name="email" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+     . '<label>' . get_html_resource(RES_EMAIL_ID) . '</label>'
+     . '<editbox maxlen="' . MAX_ACCOUNT_EMAIL . '">' . ustr2html($email) . '</editbox>'
+     . '</control>'
+     . '<control name="description">'
+     . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+     . '<editbox maxlen="' . MAX_ACCOUNT_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
+     . '</control>'
+     . '<control name="passwd1" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+     . '<label>' . get_html_resource(RES_PASSWORD_ID) . '</label>'
+     . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
+     . '</control>'
+     . '<control name="passwd2" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+     . '<label>' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '</label>'
+     . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
+     . '</control>'
+     . '<control name="locale" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+     . '<label>' . get_html_resource(RES_LANGUAGE_ID) . '</label>'
+     . '<combobox>';
 
 $supported_locales = get_supported_locales_sorted();
 
 foreach ($supported_locales as $locale_id => $locale_name)
 {
-    $xml .= '<listitem value="' . $locale_id . ($locale == $locale_id ? '" selected="true">' : '">')
+    $xml .= ($locale == $locale_id
+                ? '<listitem value="' . $locale_id . '" selected="true">'
+                : '<listitem value="' . $locale_id . '">')
           . $locale_name
           . '</listitem>';
 }
 
 $xml .= '</combobox>'
-      . '<checkbox name="is_admin"'    . ($is_admin    ? ' checked="true">' : '>') . get_html_resource(RES_ADMINISTRATOR_ID) . '</checkbox>'
-      . '<checkbox name="is_disabled"' . ($is_disabled ? ' checked="true">' : '>') . get_html_resource(RES_DISABLED_ID)      . '</checkbox>'
+      . '</control>'
+      . '<control name="is_admin">'
+      . '<label/>'
+      . ($is_admin
+            ? '<checkbox checked="true">'
+            : '<checkbox>')
+      . get_html_resource(RES_ADMINISTRATOR_ID)
+      . '</checkbox>'
+      . '</control>'
+      . '<control name="is_disabled">'
+      . '<label/>'
+      . ($is_disabled
+            ? '<checkbox checked="true">'
+            : '<checkbox>')
+      . get_html_resource(RES_DISABLED_ID)
+      . '</checkbox>'
+      . '</control>'
       . '</group>'
-      . '<button default="true">'  . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="index.php">' . get_html_resource(RES_CANCEL_ID) . '</button>'
+      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID)                                   . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '</note>'
-      . '</form>'
-      . '</content>'
-      . '</page>';
+      . '</form>';
 
-echo(xml2html($xml));
+// if some error was specified to display, force an alert
+
+switch ($error)
+{
+    case ERROR_INCOMPLETE_FORM:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '");</script>';
+        break;
+    case ERROR_INVALID_USERNAME:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_USERNAME_ID) . '");</script>';
+        break;
+    case ERROR_ALREADY_EXISTS:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_ACCOUNT_ALREADY_EXISTS_ID) . '");</script>';
+        break;
+    case ERROR_INVALID_EMAIL:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_EMAIL_ID) . '");</script>';
+        break;
+    case ERROR_PASSWORDS_DO_NOT_MATCH:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . '");</script>';
+        break;
+    case ERROR_PASSWORD_TOO_SHORT:
+        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '");</script>';
+        break;
+    default: ;  // nop
+}
+
+$xml .= '</content>'
+      . '</tabs>';
+
+echo(xml2html($xml, get_html_resource(RES_NEW_ACCOUNT_ID)));
 
 ?>

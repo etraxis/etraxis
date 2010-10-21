@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2009  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Charts
  *
@@ -9,48 +29,6 @@
  * @subpackage Charts
  */
 
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-08-10      new-008: Predefined metrics.
-//  Artem Rodygin           2005-08-23      bug-052: PHP Warning: Division by zero
-//  Artem Rodygin           2005-08-28      bug-033: Titles in metrics charts are not readable when Russian is set.
-//  Artem Rodygin           2005-08-29      new-065: Minimum chart size.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-04      bug-077: Zero metrics are generated if project is just created but already contains some records.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2005-10-05      bug-152: Right markers of metrics charts are shifted down.
-//  Artem Rodygin           2006-03-20      bug-220: Metrics charts are out of borders.
-//  Artem Rodygin           2006-10-08      bug-337: /src/engine/charts.php: $item is passed by reference without being modified.
-//  Artem Rodygin           2006-10-08      bug-339: /src/engine/charts.php: Use of deprecated call-time pass-by-reference.
-//  Artem Rodygin           2006-10-17      bug-362: Metrics chart tags are overlapped.
-//  Artem Rodygin           2006-11-04      new-369: Charts: incision should not be present when marker text is absent.
-//  Artem Rodygin           2007-07-14      new-545: Chart legend is required.
-//  Artem Rodygin           2007-12-25      bug-653: Chart legend shows no color.
-//  Artem Rodygin           2008-12-19      bug-779: Chart displays "1.2E+6" instead of "1200000".
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//--------------------------------------------------------------------------------------------------
-
 /**#@+
  * Dependency.
  */
@@ -58,9 +36,9 @@ require_once('../engine/debug.php');
 require_once('../engine/locale.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Minimum chart size.
@@ -224,9 +202,9 @@ define('COLOR_YELLOW',                  0xFFFF00);
 define('COLOR_YELLOW_GREEN',            0x9ACD32);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds length of the longest string in sepcified array.
@@ -282,9 +260,9 @@ function loadfont ($fontsize)
     }
 }
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Classes.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * For internal use only.
@@ -422,7 +400,7 @@ class CAxis
     function CAxis ($title = NULL)
     {
         $this->title          = $title;
-        $this->title_font     = loadfont(FONT_SIZE_MEDIUM);
+        $this->title_font     = loadfont(FONT_SIZE_SMALL);
         $this->title_margin   = new CMargin(5, 5, 5, 5);
         $this->title_width    = 0;
         $this->title_height   = 0;
@@ -641,7 +619,7 @@ class CChart
         $this->image         = NULL;
         $this->margin        = new CMargin(10, 10, 10, 10);
         $this->title         = $title;
-        $this->title_font    = loadfont(FONT_SIZE_GIANT);
+        $this->title_font    = loadfont(FONT_SIZE_MEDIUM);
         $this->title_margin  = new CMargin(10, 10, 10, 10);
         $this->title_width   = 0;
         $this->title_height  = 0;

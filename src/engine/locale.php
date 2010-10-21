@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2004-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Localization
  *
@@ -8,69 +28,6 @@
  * @package Engine
  * @subpackage Localization
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2004-11-17      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-08-18      new-030: UI language should be set for each user separately.
-//  Artem Rodygin           2005-08-28      bug-033: Titles in metrics charts are not readable when Russian is set.
-//  Artem Rodygin           2005-08-31      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-12      new-105: Format of date values are being entered should depend on user locale settings.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2005-11-13      bug-177: Multibyte string functions should be used instead of 'eregi' and 'split'.
-//  Artem Rodygin           2006-01-22      new-202: Add debug logging to 'locale' module.
-//  Artem Rodygin           2006-05-07      bug-250: PHP Notice: iconv(): Detected illegal character in input string
-//  Artem Rodygin           2006-05-16      new-258: Latvian localization.
-//  Artem Rodygin           2006-05-18      bug-260: PHP Warning: date(): Windows does not support dates prior to midnight (00:00:00), January 1, 1970
-//  Artem Rodygin           2006-07-22      bug-266: Project metrics charts contain wrong titles when Latvian language is in use.
-//  Artem Rodygin           2006-08-03      bug-298: PHP Notice: iconv(): Detected illegal character in input string
-//  Artem Rodygin           2006-10-08      bug-341: /src/engine/locale.php: Variable $regs was used before it was defined.
-//  Artem Rodygin           2006-10-08      bug-342: /src/engine/locale.php: Global variables $resource_* were used before they were defined.
-//  Artem Rodygin           2006-11-06      new-371: ISO-8859-1 should be used for English.
-//  Artem Rodygin           2006-11-06      bug-373: Latin7 font should be used in charts for Latvian.
-//  Artem Rodygin           2006-11-06      new-372: KOI8-R should be used for Russian.
-//  Artem Rodygin           2006-12-04      bug-415: Filter doesn't show all the records which are in specified range of some state dates.
-//  Artem Rodygin           2007-09-09      new-577: German localization.
-//  Normando Hall           2007-12-26      new-658: Spanish localization.
-//  Artem Rodygin           2007-12-27      new-659: Set default language
-//  Artem Rodygin           2008-03-31      new-691: Localization module is optimized to avoid prompts duplication.
-//  Gregory Van der Steen   2008-04-03      new-693: Dutch localization.
-//  Febrina H. Ariendhita   2008-04-07      new-685: Indonesian localization.
-//  Muhammet Kara           2008-04-11      new-692: Turkish localization.
-//  Artem Rodygin           2008-04-12      bug-702: Apostrophe in metrics chart title is displayed as sequence of "&#039;".
-//  Philippe Infarnet       2008-04-29      new-689: French localization.
-//  Artem Rodygin           2008-05-01      new-717: Add date format for Canada and Australia.
-//  Yasen Vasilev           2008-06-23      new-722: Bulgarian localization.
-//  Rodrigo Brayner         2008-07-28      new-737: Brazilian Portuguese localization.
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Masayoshi Ootsuka       2009-10-19      new-850: Japanese localization.
-//  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
-//  Dan Stoenescu           2010-02-05      new-910: Romanian localization.
-//  Giacomo Giustozzi       2010-02-04      bug-909: Languages in settings page are not sorted
-//  Vit Popelka             2010-07-14      new-948: Czech localization.
-//  Radosław Wójtowicz      2010-08-06      new-953: Polish localization.
-//  Artem Rodygin           2010-08-08      bug-954: Latin2 GD font is missing.
-//--------------------------------------------------------------------------------------------------
 
 /**#@+
  * Dependency.
@@ -102,9 +59,9 @@ require_once('../engine/res/turkish.php');
 require_once('../engine/res/indonesian.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Supported language ID.
@@ -349,7 +306,7 @@ $locale_info = array
     LANG_PORTUGUESE => array
     (
         LOCALE_RES_TABLE   => $resource_portuguese,
-        LOCALE_SUFFIX      => NULL,
+        LOCALE_SUFFIX      => 'Brasil',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -386,8 +343,8 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_russian,
         LOCALE_SUFFIX      => NULL,
-        LOCALE_ENCODING    => 'KOI8-R',
-        LOCALE_PATH2FONTS  => 'koi8r',
+        LOCALE_ENCODING    => 'Windows-1251',
+        LOCALE_PATH2FONTS  => 'win1251',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -434,8 +391,8 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_romanian,
         LOCALE_SUFFIX      => NULL,
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_ENCODING    => 'ISO-8859-2',
+        LOCALE_PATH2FONTS  => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -483,9 +440,9 @@ $locale_info = array
  */
 define('VAR_LOCALE', 'eTraxis_Locale');
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Returns requested prompt.

@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2004-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Database Abstraction Layer
  *
@@ -8,56 +28,6 @@
  * @package Engine
  * @subpackage DAL
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2004-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2004-11-17      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-31      new-006: Records search.
-//  Artem Rodygin           2005-08-22      bug-041: PHP Warning: odbc_exec(): SQL error: The name 'ru0' is not permitted in this context.
-//  Artem Rodygin           2005-08-29      new-068: System settings in 'config.php' should be accessable through web-interface.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-22      new-141: Source code review.
-//  Artem Rodygin           2006-03-20      new-219: Dump of query should be moved to top of 'dal_execute' function.
-//  Artem Rodygin           2006-05-12      bug-172: Extra long comments are cut when submitted.
-//  Artem Rodygin           2006-05-14      bug-256: UTF-8 values are cut in MySQL database.
-//  Artem Rodygin           2006-05-16      new-005: Oracle support.
-//  Artem Rodygin           2006-05-26      bug-252: Sablotron fails if record contains non-ASCII characters and MSSQL connection is used.
-//  Artem Rodygin           2006-05-30      bug-264: PHP Warning: dbx_error: not supported in this module
-//  Artem Rodygin           2006-06-01      bug-265: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00904: "R"."RECORD_ID": invalid identifier
-//  Artem Rodygin           2007-02-03      bug-493: [SF1650590] doesn't work with Oracle XE (10g)
-//  Artem Rodygin           2007-07-01      bug-537: PHP Fatal error: Allowed memory size of 134217728 bytes exhausted (tried to allocate 16 bytes)
-//  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-02-26      bug-679: "User is not authorized" is permanently shown with Oracle.
-//  Artem Rodygin           2008-02-28      new-294: PostgreSQL support.
-//  Artem Rodygin           2008-04-24      new-708: [SF1950362] UNIX socket for PostgreSQL
-//  Artem Rodygin           2008-04-24      bug-709: [SF1950363] PostgreSQL connection string has unprintable chars
-//  Artem Rodygin           2009-03-11      bug-799: eTraxis doesn't work with XAMPP on Windows.
-//  Artem Rodygin           2009-06-01      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-08-17      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2009-09-06      new-827: Microsoft SQL Server 2005/2008 support.
-//  Artem Rodygin           2010-01-08      bug-889: PHP Notice: Undefined index: code/message
-//--------------------------------------------------------------------------------------------------
 
 /**#@+
  * Dependency.
@@ -84,9 +54,9 @@ $res_driver = array
     DRIVER_PGSQL80 => RES_POSTGRESQL_ID,
 );
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  DAL recordset.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Database connection, implemented via Singleton pattern.
@@ -518,9 +488,9 @@ class CRecordset
     }
 }
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Executes specified SQL-file from "sql" eTraxis directory.

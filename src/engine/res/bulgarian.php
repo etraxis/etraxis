@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2008-2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Localization
  *
@@ -10,41 +30,6 @@
  * @subpackage Localization
  * @author Yasen Vasilev
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2008-2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Yasen Vasilev           2008-06-23      new-722: Bulgarian localization.
-//  Yasen Vasilev           2008-08-06      new-729: [SF2008579] Mark all records as read
-//  Yasen Vasilev           2008-11-12      new-749: Guest access for unauthorized users.
-//  Yasen Vasilev           2009-01-09      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-04-12      bug-806: German translation causes two ambiguous "zuruck" buttons.
-//  Artem Rodygin           2009-04-26      new-817: Field permissions dialog refactoring.
-//  Artem Rodygin           2009-04-26      new-818: Change buttons layout on viewing record page.
-//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
-//  Artem Rodygin           2009-10-12      new-837: Replace "Groups" with "Global groups" in main menu.
-//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//--------------------------------------------------------------------------------------------------
 
 $resource_bulgarian = array
 (
@@ -300,7 +285,7 @@ $resource_bulgarian = array
     'Тема',
     'Търси',
     'Търси параметри',
-    'Търси резултати (филтрирани)',
+    'Търси резултати',
     'Текст за търсене',
     'търси в полетата',
     /* 1160 */
@@ -515,6 +500,7 @@ $resource_bulgarian = array
     /* 1350 */
     'Компресия',
     'П/У',
+    'Коментари',
 );
 
 ?>

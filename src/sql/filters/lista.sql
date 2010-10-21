@@ -7,6 +7,7 @@ select
     f.filter_param,
     NULL as username,
     NULL as fullname,
+    1    as active,
     0    as shared
 
 from
@@ -31,6 +32,7 @@ select distinct
     f.filter_param,
     a.username,
     a.fullname,
+    1 as active,
     1 as shared
 
 from
@@ -51,9 +53,4 @@ where
     fa.account_id = %1            and
     f.account_id  <> %1
 
-order by
-
-    shared,
-    fullname,
-    username,
-    filter_name
+order by %2

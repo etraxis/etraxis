@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2006-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,127 +15,158 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-09-17      new-125: Email notifications advanced filter.
-//  Artem Rodygin           2005-09-18      bug-130: Subscriptions should not be accessible when Email Notifications functionality is disabled.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-10-22      new-150: User should have ability to modify his subscriptions.
-//  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-04-01      new-233: Email subscriptions functionality (new-125) should be conditionally "compiled".
-//  Artem Rodygin           2006-07-12      bug-292: Sablotron fails if page contains '&' character.
-//  Artem Rodygin           2006-11-15      bug-384: The 'Modify' button of subscriptions list does not work.
-//  Artem Rodygin           2006-12-20      new-459: 'Filters' and 'Subscriptions' pages should contain ability to clear current selection.
-//  Artem Rodygin           2006-12-30      new-475: Turning subscriptions on and off is not clear.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2010-01-26      bug-894: Some pages don't work in Google Chrome.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/subscribes.php');
+require_once('../dbo/accounts.php');
+require_once('../dbo/records.php');
 /**#@-*/
 
 init_page();
 
+$id = ustr2int(try_request('id'));
+
 if (!EMAIL_NOTIFICATIONS_ENABLED)
 {
     debug_write_log(DEBUG_NOTICE, 'Email Notifications functionality is disabled.');
+    header('Location: view.php?id=' . $id);
+    exit;
+}
+
+// check that requested record exists
+
+$record = record_find($id);
+
+if (!$record)
+{
+    debug_write_log(DEBUG_NOTICE, 'Record cannot be found.');
     header('Location: index.php');
     exit;
 }
 
-if (try_request('submitted') == 'lform')
+// subscribe selected accounts
+
+if (try_request('submitted') == 'subscribeform')
 {
-    debug_write_log(DEBUG_NOTICE, 'Data are submitted (enabling subscriptions).');
+    debug_write_log(DEBUG_NOTICE, 'Data are submitted (subscribe selected).');
 
-    if (isset($_REQUEST['subscribes']))
+    if (isset($_REQUEST['nsubscribed']))
     {
-        subscribes_set($_REQUEST['subscribes']);
+        foreach ($_REQUEST['nsubscribed'] as $item)
+        {
+            record_subscribe($id, $item, $_SESSION[VAR_USERID]);
+        }
     }
-
-    header('Location: subscribe.php');
-    exit;
+    else
+    {
+        debug_write_log(DEBUG_NOTICE, 'No accounts are selected.');
+    }
 }
-elseif (try_request('submitted') == 'rform')
+
+// unsubscribe selected accounts
+
+elseif (try_request('submitted') == 'unsubscribeform')
 {
-    debug_write_log(DEBUG_NOTICE, 'Data are submitted (disabling subscriptions).');
+    debug_write_log(DEBUG_NOTICE, 'Data are submitted (unsubscribe selected).');
 
-    if (isset($_REQUEST['subscribes']))
+    if (isset($_REQUEST['subscribed']))
     {
-        subscribes_clear($_REQUEST['subscribes']);
+        foreach ($_REQUEST['subscribed'] as $item)
+        {
+            record_unsubscribe($id, $item, $_SESSION[VAR_USERID]);
+        }
     }
-
-    header('Location: subscribe.php');
-    exit;
+    else
+    {
+        debug_write_log(DEBUG_NOTICE, 'No accounts are selected.');
+    }
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
 
-$xml = '<page' . gen_xml_page_header(get_html_resource(RES_SUBSCRIPTIONS_ID)) . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . gen_xml_rec_root()
-     . '<pathitem url="subscribe.php">' . get_html_resource(RES_SUBSCRIPTIONS_ID) . '</pathitem>'
-     . '</path>'
+// generate breadcrumbs
+
+$xml = '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
+     . '<breadcrumb url="view.php?id=' . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</breadcrumb>'
+     . '<breadcrumb url="subscribe.php?id=' . $id . '">' . get_html_resource(RES_SUBSCRIBE_ID) . '</breadcrumb>'
+     . '</breadcrumbs>'
      . '<content>'
-     . '<dualbox>'
-     . '<dualleft action="subscribe.php">'
-     . '<group title="' . get_html_resource(RES_DISABLED2_ID) . '">'
-     . '<listbox dualbox="true" name="subscribes[]" size="' . HTML_LISTBOX_SIZE . '" multiple="true">';
+     . '<dual>';
 
-$list = subscribes_list($_SESSION[VAR_USERID]);
+// generate left side
 
-while (($item = $list->fetch()))
+$xml .= '<dualleft>'
+      . '<form name="subscribeform" action="subscribe.php?id=' . $id . '">'
+      . '<group title="' . get_html_resource(RES_MEMBERS_ID) . '">'
+      . '<control name="nsubscribed[]">'
+      . '<listbox size="10">';
+
+$rs = dal_query('records/nsubscribed.sql', $id, $_SESSION[VAR_USERID]);
+
+while (($row = $rs->fetch()))
 {
-    if (!$item['is_activated'])
+    if ($row['account_id'] != $_SESSION[VAR_USERID])
     {
-        $xml .= '<listitem value="' . $item['subscribe_id'] . '">' . ustr2html($item['subscribe_name']) . '</listitem>';
+        $xml .= '<listitem value="' . $row['account_id'] . '">'
+              . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username'])))
+              . '</listitem>';
     }
 }
 
 $xml .= '</listbox>'
-      . '<button action="window.open(\'smodify.php?id=\'+getElementsByName(\'subscribes[]\')[0].value,\'_parent\');">' . get_html_resource(RES_MODIFY_ID) . '</button>'
-      . '<button action="lform.action=\'sdelete.php\';lform.submit();" prompt="' . get_html_resource(RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
+      . '</control>'
       . '</group>'
-      . '</dualleft>'
-      . '<dualright action="subscribe.php">'
-      . '<group title="' . get_html_resource(RES_ENABLED2_ID) . '">'
-      . '<listbox dualbox="true" name="subscribes[]" size="' . HTML_LISTBOX_SIZE . '" multiple="true">';
+      . '</form>'
+      . '</dualleft>';
 
-$list->seek();
+// generate right side
 
-while (($item = $list->fetch()))
+$xml .= '<dualright>'
+      . '<form name="unsubscribeform" action="subscribe.php?id=' . $id . '">'
+      . '<group title="' . get_html_resource(RES_SUBSCRIBED_ID) . '">'
+      . '<control name="subscribed[]">'
+      . '<listbox size="10">';
+
+$rs = dal_query('records/subscribed.sql', $id, $_SESSION[VAR_USERID]);
+
+while (($row = $rs->fetch()))
 {
-    if ($item['is_activated'])
+    if ($row['account_id'] != $_SESSION[VAR_USERID])
     {
-        $xml .= '<listitem value="' . $item['subscribe_id'] . '">' . ustr2html($item['subscribe_name']) . '</listitem>';
+        $xml .= '<listitem value="' . $row['account_id'] . '">'
+              . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username'])))
+              . '</listitem>';
     }
 }
 
 $xml .= '</listbox>'
-      . '<button action="window.open(\'smodify.php?id=\'+getElementsByName(\'subscribes[]\')[1].value,\'_parent\');">' . get_html_resource(RES_MODIFY_ID) . '</button>'
-      . '<button action="rform.action=\'sdelete.php\';rform.submit();" prompt="' . get_html_resource(RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
+      . '</control>'
       . '</group>'
-      . '</dualright>'
-      . '</dualbox>'
-      . '<button default="true" url="index.php">' . get_html_resource(RES_BACK_ID)   . '</button>'
-      . '<button url="screate.php">'              . get_html_resource(RES_CREATE_ID) . '</button>'
-      . '</content>'
-      . '</page>';
+      . '</form>'
+      . '</dualright>';
 
-echo(xml2html($xml));
+// generate buttons
+
+$xml .= '<button action="document.subscribeform.submit()">%gt;%gt;</button>'
+      . '<button action="document.unsubscribeform.submit()">%lt;%lt;</button>'
+      . '</dual>'
+      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_BACK_ID) . '</button>'
+      . '</content>';
+
+echo(xml2html($xml, get_html_resource(RES_SUBSCRIBE_ID)));
 
 ?>

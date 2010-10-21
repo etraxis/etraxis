@@ -5,4 +5,4 @@ select
 
 from tbl_views
 where account_id = %1
-order by view_name
+order by %2

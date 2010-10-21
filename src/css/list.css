@@ -1,0 +1,175 @@
+/* List */
+
+table.list {
+  border-spacing: 0px;
+  margin: 5px 0px;
+  width: 100%;
+}
+
+tr.header td {
+  border-bottom: #CCC 1px solid;
+  color: #39C;
+  cursor: pointer;
+  padding: 1px;
+  vertical-align: bottom;
+}
+
+tr.row,
+tr.rowblue,
+tr.rowgrey,
+tr.rowred,
+tr.hrow,
+tr.hrowblue,
+tr.hrowgrey,
+tr.hrowred {
+  vertical-align: top;
+}
+
+tr.hrow,
+tr.hrowblue,
+tr.hrowgrey,
+tr.hrowred {
+  cursor: pointer;
+}
+
+tr.row td,
+tr.rowblue td,
+tr.rowgrey td,
+tr.rowred td {
+  border-bottom: #FBFBFB 1px solid;
+  border-top: #FBFBFB 1px solid;
+  padding: 1px;
+}
+
+tr.row td.left,
+tr.rowblue td.left,
+tr.rowgrey td.left,
+tr.rowred td.left {
+  border-left: #FBFBFB 1px solid;
+}
+
+tr.row td.right,
+tr.rowblue td.right,
+tr.rowgrey td.right,
+tr.rowred td.right {
+  border-right: #FBFBFB 1px solid;
+}
+
+tr.hrow td,
+tr.hrowblue td,
+tr.hrowgrey td,
+tr.hrowred td {
+  border-bottom: #404040 1px solid;
+  border-top: #404040 1px solid;
+  padding: 1px;
+}
+
+tr.hrow td.left,
+tr.hrowblue td.left,
+tr.hrowgrey td.left,
+tr.hrowred td.left {
+  border-left: #404040 1px solid;
+}
+
+tr.hrow td.right,
+tr.hrowblue td.right,
+tr.hrowgrey td.right,
+tr.hrowred td.right {
+  border-right: #404040 1px solid;
+}
+
+tr.header p,
+tr.row p,
+tr.rowblue p,
+tr.rowgrey p,
+tr.rowred p,
+tr.hrow p,
+tr.hrowblue p,
+tr.hrowgrey p,
+tr.hrowred p {
+  margin: 0px;
+  padding: 1px 5px;
+  vertical-align: top;
+}
+
+tr.row a,
+tr.hrow a {
+  color: #404040;
+}
+
+tr.rowblue p,
+tr.hrowblue p {
+  color: #39C;
+}
+
+tr.rowgrey p,
+tr.hrowgrey p {
+  color: #A0A0A0;
+}
+
+tr.rowred p,
+tr.hrowred p {
+  color: #C33;
+}
+
+td.left,
+td.right {
+width: 1px;
+}
+
+td.check {
+width: 15px;
+}
+
+p.center {
+  text-align: center;
+}
+
+p.left {
+  text-align: left;
+}
+
+p.right {
+  text-align: right;
+}
+
+/* Bookmarks */
+
+table.bookmarks {
+  border-spacing: 0px;
+  font-size: 10px;
+  margin: 5px 0px;
+  width: 100%;
+}
+
+table.bookmarks td {
+  padding: 1px;
+}
+
+td.bookmark {
+  margin: 0px;
+  text-align: center;
+}
+
+td.cbookmark {
+  border: #404040 1px solid;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+td.total {
+  text-align: right;
+  width: 100%;
+}
+
+a.bookmark {
+  border: #CCC 1px solid;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  color: #39C;
+  display: block;
+  padding: 2px 4px;
+  white-space: nowrap;
+}

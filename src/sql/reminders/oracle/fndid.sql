@@ -4,9 +4,10 @@ select
     p.project_name,
     t.template_id,
     t.template_name,
+    s.state_id,
+    s.state_name,
     r.reminder_name,
     r.subject_text,
-    r.state_id,
     r.group_id,
     r.group_flag
 

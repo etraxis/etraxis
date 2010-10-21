@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-  eTraxis - Records tracking web-based system.
-  Copyright (C) 2009 by Artem Rodygin
+  eTraxis - Records tracking web-based system
+  Copyright (C) 2005-2010  Artem Rodygin
 
-  This program is free software; you can redistribute it and/or modify
+  This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
-  the Free Software Foundation; either version 2 of the License, or
+  the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
   This program is distributed in the hope that it will be useful,
@@ -15,21 +16,13 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License along
-  with this program; if not, write to the Free Software Foundation, Inc.,
-  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Author                  Date            Description of modifications
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  Artem Rodygin           2009-01-25      Initial creation.
-  Artem Rodygin           2009-05-11      new-802: [SF2704057] possibility to disable fields
-  Artem Rodygin           2009-08-26      new-826: Native unicode support for Microsoft SQL Server.
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="2.1">
+<database name="etraxis" version="3.0">
 
 <table name="tbl_sys_vars">
 
@@ -64,7 +57,6 @@
     <column type="byte">csv_delim</column>
     <column type="byte">csv_encoding</column>
     <column type="byte">csv_line_ends</column>
-    <column type="int" null="yes">fset_id</column>
     <column type="int" null="yes">view_id</column>
 
     <primary name="pk_accounts">
@@ -655,40 +647,6 @@
 
 </table>
 
-<table name="tbl_fsets">
-
-    <column type="primary">fset_id</column>
-    <column type="int">account_id</column>
-    <column type="nstr" size="50">fset_name</column>
-
-    <primary name="pk_fsets">
-        <column>fset_id</column>
-    </primary>
-
-    <unique name="ix_fsets">
-        <column>account_id</column>
-        <column>fset_name</column>
-    </unique>
-
-    <foreign name="fk_fsets_account_id" table="tbl_accounts">account_id</foreign>
-
-</table>
-
-<table name="tbl_fset_filters">
-
-    <column type="int">fset_id</column>
-    <column type="int">filter_id</column>
-
-    <primary name="pk_fset_filters">
-        <column>fset_id</column>
-        <column>filter_id</column>
-    </primary>
-
-    <foreign name="fk_fset_filters_fset_id" table="tbl_fsets">fset_id</foreign>
-    <foreign name="fk_fset_filters_filter_id" table="tbl_filters">filter_id</foreign>
-
-</table>
-
 <table name="tbl_views">
 
     <column type="primary">view_id</column>
@@ -737,32 +695,18 @@
 
 </table>
 
-<table name="tbl_def_columns">
+<table name="tbl_view_filters">
 
-    <column type="primary">column_id</column>
-    <column type="int">account_id</column>
-    <column type="nstr" size="50" null="yes">state_name</column>
-    <column type="nstr" size="50" null="yes">field_name</column>
-    <column type="byte">column_type</column>
-    <column type="byte">column_order</column>
+    <column type="int">view_id</column>
+    <column type="int">filter_id</column>
 
-    <primary name="pk_def_columns">
-        <column>column_id</column>
+    <primary name="pk_view_filters">
+        <column>view_id</column>
+        <column>filter_id</column>
     </primary>
 
-    <unique name="ix_def_columns_name">
-        <column>account_id</column>
-        <column>state_name</column>
-        <column>field_name</column>
-        <column>column_type</column>
-    </unique>
-
-    <unique name="ix_def_columns_order">
-        <column>account_id</column>
-        <column>column_order</column>
-    </unique>
-
-    <foreign name="fk_def_columns_account_id" table="tbl_accounts">account_id</foreign>
+    <foreign name="fk_view_filters_view_id" table="tbl_views">view_id</foreign>
+    <foreign name="fk_view_filters_filter_id" table="tbl_filters">filter_id</foreign>
 
 </table>
 

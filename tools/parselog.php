@@ -1,14 +1,14 @@
 #!/usr/local/bin/php
 <?php
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2007 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2007  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -16,18 +16,10 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-10-23      Initial creation.
-//  Artem Rodygin           2006-10-08      bug-325: /tools/parselog.php: Global variables $argc and $argv were used before they were defined.
-//  Artem Rodygin           2006-12-06      Path to PHP interpreter is updated.
-//  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 define('MAX_PHP_SIZE', 100000);  // bytes
 define('MAX_PHP_TIME', 5.0);     // seconds

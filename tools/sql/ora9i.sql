@@ -1,25 +1,24 @@
-/*------------------------------------------------------------------------------------------------*/
-/*                                                                                                */
-/*  eTraxis - Records tracking web-based system.                                                  */
-/*  Copyright (C) 2004-2009 by Artem Rodygin                                                      */
-/*                                                                                                */
-/*  This program is free software; you can redistribute it and/or modify                          */
-/*  it under the terms of the GNU General Public License as published by                          */
-/*  the Free Software Foundation; either version 2 of the License, or                             */
-/*  (at your option) any later version.                                                           */
-/*                                                                                                */
-/*  This program is distributed in the hope that it will be useful,                               */
-/*  but WITHOUT ANY WARRANTY; without even the implied warranty of                                */
-/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the                                 */
-/*  GNU General Public License for more details.                                                  */
-/*                                                                                                */
-/*  You should have received a copy of the GNU General Public License along                       */
-/*  with this program; if not, write to the Free Software Foundation, Inc.,                       */
-/*  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.                                   */
-/*                                                                                                */
-/*------------------------------------------------------------------------------------------------*/
-/*  Server type: Oracle 9i                                                                        */
-/*------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------*/
+/*                                                                            */
+/*  eTraxis - Records tracking web-based system                               */
+/*  Copyright (C) 2005-2010  Artem Rodygin                                    */
+/*                                                                            */
+/*  This program is free software: you can redistribute it and/or modify      */
+/*  it under the terms of the GNU General Public License as published by      */
+/*  the Free Software Foundation, either version 3 of the License, or         */
+/*  (at your option) any later version.                                       */
+/*                                                                            */
+/*  This program is distributed in the hope that it will be useful,           */
+/*  but WITHOUT ANY WARRANTY; without even the implied warranty of            */
+/*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the             */
+/*  GNU General Public License for more details.                              */
+/*                                                                            */
+/*  You should have received a copy of the GNU General Public License         */
+/*  along with this program.  If not, see <http://www.gnu.org/licenses/>.     */
+/*                                                                            */
+/*----------------------------------------------------------------------------*/
+/*  Server type: Oracle 9i                                                    */
+/*----------------------------------------------------------------------------*/
 
 connect etraxis/password@database;
 
@@ -56,7 +55,6 @@ create table tbl_accounts
     csv_delim number (10) not null,
     csv_encoding number (10) not null,
     csv_line_ends number (10) not null,
-    fset_id number (10) null,
     view_id number (10) null
 );
 
@@ -1114,71 +1112,6 @@ references tbl_fields
     field_id
 );
 
-create table tbl_fsets
-(
-    fset_id number (10) not null,
-    account_id number (10) not null,
-    fset_name nvarchar2 (50) not null
-);
-
-alter table tbl_fsets add constraint pk_fsets primary key
-(
-    fset_id
-);
-
-alter table tbl_fsets add constraint ix_fsets unique
-(
-    account_id,
-    fset_name
-);
-
-alter table tbl_fsets add constraint fk_fsets_account_id foreign key
-(
-    account_id
-)
-references tbl_accounts
-(
-    account_id
-);
-
-create sequence seq_fsets;
-
-create or replace trigger tgi_fsets before insert on tbl_fsets for each row
-begin
-    select seq_fsets.nextval into :new.fset_id from dual;
-end;
-/
-
-create table tbl_fset_filters
-(
-    fset_id number (10) not null,
-    filter_id number (10) not null
-);
-
-alter table tbl_fset_filters add constraint pk_fset_filters primary key
-(
-    fset_id,
-    filter_id
-);
-
-alter table tbl_fset_filters add constraint fk_fset_filters_fset_id foreign key
-(
-    fset_id
-)
-references tbl_fsets
-(
-    fset_id
-);
-
-alter table tbl_fset_filters add constraint fk_fset_filters_filter_id foreign key
-(
-    filter_id
-)
-references tbl_filters
-(
-    filter_id
-);
-
 create table tbl_views
 (
     view_id number (10) not null,
@@ -1260,51 +1193,35 @@ begin
 end;
 /
 
-create table tbl_def_columns
+create table tbl_view_filters
 (
-    column_id number (10) not null,
-    account_id number (10) not null,
-    state_name nvarchar2 (50) null,
-    field_name nvarchar2 (50) null,
-    column_type number (10) not null,
-    column_order number (10) not null
+    view_id number (10) not null,
+    filter_id number (10) not null
 );
 
-alter table tbl_def_columns add constraint pk_def_columns primary key
+alter table tbl_view_filters add constraint pk_view_filters primary key
 (
-    column_id
+    view_id,
+    filter_id
 );
 
-alter table tbl_def_columns add constraint ix_def_columns_name unique
+alter table tbl_view_filters add constraint fk_view_filters_view_id foreign key
 (
-    account_id,
-    state_name,
-    field_name,
-    column_type
-);
-
-alter table tbl_def_columns add constraint ix_def_columns_order unique
-(
-    account_id,
-    column_order
-);
-
-alter table tbl_def_columns add constraint fk_def_columns_account_id foreign key
-(
-    account_id
+    view_id
 )
-references tbl_accounts
+references tbl_views
 (
-    account_id
+    view_id
 );
 
-create sequence seq_def_columns;
-
-create or replace trigger tgi_def_columns before insert on tbl_def_columns for each row
-begin
-    select seq_def_columns.nextval into :new.column_id from dual;
-end;
-/
+alter table tbl_view_filters add constraint fk_view_filters_filter_id foreign key
+(
+    filter_id
+)
+references tbl_filters
+(
+    filter_id
+);
 
 create table tbl_subscribes
 (
@@ -1407,7 +1324,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '2.1');
+values ('FEATURE_LEVEL', '3.0');
 
 insert into tbl_accounts
 (

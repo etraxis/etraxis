@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,59 +15,30 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-04-23      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-07-04      bug-010: Missing 'require' operator.
-//  Artem Rodygin           2005-07-28      new-012: Records field 'description' should be renamed with 'subject'.
-//  Artem Rodygin           2005-07-31      new-006: Records search.
-//  Artem Rodygin           2005-08-27      bug-063: No error message is displayed when non-existing record is specified in field of 'record' type.
-//  Artem Rodygin           2005-08-30      bug-080: 'Record' type fields of some record should not accept ID of this record.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-07      new-100: 'Date' field type should be implemented.
-//  Artem Rodygin           2005-09-08      new-101: 'Duration' field type should be implemented.
-//  Artem Rodygin           2005-09-12      new-105: Format of date values are being entered should depend on user locale settings.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-03-19      new-175: Implement user roles in permissions.
-//  Artem Rodygin           2006-03-20      bug-218: Server is overloaded.
-//  Artem Rodygin           2006-03-25      bug-225: User is remained on record modification page when 'OK' button has been clicked.
-//  Artem Rodygin           2006-04-21      new-247: The 'responsible' user role should be obliterated.
-//  Artem Rodygin           2006-07-12      bug-292: Sablotron fails if page contains '&' character.
-//  Artem Rodygin           2006-07-27      new-261: UI design should be adopted to slow connection.
-//  Artem Rodygin           2006-08-13      new-305: Note with explanation of links to other records should be added where needed.
-//  Artem Rodygin           2006-09-26      new-318: Group permissions should be template-wide.
-//  Artem Rodygin           2006-12-23      new-463: Date field names should be extended with date format explanation.
-//  Artem Rodygin           2007-09-09      new-563: Custom separators inside fields set.
-//  Yury Udovichenko        2007-11-14      new-548: Custom links in text fields.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-01-11      bug-663: Author permissions are ignored.
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-09-11      new-716: 'Today' value in date field range.
-//  Artem Rodygin           2008-09-11      bug-742: Not all expected notes are present when record is being created/modified.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-04-25      new-801: Range of valid date values must be related to current date.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Giacomo Giustozzi       2010-02-10      new-913: Resizable text boxes
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/states.php');
 require_once('../dbo/fields.php');
 require_once('../dbo/values.php');
 require_once('../dbo/records.php');
 /**#@-*/
 
 init_page();
+
+$error = NO_ERROR;
+
+// check that requested record exists
 
 $id     = ustr2int(try_request('id'));
 $record = record_find($id);
@@ -84,6 +50,8 @@ if (!$record)
     exit;
 }
 
+// get current user's permissions and verify them
+
 $permissions = record_get_permissions($record['template_id'], $record['creator_id'], $record['responsible_id']);
 
 if (!can_record_be_modified($record, $permissions))
@@ -92,6 +60,8 @@ if (!can_record_be_modified($record, $permissions))
     header('Location: view.php?id=' . $id);
     exit;
 }
+
+// modification form is submitted
 
 if (try_request('submitted') == 'mainform')
 {
@@ -118,40 +88,6 @@ if (try_request('submitted') == 'mainform')
             exit;
         }
     }
-
-    switch ($error)
-    {
-        case ERROR_INCOMPLETE_FORM:
-            $alert = get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
-            break;
-        case ERROR_INVALID_INTEGER_VALUE:
-            $alert = get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID);
-            break;
-        case ERROR_INVALID_DATE_VALUE:
-            $alert = get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID);
-            break;
-        case ERROR_INVALID_TIME_VALUE:
-            $alert = get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID);
-            break;
-        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-        case ERROR_DATE_VALUE_OUT_OF_RANGE:
-        case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            $alert = ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']);
-            unset($_SESSION['FIELD_NAME']);
-            unset($_SESSION['MIN_FIELD_INTEGER']);
-            unset($_SESSION['MAX_FIELD_INTEGER']);
-            break;
-        case ERROR_RECORD_NOT_FOUND:
-            $alert = get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID);
-            break;
-        case ERROR_VALUE_FAILS_REGEX_CHECK:
-            $alert = ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']);
-            unset($_SESSION['FIELD_NAME']);
-            unset($_SESSION['FIELD_VALUE']);
-            break;
-        default:
-            $alert = NULL;
-    }
 }
 else
 {
@@ -160,87 +96,127 @@ else
     $subject = $record['subject'];
 }
 
-$xml = '<page' . gen_xml_page_header(record_id($id, $record['template_prefix']), isset($alert) ? $alert : NULL, 'mainform.subject') . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . gen_xml_rec_root(try_cookie(COOKIE_SEARCH_MODE, FALSE))
-     . '<pathitem url="view.php?id='   . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</pathitem>'
-     . '<pathitem url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</pathitem>'
-     . '</path>'
-     . '<content>'
-     . '<form name="mainform" action="modify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-     . '<editbox label="' . get_html_resource(RES_SUBJECT_ID) . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '" name="subject" size="' . HTML_EDITBOX_SIZE_LONG . '" maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
-     . '</group>';
+// generate breadcrumbs
+
+$xml = '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
+     . '<breadcrumb url="view.php?id=' . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</breadcrumb>'
+     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
+     . '</breadcrumbs>'
+     . '<content>';
+
+// generate general information
+
+$xml .= '<form name="mainform" action="modify.php?id=' . $id . '">'
+      . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
+      . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_SUBJECT_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
+      . '</control>'
+      . '</group>';
+
+// go through the list of all states and their fields
 
 $flag  = FALSE;
 $notes = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
 
-$rs = dal_query('records/elist.sql', $id);
+$states = dal_query('records/elist.sql', $id);
 
-while (($row = $rs->fetch()))
+while (($state = $states->fetch()))
 {
-    $rsf = dal_query('records/flist.sql',
-                     $id,
-                     $row['state_id'],
-                     $record['creator_id'],
-                     is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
-                     $_SESSION[VAR_USERID],
-                     FIELD_ALLOW_TO_WRITE);
+    $fields = dal_query('records/flist.sql',
+                        $id,
+                        $state['state_id'],
+                        $record['creator_id'],
+                        is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
+                        $_SESSION[VAR_USERID],
+                        FIELD_ALLOW_TO_WRITE);
 
-    $event_time = $row['event_time'];
-
-    if ($rsf->rows != 0)
+    if ($fields->rows != 0)
     {
-        $xml .= '<group title="' . ustr2html($row['state_name']) . '">';
+        $xml .= '<group title="' . ustr2html($state['state_name']) . '">';
 
-        while (($row = $rsf->fetch()))
+        while (($field = $fields->fetch()))
         {
-            $name  = 'field' . $row['field_id'];
-            $value = value_find($row['field_type'], $row['value_id']);
+            $name  = 'field' . $field['field_id'];
+            $value = value_find($field['field_type'], $field['value_id']);
 
-            if ($row['is_required'])
-            {
-                $flag1 = TRUE;
-            }
+            $xml .= ($field['is_required']
+                        ? '<control name="' . $name . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+                        : '<control name="' . $name . '">');
 
-            switch ($row['field_type'])
+            switch ($field['field_type'])
             {
                 case FIELD_TYPE_NUMBER:
 
-                    $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . (ustrlen(MAX_FIELD_INTEGER) + 1) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], $row['param1'], $row['param2']) . '</note>';
+                    $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
+
+                    $xml .= '<editbox maxlen="' . (ustrlen(MAX_FIELD_INTEGER) + 1) . '">'
+                          . ustr2html(try_request($name, $value))
+                          . '</editbox>';
+
+                    $notes .= '<note>'
+                            . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), $field['param1'], $field['param2'])
+                            . '</note>';
+
                     break;
 
                 case FIELD_TYPE_STRING:
 
-                    $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_LONG . '" maxlen="' . $row['param1'] . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
+                    $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
+
+                    $xml .= '<editbox maxlen="' . $field['param1'] . '">'
+                          . ustr2html(try_request($name, $value))
+                          . '</editbox>';
+
                     $flag = TRUE;
+
                     break;
 
                 case FIELD_TYPE_MULTILINED:
 
-                    $xml .= '<textbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" width="' . HTML_TEXTBOX_WIDTH . '" height="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">' . ustr2html(try_request($name, $value)) . '</textbox>';
+                    $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
+
+                    $xml .= '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+                          . ustr2html(try_request($name, $value))
+                          . '</textbox>';
+
                     $flag = TRUE;
+
                     break;
 
                 case FIELD_TYPE_CHECKBOX:
 
-                    $xml .= '<checkbox name="' . $name . ($value ? '" checked="true">' : '">') . ustr2html($row['field_name']) . '</checkbox>';
+                    $user_value = (try_request('submitted') == 'mainform')
+                                ? isset($_REQUEST[$name])
+                                : $value;
+
+                    $xml .= '<label/>';
+
+                    $xml .= ($user_value
+                                ? '<checkbox checked="true">'
+                                : '<checkbox>')
+                          . ustr2html($field['field_name'])
+                          . '</checkbox>';
+
                     break;
 
                 case FIELD_TYPE_LIST:
 
                     $selected = try_request($name, $value);
 
-                    $xml .= '<combobox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '">' . ustr2html(try_request($name))
-                          . '<listitem value=""></listitem>';
+                    $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
 
-                    $rsv = dal_query('values/lvlist.sql', $row['field_id']);
+                    $xml .= '<combobox>'
+                          . '<listitem value=""/>';
 
-                    while (($item = $rsv->fetch()))
+                    $list = dal_query('values/lvlist.sql', $field['field_id']);
+
+                    while (($item = $list->fetch()))
                     {
-                        $xml .= '<listitem value="' . $item['int_value'] . ($selected == $item['int_value'] ? '" selected="true">' : '">')
+                        $xml .= ($selected == $item['int_value']
+                                    ? '<listitem value="' . $item['int_value'] . '" selected="true">'
+                                    : '<listitem value="' . $item['int_value'] . '">')
                               . ustr2html($item['str_value'])
                               . '</listitem>';
                     }
@@ -251,30 +227,59 @@ while (($row = $rs->fetch()))
 
                 case FIELD_TYPE_RECORD:
 
-                    $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(MAXINT) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], 1, MAXINT) . '</note>';
+                    $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
+
+                    $xml .= '<editbox maxlen="' . ustrlen(MAXINT) . '">'
+                          . ustr2html(try_request($name, $value))
+                          . '</editbox>';
+
+                    $notes .= '<note>'
+                            . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), 1, MAXINT)
+                            . '</note>';
+
                     break;
 
                 case FIELD_TYPE_DATE:
 
-                    $row['param1'] = date_offset($event_time, $row['param1']);
-                    $row['param2'] = date_offset($event_time, $row['param2']);
+                    $event_time = $state['event_time'];
 
-                    $xml .= '<editbox label="' . sprintf('%s (%s)', ustr2html($row['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], get_date($row['param1']), get_date($row['param2'])) . '</note>';
+                    $field['param1'] = date_offset($event_time, $field['param1']);
+                    $field['param2'] = date_offset($event_time, $field['param2']);
+
+                    $xml .= '<label>' . sprintf('%s (%s)', ustr2html($field['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>';
+
+                    $xml .= '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
+                          . ustr2html(try_request($name, $value))
+                          . '</editbox>';
+
+                    $notes .= '<note>'
+                            . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), get_date($field['param1']), get_date($field['param2']))
+                            . '</note>';
+
                     break;
 
                 case FIELD_TYPE_DURATION:
 
-                    $xml .= '<editbox label="' . ustr2html($row['field_name']) . ($row['is_required'] ? '" required="' . get_html_resource(RES_REQUIRED3_ID) : NULL) . '" name="' . $name . '" size="' . HTML_EDITBOX_SIZE_SMALL . '" maxlen="' . ustrlen(time2ustr(MAX_FIELD_DURATION)) . '">' . ustr2html(try_request($name, $value)) . '</editbox>';
-                    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $row['field_name'], time2ustr($row['param1']), time2ustr($row['param2'])) . '</note>';
+                    $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
+
+                    $xml .= '<editbox maxlen="' . ustrlen(time2ustr(MAX_FIELD_DURATION)) . '">'
+                          . ustr2html(try_request($name, $value))
+                          . '</editbox>';
+
+                    $notes .= '<note>'
+                            . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), time2ustr($field['param1']), time2ustr($field['param2']))
+                            . '</note>';
+
                     break;
 
                 default:
-                    debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $row['field_type']);
+
+                    debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $field['field_type']);
             }
 
-            if ($row['add_separator'])
+            $xml .= '</control>';
+
+            if ($field['add_separator'])
             {
                 $xml .= '<hr/>';
             }
@@ -292,10 +297,45 @@ if ($flag)
 $xml .= '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
       . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
-      . '</form>'
-      . '</content>'
-      . '</page>';
+      . '</form>';
 
-echo(xml2html($xml));
+// if some error was specified to display, force an alert
+
+switch ($error)
+{
+    case ERROR_INCOMPLETE_FORM:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '");</script>';
+        break;
+    case ERROR_INVALID_INTEGER_VALUE:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '");</script>';
+        break;
+    case ERROR_INVALID_DATE_VALUE:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '");</script>';
+        break;
+    case ERROR_INVALID_TIME_VALUE:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '");</script>';
+        break;
+    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+    case ERROR_DATE_VALUE_OUT_OF_RANGE:
+    case ERROR_TIME_VALUE_OUT_OF_RANGE:
+        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']) . '");</script>';
+        unset($_SESSION['FIELD_NAME']);
+        unset($_SESSION['MIN_FIELD_INTEGER']);
+        unset($_SESSION['MAX_FIELD_INTEGER']);
+        break;
+    case ERROR_RECORD_NOT_FOUND:
+        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID) . '");</script>';
+        break;
+    case ERROR_VALUE_FAILS_REGEX_CHECK:
+        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']) . '");</script>';
+        unset($_SESSION['FIELD_NAME']);
+        unset($_SESSION['FIELD_VALUE']);
+        break;
+    default: ;  // nop
+}
+
+$xml .= '</content>';
+
+echo(xml2html($xml, get_html_resource(RES_MODIFY_ID)));
 
 ?>

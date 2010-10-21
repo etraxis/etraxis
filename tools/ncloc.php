@@ -1,14 +1,14 @@
 #!/usr/local/bin/php
 <?php
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2009 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2009  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -16,24 +16,10 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-09-18      Initial creation.
-//  Artem Rodygin           2006-01-26      NCLOC info for each file type should be output.
-//  Artem Rodygin           2006-01-28      Output is aligned and percentage is added.
-//  Artem Rodygin           2006-10-08      bug-323: /tools/ncloc.php: Use of deprecated call-time pass-by-reference.
-//  Artem Rodygin           2006-10-08      bug-324: /tools/ncloc.php: Global variables $argc and $argv were used before they were defined.
-//  Artem Rodygin           2006-10-16      Alignment of output is updated.
-//  Artem Rodygin           2006-12-06      Path to PHP interpreter is updated.
-//  Artem Rodygin           2009-02-28      Reimplemented via PCRE to ignore multilined comments.
-//  Artem Rodygin           2009-03-01      JavaScript is added.
-//  Artem Rodygin           2009-06-20      Redesigned for easy new file type adding.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 // Supported file types.
 $handlers = array

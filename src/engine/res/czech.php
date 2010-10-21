@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Localization
  *
@@ -10,31 +30,6 @@
  * @subpackage Localization
  * @author Vit Popelka
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Vit Popelka             2010-07-14      new-948: Czech localization.
-//--------------------------------------------------------------------------------------------------
 
 $resource_czech = array
 (
@@ -118,7 +113,7 @@ $resource_czech = array
 
     RES_SECTION_PROMPTS =>
     /* 1000 */
-    'Èe¹tina',
+    'èe¹tina',
     'Pøihlásit se',
     '  OK  ',
     'Zru¹it',
@@ -290,7 +285,7 @@ $resource_czech = array
     'Pøedmìt',
     'Hledat',
     'Parametry vyhledávání',
-    'Výsledky vyhledávání (filtrované)',
+    'Výsledky vyhledávání',
     'Hledaný text',
     'hledání v polích',
     /* 1160 */
@@ -505,6 +500,7 @@ $resource_czech = array
     /* 1350 */
     'Komprese',
     'L/S',
+    'Komentáøe',
 );
 
 ?>

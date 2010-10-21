@@ -1,0 +1,225 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CHANGE LOG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-17 (2010-08-18)
+
+    new-951: BBCode // Restyle [quote] tag
+
+Bug fixes integrated in MAIN_2-1-17 (2010-08-18)
+
+    bug-952: Check boxes always saved as true (issue #59)
+    bug-973: Filter out postponed records with state filter active (issue #78)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-16 (2010-08-08)
+
+    new-953: Polish localization.
+
+Bug fixes integrated in MAIN_2-1-16 (2010-08-08)
+
+    bug-954: Latin2 GD font is missing.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-15 (2010-07-21)
+
+    new-948: Czech localization. (issue #56)
+
+Bug fixes integrated in MAIN_2-1-15 (2010-07-21)
+
+    bug-943: Project importer cdata with foreign characters (issue #52)
+    bug-945: v.2.1.14: incorrect "Responsible" value of assigned record (issue #54)
+    bug-949: field list not selectable over 20 (issue #58)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-14 (2010-06-04)
+
+    new-893: Expand All by default (issue #7)
+
+Bug fixes integrated in MAIN_2-1-14 (2010-06-04)
+
+    bug-940: Incorrect Responsible values being displayed. (issue #43)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bug fixes integrated in MAIN_2-1-13 (2010-04-30)
+
+    bug-934: Unable to change record state (issue #40)
+    bug-935: Textbox doesn't auto resize (issue #41)
+    bug-936: Changing a state doesn't work on PHP 5.1
+    bug-937: &nbsp; is shown in JavaScript alerts when state is being changed.
+    bug-938: Generated notes show "&nbsp;" when PHP-server is Windows.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-12 (2010-04-24)
+
+    new-933: New column LS/T(Last State Time) (issue #39)
+
+Bug fixes integrated in MAIN_2-1-12 (2010-04-24)
+
+    bug-932: Auto-generated e-mail always has 2 identical recipients. (issue #38)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bug fixes integrated in MAIN_2-1-11 (2010-04-22)
+
+    bug-930: Some servers suppress error messages on state changing.
+    bug-931: Attachments compression issues.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-10 (2010-04-20)
+
+    new-928: Inline state changing.
+
+Bug fixes integrated in MAIN_2-1-10 (2010-04-20)
+
+    bug-929: PHP Deprecated: Function set_magic_quotes_runtime() is deprecated
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-9 (2010-04-08)
+
+    new-919: Show record assignments on record detail page (issue #26)
+    new-926: Inactivity Logout (issue #34)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-8 (2010-02-15)
+
+    new-913: Resizable text boxes (issue #20)
+    new-918: Add Subject to Change State page (issue #25)
+    new-919: Show record assignments on record detail page (issue #26)
+
+Bug fixes integrated in MAIN_2-1-8 (2010-02-15)
+
+    bug-916: Italian localization fixes (issue #23)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-7 (2010-02-07)
+
+    new-906: Improve [url] tag compatibility (issue #14)
+    new-910: Romanian localization.
+
+Bug fixes integrated in MAIN_2-1-7 (2010-02-07)
+
+    bug-909: Languages list not sorted (issue #17)
+    bug-912: IE6 buttons with arrows rendering problem (issue #19)
+    bug-914: Change e-mail subject encoding (issue #21)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-6 (2010-02-04)
+
+    new-896: Export the whole project (issue #9)
+    new-902: Transparent gzip compression of attachments
+    new-904: Italian localization. (issue #12)
+
+Bug fixes integrated in MAIN_2-1-6 (2010-02-04)
+
+    bug-898: BBCode // Several "[code]" blocks are merged into one.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-5 (2010-01-26)
+
+    new-895: Improve UI of authentication page.
+
+Bug fixes integrated in MAIN_2-1-5 (2010-01-26)
+
+    bug-891: Attachments are not deleted when record is deleted (issue #5)
+    bug-892: English grammar correction (issue #6)
+    bug-894: Some pages don't work in Google Chrome.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-4 (2010-01-09)
+
+    new-771: Multiple sort order.
+
+Bug fixes integrated in MAIN_2-1-4 (2010-01-09)
+
+    bug-888: Cannot enter full size in comment (MSSQL 2000) (issue #3)
+    bug-889: PHP Notice: Undefined index: code/message (MSSQL 2000)
+    bug-890: Error cloning template (issue #4)
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Bug fixes integrated in MAIN_2-1-3 (2010-01-02)
+
+    bug-865: [safe_mode] Warning: Invalid argument supplied for foreach()
+    bug-885: Other BBCode tags should be ignored inside the "[code]" one.
+    bug-886: Ignored opening BBCode tags should not be appended with closing ones.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-2 (2009-12-07)
+
+    new-859: Only several predefined columns should be default.
+    new-862: Resistance to 'magic quotes'.
+    new-863: Resistance to 'safe mode'.
+
+Bug fixes integrated in MAIN_2-1-2 (2009-12-07)
+
+    bug-857: Problem with russian language and filetype.
+    bug-858: Attaching a file is offered when creating new record, even if attachments are disabled or forbidden.
+    bug-861: BBCode // Two neighbor "url" tags are merged in some cases.
+    bug-864: Cyrillic characters are corrupted in subject of notifications.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-1 (2009-11-17)
+
+    new-828: [SF2809460] Support for SMTP email
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-1-0 (2009-11-09)
+
+    new-802: [SF2704057] possibility to disable fields
+    new-851: State name as standard column type.
+    new-854: Remove disabled users from subscribers list.
+    new-855: Show already subscribed users when subscribing others.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-0-2 (2009-10-19)
+
+    new-850: Japanese localization.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-0-1 (2009-10-14)
+
+    new-837: Replace "Groups" with "Global groups" in main menu.
+    new-838: Disabled buttons would be better grayed out than invisible.
+    new-839: Welcome screen should be blank if no guest is enabled.
+    new-845: Template name as standard column type.
+    new-848: LDAP TLS support.
+
+Bug fixes integrated in MAIN_2-0-1 (2009-10-14)
+
+    bug-847: Email notification is broken when it's being sent with attachment.
+    bug-849: 'Clone' button is available when should be disabled.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_2-0-0 (2009-10-10)
+
+    new-824: PHP 4 is discontinued.
+    new-826: Native unicode support for Microsoft SQL Server.
+    new-827: Microsoft SQL Server 2005/2008 support.
+
+Bug fixes integrated in MAIN_2-0-0 (2009-10-10)
+
+    bug-634: Search becomes case sensitive if UTF-8 values are present in the string being looked for (MSSQL).
+    bug-776: [MSSQL 2000] Warning: The table 'tbl_fields' has been created but its maximum row size (12311) exceeds the maximum number of bytes per row (8060). INSERT or UPDATE of a row in this table will fail if the resulting row length exceeds 8060 bytes.
+    bug-825: Database gets empty strings instead of NULL values.
+    bug-842: Error: document.lform.accounts is undefined
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

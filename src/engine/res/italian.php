@@ -1,5 +1,25 @@
 <?php
 
+//------------------------------------------------------------------------------
+//
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2010  Artem Rodygin
+//
+//  This program is free software: you can redistribute it and/or modify
+//  it under the terms of the GNU General Public License as published by
+//  the Free Software Foundation, either version 3 of the License, or
+//  (at your option) any later version.
+//
+//  This program is distributed in the hope that it will be useful,
+//  but WITHOUT ANY WARRANTY; without even the implied warranty of
+//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+//  GNU General Public License for more details.
+//
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//
+//------------------------------------------------------------------------------
+
 /**
  * Localization
  *
@@ -10,34 +30,6 @@
  * @subpackage Localization
  * @author Giacomo Giustozzi
  */
-
-//--------------------------------------------------------------------------------------------------
-//
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2010 by Artem Rodygin
-//
-//  This program is free software; you can redistribute it and/or modify
-//  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
-//  (at your option) any later version.
-//
-//  This program is distributed in the hope that it will be useful,
-//  but WITHOUT ANY WARRANTY; without even the implied warranty of
-//  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//  GNU General Public License for more details.
-//
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-//
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Giacomo Giustozzi       2010-02-01      new-904: Italian localization.
-//  Artem Rodygin           2010-02-04      new-902: Transparent gzip compression of attachments
-//  Giacomo Giustozzi       2010-02-08      bug-916: Italian localization fixes
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//--------------------------------------------------------------------------------------------------
 
 $resource_italian = array
 (
@@ -293,7 +285,7 @@ $resource_italian = array
     'Oggetto',
     'Ricerca',
     'Parametri della ricerca',
-    'Risultati della ricerca (filtrati)',
+    'Risultati della ricerca',
     'Testo da cercare',
     'cerca nei campi',
     /* 1160 */
@@ -508,6 +500,7 @@ $resource_italian = array
     /* 1350 */
     'Compressione',
     'U/S',
+    'Commenti',
 );
 
 ?>

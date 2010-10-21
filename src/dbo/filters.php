@@ -1,23 +1,13 @@
 <?php
 
-/**
- * Filters
- *
- * This module provides API to work with user filters.
- * See also {@link http://www.etraxis.org/docs-schema.php#tbl_filters tbl_filters} database table.
- *
- * @package DBO
- * @subpackage Filters
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -25,53 +15,20 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-07-24      new-009: Records filter.
-//  Artem Rodygin           2005-08-22      bug-044: Removable filter will not be removed in some cases.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-15      new-122: User should be able to create a filter to display postponed records only.
-//  Artem Rodygin           2005-09-18      new-073: Implement search folders.
-//  Artem Rodygin           2005-09-27      new-141: Source code review.
-//  Artem Rodygin           2005-10-19      new-149: User should have ability to modify his filters.
-//  Artem Rodygin           2005-10-22      bug-163: Some filters are malfunctional.
-//  Artem Rodygin           2005-12-14      bug-191: Search is malfunctional.
-//  Artem Rodygin           2006-03-26      bug-229: Records filters are malfunctional.
-//  Artem Rodygin           2006-04-21      bug-244: Unexpected message "Filter with entered name already exists".
-//  Artem Rodygin           2006-06-29      bug-279: PHP Warning: ociexecute(): OCIStmtExecute: ORA-00904: "STR": invalid identifier
-//  Artem Rodygin           2006-06-29      bug-286: dbx_error(): You have an error in your SQL syntax
-//  Artem Rodygin           2006-07-23      bug-283: Search becomes case sensitive if UTF-8 values are present in the string being looked for (Oracle).
-//  Artem Rodygin           2006-10-12      new-137: Custom queries.
-//  Artem Rodygin           2006-10-17      new-361: Extended custom queries.
-//  Artem Rodygin           2006-11-05      new-365: Filters sharing.
-//  Artem Rodygin           2006-11-24      new-377: Custom views.
-//  Artem Rodygin           2006-12-30      new-475: Turning subscriptions on and off is not clear.
-//  Artem Rodygin           2007-06-02      bug-525: PHP Warning: ociexecute(): OCIStmtExecute: ORA-01401: inserted value too large for column
-//  Artem Rodygin           2007-09-11      new-574: Filter should allow to specify several states.
-//  Artem Rodygin           2007-10-29      new-564: Filters set.
-//  Artem Rodygin           2007-11-08      bug-614: Variable $i was used before it was defined.
-//  Artem Rodygin           2007-11-13      new-618: Extend view and filter set names up to 50 characters.
-//  Yury Udovichenko        2007-11-20      new-536: Ability to hide postpone records from the list.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2007-11-30      new-617: Add 'no view' and 'no filter set' to related comboboxes.
-//  Artem Rodygin           2008-03-15      new-683: Filters should be sharable with groups, not with accounts.
-//  Artem Rodygin           2008-03-15      new-501: Filter should allow to specify 'none' value of 'list' fields.
-//  Artem Rodygin           2008-03-31      bug-690: PHP Warning: odbc_exec(): SQL error: DELETE statement conflicted with COLUMN REFERENCE constraint 'fk_filter_activation_filter_id'.
-//  Artem Rodygin           2008-04-03      new-694: Filter for unassigned records.
-//  Artem Rodygin           2008-09-09      new-740: Filter set should be overwritten if it already exists.
-//  Artem Rodygin           2008-11-07      bug-756: PHP Warning: odbc_exec(): SQL error: Violation of UNIQUE KEY constraint 'ix_fsets'.
-//  Artem Rodygin           2008-11-08      bug-759: /src/dbo/filters.php: Variable $id was used before it was defined
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-06-17      bug-825: Database gets empty strings instead of NULL values.
-//  Artem Rodygin           2009-09-09      new-826: Native unicode support for Microsoft SQL Server.
-//  Artem Rodygin           2010-01-26      bug-892: English grammar correction
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * Filters
+ *
+ * This module provides API to work with user filters.
+ * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_filters tbl_filters} database table.
+ *
+ * @package DBO
+ * @subpackage Filters
+ */
 
 /**#@+
  * Dependency.
@@ -82,9 +39,9 @@ require_once('../dbo/fields.php');
 require_once('../dbo/values.php');
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Definitions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**#@+
  * Data restriction.
@@ -113,14 +70,14 @@ define('FILTER_FLAG_ACTIVE',      0x0010);
 define('FILTER_FLAG_UNASSIGNED',  0x0020);
 /**#@-*/
 
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //  Functions.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
  * Finds in database and returns the information about specified filter.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_id Filter ID}.
+ * @param int $id Filter ID.
  * @return array Array with data if filter is found in database, FALSE otherwise.
  */
 function filter_find ($id)
@@ -136,21 +93,44 @@ function filter_find ($id)
 /**
  * Returns {@link CRecordset DAL recordset} which contains all existing filters of current user.
  *
+ * @param int $id Account ID.
+ * @param bool $active Whether to return all filters, or active only.
+ * @param int &$sort Sort mode (used as output only). The function retrieves current sort mode from
+ * client cookie ({@link COOKIE_FILTERS_SORT}) and updates it, if it's out of valid range.
+ * @param int &$page Number of current page tab (used as output only). The function retrieves current
+ * page from client cookie ({@link COOKIE_FILTERS_PAGE}) and updates it, if it's out of valid range.
  * @return CRecordset Recordset with list of filters.
  */
-function filters_list ($id, $active = TRUE)
+function filters_list ($id, $active, &$sort, &$page)
 {
     debug_write_log(DEBUG_TRACE, '[filters_list]');
     debug_write_log(DEBUG_DUMP,  '[filters_list] $id     = ' . $id);
     debug_write_log(DEBUG_DUMP,  '[filters_list] $active = ' . $active);
 
-    return dal_query(($active ? 'filters/lista.sql' : 'filters/list.sql'), $id);
+    $sort_modes = array
+    (
+        1 => 'filter_name asc',
+        2 => 'fullname asc, username asc, filter_name asc',
+        3 => 'filter_name desc',
+        4 => 'fullname desc, username desc, filter_name desc',
+    );
+
+    $sort = try_request('sort', try_cookie(COOKIE_FILTERS_SORT, 1));
+    $sort = ustr2int($sort, 1, count($sort_modes));
+
+    $page = try_request('page', try_cookie(COOKIE_FILTERS_PAGE));
+    $page = ustr2int($page, 1, MAXINT);
+
+    save_cookie(COOKIE_FILTERS_SORT, $sort);
+    save_cookie(COOKIE_FILTERS_PAGE, $page);
+
+    return dal_query($active ? 'filters/lista.sql' : 'filters/list.sql', $id, $sort_modes[$sort]);
 }
 
 /**
  * Validates filter information before creation or modification.
  *
- * @param string $filter_name {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_name Filter name}.
+ * @param string $filter_name Filter name.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - data are valid</li>
@@ -174,14 +154,14 @@ function filter_validate ($filter_name)
 /**
  * Creates new filter.
  *
- * @param string $filter_name {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_name Filter name}.
- * @param string $filter_type {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_type Filter type}.
- * @param string $filter_flags {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_flags Filter flags}.
- * @param string $filter_param {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_param Filter parameter}.
+ * @param string $filter_name Filter name.
+ * @param string $filter_type Filter type.
+ * @param string $filter_flags Filter flags.
+ * @param string $filter_param Filter parameter.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - filter is successfully created</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - filter with specified {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_name name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - filter with specified name already exists</li>
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create filter</li>
  * </ul>
  */
@@ -222,23 +202,20 @@ function filter_create ($filter_name, $filter_type, $filter_flags, $filter_param
     // Enable new filter.
     dal_query('filters/set.sql', $rs->fetch('filter_id'), $_SESSION[VAR_USERID]);
 
-    // Change current filters set to unknown.
-    account_set_fset($_SESSION[VAR_USERID]);
-
     return NO_ERROR;
 }
 
 /**
  * Modifies specified filter.
  *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_id ID} of filter to be modified.
- * @param string $filter_name New {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_name filter name}.
- * @param string $filter_type New {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_type filter type}.
- * @param string $filter_flags New {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_flags filter flags}.
+ * @param int $id ID of filter to be modified.
+ * @param string $filter_name New filter name.
+ * @param string $filter_type New filter type.
+ * @param string $filter_flags New filter flags.
  * @return int Error code:
  * <ul>
  * <li>{@link NO_ERROR} - filter is successfully modified</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - filter with specified {@link http://www.etraxis.org/docs-schema.php#tbl_filters_filter_name name} already exists</li>
+ * <li>{@link ERROR_ALREADY_EXISTS} - filter with specified name already exists</li>
  * </ul>
  */
 function filter_modify ($id, $filter_name, $filter_type, $filter_flags)
@@ -285,32 +262,50 @@ function filters_set ($filters)
         dal_query('filters/set.sql',   $filter, $_SESSION[VAR_USERID]);
     }
 
-    // Change current filters set to unknown.
-    account_set_fset($_SESSION[VAR_USERID]);
-
     return NO_ERROR;
 }
 
 /**
  * Disables specified filters.
  *
- * @param array $filters List of filter IDs.
+ * @param array $filters List of filter IDs (NULL to disable them all).
  * @return int Always {@link NO_ERROR}.
  */
-function filters_clear ($filters)
+function filters_clear ($filters = NULL)
 {
     debug_write_log(DEBUG_TRACE, '[filters_clear]');
 
-    // Disable each of specified filters.
-    foreach ($filters as $filter)
+    if (is_null($filters))
     {
-        dal_query('filters/clear.sql', $filter, $_SESSION[VAR_USERID]);
+        // Disable all filters.
+        dal_query('filters/clearall.sql', $_SESSION[VAR_USERID]);
+    }
+    else
+    {
+        // Disable each of specified filters.
+        foreach ($filters as $filter)
+        {
+            dal_query('filters/clear.sql', $filter, $_SESSION[VAR_USERID]);
+        }
     }
 
-    // Change current filters set to unknown.
-    account_set_fset($_SESSION[VAR_USERID]);
-
     return NO_ERROR;
+}
+
+/**
+ * Checks whether a filter is activated.
+ *
+ * @param int $id ID of filter to be checked.
+ * @return bool TRUE if template can be deleted, FALSE otherwise.
+ */
+function is_filter_activated ($id)
+{
+    debug_write_log(DEBUG_TRACE, '[is_filter_activated]');
+    debug_write_log(DEBUG_DUMP,  '[is_filter_activated] $id = ' . $id);
+
+    $rs = dal_query('filters/check.sql', $id, $_SESSION[VAR_USERID]);
+
+    return ($rs->fetch(0) != 0);
 }
 
 /**
@@ -325,12 +320,12 @@ function filters_delete ($filters)
 
     foreach ($filters as $filter)
     {
-        dal_query('filters/ffsdelall.sql', $filter, $_SESSION[VAR_USERID]);
         dal_query('filters/ffdelall.sql',  $filter, $_SESSION[VAR_USERID]);
         dal_query('filters/ftdelall.sql',  $filter, $_SESSION[VAR_USERID]);
         dal_query('filters/fsdelall.sql',  $filter, $_SESSION[VAR_USERID]);
         dal_query('filters/fadelall.sql',  $filter, $_SESSION[VAR_USERID]);
         dal_query('filters/fa2delall.sql', $filter);
+        dal_query('filters/vdelall.sql',   $filter);
         dal_query('filters/fshdelall.sql', $filter, $_SESSION[VAR_USERID]);
         dal_query('filters/delete.sql',    $filter, $_SESSION[VAR_USERID]);
     }
@@ -679,167 +674,6 @@ function filter_fields_set ($filter_id, $template_id)
                 }
             }
         }
-    }
-
-    return NO_ERROR;
-}
-
-/**
- * Finds in database and returns the information about specified filters set.
- *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_id Filters set ID}.
- * @return array Array with data if filters set is found in database, FALSE otherwise.
- */
-function fset_find ($id)
-{
-    debug_write_log(DEBUG_TRACE, '[fset_find]');
-    debug_write_log(DEBUG_DUMP,  '[fset_find] $id = ' . $id);
-
-    $rs = dal_query('filters/fsfndid.sql', $id, $_SESSION[VAR_USERID]);
-
-    return ($rs->rows == 0 ? FALSE : $rs->fetch());
-}
-
-/**
- * Returns {@link CRecordset DAL recordset} which contains all existing filters sets of current user.
- *
- * @return CRecordset Recordset with list of filters sets.
- */
-function fsets_list ()
-{
-    debug_write_log(DEBUG_TRACE, '[fsets_list]');
-
-    return dal_query('filters/fs2list.sql', $_SESSION[VAR_USERID]);
-}
-
-/**
- * Validates filters set information before creation or modification.
- *
- * @param string $fset_name {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_name Filters set name}.
- * @return int Error code:
- * <ul>
- * <li>{@link NO_ERROR} - data are valid</li>
- * <li>{@link ERROR_INCOMPLETE_FORM} - at least one of required field is empty</li>
- * </ul>
- */
-function fset_validate ($fset_name)
-{
-    debug_write_log(DEBUG_TRACE, '[fset_validate]');
-    debug_write_log(DEBUG_DUMP,  '[fset_validate] $fset_name = ' . $fset_name);
-
-    if (ustrlen($fset_name) == 0)
-    {
-        debug_write_log(DEBUG_NOTICE, '[fset_validate] At least one required field is empty.');
-        return ERROR_INCOMPLETE_FORM;
-    }
-
-    return NO_ERROR;
-}
-
-/**
- * Creates new filters set.
- *
- * @param string $fset_name {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_name Filters set name}.
- * @return int Error code:
- * <ul>
- * <li>{@link NO_ERROR} - filters set is successfully created</li>
- * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create filters set</li>
- * </ul>
- */
-function fset_create ($fset_name)
-{
-    debug_write_log(DEBUG_TRACE, '[fset_create]');
-    debug_write_log(DEBUG_DUMP,  '[fset_create] $fset_name = ' . $fset_name);
-
-    // Check that user doesn't have another filters set with the same name.
-    $rs = dal_query('filters/fsfndk.sql', $_SESSION[VAR_USERID], ustrtolower($fset_name));
-
-    if ($rs->rows != 0)
-    {
-        debug_write_log(DEBUG_NOTICE, '[fset_create] Filters set already exists.');
-
-        $fset_id = $rs->fetch('fset_id');
-
-        dal_query('accounts/setfset.sql',  $fset_id, NULL);
-        dal_query('filters/fsfdelall.sql', $fset_id, $_SESSION[VAR_USERID]);
-        dal_query('filters/fsdelete.sql',  $fset_id, $_SESSION[VAR_USERID]);
-    }
-
-    // Create a filters set.
-    dal_query('filters/fs2create.sql', $_SESSION[VAR_USERID], $fset_name);
-
-    // Find newly created filters set.
-    $rs = dal_query('filters/fsfndk.sql', $_SESSION[VAR_USERID], ustrtolower($fset_name));
-
-    if ($rs->rows == 0)
-    {
-        debug_write_log(DEBUG_NOTICE, '[fset_create] Created filters set not found.');
-        return ERROR_NOT_FOUND;
-    }
-
-    // Get an ID of the created filters set.
-    $fset_id = $rs->fetch('fset_id');
-
-    // Assign all currently enabled filters to the new filters set, and change current filters set to new one.
-    dal_query('filters/fsfcreate.sql', $_SESSION[VAR_USERID], $fset_id);
-    dal_query('accounts/setfset.sql',  $_SESSION[VAR_USERID], $fset_id);
-
-    return NO_ERROR;
-}
-
-/**
- * Modifies specified filters set.
- *
- * @param int $id {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_id ID} of filters set to be modified.
- * @param string $fset_name New {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_name filters set name}.
- * @return int Error code:
- * <ul>
- * <li>{@link NO_ERROR} - filters set is successfully modified</li>
- * <li>{@link ERROR_ALREADY_EXISTS} - filters set with specified {@link http://www.etraxis.org/docs-schema.php#tbl_fsets_fset_name name} already exists</li>
- * </ul>
- */
-function fset_modify ($id, $fset_name)
-{
-    debug_write_log(DEBUG_TRACE, '[fset_modify]');
-    debug_write_log(DEBUG_DUMP,  '[fset_modify] $id        = ' . $id);
-    debug_write_log(DEBUG_DUMP,  '[fset_modify] $fset_name = ' . $fset_name);
-
-    // Check that user doesn't have another filters set with the same name, besides this one.
-    $rs = dal_query('filters/fsfndku.sql', $id, $_SESSION[VAR_USERID], ustrtolower($fset_name));
-
-    if ($rs->rows != 0)
-    {
-        debug_write_log(DEBUG_NOTICE, '[fset_modify] Filters set already exists.');
-        return ERROR_ALREADY_EXISTS;
-    }
-
-    // Modify the filters set.
-    dal_query('filters/fsmodify.sql', $id, $fset_name);
-
-    return NO_ERROR;
-}
-
-/**
- * Deletes selected filters set.
- *
- * @param array $fsets List of filters sets IDs.
- * @return int Always {@link NO_ERROR}.
- */
-function fsets_delete ($fsets)
-{
-    debug_write_log(DEBUG_TRACE, '[fsets_delete]');
-
-    // If current filters set is in list of sets to be deleted, change it to unknown.
-    if (in_array($_SESSION[VAR_FSET], $fsets))
-    {
-        account_set_fset($_SESSION[VAR_USERID]);
-    }
-
-    // Delete each of specified filters sets.
-    foreach ($fsets as $fset)
-    {
-        dal_query('filters/fsfdelall.sql', $fset, $_SESSION[VAR_USERID]);
-        dal_query('filters/fsdelete.sql',  $fset, $_SESSION[VAR_USERID]);
     }
 
     return NO_ERROR;

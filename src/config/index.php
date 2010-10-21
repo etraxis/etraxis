@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,37 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-08-29      new-068: System settings in 'config.php' should be accessable through web-interface.
-//  Artem Rodygin           2005-08-31      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-09-05      bug-092: JScript error on 'Configuration' page.
-//  Artem Rodygin           2005-09-13      new-113: When record is being viewed the fields names and values should be aligned by top.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-16      new-176: Change eTraxis design.
-//  Artem Rodygin           2006-01-24      new-203: Email notification functionality (new-002) should be conditionally "compiled".
-//  Artem Rodygin           2006-01-24      new-204: Active Directory Support functionality (new-003) should be conditionally "compiled".
-//  Artem Rodygin           2006-07-27      new-261: UI design should be adopted to slow connection.
-//  Artem Rodygin           2006-10-08      bug-330: /src/config/index.php: Global variable $res_driver was used before it was defined.
-//  Artem Rodygin           2006-11-18      bug-388: "Configuration" page does not display path where binary attachments are stored.
-//  Artem Rodygin           2006-11-18      bug-389: Motorola LDAP server returns "Insufficient rights" error.
-//  Artem Rodygin           2006-11-20      new-391: 'Configuration' page should not displays details of disabled features.
-//  Artem Rodygin           2006-12-30      new-475: Turning subscriptions on and off is not clear.
-//  Artem Rodygin           2008-03-02      bug-681: Update configuration page with new options.
-//  Artem Rodygin           2008-10-12      new-751: LDAP // Multiple Base DN support.
-//  Artem Rodygin           2008-11-09      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-01-09      new-743: Include attached files in the notification.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-07-29      new-832: Required LDAP attributes should be configurable.
-//  Artem Rodygin           2009-10-12      new-848: LDAP TLS support.
-//  Artem Rodygin           2010-02-01      new-902: Transparent gzip compression of attachments
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -84,11 +57,9 @@ if (get_user_level() != USER_LEVEL_ADMIN)
 
 global $res_driver;
 
-$xml = '<page' . gen_xml_page_header(get_html_resource(RES_CONFIGURATION_ID)) . '>'
-     . gen_xml_menu()
-     . '<path>'
-     . '<pathitem url="index.php">' . get_html_resource(RES_CONFIGURATION_ID) . '</pathitem>'
-     . '</path>'
+$xml = '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_CONFIGURATION_ID) . '</breadcrumb>'
+     . '</breadcrumbs>'
      . '<content>'
      . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
      . '<text label="' . get_html_resource(RES_LOCALROOT_ID)           . '">' . ustr2html(LOCALROOT)                           . '</text>'
@@ -158,10 +129,8 @@ if (DEBUG_MODE != DEBUG_MODE_OFF)
 }
 
 $xml .= '</group>'
-      . '<button name="back" url="javascript:history.back();" default="true">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . '</content>'
-      . '</page>';
+      . '</content>';
 
-echo(xml2html($xml));
+echo(xml2html($xml, get_html_resource(RES_CONFIGURATION_ID)));
 
 ?>

@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2005-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,38 +15,22 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2005-03-20      new-001: Records tracking web-based system should be implemented.
-//  Artem Rodygin           2005-08-01      new-013: UI scenarios should be changed.
-//  Artem Rodygin           2005-08-18      new-037: Any template should be locked to be modified without suspending a project.
-//  Artem Rodygin           2005-08-23      new-053: All the calls of DAL API functions should be moved to DBO API.
-//  Artem Rodygin           2005-09-01      bug-079: String database columns are not enough to store UTF-8 values.
-//  Artem Rodygin           2005-10-05      new-148: Version info should be centralized.
-//  Artem Rodygin           2005-10-09      new-155: Browser header should contain detailed page info.
-//  Artem Rodygin           2005-11-17      new-176: Change eTraxis design.
-//  Artem Rodygin           2005-11-29      new-187: User controls alignment.
-//  Artem Rodygin           2006-07-12      bug-292: Sablotron fails if page contains '&' character.
-//  Artem Rodygin           2007-01-05      new-491: [SF1647212] Group-wide transition permission.
-//  Artem Rodygin           2007-11-26      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-01-28      new-531: LDAP Guest users
-//  Artem Rodygin           2008-04-20      new-703: Separated permissions set for current responsible.
-//  Artem Rodygin           2008-11-10      new-749: Guest access for unauthorized users.
-//  Artem Rodygin           2009-01-08      new-774: 'Anyone' system role permissions.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2010-01-26      bug-894: Some pages don't work in Google Chrome.
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
  */
 require_once('../engine/engine.php');
 require_once('../dbo/groups.php');
+require_once('../dbo/projects.php');
 require_once('../dbo/states.php');
 /**#@-*/
 
@@ -64,7 +43,9 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
-$id = ustr2int(try_request('id'));
+// check that requested state exists
+
+$id    = ustr2int(try_request('id'));
 $state = state_find($id);
 
 if (!$state)
@@ -74,155 +55,182 @@ if (!$state)
     exit;
 }
 
-$gid = ustr2int(try_request('gid', STATE_ROLE_AUTHOR), MIN_STATE_ROLE);
-
-if ($gid >= 0)
+if ($state['state_type'] == STATE_TYPE_FINAL)
 {
-    if (!group_find($gid))
-    {
-        debug_write_log(DEBUG_NOTICE, 'Group cannot be found.');
-        $gid = STATE_ROLE_AUTHOR;
-    }
+    debug_write_log(DEBUG_NOTICE, 'State must be intermediate.');
+    header('Location: sview.php?id=' . $id);
+    exit;
 }
 
-$sort = $page = NULL;
-$list = group_list($state['project_id'], $sort, $page);
+// get lists of groups and states
 
-if (try_request('submitted') == 'rform' && $state['is_locked'])
+$groups = dal_query('groups/list.sql', $state['project_id'],  'is_global, group_name');
+$states = dal_query('states/list.sql', $state['template_id'], 'state_type, state_name');
+
+// save changed transitions
+
+if (try_request('submitted') == 'transform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
-    $sort = $page = NULL;
-    $states = state_list($state['template_id'], $sort, $page);
+    $gid = ustr2int(try_request('group', STATE_ROLE_AUTHOR), MIN_STATE_ROLE);
 
     dal_query(($gid < 0 ? 'states/rtdelete.sql' : 'states/gtdelete.sql'), $id, $gid);
 
-    while (($item = $states->fetch()))
+    while (($row = $states->fetch()))
     {
-        if (isset($_REQUEST['state' . $item['state_id']]))
+        if (isset($_REQUEST['state' . $row['state_id']]))
         {
-            dal_query(($gid < 0 ? 'states/rtadd.sql' : 'states/gtadd.sql'), $id, $item['state_id'], $gid);
+            dal_query(($gid < 0 ? 'states/rtadd.sql' : 'states/gtadd.sql'), $id, $row['state_id'], $gid);
         }
     }
-
-    header('Location: strans.php?id=' . $id . '&gid=' . $gid);
-    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
+
+    $gid = STATE_ROLE_AUTHOR;
 }
 
-$script = '<script>function onList(){'
-        . 'var elems=document.rform.getElementsByTagName(\'input\');'
-        . 'for(i=0;i!=elems.length;i++)if(elems[i].type==\'checkbox\')elems[i].checked=false;'
-        . 'switch(document.lform.groups.value){';
+// page's title
 
-$states = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_AUTHOR);
+$title = ustrprocess(get_html_resource(RES_STATE_X_ID), ustr2html($state['state_name']));
 
-$script .= 'case \'' . STATE_ROLE_AUTHOR . '\':';
+// generate breadcrumbs and tabs
 
-while (($item = $states->fetch()))
+$xml = gen_context_menu('sindex.php?id=', 'strans.php?id=', 'fview.php?id=', $state['project_id'], $state['template_id'], $id)
+     . '<breadcrumbs>'
+     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
+     . '<breadcrumb url="tindex.php?id=' . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($state['project_name']))  . '</breadcrumb>'
+     . '<breadcrumb url="sindex.php?id=' . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</breadcrumb>'
+     . '<breadcrumb url="strans.php?id=' . $id . '">' . $title . '</breadcrumb>'
+     . '</breadcrumbs>'
+     . '<tabs>'
+     . '<tab url="sview.php?id='  . $id . '"><i>' . ustr2html($state['state_name']) . '</i></tab>'
+     . '<tab url="findex.php?id=' . $id . '">' . get_html_resource(RES_FIELDS_ID) . '</tab>';
+
+if ($state['state_type'] != STATE_TYPE_FINAL)
 {
-    $script .= ($item['is_set'] == 0 ? NULL : 'document.rform.state' . $item['state_id'] . '.checked=true;');
+    $xml .= '<tab url="strans.php?id=' . $id . '" active="true">' . get_html_resource(RES_TRANSITIONS_ID) . '</tab>';
 }
 
-$script .= 'break;';
+$xml .= '<content>';
 
-$states = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_RESPONSIBLE);
+// generate script to update permissions
 
-$script .= 'case \'' . STATE_ROLE_RESPONSIBLE . '\':';
+$xml .= '<script>'
+      . 'function update_perms () {'
+      . 'switch (document.transform.group.value) {';
 
-while (($item = $states->fetch()))
+// generate script to update permissions - 'author' system role
+
+$xml .= 'case "' . STATE_ROLE_AUTHOR . '":';
+
+$list = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_AUTHOR);
+
+while (($row = $list->fetch()))
 {
-    $script .= ($item['is_set'] == 0 ? NULL : 'document.rform.state' . $item['state_id'] . '.checked=true;');
+    $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
 }
 
-$script .= 'break;';
+$xml .= 'break;';
 
-$states = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_REGISTERED);
+// generate script to update permissions - 'responsible' system role
 
-$script .= 'case \'' . STATE_ROLE_REGISTERED . '\':';
+$xml .= 'case "' . STATE_ROLE_RESPONSIBLE . '":';
 
-while (($item = $states->fetch()))
+$list = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_RESPONSIBLE);
+
+while (($row = $list->fetch()))
 {
-    $script .= ($item['is_set'] == 0 ? NULL : 'document.rform.state' . $item['state_id'] . '.checked=true;');
+    $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
 }
 
-$script .= 'break;';
+$xml .= 'break;';
 
-while (($item = $list->fetch()))
+// generate script to update permissions - 'registered' system role
+
+$xml .= 'case "' . STATE_ROLE_REGISTERED . '":';
+
+$list = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_REGISTERED);
+
+while (($row = $list->fetch()))
 {
-    $states = dal_query('states/gtlist.sql', $state['template_id'], $id, $item['group_id']);
+    $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
+}
 
-    $script .= 'case \'' . $item['group_id'] . '\':';
+$xml .= 'break;';
 
-    $states->seek();
+// generate script to update permissions - groups
 
-    while (($item = $states->fetch()))
+while (($group = $groups->fetch()))
+{
+    $xml .= 'case "' . $group['group_id'] . '":';
+
+    $list = dal_query('states/gtlist.sql', $state['template_id'], $id, $group['group_id']);
+
+    while (($row = $list->fetch()))
     {
-        $script .= ($item['is_set'] == 0 ? NULL : 'document.rform.state' . $item['state_id'] . '.checked=true;');
+        $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
     }
 
-    $script .= 'break;';
+    $xml .= 'break;';
 }
 
-$script .= '}}</script>';
+$xml .= '}}'
+      . '</script>';
 
-$xml = '<page' . gen_xml_page_header(ustrprocess(get_html_resource(RES_STATE_X_ID), ustr2html($state['state_name']))) . '>'
-     . $script
-     . gen_xml_menu()
-     . '<path>'
-     . '<pathitem url="index.php">'                                   . get_html_resource(RES_PROJECTS_ID)                                                    . '</pathitem>'
-     . '<pathitem url="view.php?id='   . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($state['project_name']))   . '</pathitem>'
-     . '<pathitem url="tindex.php?id=' . $state['project_id']  . '">' . get_html_resource(RES_TEMPLATES_ID)                                                   . '</pathitem>'
-     . '<pathitem url="tview.php?id='  . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</pathitem>'
-     . '<pathitem url="sindex.php?id=' . $state['template_id'] . '">' . get_html_resource(RES_STATES_ID)                                                      . '</pathitem>'
-     . '<pathitem url="sview.php?id='  . $id                   . '">' . ustrprocess(get_html_resource(RES_STATE_X_ID), ustr2html($state['state_name']))       . '</pathitem>'
-     . '<pathitem url="strans.php?id=' . $id                   . '">' . get_html_resource(RES_TRANSITIONS_ID)                                                 . '</pathitem>'
-     . '</path>'
-     . '<content>'
-     . '<dualbox nobuttons="true">'
-     . '<dualleft action="strans.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_GROUPS_ID) . '">'
-     . '<listbox dualbox="true" name="groups" size="' . HTML_LISTBOX_SIZE . '" action="onList();">'
-     . '<listitem value="' . STATE_ROLE_AUTHOR      . '"' . ($gid == STATE_ROLE_AUTHOR      ? ' selected="true">' : '>') . sprintf('%s (%s)', get_html_resource(RES_AUTHOR_ID),      get_html_resource(RES_ROLE_ID)) . '</listitem>'
-     . '<listitem value="' . STATE_ROLE_RESPONSIBLE . '"' . ($gid == STATE_ROLE_RESPONSIBLE ? ' selected="true">' : '>') . sprintf('%s (%s)', get_html_resource(RES_RESPONSIBLE_ID), get_html_resource(RES_ROLE_ID)) . '</listitem>'
-     . '<listitem value="' . STATE_ROLE_REGISTERED  . '"' . ($gid == STATE_ROLE_REGISTERED  ? ' selected="true">' : '>') . sprintf('%s (%s)', get_html_resource(RES_REGISTERED_ID),  get_html_resource(RES_ROLE_ID)) . '</listitem>';
+// generate left side
 
-$list->seek();
+$xml .= '<form name="transform" action="strans.php?id=' . $id . '">'
+      . '<dual>'
+      . '<dualleft>'
+      . '<group title="' . get_html_resource(RES_GROUPS_ID) . '">'
+      . '<control name="group">'
+      . '<listbox size="10" action="update_perms()">'
+      . '<listitem value="' . STATE_ROLE_AUTHOR      . ($gid == STATE_ROLE_AUTHOR      ? '" selected="true">' : '">') . sprintf('%s (%s)', get_html_resource(RES_AUTHOR_ID),      get_html_resource(RES_ROLE_ID)) . '</listitem>'
+      . '<listitem value="' . STATE_ROLE_RESPONSIBLE . ($gid == STATE_ROLE_RESPONSIBLE ? '" selected="true">' : '">') . sprintf('%s (%s)', get_html_resource(RES_RESPONSIBLE_ID), get_html_resource(RES_ROLE_ID)) . '</listitem>'
+      . '<listitem value="' . STATE_ROLE_REGISTERED  . ($gid == STATE_ROLE_REGISTERED  ? '" selected="true">' : '">') . sprintf('%s (%s)', get_html_resource(RES_REGISTERED_ID),  get_html_resource(RES_ROLE_ID)) . '</listitem>';
 
-while (($item = $list->fetch()))
+$groups->seek();
+
+while (($row = $groups->fetch()))
 {
-    $xml .= '<listitem value="' . $item['group_id'] . '"' . ($gid == $item['group_id'] ? ' selected="true">' : '>') . ustr2html($item['group_name'])  . ' (' . get_html_resource(is_null($item['project_id']) ? RES_GLOBAL_ID : RES_LOCAL_ID) . ')</listitem>';
+    $xml .= ($gid == $row['group_id']
+                ? '<listitem value="' . $row['group_id'] . '" selected="true">'
+                : '<listitem value="' . $row['group_id'] . '">')
+          . ustr2html(sprintf('%s (%s)', $row['group_name'], get_html_resource($row['is_global'] ? RES_GLOBAL_ID : RES_LOCAL_ID)))
+          . '</listitem>';
 }
 
 $xml .= '</listbox>'
+      . '</control>'
       . '</group>'
-      . '</dualleft>'
-      . '<dualright action="strans.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_TRANSITIONS_ID) . '">';
+      . '</dualleft>';
 
-$states = dal_query(($gid < 0 ? 'states/rtlist.sql' : 'states/gtlist.sql'), $state['template_id'], $id, $gid);
+// generate right side
 
-while (($item = $states->fetch()))
+$xml .= '<dualright>'
+      . '<group title="' . get_html_resource(RES_STATES_ID) . '">';
+
+$states->seek();
+
+while (($row = $states->fetch()))
 {
-    $xml .= '<checkbox name="state' . $item['state_id'] . '"'  . ($state['is_locked'] ? NULL : ' readonly="true"') . ($item['is_set'] == 0 ? '>' : ' checked="true">') . ustr2html($item['state_name']) . '</checkbox>';
+    $xml .= '<control name="state' . $row['state_id'] . '">'
+          . '<checkbox>' . ustr2html($row['state_name']) . '</checkbox>'
+          . '</control>';
 }
 
 $xml .= '</group>'
+      . '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '</dualright>'
-      . '</dualbox>'
-      . '<button url="sview.php?id=' . $id . '">' . get_html_resource(RES_BACK_ID) . '</button>';
+      . '</dual>'
+      . '</form>'
+      . '<script>update_perms();</script>'
+      . '</content>'
+      . '</tabs>';
 
-if ($state['is_locked'])
-{
-    $xml .= '<button action="rform.action=\'strans.php?id=' . $id . '&amp;gid=\'+lform.groups.value; rform.submit();">' . get_html_resource(RES_SAVE_ID) . '</button>';
-}
-
-$xml .= '</content>'
-      . '</page>';
-
-echo(xml2html($xml));
+echo(xml2html($xml, $title));
 
 ?>

@@ -1,18 +1,13 @@
 <?php
 
-/**
- * @package eTraxis
- * @ignore
- */
-
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 //
-//  eTraxis - Records tracking web-based system.
-//  Copyright (C) 2006-2010 by Artem Rodygin
+//  eTraxis - Records tracking web-based system
+//  Copyright (C) 2006-2010  Artem Rodygin
 //
-//  This program is free software; you can redistribute it and/or modify
+//  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
-//  the Free Software Foundation; either version 2 of the License, or
+//  the Free Software Foundation, either version 3 of the License, or
 //  (at your option) any later version.
 //
 //  This program is distributed in the hope that it will be useful,
@@ -20,35 +15,15 @@
 //  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //  GNU General Public License for more details.
 //
-//  You should have received a copy of the GNU General Public License along
-//  with this program; if not, write to the Free Software Foundation, Inc.,
-//  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+//  You should have received a copy of the GNU General Public License
+//  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //
-//--------------------------------------------------------------------------------------------------
-//  Author                  Date            Description of modifications
-//--------------------------------------------------------------------------------------------------
-//  Artem Rodygin           2006-11-07      new-366: Export to CSV.
-//  Artem Rodygin           2006-11-15      bug-382: CVS-file is opened in browser without prompt to save it.
-//  Artem Rodygin           2006-11-15      bug-386: PHP Warning: Cannot modify header information
-//  Artem Rodygin           2006-11-25      new-377: Custom views.
-//  Artem Rodygin           2006-11-26      bug-404: Invalid values of 'date' and 'duration' fields in view.
-//  Artem Rodygin           2006-11-30      bug-403: Export to CSV doesn't work.
-//  Artem Rodygin           2006-12-01      bug-410: View does not show values of custom fields.
-//  Artem Rodygin           2007-02-03      new-496: [SF1650934] to show value of "list" instead of index in "records" list
-//  Artem Rodygin           2007-09-12      new-576: [SF1788286] Export to CSV
-//  Artem Rodygin           2007-09-13      new-566: Choose encoding for record dump and export of records list.
-//  Artem Rodygin           2007-11-05      new-571: View should show all records of current filters set.
-//  Artem Rodygin           2007-11-13      new-599: Separated "Age" in custom views.
-//  Artem Rodygin           2007-11-27      new-633: The 'dbx' extension should not be used.
-//  Artem Rodygin           2008-04-30      bug-714: Empty date fields show '12/31/1969' in a custom view.
-//  Artem Rodygin           2008-05-01      new-715: Show creation time in the list of records.
-//  Artem Rodygin           2008-11-18      new-762: Forward logged in user to the page he has tried to open before authentication.
-//  Artem Rodygin           2009-03-30      bug-811: Multilined text is cut on export to CSV.
-//  Artem Rodygin           2009-06-12      new-824: PHP 4 is discontinued.
-//  Artem Rodygin           2009-10-01      new-845: Template name as standard column type.
-//  Artem Rodygin           2009-10-25      new-851: State name as standard column type.
-//  Artem Rodygin           2010-04-24      new-933: New column LS/T(Last State Time)
-//--------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+/**
+ * @package eTraxis
+ * @ignore
+ */
 
 /**#@+
  * Dependency.
@@ -63,18 +38,26 @@ global $column_type_res;
 
 init_page(GUEST_IS_ALLOWED);
 
+// process search mode, if one is specified
+
 $search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
 $search_text = try_cookie(COOKIE_SEARCH_TEXT);
 
-$columns = column_list();
+// get list of records
+
+$columns = columns_list();
 
 $sort = $page = NULL;
-$list = record_list($columns, $sort, $page, $search_mode, $search_text);
+$list = records_list($columns, $sort, $page, $search_mode, $search_text);
+
+// generate HTTP headers
 
 header('Pragma: private');
 header('Cache-Control: private, must-revalidate');
 header('Content-type: text/csv');
 header('Content-Disposition: attachment; filename=etraxis.csv');
+
+// generate header of the list
 
 $data = array();
 
@@ -101,6 +84,8 @@ if ($_SESSION[VAR_ENCODING] != 'UTF-8')
 }
 
 echo($csv);
+
+// generate list of records
 
 while (($row = $list->fetch()))
 {
