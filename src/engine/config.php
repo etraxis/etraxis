@@ -34,7 +34,7 @@
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-config-etraxis.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/Installation#Step_4._Configure_eTraxis online documentation} for details.
  */
 define('LOCALROOT', '/usr/local/apache/htdocs/etraxis/');
 define('WEBROOT',   'http://www.example.com/etraxis/');
@@ -45,7 +45,7 @@ define('WEBROOT',   'http://www.example.com/etraxis/');
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-config-etraxis.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/Installation#Step_4._Configure_eTraxis online documentation} for details.
  */
 define('DATABASE_DRIVER',   1);
 define('DATABASE_HOST',     'localhost');
@@ -59,7 +59,7 @@ define('DATABASE_PASSWORD', '');
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-security.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/SecurityOptions online documentation} for details.
  */
 define('AUTH_TYPE',           1);
 define('MIN_PASSWORD_LENGTH', 6);
@@ -74,7 +74,7 @@ define('SESSION_EXPIRE',      120);
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-localization.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/Localization online documentation} for details.
  */
 define('LANG_DEFAULT', 1000);
 /**#@-*/
@@ -84,7 +84,7 @@ define('LANG_DEFAULT', 1000);
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-attachments.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/Attachments online documentation} for details.
  */
 define('ATTACHMENTS_ENABLED',    1);
 define('ATTACHMENTS_MAXSIZE',    2048);
@@ -97,7 +97,7 @@ define('ATTACHMENTS_PATH',       '/usr/local/etraxis/bins/');
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-emails.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/EmailNotifications online documentation} for details.
  */
 define('EMAIL_NOTIFICATIONS_ENABLED', 1);
 define('EMAIL_ATTACHMENTS_MAXSIZE',   0);
@@ -108,7 +108,7 @@ define('EMAIL_ATTACHMENTS_MAXSIZE',   0);
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-smtp.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/SMTPSettings online documentation} for details.
  */
 define('SMTP_SERVER_NAME',    'smtp.example.com');
 define('SMTP_SERVER_PORT',    25);
@@ -124,7 +124,7 @@ define('SMTP_USE_TLS',        0);
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-ldap-auth.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/LDAPAuthentication online documentation} for details.
  */
 define('LDAP_ENABLED',       0);
 define('LDAP_HOST',          'ldap://localhost');
@@ -145,7 +145,7 @@ define('LDAP_ADMINS',        'Administrator');
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-maintenance.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/Maintenance online documentation} for details.
  */
 define('MAINTENANCE_BANNER',      0);
 define('MAINTENANCE_START_DATE',  '1980-01-01');
@@ -159,7 +159,7 @@ define('MAINTENANCE_FINISH_TIME', '00:00');
 #-------------------------------------------------------------------------------
 
 /**#@+
- * See {@link http://www.etraxis.org/docs-debug.php online documentation} for details.
+ * See {@link http://code.google.com/p/etraxis/wiki/DebugLogging online documentation} for details.
  */
 define('DEBUG_MODE', 0);
 define('DEBUG_LOGS', '/usr/local/etraxis/logs/');
