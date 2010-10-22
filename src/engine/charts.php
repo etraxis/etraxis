@@ -555,7 +555,7 @@ class CAxis
  * imagepng($chart->image);
  * imagedestroy($chart->image);
  * </code>
- * The code above will generate {@link http://www.etraxis.org/images/cchart.png this PNG file}.
+ * The code above will generate {@link http://etraxis.googlecode.com/svn/bin/images/cchart.png this PNG file}.
  *
  * @package Engine
  * @subpackage Charts
