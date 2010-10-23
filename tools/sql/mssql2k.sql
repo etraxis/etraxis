@@ -1214,7 +1214,6 @@ insert into tbl_accounts
     csv_delim,
     csv_encoding,
     csv_line_ends,
-    fset_id,
     view_id
 )
 values
@@ -1224,5 +1223,5 @@ values
     'root@example.com',
     'd41d8cd98f00b204e9800998ecf8427e',
     'Built-in administrator',
-    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 20, 10, 44, 1, 1, NULL, NULL
+    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 20, 10, 44, 1, 1, NULL
 );
