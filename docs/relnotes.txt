@@ -2,30 +2,26 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag  : MAIN_2-1-17
-Release date : 2010-08-18
-Release size : 35755
+Release tag:  MAIN_3-0-0
+Release date: 2010-10-24
+Release size: (39612)
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-INSTALLATION
+PROJECT LINKS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Please check the following link: <http://www.etraxis.org/docs.php>
+Project home:       http://code.google.com/p/etraxis/
+Project blog:       http://etraxis.blogspot.com/
+Feedback & Support: http://groups.google.com/group/etraxis
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-UPGRADE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Please check the following link: <http://www.etraxis.org/docs-upgrading.php>
+Installation:       http://code.google.com/p/etraxis/wiki/Installation
+Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/css/etraxis.css
-[M] src/dbo/records.php
-[M] src/engine/engine.xsl
-[M] src/engine/xml.php
+The set of files has been changed significantly - please deploy it from scratch.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -52,66 +48,67 @@ Turkish
 PLANNED NEW FEATURES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-138: Custom metrics and statistics.
-new-171: Display graph of states and transitions.
-new-193: 3rd party software interfaces.
-new-500: Record custom categories.
-new-514: Project admins.
-new-731: Custom fields with dynamic data.
-new-791: [SF2620701] Background color in the records list
-new-829: Subscribed as system role.
-new-830: Shared filter sets.
-new-831: Display subrecords as tree of nodes.
-new-836: Value submitter as system role. (issue #49)
-new-840: RSS feeds for record changes.
-new-843: User self registration.
-new-844: [SF2848827] Display records with past deadlines in red
-new-852: LDAP // Email should not be mandatory. (issue #36)
-new-853: LDAP // Active Directory groups.
-new-856: [SF2892425] Refferencing or quoting comments of others
-new-908: Add short name to the field (issue #15)
-new-911: New field type - project (issue #18)
-new-917: Add description/tooltip to fields (issue #24)
-new-921: State with required attachment (issue #10)
-new-922: Greater Flexibility with emails. (issue #29)
-new-923: Support for subversion (issue #32)
-new-941: Show next state for each state on states view (issue #48)
-new-955: Better info about parent records and subrecords (issue #60)
-new-956: Request: More details in the generated message (issue #61)
-new-957: Request: Mark record as unread (issue #62)
-new-958: Request: Labels (issue #63)
-new-959: field relationships (issue #64)
-new-960: symbology dependent on some field value (issue #65)
-new-961: Metrics API (issue #66)
-new-962: current field values (issue #67)
-new-963: group with all comments (issue #68)
-new-964: show reassign event in event group (issue #69)
-new-966: Request: Enhanced sorting (issue #71)
-new-967: Request: Notification of the project state (issue #72)
-new-968: Request: Localization of templates (issue #73)
-new-969: Request: Enhanced associations (issue #74)
-new-970: Request: Reporting (issue #75)
-new-971: Request: Work with links (issue #76)
-new-972: Request: Default sort with filter (issue #77)
+Issue 10: State with required attachment
+Issue 15: Add short name to the field
+Issue 18: New field type - project
+Issue 24: Add description/tooltip to fields
+Issue 29: Greater flexibility with emails.
+Issue 30: State configuration: let user manually assign a group as the source for the responsible list.
+Issue 32: Support for subversion
+Issue 36: Email should not be mandatory.
+Issue 47: Add "Created" field to the filter constructor
+Issue 48: Show next state for each state in the list of states
+Issue 49: Value submitter as system role.
+Issue 60: Better info about parent records and subrecords
+Issue 61: More details in generated notifications
+Issue 63: Custom tags for records.
+Issue 64: Fields relationships between parent and its subrecords
+Issue 65: Symbolic dependence on some field value
+Issue 66: Custom metrics and statistics.
+Issue 71: Multiple columns sorting
+Issue 72: Notifications about project status
+Issue 73: Localization of templates
+Issue 74: Enhanced associations
+Issue 75: Reporting
+Issue 76: Improve linking parent records with subrecords
+Issue 77: Default sort with filter
+Issue 80: Reaction time vs. Solution time
+Issue 81: Automatic status change
+Issue 83: Attribute description
+Issue 84: List of connected records
+Issue 85: Template attributes
+Issue 88: Select records changed in a time period
+Issue 92: 3rd party software API.
+Issue 93: Project admins.
+Issue 95: Customizable record's background color in the records list.
+Issue 96: Display subrecords as tree of nodes.
+Issue 97: RSS feeds for record changes.
+Issue 98: User self registration.
+Issue 99: Support for Active Directory groups.
+Issue 100: Switch from GD fonts to TTF ones.
+Issue 101: NTLM authentication support.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-696: Values of restricted fields are still accessible via custom view.
-bug-903: BBCode // Nested lists look broken. (issue #11)
+Issue 87: The value "-1" not exportable
+Issue 91: Clone record - responsibility lost
+Issue 94: Values of restricted fields are still accessible via custom view.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-new-951: BBCode // Restyle [quote] tag
+Issue 62: Mark record as unread
+Issue 67: Show current field values only
+Issue 68: Group with all comments
+Issue 69: Show reassign event in the events group
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-bug-952: Check boxes always saved as true (issue #59)
-bug-973: Filter out postponed records with state filter active (issue #78)
+Issue 11: BBcode // nested lists look broken
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -1,0 +1,16 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+CHANGE LOG
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+New features integrated in MAIN_3-0-0 (2010-10-24)
+
+    Issue 62: Mark record as unread
+    Issue 67: Show current field values only
+    Issue 68: Group with all comments
+    Issue 69: Show reassign event in the events group
+
+Bug fixes integrated in MAIN_3-0-0 (2010-10-24)
+
+    Issue 11: BBcode // nested lists look broken
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
