@@ -508,10 +508,9 @@ $resource_english = array
     'Disable',
     'Preview',
     'Owner',
-    /* 1350 */
+    /* 1360 */
     'Anyone.',
     'Mark as unread',
-    'Allowed',
     'Parent record',
 );
 

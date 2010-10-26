@@ -191,7 +191,7 @@ $resource_czech = array
     'Oprávnìní',
     /* 1070 */
     'Vytvoøit poèáteèní',
-    'Pøípustný',
+    'Povoleno',
     'Pole',
     'Informace o poli',
     'Poøadí',
@@ -511,7 +511,6 @@ $resource_czech = array
     /* 1360 */
     'Kdokoliv.',
     'Oznaèit jako nepøeètené',
-    'Povoleno',
     'Nadøízené záznamy',
 );
 
