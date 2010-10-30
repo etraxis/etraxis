@@ -501,6 +501,17 @@ $resource_german = array
     'Kompression',
     'L.S.',
     'Kommentare',
+    'Größe',
+    'Erscheinungsbild',
+    'CSV',
+    'Einschalten',
+    'Ausschalten',
+    'Vorschau',
+    'Eigentümer',
+    /* 1360 */
+    'Jeder.',
+    'Als ungelesen markieren',
+    'Übergeordnete Anfrage',
 );
 
 ?>
