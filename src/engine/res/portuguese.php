@@ -501,6 +501,17 @@ $resource_portuguese = array
     'Compressão',
     'P/Es',
     'Comentários',
+    'Tamanho',
+    'Aparência',
+    'CSV',
+    'Habilitado',
+    'Desabilitado',
+    'Pré-visualização',
+    'Proprietário',
+    /* 1360 */
+    'Qualquer um.',
+    'Marcar como não lido',
+    'Registro pai',
 );
 
 ?>
