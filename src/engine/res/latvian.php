@@ -501,6 +501,17 @@ $resource_latvian = array
     'Kompresija',
     'P/S',
     'Komentâri',
+    'Izmçrs',
+    'Izskats',
+    'CSV',
+    'Ieslçgt',
+    'Izslçgt',
+    'Priekðskats',
+    'Saimnieks',
+    /* 1360 */
+    'Ikviens.',
+    'Atzîmçt kâ neizlasîtu',
+    'Vecâkieraksts',
 );
 
 ?>
