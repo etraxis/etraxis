@@ -501,6 +501,17 @@ $resource_spanish = array
     'Compresión',
     'P/Es',
     'Comentarios',
+    'Tamaño',
+    'Apariencia',
+    'CSV',
+    'Habilitar',
+    'Deshabilitar',
+    'Vista Previa',
+    'Dueño',
+    /* 1360 */
+    'Nadie.',
+    'Marcar como no leído',
+    'Registro padre',
 );
 
 ?>
