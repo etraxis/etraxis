@@ -501,6 +501,17 @@ $resource_turkish = array
     'Sýkýþtýrma',
     'S/D',
     'Yorumlar',
+    'Boyut',
+    'Görünüm',
+    'CSV',
+    'Etkinleþtir',
+    'Devre dýþý býrak',
+    'Önizleme',
+    'Sahibi',                       // needs to be clarified according to the context
+    /* 1360 */
+    'Herkes.',                      // needs clarification
+    'Okunmadý olarak iþaretle',
+    'Ebeveyn kayýt',                // needs clarification
 );
 
 ?>
