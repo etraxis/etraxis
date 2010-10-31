@@ -494,13 +494,24 @@ $resource_dutch = array
     'lijst van getallen',
     'lijst van woorden',
     'Gemaakt',
-    'Markeer als gelezen',
+    'Als gelezen markeren',
     'Geregistreerd',
     'TLS',
     /* 1350 */
     'Compression',
     'L/S',
     'Reacties',
+    'Grootte',
+    'Uiterlijk',
+    'CSV',
+    'Inschakelen',
+    'Uitschakelen',
+    'Voorbeeld',
+    'Eigenaar',
+    /* 1360 */
+    'Iedereen.',
+    'Als ongelezen markeren',
+    'Ouder record',
 );
 
 ?>
