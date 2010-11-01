@@ -501,6 +501,18 @@ $resource_romanian = array
     'Comprimare',
     'U/S',
     'Comentarii',
+
+    'Dimensiune',
+    'Mod de prezentare',
+    'CSV',
+    'Activeaza',
+    'Dezactiveaza',
+    'Previzionare',
+    'Proprietar',
+    /* 1360 */
+    'Oricine.',
+    'Marcheaza ca necitit',
+    'Inregistrare parinte',
 );
 
 ?>
