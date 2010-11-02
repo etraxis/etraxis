@@ -2769,6 +2769,19 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
 {
     debug_write_log(DEBUG_TRACE, '[gen_record_tabs]');
 
+    // count some of records data
+
+    $rs = dal_query('comments/list.sql', $record['record_id']);
+    $comments = $rs->rows;
+
+    $rs = dal_query('attachs/list.sql', $record['record_id'], 'attachment_id');
+    $attachments = $rs->rows;
+
+    $rs = dal_query('depends/list.sql', $record['record_id']);
+    $subrecords = $rs->rows;
+
+    // tabs data
+
     $url = array(RECORD_TAB_MAIN        => 'view.php?id='        . $record['record_id'],
                  RECORD_TAB_HISTORY     => 'history.php?id='     . $record['record_id'],
                  RECORD_TAB_CHANGES     => 'changes.php?id='     . $record['record_id'],
@@ -2782,10 +2795,10 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
                    RECORD_TAB_HISTORY     => get_html_resource(RES_HISTORY_ID),
                    RECORD_TAB_CHANGES     => get_html_resource(RES_CHANGES_ID),
                    RECORD_TAB_EVENTS      => get_html_resource(RES_EVENTS_ID),
-                   RECORD_TAB_COMMENTS    => get_html_resource(RES_COMMENTS_ID),
-                   RECORD_TAB_ATTACHMENTS => get_html_resource(RES_ATTACHMENTS_ID),
+                   RECORD_TAB_COMMENTS    => sprintf('%s (%u)', get_html_resource(RES_COMMENTS_ID), $comments),
+                   RECORD_TAB_ATTACHMENTS => sprintf('%s (%u)', get_html_resource(RES_ATTACHMENTS_ID), $attachments),
                    RECORD_TAB_PARENT      => get_html_resource(RES_PARENT_RECORD_ID),
-                   RECORD_TAB_SUBRECORDS  => get_html_resource(RES_SUBRECORDS_ID));
+                   RECORD_TAB_SUBRECORDS  => sprintf('%s (%u)', get_html_resource(RES_SUBRECORDS_ID), $subrecords));
 
     // if no changes have been made, remove "Changes" tab
 
