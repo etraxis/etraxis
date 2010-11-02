@@ -395,6 +395,10 @@ ul.breadcrumbs {
   padding: 0px;
 }
 
+li.breadcrumb {
+  float: left;
+}
+
 li.splitter {
   background-image: url('../images/breadcrumb.png');
   background-position: center center;
