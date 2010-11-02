@@ -8,7 +8,7 @@ table.list {
 
 tr.header td {
   border-bottom: #CCC 1px solid;
-  color: #39C;
+  color: #00638F;
   cursor: pointer;
   padding: 1px;
   vertical-align: bottom;
@@ -99,7 +99,7 @@ tr.hrow a {
 
 tr.rowblue p,
 tr.hrowblue p {
-  color: #39C;
+  color: #00638F;
 }
 
 tr.rowgrey p,
@@ -109,7 +109,7 @@ tr.hrowgrey p {
 
 tr.rowred p,
 tr.hrowred p {
-  color: #C33;
+  color: #C65066;
 }
 
 td.left,
@@ -153,9 +153,6 @@ td.bookmark {
 
 td.cbookmark {
   border: #404040 1px solid;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
 }
 
 td.total {
@@ -165,10 +162,7 @@ td.total {
 
 a.bookmark {
   border: #CCC 1px solid;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  color: #39C;
+  color: #00638F;
   display: block;
   padding: 2px 4px;
   white-space: nowrap;
