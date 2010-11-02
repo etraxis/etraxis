@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-0-0
-Release date: 2010-10-24
-Release size: (39612)
+Release tag:  MAIN_3-0-1
+Release date: 2010-11-02
+Release size: 39795
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,7 +21,46 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The set of files has been changed significantly - please deploy it from scratch.
+[M] src/css/etraxis.css
+[M] src/css/list.css
+[M] src/dbo/fields.php
+[M] src/engine/engine.xsl
+[M] src/engine/res/bulgarian.php
+[M] src/engine/res/czech.php
+[M] src/engine/res/dutch.php
+[M] src/engine/res/english.php
+[M] src/engine/res/german.php
+[M] src/engine/res/italian.php
+[M] src/engine/res/japanese.php
+[M] src/engine/res/latvian.php
+[M] src/engine/res/portuguese.php
+[M] src/engine/res/romanian.php
+[M] src/engine/res/russian.php
+[M] src/engine/res/spanish.php
+[M] src/engine/res/turkish.php
+[M] src/engine/resource.php
+[M] src/engine/xml.php
+[M] src/images/breadcrumb.png
+[A] src/images/button-bg.png
+[A] src/images/button-bg2.png
+[A] src/images/contextmenu-bg.png
+[A] src/images/dropdown.png
+[D] src/images/lightbox.png
+[A] src/images/mainmenu-bg-hl.png
+[A] src/images/mainmenu-bg.png
+[A] src/images/mainmenu-splitter.png
+[M] src/images/minus.png
+[M] src/images/plus.png
+[M] src/images/search.png
+[A] src/images/tab-bg.png
+[A] src/images/tab-bg2.png
+[A] src/images/toolbar-bg-hl.png
+[A] src/images/toolbar-bg.png
+[A] src/images/toolbar-splitter.png
+[M] src/records/attachments.php
+[M] src/records/create.php
+[M] src/scripts/etraxis.js
+[M] src/views/index.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -92,23 +131,23 @@ Issue 101: NTLM authentication support.
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 87: The value "-1" not exportable
-Issue 91: Clone record - responsibility lost
 Issue 94: Values of restricted fields are still accessible via custom view.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 62: Mark record as unread
-Issue 67: Show current field values only
-Issue 68: Group with all comments
-Issue 69: Show reassign event in the events group
+Issue 106: Change UI design
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 11: BBcode // nested lists look broken
+Issue 87: The value "-1" not exportable
+Issue 91: Clone record - responsibility lost
+Issue 102: Attachments not downloadable
+Issue 103: Delete views does not work
+Issue 104: Right bracket is doubled in the list of responsibes.
+Issue 105: PHP Notice: Undefined index: attachname in /src/records/create.php on line 268
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
