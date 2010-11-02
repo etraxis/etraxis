@@ -54,11 +54,11 @@ $resource_italian = array
     'Il valore numerico deve essere compreso tra %1 e %2.',
     'Il valore "%1" deve essere compreso tra %2 e %3.',
     'Il valore massimo deve essere maggiore del valore minimo.',
-    'Il file uploadato eccede la direttiva "upload_max_filesize" nel "php.ini".',
+    'Il file caricato eccede la direttiva "upload_max_filesize" nel "php.ini".',
     'La dimensione massima consentita per gli allegati è di %1 KBytes.',
     /* 220 */
-    'Il file è stato uploadato solo parzialmente.',
-    'Non è stato uploadato alcun file.',
+    'Il file è stato caricato solo parzialmente.',
+    'Non è stato caricato alcun file.',
     'Directory temporanea non trovata.',
     'Un allegato con lo stesso nome è già esistente.',
     'Record non trovato.',
@@ -75,7 +75,7 @@ $resource_italian = array
     'Nome colonna già utilizzato.',
     'Impossibile scrivere il file su disco.',
     'Upload del file bloccato da una estensione.',
-    'Il JavaScript deve essere abilitato.',
+    'Il javaScript deve essere abilitato.',
     'Questo messaggio è stato generato automaticamente, per favore non rispondere.',
     'Subrecord specificato già esistente.',
     /* 240 */
@@ -114,7 +114,7 @@ $resource_italian = array
     RES_SECTION_PROMPTS =>
     /* 1000 */
     'Italiano',
-    'Login',
+    'Entra',
     '  OK  ',
     'Annulla',
     'Salva',
@@ -257,7 +257,7 @@ $resource_italian = array
     'Rimuovi file',
     /* 1130 */
     'Allegato',
-    'Name dell\'allegato',
+    'Nome dell\'allegato',
     'File allegato',
     'Allegati',
     'Nessun campo.',
@@ -361,7 +361,7 @@ $resource_italian = array
     'Debug logs',
     'Abilitato',
     'Disabilitato',
-    '%1 minuri',
+    '%1 min',
     'abilitazione alla sola visualizzazione dei record',
     'Seleziona tutto',
     'Autore',
@@ -501,6 +501,17 @@ $resource_italian = array
     'Compressione',
     'U/S',
     'Commenti',
+    'Dimensione',
+    'Aspetto',
+    'CSV',
+    'Abilita',
+    'Disabilita',
+    'Anteprima',
+    'Proprietario',
+    /* 1360 */
+    'Chiunque.',
+    'Segna come non letto',
+    'Record padre',
 );
 
 ?>
