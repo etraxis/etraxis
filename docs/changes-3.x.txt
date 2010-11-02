@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-0-2 (2010-11-03)
+
+    Issue 107: Add number of comments, attachments, and subrecords to related tabs of the record view page.
+
+Bug fixes integrated in MAIN_3-0-2 (2010-11-03)
+
+    Issue 108: Breadcrumbs are broken
+    Issue 109: Drop down icon on the context menu button is not centered in IE.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-0-1 (2010-11-02)
 
     Issue 106: Change UI design
