@@ -438,7 +438,7 @@ else
                     $xml .= ($row['account_id'] == $responsible_id
                                 ? '<listitem value="' . $row['account_id'] . '" selected="true">'
                                 : '<listitem value="' . $row['account_id'] . '">')
-                          . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username']))) . ')'
+                          . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username'])))
                           . '</listitem>';
                 }
 
