@@ -1083,7 +1083,7 @@ function field_export ($id, &$groups)
         switch ($field['field_type'])
         {
             case FIELD_TYPE_NUMBER:
-                $xml .= sprintf(' minimum="%u" maximum="%u"', $field['param1'], $field['param2']);
+                $xml .= sprintf(' minimum="%d" maximum="%d"', $field['param1'], $field['param2']);
                 break;
 
             case FIELD_TYPE_STRING:
@@ -1108,6 +1108,9 @@ function field_export ($id, &$groups)
             switch ($field['field_type'])
             {
                 case FIELD_TYPE_NUMBER:
+                    $xml .= sprintf(' default="%d"', $field['value_id']);
+                    break;
+
                 case FIELD_TYPE_LIST:
                     $xml .= sprintf(' default="%u"', $field['value_id']);
                     break;
