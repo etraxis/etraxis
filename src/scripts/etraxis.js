@@ -33,13 +33,11 @@ function logout ()
 function clear_topline (element, prompt)
 {
     if (element.value == prompt) element.value = '';
-    element.style.color = '#000';
 }
 
 function reset_topline (element, prompt)
 {
     if (element.value == '') element.value = prompt;
-    element.style.color = '#CCC';
 }
 
 function toggle_menu (id)

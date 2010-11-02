@@ -46,71 +46,68 @@
     <script type="text/javascript" src="../scripts/jquery.js"></script>
     <script type="text/javascript" src="../scripts/etraxis.js"></script>
     <xsl:apply-templates select="script"/>
-    <table class="container">
-    <tr valign="top">
-    <td>
-        <div id="logo"><a href="http://code.google.com/p/etraxis/" target="_blank"><img src="../images/etraxis.png" width="40" height="40" alt="eTraxis"/></a></div>
-        <xsl:apply-templates select="mainmenu"/>
+    <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
+    <div id="toolbar">
+        <div class="toolbarsplitt spacer"></div>
         <xsl:apply-templates select="contextmenu"/>
-        <div id="version">
-        <xsl:value-of select="@version"/>
+        <div id="search">
+            <div id="search_box">
+                <form name="searchform" method="get" target="_parent" action="../records/index.php">
+                <input type="text" class="search" name="search" maxlength="100">
+                <xsl:attribute name="value">
+                <xsl:value-of select="@last_search"/>
+                </xsl:attribute>
+                <xsl:attribute name="onfocus">
+                <xsl:text>clear_topline(this, '</xsl:text>
+                <xsl:value-of select="@search"/>
+                <xsl:text>')</xsl:text>
+                </xsl:attribute>
+                <xsl:attribute name="onblur">
+                <xsl:text>reset_topline(this, '</xsl:text>
+                <xsl:value-of select="@search"/>
+                <xsl:text>')</xsl:text>
+                </xsl:attribute>
+                </input>
+                </form>
+            </div>
+            <div id="search_button" onclick="document.searchform.submit()"></div>
         </div>
-    </td>
-    <td width="100%">
-        <div id="topline">
-            <div id="search">
-                <div id="search_box">
-                    <form name="searchform" method="get" target="_parent" action="../records/index.php">
-                    <input type="text" class="search" name="search" maxlength="100">
-                    <xsl:attribute name="value">
-                    <xsl:value-of select="@last_search"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="onfocus">
-                    <xsl:text>clear_topline(this, '</xsl:text>
-                    <xsl:value-of select="@search"/>
-                    <xsl:text>')</xsl:text>
-                    </xsl:attribute>
-                    <xsl:attribute name="onblur">
-                    <xsl:text>reset_topline(this, '</xsl:text>
-                    <xsl:value-of select="@search"/>
-                    <xsl:text>')</xsl:text>
-                    </xsl:attribute>
-                    </input>
-                    </form>
-                </div>
-                <div id="search_button" onclick="document.searchform.submit()"></div>
+        <div class="toolbarsplitt"></div>
+        <div id="quickfind">
+            <div id="quickfind_box">
+                <form name="quickfindform" method="get" target="_parent" action="../records/view.php">
+                <input type="text" class="quickfind" name="id" maxlength="10" value="ID" onfocus="clear_topline(this, 'ID')" onblur="reset_topline(this, 'ID')"/>
+                </form>
             </div>
-            <div id="quickfind">
-                <div id="quickfind_box">
-                    <form name="quickfindform" method="get" target="_parent" action="../records/view.php">
-                    <input type="text" class="quickfind" name="id" maxlength="10" value="ID" onfocus="clear_topline(this, 'ID')" onblur="reset_topline(this, 'ID')"/>
-                    </form>
-                </div>
-                <div id="quickfind_button" onclick="document.quickfindform.submit()"></div>
-            </div>
-            <div id="logout">
-            <input type="button" class="button" id="logout_button" onclick="onLogoutButton()">
-            <xsl:attribute name="value">
-            <xsl:value-of select="@logout"/>
-            </xsl:attribute>
-            </input>
-            </div>
+            <div id="quickfind_button" onclick="document.quickfindform.submit()"></div>
+        </div>
+        <div class="toolbarsplitt"></div>
+        <div id="breadcrumb"><xsl:apply-templates select="breadcrumbs"/></div>
+        <div id="logout-wrap">
+            <div class="toolbarsplitt"></div>
             <div id="current_username">
             <xsl:value-of select="@username"/>
             </div>
+            <div class="toolbarsplitt"></div>
+            <div id="logout" onclick="onLogoutButton()">
+            <xsl:value-of select="@logout"/>
+            </div>
         </div>
+    </div>
+    <div id="contentwrapper">
         <noscript>
             <div id="noscript">JavaScript must be enabled.</div>
         </noscript>
         <div id="banner">
         <xsl:value-of select="@banner"/>
         </div>
-        <xsl:apply-templates select="breadcrumbs"/>
         <xsl:apply-templates select="tabs|content"/>
-        <div id="copyright"><xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by Artem Rodygin</xsl:text></div>
-    </td>
-    </tr>
-    </table>
+        <div id="copyright">
+        <a href="http://code.google.com/p/etraxis/" target="_blank">
+        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2010 by Artem Rodygin &amp;minus; </xsl:text><xsl:value-of select="@version"/>
+        </a>
+        </div>
+    </div>
     </body>
     </html>
 </xsl:template>
@@ -148,14 +145,23 @@
 
 <xsl:template match="mainmenu">
     <ul class="mainmenu">
+    <li class="mainmenu-splitter"></li>
     <xsl:apply-templates select="menuitem"/>
     </ul>
 </xsl:template>
 
 <xsl:template match="contextmenu">
+    <div id="contextmenu">
+    <ul id="toolbarcontextmenu">
+    <li class="toolbaritem">
+    <img src="../images/dropdown.png"/>
     <ul class="contextmenu">
     <xsl:apply-templates select="submenu|menuitem"/>
     </ul>
+    </li>
+    </ul>
+    </div>
+    <div class="toolbarsplitt"></div>
 </xsl:template>
 
 <xsl:template match="submenu">
@@ -209,36 +215,63 @@
 </xsl:template>
 
 <xsl:template match="menuitem">
-    <li>
-    <xsl:attribute name="class">
-        <xsl:choose>
-           <xsl:when test="name(parent::node()) = 'contextmenu'">
-               <xsl:text>menuitem_b</xsl:text>
-           </xsl:when>
-           <xsl:when test="name(parent::node()) = 'submenu'">
-               <xsl:text>menuitem_b</xsl:text>
-           </xsl:when>
-           <xsl:otherwise>
-               <xsl:text>menuitem</xsl:text>
-           </xsl:otherwise>
-        </xsl:choose>
-    </xsl:attribute>
-    <a class="menuitem">
     <xsl:choose>
-        <xsl:when test="boolean(@url)">
-            <xsl:attribute name="href">
-            <xsl:value-of select="@url"/>
+        <xsl:when test="name(parent::node()) = 'mainmenu'">
+            <li>
+            <xsl:attribute name="class">
+            <xsl:text>menuitem</xsl:text>
             </xsl:attribute>
-            <xsl:value-of select="."/>
+            <a class="menuitem">
+            <xsl:choose>
+                <xsl:when test="boolean(@url)">
+                    <xsl:attribute name="href">
+                    <xsl:value-of select="@url"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="."/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <i>
+                    <xsl:value-of select="."/>
+                    </i>
+                </xsl:otherwise>
+            </xsl:choose>
+            </a>
+            </li>
+            <li class="mainmenu-splitter"></li>
         </xsl:when>
         <xsl:otherwise>
-            <i>
-            <xsl:value-of select="."/>
-            </i>
+            <li>
+            <xsl:attribute name="class">
+                <xsl:choose>
+                    <xsl:when test="name(parent::node()) = 'contextmenu'">
+                        <xsl:text>menuitem_b</xsl:text>
+                    </xsl:when>
+                    <xsl:when test="name(parent::node()) = 'submenu'">
+                        <xsl:text>menuitem_b</xsl:text>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        <xsl:text>menuitem</xsl:text>
+                    </xsl:otherwise>
+                </xsl:choose>
+            </xsl:attribute>
+            <a class="menuitem">
+            <xsl:choose>
+                <xsl:when test="boolean(@url)">
+                    <xsl:attribute name="href">
+                    <xsl:value-of select="@url"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="."/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <i>
+                    <xsl:value-of select="."/>
+                    </i>
+                </xsl:otherwise>
+            </xsl:choose>
+            </a>
+            </li>
         </xsl:otherwise>
     </xsl:choose>
-    </a>
-    </li>
 </xsl:template>
 
 <!-- Breadcrumbs -->
@@ -251,16 +284,18 @@
 
 <xsl:template match="breadcrumb">
     <xsl:if test="position() != 1">
-    <li class="splitter"/>
+    <li class="splitter">
+    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+    </li>
     </xsl:if>
-    <li class="breadcrumb">
     <a class="breadcrumb">
     <xsl:attribute name="href">
     <xsl:value-of select="@url"/>
     </xsl:attribute>
     <xsl:value-of select="."/>
-    </a>
+    <li class="breadcrumb">
     </li>
+    </a>
 </xsl:template>
 
 <!-- Tabs -->
@@ -691,7 +726,7 @@
         <xsl:text>:</xsl:text>
     </xsl:if>
     <xsl:if test="boolean(../@required)">
-        <sup>
+        <span class="sup">
         <xsl:attribute name="class">
         <xsl:choose>
             <xsl:when test="boolean(../@disabled)">
@@ -705,7 +740,7 @@
         <xsl:text>[</xsl:text>
         <xsl:value-of select="../@required"/>
         <xsl:text>]</xsl:text>
-        </sup>
+        </span>
     </xsl:if>
     </label>
 </xsl:template>
