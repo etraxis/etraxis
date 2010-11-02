@@ -103,7 +103,7 @@ if ($list->rows != 0)
     {
         $row = $list->fetch();
 
-        $xml .= "<row name=\"subsc{$row['view_id']}\" url=\"view.php?id={$row['view_id']}\">"
+        $xml .= "<row name=\"view{$row['view_id']}\" url=\"view.php?id={$row['view_id']}\">"
               . '<cell>' . ustr2html($row['view_name']) . '</cell>'
               . '</row>';
     }
