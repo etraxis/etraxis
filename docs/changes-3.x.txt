@@ -2,6 +2,21 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-0-1 (2010-11-02)
+
+    Issue 106: Change UI design
+
+Bug fixes integrated in MAIN_3-0-1 (2010-11-02)
+
+    Issue 87: The value "-1" not exportable
+    Issue 91: Clone record - responsibility lost
+    Issue 102: Attachments not downloadable
+    Issue 103: Delete views does not work
+    Issue 104: Right bracket is doubled in the list of responsibes.
+    Issue 105: PHP Notice: Undefined index: attachname in /src/records/create.php on line 268
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-0-0 (2010-10-24)
 
     Issue 62: Mark record as unread
