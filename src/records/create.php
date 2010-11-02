@@ -96,9 +96,10 @@ else
         exit;
     }
 
-    $subject     = $record['subject'];
-    $project_id  = $record['project_id'];
-    $template_id = $record['template_id'];
+    $subject        = $record['subject'];
+    $responsible_id = $record['responsible_id'];
+    $project_id     = $record['project_id'];
+    $template_id    = $record['template_id'];
 
     if (DATABASE_DRIVER == DRIVER_ORACLE9)
     {
@@ -167,7 +168,7 @@ elseif (try_request('submitted') == 'templateform')
     debug_write_log(DEBUG_NOTICE, 'Data for step #3 (final) are being requested.');
 
     $subject        = ($parent ? $parent['subject'] : NULL);
-    $responsible_id = NULL;
+    $responsible_id = ($id == 0 ? NULL : $record['responsible_id']);
     $project_id     = ustr2int(try_request('project'));
     $template_id    = ustr2int(try_request('template'));
 
