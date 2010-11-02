@@ -266,8 +266,11 @@ elseif (try_request('submitted') == 'mainform')
                 subrecord_add($parent['record_id'], $record_id, $is_dependency);
             }
 
-            $attachname = ustrcut($_REQUEST['attachname'], MAX_ATTACHMENT_NAME);
-            attachment_add($record_id, $attachname, $_FILES['attachfile']);
+            if (isset($_REQUEST['attachname']) && ATTACHMENTS_ENABLED)
+            {
+                $attachname = ustrcut($_REQUEST['attachname'], MAX_ATTACHMENT_NAME);
+                attachment_add($record_id, $attachname, $_FILES['attachfile']);
+            }
 
             record_read($record_id);
 
