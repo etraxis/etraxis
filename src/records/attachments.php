@@ -207,8 +207,8 @@ else
         $row = $list->fetch();
 
         $xml .= ($row['originator_id'] != $_SESSION[VAR_USERID] && ($permissions & PERMIT_REMOVE_FILES) == 0
-                    ? '<row name="file' . $row['attachment_id'] . '" url="' . $row['attachment_id'] . '" disabled="true">'
-                    : '<row name="file' . $row['attachment_id'] . '" url="' . $row['attachment_id'] . '">')
+                    ? '<row name="file' . $row['attachment_id'] . '" url="download.php?id=' . $row['attachment_id'] . '" disabled="true">'
+                    : '<row name="file' . $row['attachment_id'] . '" url="download.php?id=' . $row['attachment_id'] . '">')
               . '<cell>' . ustr2html($row['attachment_name']) . '</cell>'
               . '<cell>' . $row['attachment_size'] . '</cell>'
               . '<cell>' . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username']))) . '</cell>'
