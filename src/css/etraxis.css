@@ -263,6 +263,14 @@ a.menuitem {
   vertical-align: middle;
 }
 
+#dropdownicon {
+  background-image: url('../images/dropdown.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 30px;
+  width: 7px;
+}
+
 li.toolbaritem {
   margin: 0px;
   padding: 0px 10px;

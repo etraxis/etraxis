@@ -154,7 +154,7 @@
     <div id="contextmenu">
     <ul id="toolbarcontextmenu">
     <li class="toolbaritem">
-    <img src="../images/dropdown.png"/>
+    <div id="dropdownicon"></div>
     <ul class="contextmenu">
     <xsl:apply-templates select="submenu|menuitem"/>
     </ul>
