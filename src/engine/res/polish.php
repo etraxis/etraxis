@@ -312,7 +312,7 @@ $resource_polish = array
     'Statystyki',
     /* 1180 */
     'Otwartych rekordów',
-    'Utworzonych do Zamknietych',
+    'Utworzonych do zamkniêtych',
     'tydzieñ',
     'liczba',
     'Kopiuj',
@@ -421,7 +421,7 @@ $resource_polish = array
     'z prawej',
     'Us³uga bêdzie niedostêpna od %1 do %2 (%3)',
     /* 1280 */
-    'Wszystkie przydzielone mi',
+    'Wszystkie przydzielone do mnie',
     'Wszystkie utworzone przeze mnie',
     'Odznacz wsystkie',
     'yyyy.m.d',
@@ -494,13 +494,24 @@ $resource_polish = array
     'lista indeksów',
     'lista warto¶ci',
     'Utworzony',
-    'Zaznacz jako przeczytany',
+    'Oznacz jako przeczytane',
     'Zarejestrowany',
     'TLS',
     /* 1350 */
-    'Kompresja',
+    'Spakowany',
     'Ost.Stan',
     'Komentarze',
+    'Rozmiar',
+    'Wygl±d',
+    'CSV',
+    'W³±cz',
+    'Wy³±cz',
+    'Podgl±d',
+    'W³a¶ciciel',
+    /* 1360 */
+    'Ka¿dy.',
+    'Oznacz jako nieprzeczytany',
+    'Nadrzêdny record',     
 );
 
 ?>
