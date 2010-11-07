@@ -138,7 +138,7 @@ if (can_comment_be_added($record, $permissions))
 
     if ($permissions & PERMIT_CONFIDENTIAL_COMMENTS)
     {
-        $xml .= '<button action="document.comment.action=\'comments.php?id=' . $id . '&amp;confidential=1\'; document.comment.submit();">'
+        $xml .= '<button action="document.commentform.action=\'comments.php?id=' . $id . '&amp;confidential=1\'; document.commentform.submit();">'
               . get_html_resource(RES_ADD_CONFIDENTIAL_COMMENT_ID)
               . '</button>';
     }
