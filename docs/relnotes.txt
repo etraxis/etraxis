@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-0-2
-Release date: 2010-11-03
-Release size: 39811
+Release tag:  MAIN_3-0-3
+Release date: 2010-11-07
+Release size: 39801
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -22,9 +22,31 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [M] src/css/etraxis.css
+[M] src/dbo/projects.php
 [M] src/dbo/records.php
+[M] src/engine/config.php
 [M] src/engine/engine.xsl
+[M] src/engine/resource.php
 [M] src/engine/xml.php
+[M] src/engine/res/bulgarian.php
+[M] src/engine/res/dutch.php
+[M] src/engine/res/english.php
+[M] src/engine/res/german.php
+[M] src/engine/res/latvian.php
+[M] src/engine/res/polish.php
+[M] src/engine/res/portuguese.php
+[M] src/engine/res/romanian.php
+[M] src/engine/res/russian.php
+[M] src/engine/res/spanish.php
+[M] src/engine/res/turkish.php
+[A] src/images/logo.png
+[M] src/records/comments.php
+[D] src/records/parent.php
+[A] src/records/parents.php
+[M] src/records/subrecords.php
+[M] src/records/view.php
+[D] src/sql/depends/fnd.sql
+[A] src/sql/depends/parents.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -101,13 +123,16 @@ Issue 94: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 107: Add number of comments, attachments, and subrecords to related tabs of the record view page.
+Issue 118: GUI: Split buttons into logical groups
+Issue 119: The active buttons are not different enough from inactive ones.
+Issue 122: Company logo
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 108: Breadcrumbs are broken
-Issue 109: Drop down icon on the context menu button is not centered in IE.
+Issue 110: Confidential comments are not submitted.
+Issue 111: Multiple parent records are not displayed.
+Issue 120: Project's context menu should be disabled for non-admin users.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
