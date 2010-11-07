@@ -346,60 +346,63 @@ function gen_context_menu ($template_url, $state_url, $field_url, $project_id, $
 
     $xml = NULL;
 
-    $templates = dal_query('templates/list.sql', $project_id, 'template_name asc');
-
-    if ($templates->rows != 0)
+    if (get_user_level() == USER_LEVEL_ADMIN)
     {
-        $xml = '<contextmenu>';
+        $templates = dal_query('templates/list.sql', $project_id, 'template_name asc');
 
-        while (($template = $templates->fetch()))
+        if ($templates->rows != 0)
         {
-            $xml .= ($template['template_id'] == $template_id
-                        ? '<submenu url="' . $template_url . $template['template_id'] . '" text="' . ustr2html($template['template_name']) . '" expanded="true">'
-                        : '<submenu url="' . $template_url . $template['template_id'] . '" text="' . ustr2html($template['template_name']) . '">');
+            $xml = '<contextmenu>';
 
-            $states = dal_query('states/list.sql', $template['template_id'], 'state_name asc');
+            while (($template = $templates->fetch()))
+            {
+                $xml .= ($template['template_id'] == $template_id
+                            ? '<submenu url="' . $template_url . $template['template_id'] . '" text="' . ustr2html($template['template_name']) . '" expanded="true">'
+                            : '<submenu url="' . $template_url . $template['template_id'] . '" text="' . ustr2html($template['template_name']) . '">');
 
-            if ($states->rows == 0)
-            {
-                $xml .= '<menuitem>'
-                      . get_html_resource(RES_NONE_ID)
-                      . '</menuitem>';
-            }
-            else
-            {
-                while (($state = $states->fetch()))
+                $states = dal_query('states/list.sql', $template['template_id'], 'state_name asc');
+
+                if ($states->rows == 0)
                 {
-                    $xml .= ($state['state_id'] == $state_id
-                                ? '<submenu url="' . $state_url . $state['state_id'] . '" text="' . ustr2html($state['state_name']) . '" expanded="true">'
-                                : '<submenu url="' . $state_url . $state['state_id'] . '" text="' . ustr2html($state['state_name']) . '">');
-
-                    $fields = dal_query('fields/list.sql', $state['state_id'], 'field_order asc');
-
-                    if ($fields->rows == 0)
+                    $xml .= '<menuitem>'
+                          . get_html_resource(RES_NONE_ID)
+                          . '</menuitem>';
+                }
+                else
+                {
+                    while (($state = $states->fetch()))
                     {
-                        $xml .= '<menuitem>'
-                              . get_html_resource(RES_NONE_ID)
-                              . '</menuitem>';
-                    }
-                    else
-                    {
-                        while (($field = $fields->fetch()))
+                        $xml .= ($state['state_id'] == $state_id
+                                    ? '<submenu url="' . $state_url . $state['state_id'] . '" text="' . ustr2html($state['state_name']) . '" expanded="true">'
+                                    : '<submenu url="' . $state_url . $state['state_id'] . '" text="' . ustr2html($state['state_name']) . '">');
+
+                        $fields = dal_query('fields/list.sql', $state['state_id'], 'field_order asc');
+
+                        if ($fields->rows == 0)
                         {
-                            $xml .= '<menuitem url="' . $field_url . $field['field_id'] . '">'
-                                  . ustr2html($field['field_name'])
+                            $xml .= '<menuitem>'
+                                  . get_html_resource(RES_NONE_ID)
                                   . '</menuitem>';
+                        }
+                        else
+                        {
+                            while (($field = $fields->fetch()))
+                            {
+                                $xml .= '<menuitem url="' . $field_url . $field['field_id'] . '">'
+                                      . ustr2html($field['field_name'])
+                                      . '</menuitem>';
+                            }
+                        }
+
+                        $xml .= '</submenu>';
                         }
                     }
 
-                    $xml .= '</submenu>';
-                }
+                $xml .= '</submenu>';
             }
 
-            $xml .= '</submenu>';
+            $xml .= '</contextmenu>';
         }
-
-        $xml .= '</contextmenu>';
     }
 
     return $xml;
