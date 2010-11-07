@@ -198,6 +198,11 @@ li.mainmenu-splitter {
   width: 2px;
 }
 
+li.mainmenu-logo {
+  float: right;
+  margin: 6px 10px;
+}
+
 a.menuitem {
   color: #E0E0E0;
   margin: 2px;
