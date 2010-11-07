@@ -146,7 +146,8 @@ if (!is_null($prev_id) || !is_null($next_id))
     }
 }
 
-$xml .= '<button url="view.php?dump=' . $id . '">' . get_html_resource(RES_DUMP_ID) . '</button>'
+$xml .= HTML_SPLITTER
+      . '<button url="view.php?dump=' . $id . '">' . get_html_resource(RES_DUMP_ID) . '</button>'
       . HTML_SPLITTER;
 
 $xml .= (can_record_be_modified($record, $permissions)
@@ -187,13 +188,13 @@ else
                 ? '<button action="loadPostponeForm(' . $id . ')">'
                 : '<button disabled="true">')
           . get_html_resource(RES_POSTPONE_ID)
-          . '</button>'
-          . '<div id="postponediv"/>';
+          . '</button>';
 }
 
 if (EMAIL_NOTIFICATIONS_ENABLED && (get_user_level() != USER_LEVEL_GUEST))
 {
-    $xml .= '<button url="subscribe-self.php?id=' . $id . '">' . get_html_resource(is_record_subscribed($id, $_SESSION[VAR_USERID]) ? RES_UNSUBSCRIBE_ID : RES_SUBSCRIBE_ID) . '</button>'
+    $xml .= HTML_SPLITTER
+          . '<button url="subscribe-self.php?id=' . $id . '">' . get_html_resource(is_record_subscribed($id, $_SESSION[VAR_USERID]) ? RES_UNSUBSCRIBE_ID : RES_SUBSCRIBE_ID) . '</button>'
           . '<button url="subscribe.php?id=' . $id . '">' . get_html_resource(RES_SUBSCRIBE_OTHERS_ID) . '</button>';
 }
 
@@ -281,6 +282,10 @@ else
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be changed.');
 }
+
+// hidden postpone form
+
+$xml .= '<div id="postponediv"/>';
 
 // generate general information
 
