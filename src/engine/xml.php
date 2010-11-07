@@ -206,7 +206,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         // generate main menu
 
-        $menu = '<mainmenu>';
+        $menu = sprintf('<mainmenu logo="../%s" site="%s">', COMPANY_LOGO, COMPANY_SITE);
 
         if (get_user_level() == USER_LEVEL_GUEST)
         {

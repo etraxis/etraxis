@@ -147,6 +147,18 @@
     <ul class="mainmenu">
     <li class="mainmenu-splitter"></li>
     <xsl:apply-templates select="menuitem"/>
+    <li class="mainmenu-logo">
+    <a target="_blank">
+    <xsl:attribute name="href">
+    <xsl:value-of select="@site"/>
+    </xsl:attribute>
+    <img>
+    <xsl:attribute name="src">
+    <xsl:value-of select="@logo"/>
+    </xsl:attribute>
+    </img>
+    </a>
+    </li>
     </ul>
 </xsl:template>
 
