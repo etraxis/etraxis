@@ -284,24 +284,10 @@ else
 
 // generate general information
 
-$xml .= '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">';
-
-$rs = dal_query('depends/fnd.sql', $id);
-
-if ($rs->rows != 0)
-{
-    $parent = $rs->fetch();
-
-    $xml .= '<text label="' . get_html_resource(RES_PARENT_ID_ID) . '">'
-          . '<record id="' . $parent['parent_id'] . '">'
-          . record_id($parent['parent_id'], $parent['template_prefix'])
-          . '</record>'
-          . '</text>';
-}
-
-$xml .= '<text label="' . get_html_resource(RES_PROJECT_ID)     . '">' . ustr2html($record['project_name'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_TEMPLATE_ID)    . '">' . ustr2html($record['template_name']) . '</text>'
-      . '<text label="' . get_html_resource(RES_STATE_ID)       . '">' . ustr2html($record['state_name'])    . '</text>';
+$xml .= '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
+      . '<text label="' . get_html_resource(RES_PROJECT_ID)  . '">' . ustr2html($record['project_name'])  . '</text>'
+      . '<text label="' . get_html_resource(RES_TEMPLATE_ID) . '">' . ustr2html($record['template_name']) . '</text>'
+      . '<text label="' . get_html_resource(RES_STATE_ID)    . '">' . ustr2html($record['state_name'])    . '</text>';
 
 if (is_record_postponed($record))
 {

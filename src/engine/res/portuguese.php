@@ -511,7 +511,7 @@ $resource_portuguese = array
     /* 1360 */
     'Qualquer um.',
     'Marcar como não lido',
-    'Registro pai',
+    'Registros pai',
 );
 
 ?>

@@ -511,7 +511,7 @@ $resource_spanish = array
     /* 1360 */
     'Nadie.',
     'Marcar como no leído',
-    'Registro padre',
+    'Registros padres',
 );
 
 ?>

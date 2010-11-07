@@ -511,7 +511,7 @@ $resource_english = array
     /* 1360 */
     'Anyone.',
     'Mark as unread',
-    'Parent record',
+    'Parent records',
 );
 
 ?>

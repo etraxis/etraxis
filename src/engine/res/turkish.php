@@ -507,11 +507,11 @@ $resource_turkish = array
     'Etkinleþtir',
     'Devre dýþý býrak',
     'Önizleme',
-    'Sahibi',                       // needs to be clarified according to the context
+    'Sahibi',
     /* 1360 */
-    'Herkes.',                      // needs clarification
+    'Herkes.',
     'Okunmadý olarak iþaretle',
-    'Ebeveyn kayýt',                // needs clarification
+    'Ebeveyn kayýtlarý',
 );
 
 ?>

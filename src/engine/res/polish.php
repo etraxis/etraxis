@@ -511,7 +511,7 @@ $resource_polish = array
     /* 1360 */
     'Ka¿dy.',
     'Oznacz jako nieprzeczytany',
-    'Nadrzêdny record',     
+    'Nadrzêdny recordy',
 );
 
 ?>

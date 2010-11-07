@@ -497,7 +497,7 @@ define('RES_PREVIEW_ID',                            1358);
 define('RES_OWNER_ID',                              1359);
 define('RES_ANYONE_ID',                             1360);
 define('RES_MARK_AS_UNREAD_ID',                     1361);
-define('RES_PARENT_RECORD_ID',                      1362);
+define('RES_PARENT_RECORDS_ID',                     1362);
 /**#@-*/
 
 ?>

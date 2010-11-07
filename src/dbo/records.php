@@ -72,7 +72,7 @@ define('RECORD_TAB_CHANGES',        2);
 define('RECORD_TAB_EVENTS',         3);
 define('RECORD_TAB_COMMENTS',       4);
 define('RECORD_TAB_ATTACHMENTS',    5);
-define('RECORD_TAB_PARENT',         6);
+define('RECORD_TAB_PARENTS',        6);
 define('RECORD_TAB_SUBRECORDS',     7);
 /**#@-*/
 
@@ -1946,6 +1946,20 @@ function attachment_remove ($id, $permissions, $attachment_id)
 }
 
 /**
+ * Returns {@link CRecordset DAL recordset} which contains all parent records of specified record, sorted by ID.
+ *
+ * @param int $id Record ID.
+ * @return CRecordset Recordset with list of parent records.
+ */
+function parents_list ($id)
+{
+    debug_write_log(DEBUG_TRACE, '[parents_list]');
+    debug_write_log(DEBUG_DUMP,  '[parents_list] $id = ' . $id);
+
+    return dal_query('depends/parents.sql', $id);
+}
+
+/**
  * Returns {@link CRecordset DAL recordset} which contains all subrecords of specified record, sorted by ID.
  *
  * @param int $id Record ID.
@@ -2777,6 +2791,9 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
     $rs = dal_query('attachs/list.sql', $record['record_id'], 'attachment_id');
     $attachments = $rs->rows;
 
+    $rs = dal_query('depends/parents.sql', $record['record_id']);
+    $parents = $rs->rows;
+
     $rs = dal_query('depends/list.sql', $record['record_id']);
     $subrecords = $rs->rows;
 
@@ -2788,7 +2805,7 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
                  RECORD_TAB_EVENTS      => 'events.php?id='      . $record['record_id'],
                  RECORD_TAB_COMMENTS    => 'comments.php?id='    . $record['record_id'],
                  RECORD_TAB_ATTACHMENTS => 'attachments.php?id=' . $record['record_id'],
-                 RECORD_TAB_PARENT      => 'parent.php?id='      . $record['record_id'],
+                 RECORD_TAB_PARENTS     => 'parents.php?id='     . $record['record_id'],
                  RECORD_TAB_SUBRECORDS  => 'subrecords.php?id='  . $record['record_id']);
 
     $title = array(RECORD_TAB_MAIN        => '<i>' . record_id($record['record_id'], $record['template_prefix']) . '</i>',
@@ -2797,7 +2814,7 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
                    RECORD_TAB_EVENTS      => get_html_resource(RES_EVENTS_ID),
                    RECORD_TAB_COMMENTS    => sprintf('%s (%u)', get_html_resource(RES_COMMENTS_ID), $comments),
                    RECORD_TAB_ATTACHMENTS => sprintf('%s (%u)', get_html_resource(RES_ATTACHMENTS_ID), $attachments),
-                   RECORD_TAB_PARENT      => get_html_resource(RES_PARENT_RECORD_ID),
+                   RECORD_TAB_PARENTS     => sprintf('%s (%u)', get_html_resource(RES_PARENT_RECORDS_ID), $parents),
                    RECORD_TAB_SUBRECORDS  => sprintf('%s (%u)', get_html_resource(RES_SUBRECORDS_ID), $subrecords));
 
     // if no changes have been made, remove "Changes" tab
@@ -2812,15 +2829,6 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
     if ($rs->rows == 0)
     {
         $url[RECORD_TAB_CHANGES] = NULL;
-    }
-
-    // if no parent record is present, remove "Parent record" tab
-
-    $rs = dal_query('depends/fnd.sql', $record['record_id']);
-
-    if ($rs->rows == 0)
-    {
-        $url[RECORD_TAB_PARENT] = NULL;
     }
 
     // generate tabs

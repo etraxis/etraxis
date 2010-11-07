@@ -511,7 +511,7 @@ $resource_latvian = array
     /* 1360 */
     'Ikviens.',
     'Atzîmçt kâ neizlasîtu',
-    'Vecâkieraksts',
+    'Vecâkieraksti',
 );
 
 ?>
