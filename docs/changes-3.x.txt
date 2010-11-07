@@ -2,6 +2,20 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-0-3 (2010-11-07)
+
+    Issue 118: GUI: Split buttons into logical groups
+    Issue 119: The active buttons are not different enough from inactive ones.
+    Issue 122: Company logo
+
+Bug fixes integrated in MAIN_3-0-3 (2010-11-07)
+
+    Issue 110: Confidential comments are not submitted.
+    Issue 111: Multiple parent records are not displayed.
+    Issue 120: Project's context menu should be disabled for non-admin users.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-0-2 (2010-11-03)
 
     Issue 107: Add number of comments, attachments, and subrecords to related tabs of the record view page.
