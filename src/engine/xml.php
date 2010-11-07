@@ -56,7 +56,7 @@ define('HTML_TEXTBOX_MIN_HEIGHT', 2);
 /**
  * Splitter between buttons.
  */
-define('HTML_SPLITTER', '%nbsp;%nbsp;');
+define('HTML_SPLITTER', '%nbsp;%nbsp;%nbsp;%nbsp;');
 
 //------------------------------------------------------------------------------
 //  Functions.
