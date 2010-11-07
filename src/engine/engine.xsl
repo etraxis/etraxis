@@ -1110,6 +1110,9 @@
     </xsl:choose>
     </xsl:attribute>
     <xsl:if test="boolean(@disabled)">
+        <xsl:attribute name="class">
+        <xsl:text>button_disabled</xsl:text>
+        </xsl:attribute>
         <xsl:attribute name="disabled">
         <xsl:text>disabled</xsl:text>
         </xsl:attribute>

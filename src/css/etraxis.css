@@ -519,7 +519,8 @@ iframe.chart {
 
 /* Button */
 
-input.button {
+input.button,
+input.button_disabled {
   background-image: url('../images/button-bg.png');
   background-repeat: repeat-x;
   border: 1px solid #001A19;
@@ -556,7 +557,7 @@ input.button:active {
   color: #FBFBFB;
 }
 
-input.button:disabled {
+input.button_disabled {
   border-bottom-color: #001A19;
   border-left-color: #114240;
   border-right-color: #001A19;
