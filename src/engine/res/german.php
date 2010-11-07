@@ -511,7 +511,7 @@ $resource_german = array
     /* 1360 */
     'Jeder.',
     'Als ungelesen markieren',
-    'Übergeordnete Anfrage',
+    'Übergeordnete Zugriffe',
 );
 
 ?>

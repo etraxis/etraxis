@@ -62,21 +62,6 @@ if (!can_record_be_displayed($permissions))
     exit;
 }
 
-// records list is submitted
-
-if (try_request('submitted') == 'subrecords')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
-
-    foreach ($_REQUEST as $request)
-    {
-        if (substr($request, 0, 3) == 'rec')
-        {
-            subrecord_remove($id, intval(substr($request, 3)));
-        }
-    }
-}
-
 // page's title
 
 $title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
@@ -85,38 +70,15 @@ $title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record[
 
 $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="subrecords.php?id=' . $id . '">' . $title . '</breadcrumb>'
+     . '<breadcrumb url="parents.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_SUBRECORDS)
+     . gen_record_tabs($record, RECORD_TAB_PARENTS)
      . '<content>';
-
-// generate buttons
-
-$xml .= (can_subrecord_be_added($record, $permissions)
-            ? '<button url="create.php?parent=' . $id . '">'
-            : '<button disabled="true">')
-      . get_html_resource(RES_CREATE_SUBRECORD_ID)
-      . '</button>';
-
-$xml .= '<script src="addsubrec.js"/>'
-      . (can_subrecord_be_added($record, $permissions)
-            ? '<button action="javascript:loadAddSubrecForm(' . $id . ')">'
-            : '<button disabled="true">')
-      . get_html_resource(RES_ATTACH_SUBRECORD_ID)
-      . '</button>';
-
-$xml .= (can_subrecord_be_removed($record, $permissions)
-            ? '<button action="document.subrecords.submit()">'
-            : '<button disabled="true">')
-      . get_html_resource(RES_REMOVE_SUBRECORD_ID)
-      . '</button>';
-
-$xml .= '<div id="addsubrecdiv"/>';
 
 // generate list of records
 
-$list = subrecords_list($id);
+$list = parents_list($id);
 
 if ($list->rows != 0)
 {
@@ -128,10 +90,8 @@ if ($list->rows != 0)
         RES_RESPONSIBLE_ID,
     );
 
-    $xml .= '<form name="subrecords" action="subrecords.php?id=' . $id . '">'
-          . '<list>'
-          . '<hrow>'
-          . '<hcell checkboxes="true"/>';
+    $xml .= '<list>'
+          . '<hrow>';
 
     foreach ($columns as $column)
     {
@@ -155,7 +115,7 @@ if ($list->rows != 0)
             $color = NULL;
         }
 
-        $xml .= "<row name=\"rec{$row['record_id']}\" url=\"view.php?id={$row['record_id']}\" color=\"{$color}\">"
+        $xml .= "<row url=\"view.php?id={$row['record_id']}\" color=\"{$color}\">"
               . '<cell align="left" nowrap="true">' . record_id($row['record_id'], $row['template_prefix']) . '</cell>'
               . '<cell align="left">' . ustr2html($row['state_abbr']) . '</cell>'
               . '<cell align="left">' . update_references($row['subject'], BBCODE_SEARCH_ONLY) . '</cell>'
@@ -163,8 +123,11 @@ if ($list->rows != 0)
               . '</row>';
     }
 
-    $xml .= '</list>'
-          . '</form>';
+    $xml .= '</list>';
+}
+else
+{
+    $xml .= get_html_resource(RES_NONE2_ID);
 }
 
 $xml .= '</content>'

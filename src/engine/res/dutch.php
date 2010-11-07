@@ -511,7 +511,7 @@ $resource_dutch = array
     /* 1360 */
     'Iedereen.',
     'Als ongelezen markeren',
-    'Ouder record',
+    'Ouder records',
 );
 
 ?>

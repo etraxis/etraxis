@@ -426,7 +426,7 @@ $resource_romanian = array
     'Deselecteaza toate',
     'm/d/yyyy',
     'Export',
-    'INregistrari dependente',
+    'Inregistrari dependente',
     'Creaza inregistrare dependenta',
     'Ataseaza inregistrare dependenta',
     'Sterge inregistrare dependenta',
@@ -512,7 +512,7 @@ $resource_romanian = array
     /* 1360 */
     'Oricine.',
     'Marcheaza ca necitit',
-    'Inregistrare parinte',
+    'Inregistrari parinte',
 );
 
 ?>
