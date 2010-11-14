@@ -432,7 +432,7 @@ function is_intvalue ($str)
 function is_username ($str)
 {
     mb_regex_encoding('UTF-8');
-    return mb_eregi('^([_0-9a-z])+$', $str);
+    return mb_eregi('^([_0-9a-z\.\-])+$', $str);
 }
 
 /**
