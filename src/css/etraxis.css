@@ -172,6 +172,10 @@ ul.submenu {
   line-height: 25px;
 }
 
+li.menuitem {
+  float: left;
+}
+
 li.menuitem_b {
   margin-left: 14px;
 }
