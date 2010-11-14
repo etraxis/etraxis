@@ -45,6 +45,7 @@
     </head>
     <body>
     <script type="text/javascript" src="../scripts/jquery.js"></script>
+    <script type="text/javascript" src="../scripts/jquery.TextareaLineCount.js"></script>
     <script type="text/javascript" src="../scripts/etraxis.js"></script>
     <xsl:apply-templates select="script"/>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>

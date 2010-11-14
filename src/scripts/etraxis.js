@@ -85,11 +85,11 @@ function onTextBox (id, maxlen, resizeable, minrows)
 
     if (resizeable == true)
     {
-        var curLineNum = textbox.value.replace((new RegExp(".{"+textbox.cols+"}","g")),"\n").split("\n").length;
+        var result = $.countLines('#' + id);
 
-        if ((curLineNum > 0) && (curLineNum != textbox.rows))
+        if ((result.visual > 2) && (result.visual != textbox.rows))
         {
-            textbox.rows = (curLineNum >= minrows) ? curLineNum : minrows;
+            textbox.rows = (result.visual >= minrows) ? result.visual : minrows;
         }
     }
 }
