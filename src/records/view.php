@@ -72,14 +72,12 @@ if (!can_record_be_displayed($permissions))
     exit;
 }
 
-// get search mode parameters
-
-$search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
-$search_text = try_cookie(COOKIE_SEARCH_TEXT);
-
 // find previous and next records
 
 $columns = columns_list();
+
+$search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
+$search_text = try_cookie(COOKIE_SEARCH_TEXT);
 
 $sort = $page = NULL;
 $list = records_list($columns, $sort, $page, $search_mode, $search_text);
@@ -307,21 +305,66 @@ $xml .= '<text label="' . get_html_resource(RES_AGE_ID)         . '">' . get_rec
 
 // go through the list of all states and their fields
 
-$states = dal_query('records/elist.sql', $id);
+$responsible = FALSE;
 
-while (($state = $states->fetch()))
+$events = dal_query('records/elist2.sql', $id);
+
+while (($event = $events->fetch()))
 {
-    $fields = dal_query('records/flist.sql',
-                        $id,
-                        $state['state_id'],
-                        $record['creator_id'],
-                        is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
-                        $_SESSION[VAR_USERID],
-                        FIELD_ALLOW_TO_READ);
-
-    if ($fields->rows != 0)
+    if ($event['event_type'] == EVENT_RECORD_ASSIGNED)
     {
-        $xml .= '<group title="' . ustr2html($state['state_name']) . '">';
+        $responsible = account_find($event['event_param']);
+        $group_title = 'Reassigned';
+    }
+    elseif ($event['event_type'] == EVENT_RECORD_CREATED ||
+            $event['event_type'] == EVENT_RECORD_STATE_CHANGED)
+    {
+        if ($event['responsible'] == STATE_RESPONSIBLE_REMOVE)
+        {
+            $responsible = FALSE;
+        }
+        elseif ($event['responsible'] == STATE_RESPONSIBLE_ASSIGN)
+        {
+            $responsible = account_find($events->fetch('event_param'));
+        }
+
+        $group_title = ustr2html($event['state_name']);
+    }
+    elseif ($event['event_type'] == EVENT_COMMENT_ADDED ||
+            $event['event_type'] == EVENT_CONFIDENTIAL_COMMENT)
+    {
+        $group_title = get_html_resource(RES_COMMENT_ID);
+    }
+    elseif ($event['event_type'] == EVENT_FILE_ATTACHED)
+    {
+        $group_title = get_html_resource(RES_ATTACHMENT_ID);
+    }
+    else
+    {
+        continue;
+    }
+
+    $group_title .= ' - ' . get_datetime($event['event_time'])
+                  . ' - ' . ustr2html(sprintf('%s (%s)', $event['fullname'], account_get_username($event['username'])));
+
+    $xml .= '<group title="' . $group_title . '">';
+
+    if ($event['event_type'] == EVENT_RECORD_CREATED ||
+        $event['event_type'] == EVENT_RECORD_STATE_CHANGED)
+    {
+        $xml .= '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">'
+              . ($responsible ? ustr2html(sprintf('%s (%s)', $responsible['fullname'], account_get_username($responsible['username'])))
+                              : get_html_resource(RES_NONE_ID))
+              . '</text>';
+
+        $fields = dal_query('records/flist2.sql',
+                            $id,
+                            $event['event_id'],
+                            $event['state_id'],
+                            $record['creator_id'],
+                            is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
+                            $_SESSION[VAR_USERID],
+                            FIELD_ALLOW_TO_READ);
 
         while (($field = $fields->fetch()))
         {
@@ -349,9 +392,39 @@ while (($state = $states->fetch()))
                 $xml .= '<hr/>';
             }
         }
-
-        $xml .= '</group>';
     }
+    elseif ($event['event_type'] == EVENT_COMMENT_ADDED ||
+            $event['event_type'] == EVENT_CONFIDENTIAL_COMMENT)
+    {
+        $comment = comment_find($event['event_id'], $permissions);
+
+        if ($comment)
+        {
+            $xml .= ($comment['is_confidential']
+                        ? '<text label="' . get_html_resource(RES_CONFIDENTIAL_ID) . '">'
+                        : '<text>')
+                  . update_references($comment['comment_body'])
+                  . '</text>';
+        }
+    }
+    elseif ($event['event_type'] == EVENT_FILE_ATTACHED)
+    {
+        $rs         = dal_query('attachs/fndk.sql', $event['event_id']);
+        $attachment = ($rs->rows == 0 ? FALSE : $rs->fetch());
+
+        if ($attachment)
+        {
+            $xml .= '<text label="' . get_html_resource(RES_ATTACHMENT_NAME_ID) . '">'
+                  . '<url address="download.php?id=' . $attachment['attachment_id'] . '">' . $attachment['attachment_name'] . '</url>'
+                  . '</text>';
+
+            $xml .= '<text label="' . get_html_resource(RES_SIZE_ID) . '">'
+                  . ustrprocess(get_html_resource(RES_KB_ID), sprintf('%01.2f', $attachment['attachment_size'] / 1024))
+                  . '</text>';
+        }
+    }
+
+    $xml .= '</group>';
 }
 
 $xml .= '</content>'

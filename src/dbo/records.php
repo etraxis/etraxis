@@ -69,7 +69,7 @@ define('OPERATION_CHANGE_STATE',  3);
 define('RECORD_TAB_MAIN',           0);
 define('RECORD_TAB_HISTORY',        1);
 define('RECORD_TAB_CHANGES',        2);
-define('RECORD_TAB_EVENTS',         3);
+define('RECORD_TAB_FIELDS',         3);
 define('RECORD_TAB_COMMENTS',       4);
 define('RECORD_TAB_ATTACHMENTS',    5);
 define('RECORD_TAB_PARENTS',        6);
@@ -2802,7 +2802,7 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
     $url = array(RECORD_TAB_MAIN        => 'view.php?id='        . $record['record_id'],
                  RECORD_TAB_HISTORY     => 'history.php?id='     . $record['record_id'],
                  RECORD_TAB_CHANGES     => 'changes.php?id='     . $record['record_id'],
-                 RECORD_TAB_EVENTS      => 'events.php?id='      . $record['record_id'],
+                 RECORD_TAB_FIELDS      => 'fields.php?id='      . $record['record_id'],
                  RECORD_TAB_COMMENTS    => 'comments.php?id='    . $record['record_id'],
                  RECORD_TAB_ATTACHMENTS => 'attachments.php?id=' . $record['record_id'],
                  RECORD_TAB_PARENTS     => 'parents.php?id='     . $record['record_id'],
@@ -2811,7 +2811,7 @@ function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
     $title = array(RECORD_TAB_MAIN        => '<i>' . record_id($record['record_id'], $record['template_prefix']) . '</i>',
                    RECORD_TAB_HISTORY     => get_html_resource(RES_HISTORY_ID),
                    RECORD_TAB_CHANGES     => get_html_resource(RES_CHANGES_ID),
-                   RECORD_TAB_EVENTS      => get_html_resource(RES_EVENTS_ID),
+                   RECORD_TAB_FIELDS      => get_html_resource(RES_FIELDS_ID),
                    RECORD_TAB_COMMENTS    => sprintf('%s (%u)', get_html_resource(RES_COMMENTS_ID), $comments),
                    RECORD_TAB_ATTACHMENTS => sprintf('%s (%u)', get_html_resource(RES_ATTACHMENTS_ID), $attachments),
                    RECORD_TAB_PARENTS     => sprintf('%s (%u)', get_html_resource(RES_PARENT_RECORDS_ID), $parents),
