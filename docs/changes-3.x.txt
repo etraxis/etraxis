@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-0-4 (2010-11-14)
+
+    Issue 137: Add comma and dash as allowed characters for account login.
+
+Bug fixes integrated in MAIN_3-0-4 (2010-11-14)
+
+    Issue 134: Upper toolbar is displayed incorrectly using IE8
+    Issue 135: Markup validation errors - doesn't satisfy to XHTML 1.0
+    Issue 136: Textbox size is too large on Firefox.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-0-3 (2010-11-07)
 
     Issue 118: GUI: Split buttons into logical groups
