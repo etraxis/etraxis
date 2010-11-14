@@ -32,6 +32,7 @@
     <html>
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Script-Type" content="text/javascript"/>
     <meta name="author" content="Artem Rodygin"/>
     <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
@@ -152,7 +153,7 @@
     <xsl:attribute name="href">
     <xsl:value-of select="@site"/>
     </xsl:attribute>
-    <img>
+    <img alt="">
     <xsl:attribute name="src">
     <xsl:value-of select="@logo"/>
     </xsl:attribute>
@@ -300,14 +301,14 @@
     <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
     </li>
     </xsl:if>
+    <li class="breadcrumb">
     <a class="breadcrumb">
     <xsl:attribute name="href">
     <xsl:value-of select="@url"/>
     </xsl:attribute>
     <xsl:value-of select="."/>
-    <li class="breadcrumb">
-    </li>
     </a>
+    </li>
 </xsl:template>
 
 <!-- Tabs -->
