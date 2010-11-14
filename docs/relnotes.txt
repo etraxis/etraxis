@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-0-3
-Release date: 2010-11-07
-Release size: 39801
+Release tag:  MAIN_3-0-4
+Release date: 2010-11-14
+Release size: 39855
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -22,31 +22,16 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [M] src/css/etraxis.css
-[M] src/dbo/projects.php
 [M] src/dbo/records.php
-[M] src/engine/config.php
 [M] src/engine/engine.xsl
-[M] src/engine/resource.php
+[M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
-[M] src/engine/res/german.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
-[M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
-[A] src/images/logo.png
-[M] src/records/comments.php
-[D] src/records/parent.php
-[A] src/records/parents.php
-[M] src/records/subrecords.php
+[D] src/records/events.php
+[A] src/records/fields.php
 [M] src/records/view.php
-[D] src/sql/depends/fnd.sql
-[A] src/sql/depends/parents.sql
+[M] src/scripts/etraxis.js
+[A] src/scripts/jquery.TextareaLineCount.js
+[M] src/sql/records/elist2.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -110,29 +95,40 @@ Issue 96: Display subrecords as tree of nodes.
 Issue 97: RSS feeds for record changes.
 Issue 98: User self registration.
 Issue 99: Support for Active Directory groups.
-Issue 100: Switch from GD fonts to TTF ones.
 Issue 101: NTLM authentication support.
+Issue 113: Shared views
+Issue 114: Reminders as project feature
+Issue 116: Rearrange contents of notification emails
+Issue 117: Themes support.
+Issue 121: Welcome page
+Issue 123: Filter - unread records
+Issue 126: Date component
+Issue 128: The login page should be localized according to the user's browser settings.
+Issue 130: Default project/template when subrecord is being created.
+Issue 131: Critical age of any state
+Issue 133: Advanced search
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Issue 94: Values of restricted fields are still accessible via custom view.
+Issue 127: No error message is displayed when past date was entered in a "date" field.
+Issue 129: Do not show last searched text to anonymous user.
+Issue 138: Maximum Min-Value for Date fields not inputable
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 118: GUI: Split buttons into logical groups
-Issue 119: The active buttons are not different enough from inactive ones.
-Issue 122: Company logo
+Issue 137: Add comma and dash as allowed characters for account login.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 110: Confidential comments are not submitted.
-Issue 111: Multiple parent records are not displayed.
-Issue 120: Project's context menu should be disabled for non-admin users.
+Issue 134: Upper toolbar is displayed incorrectly using IE8
+Issue 135: Markup validation errors - doesn't satisfy to XHTML 1.0
+Issue 136: Textbox size is too large on Firefox.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
