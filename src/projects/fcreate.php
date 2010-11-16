@@ -670,7 +670,7 @@ elseif ($form == 'dateform')
 {
     $xml .= '<control name="min_value" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
           . '<label>' . get_html_resource(RES_MIN_VALUE_ID) . '</label>'
-          . '<editbox maxlen="' . ustrlen(MAX_FIELD_DATE) . '">'
+          . '<editbox maxlen="' . (ustrlen(MAX_FIELD_DATE) + 1) . '">'
           . ustr2html($min_value)
           . '</editbox>'
           . '</control>';
@@ -684,7 +684,7 @@ elseif ($form == 'dateform')
 
     $xml .= '<control name="def_value">'
           . '<label>' . get_html_resource(RES_DEFAULT_VALUE_ID) . '</label>'
-          . '<editbox maxlen="' . ustrlen(MAX_FIELD_DATE) . '">'
+          . '<editbox maxlen="' . (ustrlen(MAX_FIELD_DATE) + 1) . '">'
           . ustr2html($def_value)
           . '</editbox>'
           . '</control>';
