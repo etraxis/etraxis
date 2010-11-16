@@ -178,11 +178,12 @@ define('LANG_LINGALA',      8180);
  */
 define('LOCALE_RES_TABLE',   1);
 define('LOCALE_SUFFIX',      2);
-define('LOCALE_ENCODING',    3);
-define('LOCALE_PATH2FONTS',  4);
-define('LOCALE_DIRECTION',   5);
-define('LOCALE_DATE_FORMAT', 6);
-define('LOCALE_TIME_FORMAT', 7);
+define('LOCALE_CODE',        3);
+define('LOCALE_ENCODING',    4);
+define('LOCALE_PATH2FONTS',  5);
+define('LOCALE_DIRECTION',   6);
+define('LOCALE_DATE_FORMAT', 7);
+define('LOCALE_TIME_FORMAT', 8);
 /**#@-*/
 
 // Prompts tables.
@@ -211,6 +212,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'US',
+        LOCALE_CODE        => 'en-us',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -223,6 +225,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'UK',
+        LOCALE_CODE        => 'en-gb',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -235,6 +238,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'Canada',
+        LOCALE_CODE        => 'en-ca',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -247,6 +251,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'Australia',
+        LOCALE_CODE        => 'en-au',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -259,6 +264,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_french,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'fr',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -271,6 +277,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_german,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'de',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -283,6 +290,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_italian,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'it',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -295,6 +303,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_spanish,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'es',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -307,6 +316,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_portuguese,
         LOCALE_SUFFIX      => 'Brasil',
+        LOCALE_CODE        => 'pt',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -319,6 +329,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_dutch,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'nl',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -331,6 +342,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_latvian,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'lv',
         LOCALE_ENCODING    => 'ISO-8859-13',
         LOCALE_PATH2FONTS  => 'latin7',
         LOCALE_DIRECTION   => 'ltr',
@@ -343,6 +355,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_russian,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'ru',
         LOCALE_ENCODING    => 'Windows-1251',
         LOCALE_PATH2FONTS  => 'win1251',
         LOCALE_DIRECTION   => 'ltr',
@@ -355,6 +368,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_polish,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'pl',
         LOCALE_ENCODING    => 'ISO-8859-2',
         LOCALE_PATH2FONTS  => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
@@ -367,6 +381,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_czech,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'cs',
         LOCALE_ENCODING    => 'ISO-8859-2',
         LOCALE_PATH2FONTS  => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
@@ -379,6 +394,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_bulgarian,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'bg',
         LOCALE_ENCODING    => 'Windows-1251',
         LOCALE_PATH2FONTS  => 'win1251',
         LOCALE_DIRECTION   => 'ltr',
@@ -391,6 +407,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_romanian,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'ro',
         LOCALE_ENCODING    => 'ISO-8859-2',
         LOCALE_PATH2FONTS  => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
@@ -403,6 +420,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_japanese,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'ja',
         LOCALE_ENCODING    => 'UTF-8',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -415,6 +433,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_turkish,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'tr',
         LOCALE_ENCODING    => 'ISO-8859-9',
         LOCALE_PATH2FONTS  => 'latin5',
         LOCALE_DIRECTION   => 'ltr',
@@ -427,6 +446,7 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_indonesian,
         LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'id',
         LOCALE_ENCODING    => 'ISO-8859-1',
         LOCALE_PATH2FONTS  => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
@@ -736,6 +756,36 @@ function get_supported_locales_sorted ()
     asort($supported_locales_names);
 
     return $supported_locales_names;
+}
+
+/**
+ * Returns language of user's browser.
+ *
+ * @return int ID of language.
+ */
+function get_browser_locale ()
+{
+    debug_write_log(DEBUG_TRACE, '[get_browser_locale]');
+
+    global $locale_info;
+
+    $langs = preg_split("/[;,]+/", strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+
+    foreach ($langs as $lang)
+    {
+        if (substr($lang, 0, 2) != 'q=')
+        {
+            foreach ($locale_info as $locale => $info)
+            {
+                if (strpos($lang, $info[LOCALE_CODE]) !== FALSE)
+                {
+                    return $locale;
+                }
+            }
+        }
+    }
+
+    return LANG_DEFAULT;
 }
 
 ?>

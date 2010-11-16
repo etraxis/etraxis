@@ -188,7 +188,7 @@ function open_session ($userid)
     $_SESSION[VAR_PASSWD_EXPIRE] = 0;
     $_SESSION[VAR_ISADMIN]       = FALSE;
     $_SESSION[VAR_LDAPUSER]      = FALSE;
-    $_SESSION[VAR_LOCALE]        = LANG_DEFAULT;
+    $_SESSION[VAR_LOCALE]        = get_browser_locale();
     $_SESSION[VAR_PAGEROWS]      = DEFAULT_PAGE_ROWS;
     $_SESSION[VAR_PAGEBKMS]      = DEFAULT_PAGE_BKMS;
     $_SESSION[VAR_DELIMITER]     = chr(DEFAULT_DELIMITER);
