@@ -61,6 +61,7 @@ define('VAR_ENCODING',              'eTraxis_Encoding');
 define('VAR_LINE_ENDINGS',          'eTraxis_LineEndings');
 define('VAR_VIEW',                  'eTraxis_View');
 define('VAR_THEME_NAME',            'eTraxis_ThemeName');
+define('VAR_SEARCH_MODE',           'eTraxis_SearchMode');
 define('VAR_SEARCH_TEXT',           'eTraxis_SearchText');
 define('VAR_USE_FILTERS',           'eTraxis_UseFilter');
 define('VAR_REQUEST_CREDENTIALS',   'eTraxis_RequestCredentials');
@@ -196,7 +197,8 @@ function open_session ($userid)
     $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[DEFAULT_LINE_ENDINGS];
     $_SESSION[VAR_VIEW]          = NULL;
     $_SESSION[VAR_THEME_NAME]    = THEME_DEFAULT;
-    $_SESSION[VAR_SEARCH_TEXT]   = get_html_resource(RES_SEARCH_ID);
+    $_SESSION[VAR_SEARCH_MODE]   = FALSE;
+    $_SESSION[VAR_SEARCH_TEXT]   = NULL;
     $_SESSION[VAR_USE_FILTERS]   = FALSE;
 
     return session_id();
@@ -222,6 +224,7 @@ function close_session ()
     unset($_SESSION[VAR_LINE_ENDINGS]);
     unset($_SESSION[VAR_VIEW]);
     unset($_SESSION[VAR_THEME_NAME]);
+    unset($_SESSION[VAR_SEARCH_MODE]);
     unset($_SESSION[VAR_SEARCH_TEXT]);
     unset($_SESSION[VAR_USE_FILTERS]);
 

@@ -40,9 +40,6 @@ init_page();
 
 $error = NO_ERROR;
 
-$search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
-$search_text = try_cookie(COOKIE_SEARCH_TEXT);
-
 // check whether a cloning was requested
 
 $id = ustr2int(try_request('id'));
@@ -315,9 +312,9 @@ if ($id == 0 && !$parent)
     $xml .= '<tabs>'
           . '<tab url="index.php?search=">' . get_html_resource(RES_RECORDS_ID) . '</tab>';
 
-    if (ustrlen($search_text) != 0)
+    if (ustrlen($_SESSION[VAR_SEARCH_TEXT]) != 0)
     {
-        $xml .= '<tab url="index.php?search=' . urlencode($search_text) . '">'
+        $xml .= '<tab url="index.php?search=' . urlencode($_SESSION[VAR_SEARCH_TEXT]) . '">'
               . get_html_resource(RES_SEARCH_RESULTS_ID)
               . '</tab>';
     }
