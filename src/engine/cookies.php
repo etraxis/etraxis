@@ -61,13 +61,6 @@ define('COOKIE_AUTH_TOKEN',  'AuthToken');
 define('COOKIE_URI', 'URI');
 
 /**#@+
- * Search cookie.
- */
-define('COOKIE_SEARCH_MODE', 'SearchMode');
-define('COOKIE_SEARCH_TEXT', 'SearchText');
-/**#@-*/
-
-/**#@+
  * Sort mode cookie.
  */
 define('COOKIE_ACCOUNTS_SORT',      'AccountsSort');

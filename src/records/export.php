@@ -38,17 +38,12 @@ global $column_type_res;
 
 init_page(GUEST_IS_ALLOWED);
 
-// process search mode, if one is specified
-
-$search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
-$search_text = try_cookie(COOKIE_SEARCH_TEXT);
-
 // get list of records
 
 $columns = columns_list();
 
 $sort = $page = NULL;
-$list = records_list($columns, $sort, $page, $search_mode, $search_text);
+$list = records_list($columns, $sort, $page, $_SESSION[VAR_SEARCH_MODE], $_SESSION[VAR_SEARCH_TEXT]);
 
 // generate HTTP headers
 

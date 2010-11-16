@@ -2764,7 +2764,7 @@ function update_references ($value, $bbcode_mode = BBCODE_ALL, $regex_search = N
     $value = ustr_replace("\n", '%br;', $value);
 
     // Process BBCode tags.
-    $search_text = (try_cookie(COOKIE_SEARCH_MODE, FALSE) ? try_cookie(COOKIE_SEARCH_TEXT) : NULL);
+    $search_text = ($_SESSION[VAR_SEARCH_MODE] ? $_SESSION[VAR_SEARCH_TEXT] : NULL);
     $value = bbcode2xml($value, $bbcode_mode, $search_text);
 
     debug_write_log(DEBUG_DUMP, '[update_references] return = ' . $value);

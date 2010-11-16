@@ -41,9 +41,6 @@ init_page(GUEST_IS_ALLOWED);
 
 // process search mode, if one is specified
 
-$search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
-$search_text = try_cookie(COOKIE_SEARCH_TEXT);
-
 if (isset($_REQUEST['search']))
 {
     debug_write_log(DEBUG_NOTICE, 'REQUEST["search"] is set.');
@@ -52,22 +49,13 @@ if (isset($_REQUEST['search']))
 
     if (ustrlen($search_text) == 0)
     {
-        $search_mode = FALSE;
-        $search_text = try_cookie(COOKIE_SEARCH_TEXT);
+        $_SESSION[VAR_SEARCH_MODE] = FALSE;
     }
     else
     {
-        $search_mode = TRUE;
-
-        save_cookie(COOKIE_SEARCH_TEXT, $search_text);
+        $_SESSION[VAR_SEARCH_MODE] = TRUE;
+        $_SESSION[VAR_SEARCH_TEXT] = $search_text;
     }
-
-    save_cookie(COOKIE_SEARCH_MODE, $search_mode);
-}
-
-if (ustrlen($search_text) != 0)
-{
-    $_SESSION[VAR_SEARCH_TEXT] = $search_text;
 }
 
 if (isset($_REQUEST['use_filters']))
@@ -103,7 +91,7 @@ elseif (try_request('submitted') == 'unread')
 $columns = columns_list();
 
 $sort = $page = NULL;
-$list = records_list($columns, $sort, $page, $search_mode, $search_text);
+$list = records_list($columns, $sort, $page, $_SESSION[VAR_SEARCH_MODE], $_SESSION[VAR_SEARCH_TEXT]);
 
 $rec_from = $rec_to = 0;
 
@@ -113,11 +101,11 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="index.php?search=" active="' . ($search_mode ? 'false' : 'true') . '">' . get_html_resource(RES_RECORDS_ID) . '</tab>';
+     . '<tab url="index.php?search=" active="' . ($_SESSION[VAR_SEARCH_MODE] ? 'false' : 'true') . '">' . get_html_resource(RES_RECORDS_ID) . '</tab>';
 
-if (ustrlen($search_text) != 0)
+if (ustrlen($_SESSION[VAR_SEARCH_TEXT]) != 0)
 {
-    $xml .= '<tab url="index.php?search=' . urlencode($search_text) . '" active="' . ($search_mode ? 'true' : 'false') . '">'
+    $xml .= '<tab url="index.php?search=' . urlencode($_SESSION[VAR_SEARCH_TEXT]) . '" active="' . ($_SESSION[VAR_SEARCH_MODE] ? 'true' : 'false') . '">'
           . get_html_resource(RES_SEARCH_RESULTS_ID)
           . '</tab>';
 }
@@ -169,7 +157,7 @@ if ($list->rows != 0)
     $xml .= '<button url="export.php">' . get_html_resource(RES_EXPORT_ID) . '</button>';
 }
 
-if ($search_mode && get_user_level() != USER_LEVEL_GUEST)
+if ($_SESSION[VAR_SEARCH_MODE] && get_user_level() != USER_LEVEL_GUEST)
 {
     $xml .= '<button url="index.php?use_filters=' . (!$_SESSION[VAR_USE_FILTERS]) . '">'
           . get_html_resource($_SESSION[VAR_USE_FILTERS] ? RES_DISABLE_FILTERS_ID : RES_ENABLE_FILTERS_ID)

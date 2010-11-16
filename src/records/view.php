@@ -76,11 +76,8 @@ if (!can_record_be_displayed($permissions))
 
 $columns = columns_list();
 
-$search_mode = try_cookie(COOKIE_SEARCH_MODE, FALSE);
-$search_text = try_cookie(COOKIE_SEARCH_TEXT);
-
 $sort = $page = NULL;
-$list = records_list($columns, $sort, $page, $search_mode, $search_text);
+$list = records_list($columns, $sort, $page, $_SESSION[VAR_SEARCH_MODE], $_SESSION[VAR_SEARCH_TEXT]);
 
 $prev_id = $next_id = $temp_id = NULL;
 

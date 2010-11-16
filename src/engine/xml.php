@@ -170,7 +170,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         $params['last_search'] = isset($_SESSION[VAR_SEARCH_TEXT])
                                ? ustr2html($_SESSION[VAR_SEARCH_TEXT])
-                               : try_cookie(COOKIE_SEARCH_TEXT, get_html_resource(RES_SEARCH_ID));
+                               : get_html_resource(RES_SEARCH_ID);
 
         if (MAINTENANCE_BANNER)
         {
