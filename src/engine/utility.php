@@ -299,7 +299,7 @@ function ustr2html ($str)
  */
 function ustr2js ($str)
 {
-    return ustr_replace('"', '&quot;', $str);
+    return ustr_replace('"', '\"', $str);
 }
 
 /**
