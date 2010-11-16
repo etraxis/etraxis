@@ -501,6 +501,17 @@ $resource_french = array
     'Compression',
     'D/Et',
     'Commentaires',
+    'Taille',
+    'Apparence',
+    'CSV',
+    'Activer',
+    'Désactiver',
+    'Visualiser',
+    'Propriétaire',
+    /* 1360 */
+    'Tout le monde.',
+    'Marquer Non-lu',
+    'Enregistrement parent',
 );
 
 ?>
