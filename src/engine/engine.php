@@ -98,6 +98,7 @@ require_once('../engine/locale.php');
 require_once('../engine/cookies.php');
 require_once('../engine/dal.php');
 require_once('../engine/ldap.php');
+require_once('../engine/themes.php');
 require_once('../engine/sessions.php');
 require_once('../engine/charts.php');
 require_once('../engine/bbcode.php');

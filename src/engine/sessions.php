@@ -60,6 +60,7 @@ define('VAR_DELIMITER',             'eTraxis_Delimiter');
 define('VAR_ENCODING',              'eTraxis_Encoding');
 define('VAR_LINE_ENDINGS',          'eTraxis_LineEndings');
 define('VAR_VIEW',                  'eTraxis_View');
+define('VAR_THEME_NAME',            'eTraxis_ThemeName');
 define('VAR_SEARCH_TEXT',           'eTraxis_SearchText');
 define('VAR_USE_FILTERS',           'eTraxis_UseFilter');
 define('VAR_REQUEST_CREDENTIALS',   'eTraxis_RequestCredentials');
@@ -194,6 +195,7 @@ function open_session ($userid)
     $_SESSION[VAR_ENCODING]      = $encodings[DEFAULT_ENCODING];
     $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[DEFAULT_LINE_ENDINGS];
     $_SESSION[VAR_VIEW]          = NULL;
+    $_SESSION[VAR_THEME_NAME]    = THEME_DEFAULT;
     $_SESSION[VAR_SEARCH_TEXT]   = get_html_resource(RES_SEARCH_ID);
     $_SESSION[VAR_USE_FILTERS]   = FALSE;
 
@@ -219,6 +221,7 @@ function close_session ()
     unset($_SESSION[VAR_ENCODING]);
     unset($_SESSION[VAR_LINE_ENDINGS]);
     unset($_SESSION[VAR_VIEW]);
+    unset($_SESSION[VAR_THEME_NAME]);
     unset($_SESSION[VAR_SEARCH_TEXT]);
     unset($_SESSION[VAR_USE_FILTERS]);
 
@@ -430,6 +433,7 @@ function init_page ($guest_is_allowed = FALSE)
             $_SESSION[VAR_ENCODING]      = $encodings[$account['csv_encoding']];
             $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];
             $_SESSION[VAR_VIEW]          = $account['view_id'];
+            $_SESSION[VAR_THEME_NAME]    = $account['theme_name'];
 
             dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
 

@@ -53,7 +53,8 @@ create table tbl_accounts
     csv_delim int not null,
     csv_encoding int not null,
     csv_line_ends int not null,
-    view_id int null
+    view_id int null,
+    theme_name varchar (50) not null
 ) without oids;
 
 alter table tbl_accounts add constraint ix_accounts unique
@@ -1101,7 +1102,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'PostgreSQL 8.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.0');
+values ('FEATURE_LEVEL', '3.1');
 
 insert into tbl_accounts
 (

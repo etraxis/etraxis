@@ -49,6 +49,7 @@ if (try_request('submitted') == 'mainform')
     $locale       = ustr2int($_REQUEST['locale']);
     $page_rows    = ustr2int($_REQUEST['page_rows'], MIN_PAGE_SIZE, MAX_PAGE_SIZE);
     $page_bkms    = ustr2int($_REQUEST['page_bkms'], MIN_PAGE_SIZE, MAX_PAGE_SIZE);
+    $theme_name   = ustrcut($_REQUEST['theme_name'], MAX_THEME_NAME);
     $delimiter    = ustrcut($_REQUEST['delimiter'], 1);
     $encoding     = ustr2int($_REQUEST['encoding'], 1, count($encodings));
     $line_endings = ustr2int($_REQUEST['line_endings'], 1, count($line_endings_names));
@@ -67,7 +68,8 @@ if (try_request('submitted') == 'mainform')
               $page_bkms,
               ord($delimiter),
               $encoding,
-              $line_endings);
+              $line_endings,
+              $theme_name);
 
     if (!$_SESSION[VAR_LDAPUSER])
     {
@@ -99,6 +101,7 @@ else
     $locale       = $_SESSION[VAR_LOCALE];
     $page_rows    = $_SESSION[VAR_PAGEROWS];
     $page_bkms    = $_SESSION[VAR_PAGEBKMS];
+    $theme_name   = $_SESSION[VAR_THEME_NAME];
     $delimiter    = $_SESSION[VAR_DELIMITER];
     $encoding     = $_SESSION[VAR_ENCODING];
     $line_endings = $_SESSION[VAR_LINE_ENDINGS];
@@ -165,7 +168,7 @@ foreach ($supported_locales as $locale_id => $locale_name)
     $xml .= ($locale == $locale_id
                 ? '<listitem value="' . $locale_id . '" selected="true">'
                 : '<listitem value="' . $locale_id . '">')
-          . $locale_name
+          . ustr2html($locale_name)
           . '</listitem>';
 }
 
@@ -178,6 +181,26 @@ $xml .= '</combobox>'
       . '<control name="page_bkms" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
       . '<label>' . get_html_resource(RES_BOOKMARKS_PER_PAGE_ID) . '</label>'
       . '<editbox maxlen="' . ustrlen(MAX_PAGE_SIZE) . '">' . ustr2html($page_bkms) . '</editbox>'
+      . '</control>';
+
+$xml .= '<control name="theme_name">'
+      . '<label>' . get_html_resource(RES_THEME_ID) . '</label>'
+      . '<combobox>';
+
+$themes_available = get_available_themes_sorted();
+
+foreach ($themes_available as $item)
+{
+    $xml .= ($item == $theme_name
+                ? '<listitem value="' . $item . '" selected="true">'
+                : '<listitem value="' . $item . '">')
+          . ($item == THEME_DEFAULT
+                ? sprintf('%s (%s)', ustr2html($item), get_html_resource(RES_DEFAULT_ID))
+                : ustr2html($item))
+          . '</listitem>';
+}
+
+$xml .= '</combobox>'
       . '</control>'
       . '</group>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'

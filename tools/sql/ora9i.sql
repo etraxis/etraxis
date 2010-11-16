@@ -55,7 +55,8 @@ create table tbl_accounts
     csv_delim number (10) not null,
     csv_encoding number (10) not null,
     csv_line_ends number (10) not null,
-    view_id number (10) null
+    view_id number (10) null,
+    theme_name varchar2 (50) not null
 );
 
 alter table tbl_accounts add constraint pk_accounts primary key
@@ -1324,7 +1325,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.0');
+values ('FEATURE_LEVEL', '3.1');
 
 insert into tbl_accounts
 (

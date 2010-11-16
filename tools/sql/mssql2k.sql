@@ -58,7 +58,8 @@ create table tbl_accounts
     csv_delim int not null,
     csv_encoding int not null,
     csv_line_ends int not null,
-    view_id int null
+    view_id int null,
+    theme_name nvarchar (50) not null
 );
 
 alter table tbl_accounts add constraint pk_accounts primary key clustered
@@ -1191,7 +1192,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MSSQL 2000');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.0');
+values ('FEATURE_LEVEL', '3.1');
 
 insert into tbl_accounts
 (
