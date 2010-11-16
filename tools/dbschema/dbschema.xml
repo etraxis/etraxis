@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.0">
+<database name="etraxis" version="3.1">
 
 <table name="tbl_sys_vars">
 
@@ -58,6 +58,7 @@
     <column type="byte">csv_encoding</column>
     <column type="byte">csv_line_ends</column>
     <column type="int" null="yes">view_id</column>
+    <column type="str" size="50">theme_name</column>
 
     <primary name="pk_accounts">
         <column>account_id</column>

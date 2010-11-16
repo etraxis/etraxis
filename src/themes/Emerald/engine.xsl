@@ -36,8 +36,16 @@
     <meta name="author" content="Artem Rodygin"/>
     <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css" href="../css/etraxis.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/list.css"/>
+    <link rel="stylesheet" type="text/css">
+    <xsl:attribute name="href">
+    <xsl:value-of select="@css_etraxis"/>
+    </xsl:attribute>
+    </link>
+    <link rel="stylesheet" type="text/css">
+    <xsl:attribute name="href">
+    <xsl:value-of select="@css_list"/>
+    </xsl:attribute>
+    </link>
     <title>
         <xsl:value-of select="@title"/>
         <xsl:text> - eTraxis</xsl:text>
@@ -1139,8 +1147,6 @@
 
 <xsl:template match="note">
     <p class="note">
-    <img class="note" src="../images/note.png" alt="Note:"/>
-    <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
     <xsl:value-of select="."/>
     </p>
 </xsl:template>

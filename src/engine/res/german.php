@@ -131,13 +131,13 @@ $resource_german = array
     'Zusätze von Status "%1"',
     'keiner',
     'Gesamt:',
-    'Passwort speichern',
+    NULL,
     'Kontoinformationen',
     'Benutzername',
     /* 1020 */
     'Vollständiger Name',
     'Email-Adresse',
-    'Rechte',
+    NULL,
     'Administrator',
     'Benutzer',
     'Beschreibung',
@@ -512,6 +512,8 @@ $resource_german = array
     'Jeder.',
     'Als ungelesen markieren',
     'Übergeordnete Zugriffe',
+    'Aussehen',
+    'Standard',
 );
 
 ?>

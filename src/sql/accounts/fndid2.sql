@@ -11,7 +11,8 @@ select
     csv_delim,
     csv_encoding,
     csv_line_ends,
-    view_id
+    view_id,
+    theme_name
 
 from tbl_accounts
 
