@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-1-0 (2010-11-16)
+
+    Issue 117: Themes support.
+    Issue 128: The login page should be localized according to the user's browser settings.
+
+Bug fixes integrated in MAIN_3-1-0 (2010-11-16)
+
+    Issue 127: No error message is displayed when past date was entered in a "date" field.
+    Issue 129: Do not show last searched text to anonymous user.
+    Issue 138: Maximum Min-Value for Date fields not inputable
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-0-4 (2010-11-14)
 
     Issue 137: Add comma and dash as allowed characters for account login.

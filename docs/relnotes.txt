@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-0-4
-Release date: 2010-11-14
-Release size: 39855
+Release tag:  MAIN_3-1-0
+Release date: 2010-11-16
+Release size: 41494
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,17 +21,61 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/css/etraxis.css
+[M] src/config/index.php
+[D] src/css
 [M] src/dbo/records.php
-[M] src/engine/engine.xsl
+[M] src/engine/config.php
+[M] src/engine/cookies.php
+[M] src/engine/engine.php
+[D] src/engine/engine.xsl
+[M] src/engine/locale.php
+[M] src/engine/resource.php
+[M] src/engine/sessions.php
+[A] src/engine/themes.php
 [M] src/engine/utility.php
 [M] src/engine/xml.php
-[D] src/records/events.php
-[A] src/records/fields.php
+[M] src/engine/res/bulgarian.php
+[M] src/engine/res/czech.php
+[M] src/engine/res/dutch.php
+[M] src/engine/res/english.php
+[M] src/engine/res/french.php
+[M] src/engine/res/german.php
+[M] src/engine/res/indonesian.php
+[M] src/engine/res/italian.php
+[M] src/engine/res/japanese.php
+[M] src/engine/res/latvian.php
+[M] src/engine/res/polish.php
+[M] src/engine/res/portuguese.php
+[M] src/engine/res/romanian.php
+[M] src/engine/res/russian.php
+[M] src/engine/res/spanish.php
+[M] src/engine/res/turkish.php
+[D] src/images/breadcrumb.png
+[D] src/images/button-bg.png
+[D] src/images/button-bg2.png
+[D] src/images/contextmenu-bg.png
+[D] src/images/dropdown.png
+[D] src/images/mainmenu-bg-hl.png
+[D] src/images/mainmenu-bg.png
+[D] src/images/mainmenu-splitter.png
+[D] src/images/minus.png
+[D] src/images/note.png
+[D] src/images/plus.png
+[D] src/images/search.png
+[D] src/images/tab-bg.png
+[D] src/images/tab-bg2.png
+[D] src/images/toolbar-bg-hl.png
+[D] src/images/toolbar-bg.png
+[D] src/images/toolbar-splitter.png
+[M] src/projects/fcreate.php
+[M] src/records/create.php
+[M] src/records/export.php
+[M] src/records/index.php
 [M] src/records/view.php
-[M] src/scripts/etraxis.js
-[A] src/scripts/jquery.TextareaLineCount.js
-[M] src/sql/records/elist2.sql
+[M] src/settings/index.php
+[M] src/sql/accounts/fndid2.sql
+[M] src/sql/accounts/settings.sql
+[A] src/themes
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -99,11 +143,9 @@ Issue 101: NTLM authentication support.
 Issue 113: Shared views
 Issue 114: Reminders as project feature
 Issue 116: Rearrange contents of notification emails
-Issue 117: Themes support.
 Issue 121: Welcome page
 Issue 123: Filter - unread records
 Issue 126: Date component
-Issue 128: The login page should be localized according to the user's browser settings.
 Issue 130: Default project/template when subrecord is being created.
 Issue 131: Critical age of any state
 Issue 133: Advanced search
@@ -113,22 +155,20 @@ KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Issue 94: Values of restricted fields are still accessible via custom view.
-Issue 127: No error message is displayed when past date was entered in a "date" field.
-Issue 129: Do not show last searched text to anonymous user.
-Issue 138: Maximum Min-Value for Date fields not inputable
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 137: Add comma and dash as allowed characters for account login.
+Issue 117: Themes support.
+Issue 128: The login page should be localized according to the user's browser settings.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 134: Upper toolbar is displayed incorrectly using IE8
-Issue 135: Markup validation errors - doesn't satisfy to XHTML 1.0
-Issue 136: Textbox size is too large on Firefox.
+Issue 127: No error message is displayed when past date was entered in a "date" field.
+Issue 129: Do not show last searched text to anonymous user.
+Issue 138: Maximum Min-Value for Date fields not inputable
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
