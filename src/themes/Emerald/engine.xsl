@@ -46,6 +46,11 @@
     <xsl:value-of select="@css_list"/>
     </xsl:attribute>
     </link>
+    <link rel="stylesheet" type="text/css">
+    <xsl:attribute name="href">
+    <xsl:value-of select="@css_jquery"/>
+    </xsl:attribute>
+    </link>
     <title>
         <xsl:value-of select="@title"/>
         <xsl:text> - eTraxis</xsl:text>
@@ -54,8 +59,11 @@
     <body>
     <script type="text/javascript" src="../scripts/jquery.js"></script>
     <script type="text/javascript" src="../scripts/jquery.TextareaLineCount.js"></script>
+    <script type="text/javascript" src="../scripts/jquery.ui.js"></script>
+    <script type="text/javascript" src="../scripts/jquery.ui.dp.res.js"></script>
     <script type="text/javascript" src="../scripts/etraxis.js"></script>
     <xsl:apply-templates select="script"/>
+    <xsl:apply-templates select="scriptonready"/>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
     <div id="toolbar">
         <div class="toolbarsplitt spacer"></div>
@@ -149,6 +157,20 @@
         <xsl:value-of select="."/>
     </xsl:if>
     </script>
+</xsl:template>
+
+<!-- Script Functions executing document.ready -->
+
+<xsl:template match="scriptonready">
+    <script type="text/javascript">
+    $(document).ready(function() {
+    <xsl:apply-templates select="scriptonreadyitem"/>
+    });
+    </script>
+</xsl:template>
+
+<xsl:template match="scriptonreadyitem">
+    <xsl:value-of select="."/>
 </xsl:template>
 
 <!-- Menu -->

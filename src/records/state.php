@@ -401,6 +401,10 @@ else
                         . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), get_date($row['param1']), get_date($row['param2']))
                         . '</note>';
 
+                $script = '<script>'
+                        . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+                        . '</script>';
+
                 break;
 
             case FIELD_TYPE_DURATION:
@@ -445,6 +449,7 @@ $xml .= '</group>'
       . '<button default="true">'             . get_html_resource(RES_OK_ID)     . '</button>'
       . '<button action="cancelStateForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
+      . (isset($script) ? $script : NULL)
       . '</form>';
 
 echo(xml2html($xml));
