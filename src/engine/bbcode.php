@@ -360,8 +360,13 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
     $dom = $xslt->transformToDoc($page);
 
     // Remove XML headers from DOM document.
-    $root   = $dom->getElementsByTagName('bbcode');
-    $bbcode = $dom->saveXML($root->item(0));
+    $root   = $dom->getElementsByTagName('bbcode')->item(0);
+    $bbcode = NULL;
+
+    for ($i = 0; $i < $root->childNodes->length; $i++)
+    {
+        $bbcode .= $dom->saveXML($root->childNodes->item($i));
+    }
 
     // Decode back all existing HTML special characters, encoded before.
     $bbcode = htmlspecialchars_decode($bbcode, ENT_COMPAT);
