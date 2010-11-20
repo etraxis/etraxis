@@ -217,8 +217,7 @@ if ($php_version == PHP_V5)
 <table class="form">
 <?php
 
-$extensions = array('iconv', 'mbstring', 'xsl',
-                    php_uname('s') == 'Windows' ? 'gd2' : 'gd');
+$extensions = array('gd', 'iconv', 'mbstring', 'xsl');
 
 switch (DATABASE_DRIVER)
 {
@@ -280,14 +279,23 @@ foreach ($extensions as $extension)
 
 $localroot = $_SERVER['SCRIPT_FILENAME'];
 
+$windows = (strtolower(substr(PHP_OS, 0, 3)) == 'win');
+
+if ($windows)
+{
+    $localroot = str_replace('\\', '/', $localroot);
+}
+
 $substr = 'diag/index.php';
 $str = substr($localroot, - strlen($substr));
 
-if (substr($localroot, - strlen($substr)) != $substr)
+if (0 != ($windows ? strcasecmp(substr($localroot, - strlen($substr)), $substr)
+                   : strcmp    (substr($localroot, - strlen($substr)), $substr)))
 {
     $message = '<a class="fail">FAIL</a> <i>(can\'t determine valid "LOCALROOT")</i>';
 }
-elseif (LOCALROOT != ($localroot = substr($localroot, 0, - strlen($substr))))
+elseif (0 != ($windows ? strcasecmp(LOCALROOT, ($localroot = substr($localroot, 0, - strlen($substr))))
+                       : strcmp    (LOCALROOT, ($localroot = substr($localroot, 0, - strlen($substr))))))
 {
     $message = '<a class="fail">FAIL</a> <i>("LOCALROOT" is probably wrong and should be "' . $localroot . '")</i>';
 }
