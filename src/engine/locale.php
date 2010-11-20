@@ -769,17 +769,20 @@ function get_browser_locale ()
 
     global $locale_info;
 
-    $langs = preg_split("/[;,]+/", strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
-
-    foreach ($langs as $lang)
+    if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
     {
-        if (substr($lang, 0, 2) != 'q=')
+        $langs = preg_split("/[;,]+/", strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
+
+        foreach ($langs as $lang)
         {
-            foreach ($locale_info as $locale => $info)
+            if (substr($lang, 0, 2) != 'q=')
             {
-                if (strpos($lang, $info[LOCALE_CODE]) !== FALSE)
+                foreach ($locale_info as $locale => $info)
                 {
-                    return $locale;
+                    if (strpos($lang, $info[LOCALE_CODE]) !== FALSE)
+                    {
+                        return $locale;
+                    }
                 }
             }
         }
