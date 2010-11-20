@@ -19,6 +19,7 @@ insert into tbl_accounts
     csv_delim,
     csv_encoding,
     csv_line_ends,
-    view_id)
+    view_id,
+    theme_name)
 
-values ('%1', '%2', '%3', '%4', '%5', NULL, 0, 0, %6, %7, %8, 0, 0, %9, %10, %11, 44, 1, 1, NULL)
+values ('%1', '%2', '%3', '%4', '%5', NULL, 0, 0, %6, %7, %8, 0, 0, %9, %10, %11, 44, 1, 1, NULL, '%12')

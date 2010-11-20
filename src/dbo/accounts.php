@@ -401,7 +401,8 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
               bool2sql($is_ldapuser),
               $locale,
               DEFAULT_PAGE_ROWS,
-              DEFAULT_PAGE_BKMS);
+              DEFAULT_PAGE_BKMS,
+              DEF_THEME_NAME);
 
     // Find newly created account.
     $rs = dal_query('accounts/fndk.sql', ustrtolower($username . ($is_ldapuser ? NULL : ACCOUNT_SUFFIX)));
