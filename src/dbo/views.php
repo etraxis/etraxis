@@ -54,8 +54,8 @@ define('MAX_VIEW_SIZE', 20);
  */
 define('COLUMN_TYPE_MINIMUM',       1);
 define('COLUMN_TYPE_ID',            1);
-define('COLUMN_TYPE_STATE_ABBR',    2);
-define('COLUMN_TYPE_PROJECT',       3);
+define('COLUMN_TYPE_PROJECT',       2);
+define('COLUMN_TYPE_STATE_ABBR',    3);
 define('COLUMN_TYPE_SUBJECT',       4);
 define('COLUMN_TYPE_AUTHOR',        5);
 define('COLUMN_TYPE_RESPONSIBLE',   6);
@@ -195,6 +195,7 @@ function view_validate ($view_name)
  * <ul>
  * <li>{@link NO_ERROR} - view is successfully created</li>
  * <li>{@link ERROR_ALREADY_EXISTS} - view with specified name already exists</li>
+ * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create view</li>
  * </ul>
  */
 function view_create ($account_id, $view_name)
@@ -216,6 +217,28 @@ function view_create ($account_id, $view_name)
     dal_query('views/create.sql',
               $account_id,
               $view_name);
+
+    // Find newly created view.
+    $rs = dal_query('views/fndk.sql', $_SESSION[VAR_USERID], ustrtolower($view_name));
+
+    if ($rs->rows == 0)
+    {
+        debug_write_log(DEBUG_WARNING, '[view_create] Created view not found.');
+        return ERROR_NOT_FOUND;
+    }
+
+    // Get an ID of the created view.
+    $view_id = $rs->fetch('view_id');
+
+    // Create default set of columns for new view.
+    $columns = array();
+
+    for ($i = COLUMN_TYPE_MINIMUM; $i <= COLUMN_TYPE_AGE; $i++)
+    {
+        array_push($columns, "{$i}::");
+    }
+
+    columns_add($view_id, $columns);
 
     return NO_ERROR;
 }
@@ -268,7 +291,7 @@ function views_delete ($views)
     if (in_array($_SESSION[VAR_VIEW], $views))
     {
         filters_clear();
-        account_set_view($_SESSION[VAR_USERID]);
+        account_set_view();
     }
 
     // Delete each of specified views.
