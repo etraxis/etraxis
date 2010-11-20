@@ -157,7 +157,8 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
                         'logout'      => get_html_resource(get_user_level() == USER_LEVEL_GUEST ? RES_LOGIN_ID : RES_LOGOUT_ID),
                         'search'      => get_html_resource(RES_SEARCH_ID),
                         'css_etraxis' => get_theme_css_file('etraxis.css'),
-                        'css_list'    => get_theme_css_file('list.css'));
+                        'css_list'    => get_theme_css_file('list.css'),
+                        'css_jquery'  => get_theme_css_file('jquery.ui.css'));
 
         $script = '<script>'
                 . 'function onLogoutButton()'
