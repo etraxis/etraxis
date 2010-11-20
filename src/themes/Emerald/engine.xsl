@@ -437,7 +437,9 @@
 <xsl:template match="list">
     <table class="list" cellpadding="0" cellspacing="0">
     <xsl:apply-templates select="hrow"/>
+    <tbody>
     <xsl:apply-templates select="row"/>
+    </tbody>
     </table>
 </xsl:template>
 
@@ -459,9 +461,9 @@
             <xsl:attribute name="onclick">
             <xsl:for-each select="../../row">
                 <xsl:value-of select="@name"/>
-                <xsl:text>.checked = this.checked; </xsl:text>
+                <xsl:text>.checked=this.checked;</xsl:text>
                 <xsl:value-of select="@name"/>
-                <xsl:text>.onclick(); </xsl:text>
+                <xsl:text>.onclick();</xsl:text>
             </xsl:for-each>
             </xsl:attribute>
             </input>
@@ -553,12 +555,6 @@
         <xsl:text>nowrap</xsl:text>
         </xsl:attribute>
     </xsl:if>
-    <a>
-    <xsl:if test="boolean(../@url)">
-        <xsl:attribute name="href">
-        <xsl:value-of select="../@url"/>
-        </xsl:attribute>
-    </xsl:if>
     <p>
     <xsl:attribute name="class">
     <xsl:choose>
@@ -570,6 +566,12 @@
         </xsl:otherwise>
     </xsl:choose>
     </xsl:attribute>
+    <a>
+    <xsl:if test="boolean(../@url)">
+        <xsl:attribute name="href">
+        <xsl:value-of select="../@url"/>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:choose>
         <xsl:when test="boolean(@bold = 'true')">
             <b><xsl:apply-templates/></b>
@@ -578,8 +580,8 @@
             <xsl:apply-templates/>
         </xsl:otherwise>
     </xsl:choose>
-    </p>
     </a>
+    </p>
     </td>
 </xsl:template>
 

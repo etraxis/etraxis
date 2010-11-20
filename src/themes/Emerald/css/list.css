@@ -97,16 +97,22 @@ tr.hrow a {
   color: #404040;
 }
 
+tr.rowblue a,
+tr.hrowblue a,
 tr.rowblue p,
 tr.hrowblue p {
   color: #00638F;
 }
 
+tr.rowgrey a,
+tr.hrowgrey a,
 tr.rowgrey p,
 tr.hrowgrey p {
   color: #A0A0A0;
 }
 
+tr.rowred a,
+tr.hrowred a,
 tr.rowred p,
 tr.hrowred p {
   color: #C65066;
