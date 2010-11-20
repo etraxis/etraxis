@@ -219,7 +219,7 @@ function view_create ($account_id, $view_name)
               $view_name);
 
     // Find newly created view.
-    $rs = dal_query('views/fndk.sql', $_SESSION[VAR_USERID], ustrtolower($view_name));
+    $rs = dal_query('views/fndk.sql', $account_id, ustrtolower($view_name));
 
     if ($rs->rows == 0)
     {
