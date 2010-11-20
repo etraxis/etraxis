@@ -2,6 +2,25 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-1-1 (2010-11-20)
+
+    Issue 126: Date component
+    Issue 140: Each user should have predefined "My records" view.
+
+Bug fixes integrated in MAIN_3-1-1 (2010-11-20)
+
+    Issue 141: Changing view to "No view" should disable all filters.
+    Issue 142: Newly created view should contain standard columns by default.
+    Issue 144: Markup validation errors - doesn't satisfy to XHTML 1.0
+    Issue 145: Undefined index: HTTP_ACCEPT_LANGUAGE
+    Issue 146: eTraxis 3.1.0 doesn't work on IIS
+    Issue 148: New Install of eTraxis on IIS + MsSQL DB Script error
+    Issue 151: LDAP login fails - MySQL error 1364: Field 'theme_name' doesn't have a default value
+    Issue 152: Parts of Email Subject gets enclosed by <bbcode></bbcode> tags
+    Issue 153: Can't determine valid "LOCALROOT"
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-1-0 (2010-11-16)
 
     Issue 117: Themes support.

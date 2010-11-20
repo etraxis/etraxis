@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-1-0
-Release date: 2010-11-16
-Release size: 41494
+Release tag:  MAIN_3-1-1
+Release date: 2010-11-20
+Release size: 42446
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,19 +21,11 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/config/index.php
-[D] src/css
-[M] src/dbo/records.php
-[M] src/engine/config.php
-[M] src/engine/cookies.php
-[M] src/engine/engine.php
-[D] src/engine/engine.xsl
+[M] src/dbo/accounts.php
+[M] src/dbo/views.php
+[M] src/diag/index.php
+[M] src/engine/bbcode.php
 [M] src/engine/locale.php
-[M] src/engine/resource.php
-[M] src/engine/sessions.php
-[A] src/engine/themes.php
-[M] src/engine/utility.php
-[M] src/engine/xml.php
 [M] src/engine/res/bulgarian.php
 [M] src/engine/res/czech.php
 [M] src/engine/res/dutch.php
@@ -50,32 +42,68 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 [M] src/engine/res/russian.php
 [M] src/engine/res/spanish.php
 [M] src/engine/res/turkish.php
-[D] src/images/breadcrumb.png
-[D] src/images/button-bg.png
-[D] src/images/button-bg2.png
-[D] src/images/contextmenu-bg.png
-[D] src/images/dropdown.png
-[D] src/images/mainmenu-bg-hl.png
-[D] src/images/mainmenu-bg.png
-[D] src/images/mainmenu-splitter.png
-[D] src/images/minus.png
-[D] src/images/note.png
-[D] src/images/plus.png
-[D] src/images/search.png
-[D] src/images/tab-bg.png
-[D] src/images/tab-bg2.png
-[D] src/images/toolbar-bg-hl.png
-[D] src/images/toolbar-bg.png
-[D] src/images/toolbar-splitter.png
-[M] src/projects/fcreate.php
+[M] src/engine/resource.php
+[M] src/engine/themes.php
+[M] src/engine/xml.php
 [M] src/records/create.php
-[M] src/records/export.php
-[M] src/records/index.php
-[M] src/records/view.php
-[M] src/settings/index.php
-[M] src/sql/accounts/fndid2.sql
-[M] src/sql/accounts/settings.sql
-[A] src/themes
+[M] src/records/modify.php
+[M] src/records/setview.php
+[M] src/records/state.php
+[A] src/scripts/jquery.ui.dp.res.js
+[A] src/scripts/jquery.ui.js
+[M] src/sql/accounts/create.sql
+[A] src/sql/accounts/vfdelall.sql
+[M] src/themes/Azure/css/etraxis.css
+[A] src/themes/Azure/css/jquery.ui.css
+[D] src/themes/Azure/css/list.css
+[A] src/themes/Azure/images/ui-bg_flat_0_aaaaaa_40x100.png
+[A] src/themes/Azure/images/ui-bg_flat_100_f9f2c8_40x100.png
+[A] src/themes/Azure/images/ui-bg_flat_100_fbfbfb_40x100.png
+[A] src/themes/Azure/images/ui-bg_flat_100_ffd8d8_40x100.png
+[A] src/themes/Azure/images/ui-bg_flat_100_ffffff_40x100.png
+[A] src/themes/Azure/images/ui-bg_highlight-soft_25_669ec8_1x100.png
+[A] src/themes/Azure/images/ui-bg_highlight-soft_25_84b7dd_1x100.png
+[A] src/themes/Azure/images/ui-icons_2e83ff_256x240.png
+[A] src/themes/Azure/images/ui-icons_404040_256x240.png
+[A] src/themes/Azure/images/ui-icons_e0e0e0_256x240.png
+[A] src/themes/Azure/images/ui-icons_ff0000_256x240.png
+[A] src/themes/Azure/images/ui-icons_ffffff_256x240.png
+[M] src/themes/Emerald/css/etraxis.css
+[A] src/themes/Emerald/css/jquery.ui.css
+[M] src/themes/Emerald/css/list.css
+[M] src/themes/Emerald/engine.xsl
+[A] src/themes/Emerald/images/ui-bg_flat_0_aaaaaa_40x100.png
+[A] src/themes/Emerald/images/ui-bg_flat_100_f9f2c8_40x100.png
+[A] src/themes/Emerald/images/ui-bg_flat_100_fbfbfb_40x100.png
+[A] src/themes/Emerald/images/ui-bg_flat_100_ffd8d8_40x100.png
+[A] src/themes/Emerald/images/ui-bg_flat_100_ffffff_40x100.png
+[A] src/themes/Emerald/images/ui-bg_highlight-soft_25_00605d_1x100.png
+[A] src/themes/Emerald/images/ui-bg_highlight-soft_25_207f70_1x100.png
+[A] src/themes/Emerald/images/ui-icons_2e83ff_256x240.png
+[A] src/themes/Emerald/images/ui-icons_404040_256x240.png
+[A] src/themes/Emerald/images/ui-icons_e0e0e0_256x240.png
+[A] src/themes/Emerald/images/ui-icons_ff0000_256x240.png
+[A] src/themes/Emerald/images/ui-icons_ffffff_256x240.png
+[M] src/themes/Orchid/css/etraxis.css
+[A] src/themes/Orchid/css/jquery.ui.css
+[D] src/themes/Orchid/css/list.css
+[A] src/themes/Orchid/images/ui-bg_flat_0_aaaaaa_40x100.png
+[A] src/themes/Orchid/images/ui-bg_flat_100_f9f2c8_40x100.png
+[A] src/themes/Orchid/images/ui-bg_flat_100_fbfbfb_40x100.png
+[A] src/themes/Orchid/images/ui-bg_flat_100_ffd8d8_40x100.png
+[A] src/themes/Orchid/images/ui-bg_flat_100_ffffff_40x100.png
+[A] src/themes/Orchid/images/ui-bg_highlight-soft_25_cd6ad1_1x100.png
+[A] src/themes/Orchid/images/ui-bg_highlight-soft_25_d58ad8_1x100.png
+[A] src/themes/Orchid/images/ui-icons_2e83ff_256x240.png
+[A] src/themes/Orchid/images/ui-icons_404040_256x240.png
+[A] src/themes/Orchid/images/ui-icons_e0e0e0_256x240.png
+[A] src/themes/Orchid/images/ui-icons_ff0000_256x240.png
+[A] src/themes/Orchid/images/ui-icons_ffffff_256x240.png
+[M] src/views/create.php
+[M] tools/sql/mssql2k.sql
+[M] tools/sql/mysql50.sql
+[M] tools/sql/ora9i.sql
+[M] tools/sql/pgsql80.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -128,7 +156,6 @@ Issue 76: Improve linking parent records with subrecords
 Issue 77: Default sort with filter
 Issue 80: Reaction time vs. Solution time
 Issue 81: Automatic status change
-Issue 83: Attribute description
 Issue 84: List of connected records
 Issue 85: Template attributes
 Issue 88: Select records changed in a time period
@@ -145,7 +172,6 @@ Issue 114: Reminders as project feature
 Issue 116: Rearrange contents of notification emails
 Issue 121: Welcome page
 Issue 123: Filter - unread records
-Issue 126: Date component
 Issue 130: Default project/template when subrecord is being created.
 Issue 131: Critical age of any state
 Issue 133: Advanced search
@@ -160,15 +186,21 @@ Issue 94: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 117: Themes support.
-Issue 128: The login page should be localized according to the user's browser settings.
+Issue 126: Date component
+Issue 140: Each user should have predefined "My records" view.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 127: No error message is displayed when past date was entered in a "date" field.
-Issue 129: Do not show last searched text to anonymous user.
-Issue 138: Maximum Min-Value for Date fields not inputable
+Issue 141: Changing view to "No view" should disable all filters.
+Issue 142: Newly created view should contain standard columns by default.
+Issue 144: Markup validation errors - doesn't satisfy to XHTML 1.0
+Issue 145: Undefined index: HTTP_ACCEPT_LANGUAGE
+Issue 146: eTraxis 3.1.0 doesn't work on IIS
+Issue 148: New Install of eTraxis on IIS + MsSQL DB Script error
+Issue 151: LDAP login fails - MySQL error 1364: Field 'theme_name' doesn't have a default value
+Issue 152: Parts of Email Subject gets enclosed by <bbcode></bbcode> tags
+Issue 153: Can't determine valid "LOCALROOT"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
