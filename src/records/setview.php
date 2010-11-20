@@ -42,6 +42,7 @@ $id = ustr2int(try_request('id'));
 
 if ($id == 0)
 {
+    filters_clear();
     account_set_view();
 }
 else

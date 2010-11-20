@@ -35,6 +35,7 @@
  */
 require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
+require_once('../dbo/filters.php');
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -266,6 +267,7 @@ function views_delete ($views)
     // If current view is in list of views to be deleted, change it to unknown.
     if (in_array($_SESSION[VAR_VIEW], $views))
     {
+        filters_clear();
         account_set_view($_SESSION[VAR_USERID]);
     }
 
