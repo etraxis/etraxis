@@ -221,7 +221,7 @@ $resource_spanish = array
     'Edad',
     'Nuevo registro (paso %1/%2)',
     'Registro "%1"',
-    'Ir',
+    NULL,
     /* 1100 */
     'Historial',
     'Aplazar',

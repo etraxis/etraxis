@@ -221,7 +221,7 @@ $resource_german = array
     'Alter',
     'Neue Anfrage (Schritt %1/%2)',
     'Anfrage "%1"',
-    'Los!',
+    NULL,
     /* 1100 */
     'Historie',
     'Verzögern',

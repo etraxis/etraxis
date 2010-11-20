@@ -234,7 +234,7 @@ define('RES_STATE_ID',                              1095);
 define('RES_AGE_ID',                                1096);
 define('RES_NEW_RECORD_ID',                         1097);
 define('RES_RECORD_X_ID',                           1098);
-define('RES_UNUSED_1099_ID',                        1099);
+define('RES_MY_RECORDS_ID',                         1099);
 define('RES_HISTORY_ID',                            1100);
 define('RES_POSTPONE_ID',                           1101);
 define('RES_RESUME_ID',                             1102);

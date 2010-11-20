@@ -221,7 +221,7 @@ $resource_indonesian = array
     'Masa',
     'Data baru (langkah %1/%2)',
     'Data "%1"',
-    'Mulai',
+    NULL,
     /* 1100 */
     'Sejarah',
     'Tunda',

@@ -35,6 +35,7 @@
  */
 require_once('../engine/engine.php');
 require_once('../dbo/filters.php');
+require_once('../dbo/views.php');
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -414,6 +415,23 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
     // Get an ID of the created account.
     $account_id = $rs->fetch('account_id');
 
+    // Create default view for new account, which will contain both default filters.
+    view_create($account_id, get_html_resource(RES_MY_RECORDS_ID, $locale));
+
+    // Find newly created default view.
+    $rs = dal_query('views/fndk.sql', $account_id, ustrtolower(get_html_resource(RES_MY_RECORDS_ID, $locale)));
+
+    if ($rs->rows == 0)
+    {
+        debug_write_log(DEBUG_NOTICE, '[account_create] Created view not found.');
+        $view_id = NULL;
+    }
+    else
+    {
+        $view_id = $rs->fetch('view_id');
+        dal_query('accounts/setview.sql', $account_id, $view_id);
+    }
+
     // Create 1st default filter for new account, which will show all records assigned to this account.
     dal_query('filters/create.sql',
               $account_id,
@@ -438,6 +456,12 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
         // Complete filter settings and active the filter.
         dal_query('filters/facreate.sql', $filter_id, FILTER_FLAG_ASSIGNED_TO, $account_id);
         dal_query('filters/set.sql', $filter_id, $account_id);
+
+        // Add filter into default view.
+        if (!is_null($view_id))
+        {
+            dal_query('views/fcreate.sql', $view_id, $filter_id);
+        }
     }
 
     // Create 2nd default filter for new account, which will show all opened records created by this account.
@@ -464,6 +488,12 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
         // Complete filter settings and active the filter.
         dal_query('filters/facreate.sql', $filter_id, FILTER_FLAG_CREATED_BY, $account_id);
         dal_query('filters/set.sql', $filter_id, $account_id);
+
+        // Add filter into default view.
+        if (!is_null($view_id))
+        {
+            dal_query('views/fcreate.sql', $view_id, $filter_id);
+        }
     }
 
     return NO_ERROR;
@@ -629,6 +659,7 @@ function account_delete ($id)
     dal_query('accounts/rsdelall.sql',  $id);
     dal_query('accounts/sdelall.sql',   $id);
     dal_query('accounts/setview.sql',   $id, NULL);
+    dal_query('accounts/vfdelall.sql',  $id);
     dal_query('accounts/vcdelall.sql',  $id);
     dal_query('accounts/vdelall.sql',   $id);
     dal_query('accounts/ffdelall.sql',  $id);

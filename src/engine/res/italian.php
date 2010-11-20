@@ -221,7 +221,7 @@ $resource_italian = array
     'Età',
     'Nuovo record (step %1/%2)',
     'Record "%1"',
-    'Vai',
+    NULL,
     /* 1100 */
     'Storia',
     'Posponi',
