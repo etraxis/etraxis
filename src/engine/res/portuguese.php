@@ -221,7 +221,7 @@ $resource_portuguese = array
     'Idade',
     'Novo registro (passo %1/%2)',
     'Registro "%1"',
-    'Ir',
+    NULL,
     /* 1100 */
     'Histórico',
     'Adiar',

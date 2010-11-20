@@ -221,7 +221,7 @@ $resource_dutch = array
     'Leeftijd',
     'Nieuw record (stap %1/%2)',
     'Record "%1"',
-    'Ga',
+    NULL,
     /* 1100 */
     'Geschiedenis',
     'Uitstellen',

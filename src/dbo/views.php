@@ -186,8 +186,9 @@ function view_validate ($view_name)
 }
 
 /**
- * Creates new view.
+ * Creates new view for specified user.
  *
+ * @param int $account_id User ID.
  * @param string $view_name View name.
  * @return int Error code:
  * <ul>
@@ -195,13 +196,14 @@ function view_validate ($view_name)
  * <li>{@link ERROR_ALREADY_EXISTS} - view with specified name already exists</li>
  * </ul>
  */
-function view_create ($view_name)
+function view_create ($account_id, $view_name)
 {
     debug_write_log(DEBUG_TRACE, '[view_create]');
-    debug_write_log(DEBUG_DUMP,  '[view_create] $view_name = ' . $view_name);
+    debug_write_log(DEBUG_DUMP,  '[view_create] $account_id = ' . $account_id);
+    debug_write_log(DEBUG_DUMP,  '[view_create] $view_name  = ' . $view_name);
 
     // Check that user doesn't have another view with the same name.
-    $rs = dal_query('views/fndk.sql', $_SESSION[VAR_USERID], ustrtolower($view_name));
+    $rs = dal_query('views/fndk.sql', $account_id, ustrtolower($view_name));
 
     if ($rs->rows != 0)
     {
@@ -211,7 +213,7 @@ function view_create ($view_name)
 
     // Create a view.
     dal_query('views/create.sql',
-              $_SESSION[VAR_USERID],
+              $account_id,
               $view_name);
 
     return NO_ERROR;

@@ -221,7 +221,7 @@ $resource_latvian = array
     'Vecums',
     'Jauns ieraksts (solis %1/%2)',
     'Ieraksts "%1"',
-    'Pâriet',
+    NULL,
     /* 1100 */
     'Vçsture',
     'Atlikt',

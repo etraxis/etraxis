@@ -221,7 +221,7 @@ $resource_french = array
     'Age',
     'Nouvel enregistrement (étape %1/%2)',
     'Enregistrement "%1"',
-    'Go',
+    NULL,
     /* 1100 */
     'Historique',
     'Ajourner',

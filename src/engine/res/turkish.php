@@ -221,7 +221,7 @@ $resource_turkish = array
     'Dönem',
     'Yeni kayýt (adým: %1/%2)',
     '"%1" Kaydý',
-    'Git',
+    NULL,
     /* 1100 */
     'Geçmiþ',
     'Ertele',

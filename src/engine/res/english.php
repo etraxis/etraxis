@@ -221,7 +221,7 @@ $resource_english = array
     'Age',
     'New record (step %1/%2)',
     'Record "%1"',
-    'Go',
+    'My records',
     /* 1100 */
     'History',
     'Postpone',

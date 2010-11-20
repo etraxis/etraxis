@@ -221,7 +221,7 @@ $resource_polish = array
     'Wiek',
     'Nowy rekord (krok %1/%2)',
     'Rekord "%1"',
-    'Id¼',
+    NULL,
     /* 1100 */
     'Historia',
     'Opó¼nij',

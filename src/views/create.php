@@ -46,7 +46,7 @@ if (try_request('submitted') == 'mainform')
 
     if ($error == NO_ERROR)
     {
-        $error = view_create($view_name);
+        $error = view_create($_SESSION[VAR_USERID], $view_name);
 
         if ($error == NO_ERROR)
         {

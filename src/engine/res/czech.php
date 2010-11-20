@@ -221,7 +221,7 @@ $resource_czech = array
     'Stáøí',
     'Nový záznam (krok %1/%2)',
     'Záznam "%1"',
-    'Zobraz',
+    NULL,
     /* 1100 */
     'Historie',
     'Odlo¾it',

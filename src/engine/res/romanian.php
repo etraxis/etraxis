@@ -221,7 +221,7 @@ $resource_romanian = array
     'Vechime (zile)',
     'Inregistrare noua (pas %1/%2)',
     'Inregistrare "%1"',
-    'Cauta',
+    NULL,
     /* 1100 */
     'Istoric',
     'Amana',
