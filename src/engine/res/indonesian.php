@@ -24,7 +24,6 @@
  * Localization
  *
  * This module contains prompts translated in Indonesian.
- * All the prompts are in ISO-8859-1 encoding.
  *
  * @package Engine
  * @subpackage Localization

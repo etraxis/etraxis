@@ -24,7 +24,6 @@
  * Localization
  *
  * This module contains prompts translated in Romanian.
- * All the prompts are in ISO-8859-2 encoding.
  *
  * @package Engine
  * @subpackage Localization
@@ -113,7 +112,7 @@ $resource_romanian = array
 
     RES_SECTION_PROMPTS =>
     /* 1000 */
-    'Românã',
+    'RomÃ¢nÄƒ',
     'Autentificare',
     '  OK  ',
     'Renunta',
