@@ -179,11 +179,10 @@ define('LANG_LINGALA',      8180);
 define('LOCALE_RES_TABLE',   1);
 define('LOCALE_SUFFIX',      2);
 define('LOCALE_CODE',        3);
-define('LOCALE_ENCODING',    4);
-define('LOCALE_PATH2FONTS',  5);
-define('LOCALE_DIRECTION',   6);
-define('LOCALE_DATE_FORMAT', 7);
-define('LOCALE_TIME_FORMAT', 8);
+define('LOCALE_CHARSET',     4);
+define('LOCALE_DIRECTION',   5);
+define('LOCALE_DATE_FORMAT', 6);
+define('LOCALE_TIME_FORMAT', 7);
 /**#@-*/
 
 // Prompts tables.
@@ -213,8 +212,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'US',
         LOCALE_CODE        => 'en-us',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'n/j/Y',
         LOCALE_TIME_FORMAT => 'g:i A',
@@ -226,8 +224,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'UK',
         LOCALE_CODE        => 'en-gb',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -239,8 +236,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'Canada',
         LOCALE_CODE        => 'en-ca',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'g:i A',
@@ -252,8 +248,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_english,
         LOCALE_SUFFIX      => 'Australia',
         LOCALE_CODE        => 'en-au',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'j/m/Y',
         LOCALE_TIME_FORMAT => 'g:i A',
@@ -265,8 +260,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_french,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'fr',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -278,8 +272,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_german,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'de',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -291,8 +284,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_italian,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'it',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -304,8 +296,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_spanish,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'es',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -317,8 +308,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_portuguese,
         LOCALE_SUFFIX      => 'Brasil',
         LOCALE_CODE        => 'pt',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'n/j/Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -330,8 +320,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_dutch,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'nl',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'j-n-Y',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -343,8 +332,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_latvian,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'lv',
-        LOCALE_ENCODING    => 'ISO-8859-13',
-        LOCALE_PATH2FONTS  => 'latin7',
+        LOCALE_CHARSET     => 'latin7',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'Y.m.d.',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -356,8 +344,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_russian,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'ru',
-        LOCALE_ENCODING    => 'Windows-1251',
-        LOCALE_PATH2FONTS  => 'win1251',
+        LOCALE_CHARSET     => 'win1251',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -369,8 +356,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_polish,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'pl',
-        LOCALE_ENCODING    => 'ISO-8859-2',
-        LOCALE_PATH2FONTS  => 'latin2',
+        LOCALE_CHARSET     => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'Y.m.d',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -382,8 +368,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_czech,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'cs',
-        LOCALE_ENCODING    => 'ISO-8859-2',
-        LOCALE_PATH2FONTS  => 'latin2',
+        LOCALE_CHARSET     => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -395,8 +380,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_bulgarian,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'bg',
-        LOCALE_ENCODING    => 'Windows-1251',
-        LOCALE_PATH2FONTS  => 'win1251',
+        LOCALE_CHARSET     => 'win1251',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.n.Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -408,8 +392,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_romanian,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'ro',
-        LOCALE_ENCODING    => 'ISO-8859-2',
-        LOCALE_PATH2FONTS  => 'latin2',
+        LOCALE_CHARSET     => 'latin2',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -421,8 +404,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_japanese,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'ja',
-        LOCALE_ENCODING    => 'UTF-8',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'Y/m/d',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -434,8 +416,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_turkish,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'tr',
-        LOCALE_ENCODING    => 'ISO-8859-9',
-        LOCALE_PATH2FONTS  => 'latin5',
+        LOCALE_CHARSET     => 'latin5',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd.m.Y',
         LOCALE_TIME_FORMAT => 'H:i',
@@ -447,8 +428,7 @@ $locale_info = array
         LOCALE_RES_TABLE   => $resource_indonesian,
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'id',
-        LOCALE_ENCODING    => 'ISO-8859-1',
-        LOCALE_PATH2FONTS  => 'latin1',
+        LOCALE_CHARSET     => 'latin1',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
         LOCALE_TIME_FORMAT => 'G:i',
@@ -485,8 +465,6 @@ function get_resource ($res_id, $lang = NULL)
             ? $locale_info[$lang][LOCALE_RES_TABLE][$res_id]
             : $locale_info[LANG_ENGLISH_US][LOCALE_RES_TABLE][$res_id]);
 
-    $res = iconv($locale_info[$lang][LOCALE_ENCODING], 'UTF-8', $res);
-
     if ($res_id == RES_LOCALE_ID && !is_null($locale_info[$lang][LOCALE_SUFFIX]))
     {
         $res .= " ({$locale_info[$lang][LOCALE_SUFFIX]})";
@@ -519,25 +497,6 @@ function get_html_resource ($res_id, $lang = NULL)
 function get_js_resource ($res_id, $lang = NULL)
 {
     return ustr2js(get_resource($res_id, $lang));
-}
-
-/**
- * Returns encoding for specified language.
- *
- * @param int $lang ID of language. If omitted, then language of current user, or (when user is
- * not logged in) default language will be used (see {@link LANG_DEFAULT}).
- * @return string Encoding string name (e.g. "ISO-8859-1").
- */
-function get_encoding ($lang = NULL)
-{
-    global $locale_info;
-
-    if (is_null($lang))
-    {
-        $lang = (isset($_SESSION[VAR_LOCALE]) ? $_SESSION[VAR_LOCALE] : LANG_DEFAULT);
-    }
-
-    return $locale_info[$lang][LOCALE_ENCODING];
 }
 
 /**

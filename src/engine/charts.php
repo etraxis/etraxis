@@ -246,17 +246,39 @@ function loadfont ($fontsize)
     switch ($fontsize)
     {
         case FONT_SIZE_TINY:
-            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_PATH2FONTS]}/tiny.gdf");
+            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_CHARSET]}/tiny.gdf");
         case FONT_SIZE_SMALL:
-            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_PATH2FONTS]}/small.gdf");
+            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_CHARSET]}/small.gdf");
         case FONT_SIZE_MEDIUM:
-            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_PATH2FONTS]}/medium.gdf");
+            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_CHARSET]}/medium.gdf");
         case FONT_SIZE_LARGE:
-            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_PATH2FONTS]}/large.gdf");
+            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_CHARSET]}/large.gdf");
         case FONT_SIZE_GIANT:
-            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_PATH2FONTS]}/giant.gdf");
+            return imageloadfont("../fonts/{$locale_info[$lang][LOCALE_CHARSET]}/giant.gdf");
         default:
             return FALSE;
+    }
+}
+
+/**
+ * Returns encoding for current locale.
+ *
+ * @return string Encoding name (e.g. "ISO-8859-1").
+ */
+function get_encoding ()
+{
+    global $locale_info;
+
+    $lang = (isset($_SESSION[VAR_LOCALE]) ? $_SESSION[VAR_LOCALE] : LANG_DEFAULT);
+
+    switch ($locale_info[$lang][LOCALE_CHARSET])
+    {
+        case 'latin1':  return 'ISO-8859-1';
+        case 'latin2':  return 'ISO-8859-2';
+        case 'latin5':  return 'ISO-8859-9';
+        case 'latin7':  return 'ISO-8859-13';
+        case 'win1251': return 'Windows-1251';
+        default:        return 'UTF-8';
     }
 }
 

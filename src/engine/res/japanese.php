@@ -24,7 +24,6 @@
  * Localization
  *
  * This module contains prompts translated in Japanese.
- * All the prompts are in UTF-8 encoding.
  *
  * @package Engine
  * @subpackage Localization

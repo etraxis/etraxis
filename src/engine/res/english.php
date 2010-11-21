@@ -23,8 +23,7 @@
 /**
  * Localization
  *
- * This module contains prompts translated in English (US).
- * All the prompts are in ISO-8859-1 encoding.
+ * This module contains prompts translated in English.
  *
  * @package Engine
  * @subpackage Localization

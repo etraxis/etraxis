@@ -24,7 +24,6 @@
  * Localization
  *
  * This module contains prompts translated in Dutch.
- * All the prompts are in ISO-8859-1 encoding.
  *
  * @package Engine
  * @subpackage Localization
@@ -356,7 +355,7 @@ $resource_dutch = array
     'Debug',
     /* 1220 */
     'Debug modus',
-    'ingeschakeld (zonder privédata)',
+    'ingeschakeld (zonder privÃ©data)',
     'ingeschakeld (alle data)',
     'Debug logbestanden',
     'Ingeschakeld',
