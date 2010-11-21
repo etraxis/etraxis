@@ -107,6 +107,7 @@ if ($list->rows != 0)
         RES_STATE_ABBR_ID,
         RES_STATE_TYPE_ID,
         RES_RESPONSIBLE_ID,
+        RES_NEXT_STATE_BY_DEFAULT_ID,
     );
 
     $bookmarks = gen_xml_bookmarks($page, $list->rows, $from, $to, 'sindex.php?id=' . $id . '&amp;');
@@ -136,6 +137,7 @@ if ($list->rows != 0)
               . '<cell>' . ustr2html($row['state_abbr']) . '</cell>'
               . '<cell>' . get_html_resource($state_type_res[$row['state_type']]) . '</cell>'
               . '<cell>' . get_html_resource($state_responsible_res[$row['responsible']]) . '</cell>'
+              . '<cell>' . (is_null($row['next_state']) ? sprintf('<i>%s</i>', get_html_resource(RES_NONE_ID)) : ustr2html($row['next_state'])) . '</cell>'
               . '</row>';
     }
 

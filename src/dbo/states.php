@@ -127,14 +127,16 @@ function states_list ($id, &$sort, &$page)
 
     $sort_modes = array
     (
-        1 => 'state_name asc',
-        2 => 'state_abbr asc',
-        3 => 'state_type asc, state_name asc',
-        4 => 'responsible asc, state_name asc',
-        5 => 'state_name desc',
-        6 => 'state_abbr desc',
-        7 => 'state_type desc, state_name desc',
-        8 => 'responsible desc, state_name desc',
+        1  => 'state_name asc',
+        2  => 'state_abbr asc',
+        3  => 'state_type asc, state_name asc',
+        4  => 'responsible asc, state_name asc',
+        5  => 'next_state asc, state_name asc',
+        6  => 'state_name desc',
+        7  => 'state_abbr desc',
+        8  => 'state_type desc, state_name desc',
+        9  => 'responsible desc, state_name desc',
+        10 => 'next_state desc, state_name desc',
     );
 
     $sort = try_request('sort', try_cookie(COOKIE_STATES_SORT, 3));
