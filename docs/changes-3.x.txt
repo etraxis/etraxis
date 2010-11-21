@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-1-2 (2010-11-21)
+
+    Issue 48: Show next state for each state in the list of states
+    Issue 155: Compress generated pages to reduce their size and loading time.
+
+Bug fixes integrated in MAIN_3-1-2 (2010-11-21)
+
+    Issue 154: Date picker is absent on postpone.
+    Issue 156: The default style sheet language must be specified when style attributes are used.
+    Issue 157: There should not be any white space at the start or end of an attribute's value.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-1-1 (2010-11-20)
 
     Issue 126: Date component
