@@ -114,7 +114,7 @@ $resource_portuguese = array
     /* 1000 */
     'Português',
     'Logar',
-    '  OK  ',
+    'OK',
     'Cancelar',
     'Salvar',
     'Voltar',

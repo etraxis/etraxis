@@ -114,7 +114,7 @@ $resource_dutch = array
     /* 1000 */
     'Nederlands',
     'Inloggen',
-    ' OK ',
+    'OK',
     'Annuleren',
     'Opslaan',
     'Terug',

@@ -114,7 +114,7 @@ $resource_indonesian = array
     /* 1000 */
     'Bahasa Indonesia',
     'Masuk log',
-    '  OK  ',
+    'OK',
     'Batal',
     'Simpan',
     'Kembali',

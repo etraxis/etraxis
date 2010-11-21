@@ -114,7 +114,7 @@ $resource_french = array
     /* 1000 */
     'Français',
     'Se connecter',
-    '  OK  ',
+    'OK',
     'Annuler',
     'Sauver',
     'Précédent',

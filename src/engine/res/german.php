@@ -114,7 +114,7 @@ $resource_german = array
     /* 1000 */
     'Deutsch',
     'Anmelden',
-    '   OK    ',
+    'OK',
     'Abbrechen',
     'Speichern',
     'Zurück',
