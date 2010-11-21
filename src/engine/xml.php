@@ -155,10 +155,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
                         'version'     => ustrprocess(get_html_resource(RES_VERSION_X_ID), VERSION),
                         'username'    => isset($_SESSION[VAR_FULLNAME]) ? ustr2html($_SESSION[VAR_FULLNAME]) : get_html_resource(RES_GUEST_ID),
                         'logout'      => get_html_resource(get_user_level() == USER_LEVEL_GUEST ? RES_LOGIN_ID : RES_LOGOUT_ID),
-                        'search'      => get_html_resource(RES_SEARCH_ID),
-                        'css_etraxis' => get_theme_css_file('etraxis.css'),
-                        'css_list'    => get_theme_css_file('list.css'),
-                        'css_jquery'  => get_theme_css_file('jquery.ui.css'));
+                        'search'      => get_html_resource(RES_SEARCH_ID));
 
         $script = '<script>'
                 . 'function onLogoutButton()'
@@ -207,6 +204,10 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
         }
 
         $header .= '>';
+
+        $header .= '<css>../themes/css.php?name=jquery.ui.css</css>'
+                 . '<css>../themes/css.php?name=etraxis.css</css>'
+                 . '<css>../themes/css.php?name=list.css</css>';
 
         // generate main menu
 

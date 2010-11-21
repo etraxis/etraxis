@@ -36,34 +36,24 @@
     <meta name="author" content="Artem Rodygin"/>
     <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
-    <link rel="stylesheet" type="text/css">
-    <xsl:attribute name="href">
-    <xsl:value-of select="@css_etraxis"/>
-    </xsl:attribute>
-    </link>
-    <link rel="stylesheet" type="text/css">
-    <xsl:attribute name="href">
-    <xsl:value-of select="@css_list"/>
-    </xsl:attribute>
-    </link>
-    <link rel="stylesheet" type="text/css">
-    <xsl:attribute name="href">
-    <xsl:value-of select="@css_jquery"/>
-    </xsl:attribute>
-    </link>
+    <xsl:apply-templates select="css"/>
     <title>
         <xsl:value-of select="@title"/>
         <xsl:text> - eTraxis</xsl:text>
     </title>
     </head>
     <body>
-    <script type="text/javascript" src="../scripts/jquery.js"></script>
-    <script type="text/javascript" src="../scripts/jquery.TextareaLineCount.js"></script>
-    <script type="text/javascript" src="../scripts/jquery.ui.js"></script>
-    <script type="text/javascript" src="../scripts/jquery.ui.dp.res.js"></script>
-    <script type="text/javascript" src="../scripts/etraxis.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery.TextareaLineCount.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery.ui.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery.ui.dp.res.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=etraxis.js"></script>
     <xsl:apply-templates select="script"/>
-    <xsl:apply-templates select="scriptonready"/>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    <xsl:apply-templates select="scriptonreadyitem"/>
+    });
+    </script>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
     <div id="toolbar">
         <div class="toolbarsplitt spacer"></div>
@@ -130,6 +120,14 @@
     </html>
 </xsl:template>
 
+<xsl:template match="css">
+    <link rel="stylesheet" type="text/css">
+    <xsl:attribute name="href">
+    <xsl:value-of select="."/>
+    </xsl:attribute>
+    </link>
+</xsl:template>
+
 <xsl:template match="content">
     <div>
     <xsl:attribute name="id">
@@ -160,14 +158,6 @@
 </xsl:template>
 
 <!-- Script Functions executing document.ready -->
-
-<xsl:template match="scriptonready">
-    <script type="text/javascript">
-    $(document).ready(function() {
-    <xsl:apply-templates select="scriptonreadyitem"/>
-    });
-    </script>
-</xsl:template>
 
 <xsl:template match="scriptonreadyitem">
     <xsl:value-of select="."/>

@@ -59,26 +59,26 @@
 .ui-widget { font-family: "Segoe UI", Helvetica, sans-serif; font-size: 12px; }
 .ui-widget .ui-widget { font-size: 1em; }
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button { font-family: "Segoe UI", Helvetica, sans-serif; font-size: 1em; }
-.ui-widget-content { border: 1px solid #c0c0c0; background: #fbfbfb url(../images/ui-bg_flat_100_fbfbfb_40x100.png) 50% 50% repeat-x; color: #404040; }
+.ui-widget-content { border: 1px solid #c0c0c0; background: #fbfbfb url(Azure/images/ui-bg_flat_100_fbfbfb_40x100.png) 50% 50% repeat-x; color: #404040; }
 .ui-widget-content a { color: #404040; }
-.ui-widget-header { border: 1px solid #c0c0c0; background: #fbfbfb url(../images/ui-bg_flat_100_fbfbfb_40x100.png) 50% 50% repeat-x; color: #404040; font-weight: bold; }
+.ui-widget-header { border: 1px solid #c0c0c0; background: #fbfbfb url(Azure/images/ui-bg_flat_100_fbfbfb_40x100.png) 50% 50% repeat-x; color: #404040; font-weight: bold; }
 .ui-widget-header a { color: #404040; }
 
 /* Interaction states
 ----------------------------------*/
-.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #5b8db3; background: #669ec8 url(../images/ui-bg_highlight-soft_25_669ec8_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #e0e0e0; }
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #5b8db3; background: #669ec8 url(Azure/images/ui-bg_highlight-soft_25_669ec8_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #e0e0e0; }
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited { color: #e0e0e0; text-decoration: none; }
-.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #7ba8cb; background: #84b7dd url(../images/ui-bg_highlight-soft_25_84b7dd_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; }
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { border: 1px solid #7ba8cb; background: #84b7dd url(Azure/images/ui-bg_highlight-soft_25_84b7dd_1x100.png) 50% 50% repeat-x; font-weight: normal; color: #ffffff; }
 .ui-state-hover a, .ui-state-hover a:hover { color: #ffffff; text-decoration: none; }
-.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #c0c0c0; background: #ffffff url(../images/ui-bg_flat_100_ffffff_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #404040; }
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active { border: 1px solid #c0c0c0; background: #ffffff url(Azure/images/ui-bg_flat_100_ffffff_40x100.png) 50% 50% repeat-x; font-weight: normal; color: #404040; }
 .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited { color: #404040; text-decoration: none; }
 .ui-widget :active { outline: none; }
 
 /* Interaction Cues
 ----------------------------------*/
-.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #f4e062; background: #f9f2c8 url(../images/ui-bg_flat_100_f9f2c8_40x100.png) 50% 50% repeat-x; color: #404040; }
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {border: 1px solid #f4e062; background: #f9f2c8 url(Azure/images/ui-bg_flat_100_f9f2c8_40x100.png) 50% 50% repeat-x; color: #404040; }
 .ui-state-highlight a, .ui-widget-content .ui-state-highlight a,.ui-widget-header .ui-state-highlight a { color: #404040; }
-.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #ff0000; background: #ffd8d8 url(../images/ui-bg_flat_100_ffd8d8_40x100.png) 50% 50% repeat-x; color: #ff0000; }
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {border: 1px solid #ff0000; background: #ffd8d8 url(Azure/images/ui-bg_flat_100_ffd8d8_40x100.png) 50% 50% repeat-x; color: #ff0000; }
 .ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a { color: #ff0000; }
 .ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text { color: #ff0000; }
 .ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary { font-weight: bold; }
@@ -89,14 +89,14 @@
 ----------------------------------*/
 
 /* states and images */
-.ui-icon { width: 16px; height: 16px; background-image: url(../images/ui-icons_404040_256x240.png); }
-.ui-widget-content .ui-icon {background-image: url(../images/ui-icons_404040_256x240.png); }
-.ui-widget-header .ui-icon {background-image: url(../images/ui-icons_404040_256x240.png); }
-.ui-state-default .ui-icon { background-image: url(../images/ui-icons_e0e0e0_256x240.png); }
-.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(../images/ui-icons_ffffff_256x240.png); }
-.ui-state-active .ui-icon {background-image: url(../images/ui-icons_404040_256x240.png); }
-.ui-state-highlight .ui-icon {background-image: url(../images/ui-icons_2e83ff_256x240.png); }
-.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(../images/ui-icons_ff0000_256x240.png); }
+.ui-icon { width: 16px; height: 16px; background-image: url(Azure/images/ui-icons_404040_256x240.png); }
+.ui-widget-content .ui-icon {background-image: url(Azure/images/ui-icons_404040_256x240.png); }
+.ui-widget-header .ui-icon {background-image: url(Azure/images/ui-icons_404040_256x240.png); }
+.ui-state-default .ui-icon { background-image: url(Azure/images/ui-icons_e0e0e0_256x240.png); }
+.ui-state-hover .ui-icon, .ui-state-focus .ui-icon {background-image: url(Azure/images/ui-icons_ffffff_256x240.png); }
+.ui-state-active .ui-icon {background-image: url(Azure/images/ui-icons_404040_256x240.png); }
+.ui-state-highlight .ui-icon {background-image: url(Azure/images/ui-icons_2e83ff_256x240.png); }
+.ui-state-error .ui-icon, .ui-state-error-text .ui-icon {background-image: url(Azure/images/ui-icons_ff0000_256x240.png); }
 
 /* positioning */
 .ui-icon-carat-1-n { background-position: 0 0; }
@@ -291,8 +291,8 @@
 .ui-corner-all { -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; }
 
 /* Overlays */
-.ui-widget-overlay { background: #aaaaaa url(../images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
-.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(../images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*
+.ui-widget-overlay { background: #aaaaaa url(Azure/images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); }
+.ui-widget-shadow { margin: -8px 0 0 -8px; padding: 8px; background: #aaaaaa url(Azure/images/ui-bg_flat_0_aaaaaa_40x100.png) 50% 50% repeat-x; opacity: .30;filter:Alpha(Opacity=30); -moz-border-radius: 8px; -webkit-border-radius: 8px; border-radius: 8px; }/*
  * jQuery UI Button 1.8.6
  *
  * Copyright 2010, AUTHORS.txt (http://jqueryui.com/about)
