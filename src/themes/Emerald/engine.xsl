@@ -32,6 +32,7 @@
     <html>
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Script-Type" content="text/javascript"/>
     <meta name="author" content="Artem Rodygin"/>
     <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
