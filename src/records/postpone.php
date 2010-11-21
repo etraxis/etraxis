@@ -135,6 +135,9 @@ $xml = '<form name="postponeform" action="javascript:submitPostponeForm(' . $id 
      . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
      . '<button action="cancelPostponeForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)) . '</note>'
+     . '<script>'
+     . '$("#duedate").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+     . '</script>'
      . '</form>';
 
 echo(xml2html($xml));
