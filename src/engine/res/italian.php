@@ -114,7 +114,7 @@ $resource_italian = array
     /* 1000 */
     'Italiano',
     'Entra',
-    '  OK  ',
+    'OK',
     'Annulla',
     'Salva',
     'Indietro',

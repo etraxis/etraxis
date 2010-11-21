@@ -114,7 +114,7 @@ $resource_turkish = array
     /* 1000 */
     'Türkçe',
     'Giriş',
-    '  Tamam  ',
+    'Tamam',
     'Vazgeç',
     'Kaydet',
     'Geri',

@@ -114,7 +114,7 @@ $resource_romanian = array
     /* 1000 */
     'Română',
     'Autentificare',
-    '  OK  ',
+    'OK',
     'Renunta',
     'Salveaza',
     'Inapoi',

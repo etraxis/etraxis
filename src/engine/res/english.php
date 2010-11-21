@@ -114,7 +114,7 @@ $resource_english = array
     /* 1000 */
     'English',
     'Log in',
-    '  OK  ',
+    'OK',
     'Cancel',
     'Save',
     'Back',

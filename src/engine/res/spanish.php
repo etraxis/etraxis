@@ -114,7 +114,7 @@ $resource_spanish = array
     /* 1000 */
     'Español',
     'Ingresar',
-    '  OK  ',
+    'OK',
     'Cancelar',
     'Guardar',
     'Atras',

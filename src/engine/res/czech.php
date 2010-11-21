@@ -114,7 +114,7 @@ $resource_czech = array
     /* 1000 */
     'Čeština',
     'Přihlásit se',
-    '  OK  ',
+    'OK',
     'Zrušit',
     'Uložit',
     'Zpět',

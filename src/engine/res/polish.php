@@ -114,7 +114,7 @@ $resource_polish = array
     /* 1000 */
     'polski',
     'Logowanie',
-    '  OK  ',
+    'OK',
     'Anuluj',
     'Zapisz',
     'Powrót',
