@@ -36,7 +36,7 @@ img {
 }
 
 p.note {
-  background-image: url('../images/note.png');
+  background-image: url('Orchid/images/note.png');
   background-repeat: no-repeat;
   height: 16px;
   margin: 5px 0px;
@@ -121,7 +121,7 @@ table.container {
 /* Menu */
 
 #mainmenu {
-  background-image: url('../images/mainmenu-bg.png');
+  background-image: url('Orchid/images/mainmenu-bg.png');
   background-repeat: repeat-x;
   clear: both;
   height: 50px;
@@ -153,7 +153,7 @@ ul.mainmenu {
 
 ul.contextmenu {
   background-color: #E5E5E5;
-  background-image: url('../images/contextmenu-bg.png');
+  background-image: url('Orchid/images/contextmenu-bg.png');
   background-repeat: repeat-x;
   border-bottom: 1px solid #F0F0F0;
   border-left: 1px solid #D8D8D8;
@@ -186,11 +186,11 @@ li.menuitem_p {
 }
 
 li.menuitem_m {
-  background-image: url('../images/minus.png');
+  background-image: url('Orchid/images/minus.png');
 }
 
 li.menuitem_p {
-  background-image: url('../images/plus.png');
+  background-image: url('Orchid/images/plus.png');
 }
 
 li.mainmenu a {
@@ -198,7 +198,7 @@ li.mainmenu a {
 }
 
 li.mainmenu-splitter {
-  background-image: url('../images/mainmenu-splitter.png');
+  background-image: url('Orchid/images/mainmenu-splitter.png');
   float: left;
   height: 50px;
   width: 2px;
@@ -232,14 +232,14 @@ a.menuitem {
 }
 
 #mainmenu a.menuitem:hover {
-  background-image: url('../images/mainmenu-bg-hl.png');
+  background-image: url('Orchid/images/mainmenu-bg-hl.png');
   color: #FBFBFB;
 }
 
 /* Toolbar */
 
 #toolbar {
-  background-image: url('../images/toolbar-bg.png');
+  background-image: url('Orchid/images/toolbar-bg.png');
   background-repeat: repeat-x;
   clear: both;
   height: 30px;
@@ -247,7 +247,7 @@ a.menuitem {
 }
 
 .toolbarsplitt {
-  background-image: url('../images/toolbar-splitter.png');
+  background-image: url('Orchid/images/toolbar-splitter.png');
   display: block;
   float: left;
   height: 30px;
@@ -275,7 +275,7 @@ a.menuitem {
 }
 
 #dropdownicon {
-  background-image: url('../images/dropdown.png');
+  background-image: url('Orchid/images/dropdown.png');
   background-position: center;
   background-repeat: no-repeat;
   height: 30px;
@@ -288,7 +288,7 @@ li.toolbaritem {
 }
 
 li.toolbaritem:hover {
-  background-image: url('../images/toolbar-bg-hl.png');
+  background-image: url('Orchid/images/toolbar-bg-hl.png');
 }
 
 li.toolbaritem:hover ul {
@@ -330,7 +330,7 @@ li.toolbaritem:hover ul {
 #search_button,
 #quickfind_button {
   background-color: #FBFBFB;
-  background-image: url('../images/search.png');
+  background-image: url('Orchid/images/search.png');
   background-position: center center;
   background-repeat: no-repeat;
   border: #B0B0B0 1px solid;
@@ -380,7 +380,7 @@ input.quickfind {
 }
 
 #logout {
-  background-image: url('../images/toolbar-bg.png');
+  background-image: url('Orchid/images/toolbar-bg.png');
   color: #404040;
   cursor: pointer;
   display: block;
@@ -397,7 +397,7 @@ input.quickfind {
 }
 
 #logout:hover {
-  background-image: url('../images/toolbar-bg-hl.png');
+  background-image: url('Orchid/images/toolbar-bg-hl.png');
 }
 
 /* Breadcrumbs */
@@ -418,7 +418,7 @@ li.breadcrumb {
 }
 
 li.splitter {
-  background-image: url('../images/breadcrumb.png');
+  background-image: url('Orchid/images/breadcrumb.png');
   background-position: center center;
   background-repeat: no-repeat;
   display: table-cell;
@@ -439,7 +439,7 @@ a.breadcrumb {
 }
 
 a.breadcrumb:hover {
-  background-image: url('../images/toolbar-bg-hl.png');
+  background-image: url('Orchid/images/toolbar-bg-hl.png');
 }
 
 /* Tabs */
@@ -468,7 +468,7 @@ li.btab {
 }
 
 li.ftab {
-  background-image: url('../images/tab-bg.png');
+  background-image: url('Orchid/images/tab-bg.png');
   background-repeat: repeat-x;
   background-position: bottom;
   border-bottom-color: #FBFBFB;
@@ -479,7 +479,7 @@ li.ftab {
 }
 
 li.btab {
-  background-image: url('../images/tab-bg2.png');
+  background-image: url('Orchid/images/tab-bg2.png');
   border-bottom-color: #954E99;
   border-left-color: #DE8FE0;
   border-right-color: #954E99;
@@ -531,7 +531,7 @@ iframe.chart {
 
 input.button,
 input.button_disabled {
-  background-image: url('../images/button-bg.png');
+  background-image: url('Orchid/images/button-bg.png');
   background-repeat: repeat-x;
   border: 1px solid;
   border-bottom-color: #954E99;
@@ -551,7 +551,7 @@ input.button_disabled {
 }
 
 input.button:hover {
-  background-image: url('../images/button-bg2.png');
+  background-image: url('Orchid/images/button-bg2.png');
   border-bottom-color: #DBA8DC;
   border-left-color: #DBA8DC;
   border-right-color: #DBA8DC;
@@ -568,7 +568,7 @@ input.button:active {
 }
 
 input.button_disabled {
-  background-image: url('../images/button-bg-dis.png');
+  background-image: url('Orchid/images/button-bg-dis.png');
   border-bottom-color: #E5E5E5;
   border-left-color: #E1E1E0;
   border-right-color: #E5E5E5;

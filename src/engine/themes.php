@@ -37,6 +37,7 @@ require_once('../engine/resource.php');
 require_once('../engine/config.php');
 require_once('../engine/debug.php');
 require_once('../engine/utility.php');
+require_once('../engine/sessions.php');
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -127,7 +128,7 @@ function get_theme_css_file ($cssfile)
     {
         if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile))
         {
-            return WEBROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile;
+            return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile;
         }
     }
 
@@ -135,7 +136,7 @@ function get_theme_css_file ($cssfile)
     {
         if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile))
         {
-            return WEBROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile;
+            return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile;
         }
     }
 
@@ -143,7 +144,7 @@ function get_theme_css_file ($cssfile)
     {
         if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile))
         {
-            return WEBROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile;
+            return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile;
         }
     }
 

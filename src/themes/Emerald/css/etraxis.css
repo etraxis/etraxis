@@ -36,7 +36,7 @@ img {
 }
 
 p.note {
-  background-image: url('../images/note.png');
+  background-image: url('Emerald/images/note.png');
   background-repeat: no-repeat;
   height: 16px;
   margin: 5px 0px;
@@ -121,7 +121,7 @@ table.container {
 /* Menu */
 
 #mainmenu {
-  background-image: url('../images/mainmenu-bg.png');
+  background-image: url('Emerald/images/mainmenu-bg.png');
   background-repeat: repeat-x;
   clear: both;
   height: 50px;
@@ -153,7 +153,7 @@ ul.mainmenu {
 
 ul.contextmenu {
   background-color: #404140;
-  background-image: url('../images/contextmenu-bg.png');
+  background-image: url('Emerald/images/contextmenu-bg.png');
   background-repeat: repeat-x;
   border: 1px solid #404140;
   display: none;
@@ -183,11 +183,11 @@ li.menuitem_p {
 }
 
 li.menuitem_m {
-  background-image: url('../images/minus.png');
+  background-image: url('Emerald/images/minus.png');
 }
 
 li.menuitem_p {
-  background-image: url('../images/plus.png');
+  background-image: url('Emerald/images/plus.png');
 }
 
 li.mainmenu a {
@@ -195,7 +195,7 @@ li.mainmenu a {
 }
 
 li.mainmenu-splitter {
-  background-image: url('../images/mainmenu-splitter.png');
+  background-image: url('Emerald/images/mainmenu-splitter.png');
   float: left;
   height: 50px;
   width: 2px;
@@ -229,14 +229,14 @@ a.menuitem {
 }
 
 #mainmenu a.menuitem:hover {
-  background-image: url('../images/mainmenu-bg-hl.png');
+  background-image: url('Emerald/images/mainmenu-bg-hl.png');
   color: #FBFBFB;
 }
 
 /* Toolbar */
 
 #toolbar {
-  background-image: url('../images/toolbar-bg.png');
+  background-image: url('Emerald/images/toolbar-bg.png');
   background-repeat: repeat-x;
   clear: both;
   height: 30px;
@@ -244,7 +244,7 @@ a.menuitem {
 }
 
 .toolbarsplitt {
-  background-image: url('../images/toolbar-splitter.png');
+  background-image: url('Emerald/images/toolbar-splitter.png');
   display: block;
   float: left;
   height: 30px;
@@ -272,7 +272,7 @@ a.menuitem {
 }
 
 #dropdownicon {
-  background-image: url('../images/dropdown.png');
+  background-image: url('Emerald/images/dropdown.png');
   background-position: center;
   background-repeat: no-repeat;
   height: 30px;
@@ -285,7 +285,7 @@ li.toolbaritem {
 }
 
 li.toolbaritem:hover {
-  background-image: url('../images/toolbar-bg-hl.png');
+  background-image: url('Emerald/images/toolbar-bg-hl.png');
 }
 
 li.toolbaritem:hover ul {
@@ -327,7 +327,7 @@ li.toolbaritem:hover ul {
 #search_button,
 #quickfind_button {
   background-color: #505050;
-  background-image: url('../images/search.png');
+  background-image: url('Emerald/images/search.png');
   background-position: center center;
   background-repeat: no-repeat;
   border: #202020 1px solid;
@@ -377,7 +377,7 @@ input.quickfind {
 }
 
 #logout {
-  background-image: url('../images/toolbar-bg.png');
+  background-image: url('Emerald/images/toolbar-bg.png');
   color: #C0C0C0;
   cursor: pointer;
   display: block;
@@ -394,7 +394,7 @@ input.quickfind {
 }
 
 #logout:hover {
-  background-image: url('../images/toolbar-bg-hl.png');
+  background-image: url('Emerald/images/toolbar-bg-hl.png');
   color: #FBFBFB;
 }
 
@@ -416,7 +416,7 @@ li.breadcrumb {
 }
 
 li.splitter {
-  background-image: url('../images/breadcrumb.png');
+  background-image: url('Emerald/images/breadcrumb.png');
   background-position: center center;
   background-repeat: no-repeat;
   display: table-cell;
@@ -437,7 +437,7 @@ a.breadcrumb {
 }
 
 a.breadcrumb:hover {
-  background-image: url('../images/toolbar-bg-hl.png');
+  background-image: url('Emerald/images/toolbar-bg-hl.png');
 }
 
 /* Tabs */
@@ -466,7 +466,7 @@ li.btab {
 }
 
 li.ftab {
-  background-image: url('../images/tab-bg.png');
+  background-image: url('Emerald/images/tab-bg.png');
   background-repeat: repeat-x;
   background-position: bottom;
   border-bottom-color: #FBFBFB;
@@ -477,7 +477,7 @@ li.ftab {
 }
 
 li.btab {
-  background-image: url('../images/tab-bg2.png');
+  background-image: url('Emerald/images/tab-bg2.png');
   border-bottom-color: #00403E;
   border-left-color: #006663;
   border-right-color: #00403E;
@@ -529,7 +529,7 @@ iframe.chart {
 
 input.button,
 input.button_disabled {
-  background-image: url('../images/button-bg.png');
+  background-image: url('Emerald/images/button-bg.png');
   background-repeat: repeat-x;
   border: 1px solid;
   border-bottom-color: #00403E;
@@ -549,7 +549,7 @@ input.button_disabled {
 }
 
 input.button:hover {
-  background-image: url('../images/button-bg2.png');
+  background-image: url('Emerald/images/button-bg2.png');
   border-bottom-color: #308B74;
   border-left-color: #30806A;
   border-right-color: #308B74;
@@ -566,7 +566,7 @@ input.button:active {
 }
 
 input.button_disabled {
-  background-image: url('../images/button-bg-dis.png');
+  background-image: url('Emerald/images/button-bg-dis.png');
   border-bottom-color: #49494A;
   border-left-color: #5A5A5A;
   border-right-color: #49494A;
