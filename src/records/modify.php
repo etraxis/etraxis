@@ -256,9 +256,9 @@ while (($state = $states->fetch()))
                             . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), get_date($field['param1']), get_date($field['param2']))
                             . '</note>';
 
-                    $script = '<scriptonreadyitem>'
-                            . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-                            . '</scriptonreadyitem>';
+                    $onready = '<scriptonreadyitem>'
+                             . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+                             . '</scriptonreadyitem>';
 
                     break;
 
@@ -340,11 +340,9 @@ switch ($error)
 
 $xml .= '</content>';
 
-if (isset($script))
+if (isset($onready))
 {
-    $xml .= '<scriptonready>'
-          . $script
-          . '</scriptonready>';
+    $xml .= $onready;
 }
 
 echo(xml2html($xml, get_html_resource(RES_MODIFY_ID)));

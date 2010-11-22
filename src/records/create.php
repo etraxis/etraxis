@@ -628,9 +628,9 @@ if ($step == 3)
                             . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), get_date($row['param1']), get_date($row['param2']))
                             . '</note>';
 
-                    $script = '<scriptonreadyitem>'
-                            . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-                            . '</scriptonreadyitem>';
+                    $onready = '<scriptonreadyitem>'
+                             . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+                             . '</scriptonreadyitem>';
 
                     break;
 
@@ -746,11 +746,9 @@ if ($id == 0 && !$parent)
     $xml .= '</tabs>';
 }
 
-if (isset($script))
+if (isset($onready))
 {
-    $xml .= '<scriptonready>'
-          . $script
-          . '</scriptonready>';
+    $xml .= $onready;
 }
 
 echo(xml2html($xml, ustrprocess(get_html_resource(RES_NEW_RECORD_ID), $step, 3)));
