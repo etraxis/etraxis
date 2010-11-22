@@ -360,7 +360,11 @@ if ($step == 1)
 
     while (($row = $rs->fetch()))
     {
-        $xml .= '<listitem value="' . $row['project_id'] . '">' . ustr2html($row['project_name']) . '</listitem>';
+        $xml .= ($parent && $parent['project_id'] == $row['project_id']
+                    ? '<listitem value="' . $row['project_id'] . '" selected="true">'
+                    : '<listitem value="' . $row['project_id'] . '">')
+              . ustr2html($row['project_name'])
+              . '</listitem>';
     }
 
     $xml .= '</combobox>'
@@ -401,7 +405,11 @@ else
 
         while (($row = $rs->fetch()))
         {
-            $xml .= '<listitem value="' . $row['template_id'] . '">' . ustr2html($row['template_name']) . '</listitem>';
+            $xml .= ($parent && $parent['template_id'] == $row['template_id']
+                        ? '<listitem value="' . $row['template_id'] . '" selected="true">'
+                        : '<listitem value="' . $row['template_id'] . '">')
+                  . ustr2html($row['template_name'])
+                  . '</listitem>';
         }
 
         $xml .= '</combobox>'
