@@ -55,10 +55,21 @@ $file = get_theme_css_file($name);
 
 $output = file_get_contents($file);
 
+// Check whether required extensions is available and PHP compression is turned off.
 if (extension_loaded('zlib') && !ini_get('zlib.output_compression'))
 {
-    $output = gzencode($output);
-    header('Content-Encoding: gzip');
+    // Check whether a client's browser support gzip-compression.
+    if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
+    {
+        $output = gzencode($output);
+        header('Content-Encoding: gzip');
+    }
+    // Check whether a client's browser support deflate-compression.
+    elseif (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'deflate') !== FALSE)
+    {
+        $output = gzdeflate($output);
+        header('Content-Encoding: deflate');
+    }
 }
 
 header('Content-Type: text/css');
