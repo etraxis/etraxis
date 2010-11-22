@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-1-3 (2010-11-23)
+
+    Issue 130: Default project/template when subrecord is being created.
+
+Bug fixes integrated in MAIN_3-1-3 (2010-11-23)
+
+    Issue 158: DatePicker implementation broken
+    Issue 159: diagnostic page does not show database connection problems when script execution time < database connect timeout
+    Issue 161: Stylesheets and scripts are not cached.
+    Issue 162: Stylesheets and scripts should not be compressed if client's browser doesn't support compression.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-1-2 (2010-11-21)
 
     Issue 48: Show next state for each state in the list of states

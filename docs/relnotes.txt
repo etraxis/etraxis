@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-1-2
-Release date: 2010-11-21
-Release size: 47721
+Release tag:  MAIN_3-1-3
+Release date: 2010-11-23
+Release size: 47759
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,39 +21,16 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/states.php
-[M] src/engine/charts.php
-[M] src/engine/locale.php
-[M] src/engine/res/bulgarian.php
+[M] src/diag/index.php
 [M] src/engine/res/czech.php
 [M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
 [M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
-[M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
 [M] src/engine/res/turkish.php
-[M] src/engine/themes.php
 [M] src/engine/xml.php
-[M] src/projects/sindex.php
-[M] src/records/postpone.php
-[A] src/scripts/get.php
-[M] src/sql/states/list.sql
-[M] src/themes/Azure/css/etraxis.css
-[M] src/themes/Azure/css/jquery.ui.css
-[M] src/themes/Emerald/css/etraxis.css
-[M] src/themes/Emerald/css/jquery.ui.css
-[M] src/themes/Emerald/engine.xsl
-[M] src/themes/Orchid/css/etraxis.css
-[M] src/themes/Orchid/css/jquery.ui.css
-[A] src/themes/css.php
+[M] src/records/create.php
+[M] src/records/modify.php
+[M] src/scripts/get.php
+[M] src/themes/css.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -121,7 +98,6 @@ Issue 114: Reminders as project feature
 Issue 116: Rearrange contents of notification emails
 Issue 121: Welcome page
 Issue 123: Filter - unread records
-Issue 130: Default project/template when subrecord is being created.
 Issue 131: Critical age of any state
 Issue 133: Advanced search
 
@@ -135,15 +111,15 @@ Issue 94: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 48: Show next state for each state in the list of states
-Issue 155: Compress generated pages to reduce their size and loading time.
+Issue 130: Default project/template when subrecord is being created.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 154: Date picker is absent on postpone.
-Issue 156: The default style sheet language must be specified when style attributes are used.
-Issue 157: There should not be any white space at the start or end of an attribute's value.
+Issue 158: DatePicker implementation broken
+Issue 159: diagnostic page does not show database connection problems when script execution time < database connect timeout
+Issue 161: Stylesheets and scripts are not cached.
+Issue 162: Stylesheets and scripts should not be compressed if client's browser doesn't support compression.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
