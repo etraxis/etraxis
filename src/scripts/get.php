@@ -65,6 +65,10 @@ if (extension_loaded('zlib') && !ini_get('zlib.output_compression'))
 
 header('Content-Type: text/javascript');
 header('Content-Length: ' . strlen($output));
+header('Pragma: cache');
+header('Cache-Control: public');
+header('Last-Modified: ' . date(DATE_RFC822));
+header('Expires: ' . date(DATE_RFC822, time() + 86400));
 
 echo($output);
 
