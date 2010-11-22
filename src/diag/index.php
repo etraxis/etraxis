@@ -61,6 +61,12 @@ else
     $php_version = PHP_OBSOLETE;
 }
 
+// Disable PHP execution timeout.
+if (!ini_get('safe_mode'))
+{
+    set_time_limit(0);
+}
+
 ?>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="author" content="Artem Rodygin"/>
@@ -683,3 +689,12 @@ else
 <input type="button" class="button" onclick="window.open('../records/index.php','_parent');" value="Back"/>
 <!----------------------------------------------------------------------------->
 </body>
+<?php
+
+// Restore PHP execution timeout.
+if (!ini_get('safe_mode'))
+{
+    ini_restore('max_execution_time');
+}
+
+?>
