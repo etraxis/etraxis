@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-1-4 (2010-11-26)
+
+    Issue 163: Settings tab needs password
+    Issue 164: datepicker only on last datefield
+    Issue 168: Cannot create subscriptions
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-1-3 (2010-11-23)
 
     Issue 130: Default project/template when subrecord is being created.
