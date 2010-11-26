@@ -32,10 +32,6 @@ require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
-global $encodings;
-global $line_endings_names;
-global $line_endings_chars;
-
 init_page();
 
 $error = NO_ERROR;
@@ -50,15 +46,6 @@ if (try_request('submitted') == 'mainform')
     $page_rows    = ustr2int($_REQUEST['page_rows'], MIN_PAGE_SIZE, MAX_PAGE_SIZE);
     $page_bkms    = ustr2int($_REQUEST['page_bkms'], MIN_PAGE_SIZE, MAX_PAGE_SIZE);
     $theme_name   = ustrcut($_REQUEST['theme_name'], MAX_THEME_NAME);
-    $delimiter    = ustrcut($_REQUEST['delimiter'], 1);
-    $encoding     = ustr2int($_REQUEST['encoding'], 1, count($encodings));
-    $line_endings = ustr2int($_REQUEST['line_endings'], 1, count($line_endings_names));
-
-    if (ustrlen($delimiter) == 0 ||
-        ustrpos(CSV_DELIMITERS, $delimiter) === FALSE)
-    {
-        $delimiter = chr(DEFAULT_DELIMITER);
-    }
 
     locale_change($_SESSION[VAR_USERID], $locale);
 
@@ -66,45 +53,19 @@ if (try_request('submitted') == 'mainform')
               $_SESSION[VAR_USERID],
               $page_rows,
               $page_bkms,
-              ord($delimiter),
-              $encoding,
-              $line_endings,
               $theme_name);
 
-    if (!$_SESSION[VAR_LDAPUSER])
-    {
-        $passwd1 = ustrcut($_REQUEST['passwd1'], MAX_ACCOUNT_PASSWORD);
-        $passwd2 = ustrcut($_REQUEST['passwd2'], MAX_ACCOUNT_PASSWORD);
-
-        if (ustrlen($passwd1) != 0 ||
-            ustrlen($passwd2) != 0)
-        {
-            $error = password_validate($passwd1, $passwd2);
-
-            if ($error == NO_ERROR)
-            {
-                $error = password_change($_SESSION[VAR_USERID], $passwd1);
-            }
-        }
-    }
-
-    if ($error == NO_ERROR)
-    {
-        header('Location: ../index.php');
-        exit;
-    }
+    header('Location: ../index.php');
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 
-    $locale       = $_SESSION[VAR_LOCALE];
-    $page_rows    = $_SESSION[VAR_PAGEROWS];
-    $page_bkms    = $_SESSION[VAR_PAGEBKMS];
-    $theme_name   = $_SESSION[VAR_THEME_NAME];
-    $delimiter    = $_SESSION[VAR_DELIMITER];
-    $encoding     = $_SESSION[VAR_ENCODING];
-    $line_endings = $_SESSION[VAR_LINE_ENDINGS];
+    $locale     = $_SESSION[VAR_LOCALE];
+    $page_rows  = $_SESSION[VAR_PAGEROWS];
+    $page_bkms  = $_SESSION[VAR_PAGEBKMS];
+    $theme_name = $_SESSION[VAR_THEME_NAME];
 }
 
 // generate breadcrumbs
@@ -115,47 +76,19 @@ $xml = '<breadcrumbs>'
 
 // generate tabs
 
-$xml .= '<tabs>';
-
-if ($_SESSION[VAR_LDAPUSER])
-{
-    $xml .= '<tab id="2" active="true">' . get_html_resource(RES_APPEARANCE_ID) . '</tab>'
-          . '<tab id="3">'               . get_html_resource(RES_CSV_ID)        . '</tab>';
-}
-else
-{
-    $xml .= '<tab id="1" active="true">' . get_html_resource(RES_CHANGE_PASSWORD_ID) . '</tab>'
-          . '<tab id="2">'               . get_html_resource(RES_APPEARANCE_ID)      . '</tab>'
-          . '<tab id="3">'               . get_html_resource(RES_CSV_ID)             . '</tab>';
-}
-
-$xml .= '<content>'
-      . '<form name="mainform" action="index.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">';
-
-// generate "Change password" tab
+$xml .= '<tabs>'
+      . '<tab url="index.php" active="true">' . get_html_resource(RES_APPEARANCE_ID) . '</tab>'
+      . '<tab url="csv.php">'                 . get_html_resource(RES_CSV_ID)        . '</tab>';
 
 if (!$_SESSION[VAR_LDAPUSER])
 {
-    $xml .= '<subpage id="1" active="true">'
-          . '<group>'
-          . '<control name="passwd1">'
-          . '<label>' . get_html_resource(RES_PASSWORD_ID) . '</label>'
-          . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
-          . '</control>'
-          . '<control name="passwd2">'
-          . '<label>' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '</label>'
-          . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
-          . '</control>'
-          . '</group>'
-          . '<note>' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '</note>'
-          . '</subpage>';
+    $xml .= '<tab url="password.php">' . get_html_resource(RES_CHANGE_PASSWORD_ID) . '</tab>';
 }
 
-// generate "Appearance" tab
+// generate contents
 
-$xml .= ($_SESSION[VAR_LDAPUSER]
-            ? '<subpage id="2" active="true">'
-            : '<subpage id="2">')
+$xml .= '<content>'
+      . '<form name="mainform" action="index.php">'
       . '<group>'
       . '<control name="locale">'
       . '<label>' . get_html_resource(RES_LANGUAGE_ID) . '</label>'
@@ -203,72 +136,11 @@ foreach ($themes_available as $item)
 $xml .= '</combobox>'
       . '</control>'
       . '</group>'
+      . '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_PAGE_SIZE, MAX_PAGE_SIZE) . '</note>'
-      . '</subpage>';
-
-// generate "CSV" tab
-
-$xml .= '<subpage id="3">'
-      . '<group>'
-      . '<control name="delimiter" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-      . '<label>' . get_html_resource(RES_CSV_DELIMITER_ID) . '</label>'
-      . '<editbox maxlen="1">' . ustr2html($delimiter) . '</editbox>'
-      . '</control>'
-      . '<control name="encoding">'
-      . '<label>' . get_html_resource(RES_CSV_ENCODING_ID) . '</label>'
-      . '<combobox>';
-
-foreach ($encodings as $i => $item)
-{
-    $xml .= ($encoding == $item
-                ? '<listitem value="' . $i . '" selected="true">'
-                : '<listitem value="' . $i . '">')
-          . ustr2html($item)
-          . '</listitem>';
-}
-
-$xml .= '</combobox>'
-      . '</control>'
-      . '<control name="line_endings">'
-      . '<label>' . get_html_resource(RES_CSV_LINE_ENDINGS_ID) . '</label>'
-      . '<combobox>';
-
-foreach ($line_endings_names as $i => $item)
-{
-    $xml .= ($line_endings == $line_endings_chars[$i]
-                ? '<listitem value="' . $i . '" selected="true">'
-                : '<listitem value="' . $i . '">')
-          . ustr2html($item)
-          . '</listitem>';
-}
-
-$xml .= '</combobox>'
-      . '</control>'
-      . '</group>'
-      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</subpage>';
-
-// generate buttons
-
-$xml .= '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
-      . '</form>';
-
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-    case ERROR_PASSWORDS_DO_NOT_MATCH:
-        $xml .= "<script>alert('" . get_js_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . "');</script>";
-        break;
-    case ERROR_PASSWORD_TOO_SHORT:
-        $xml .= "<script>alert('" . ustrprocess(get_js_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . "');</script>";
-        break;
-    default: ;  // nop
-}
-
-$xml .= '</content>'
+      . '</form>'
+      . '</content>'
       . '</tabs>';
 
 echo(xml2html($xml, get_html_resource(RES_SETTINGS_ID)));
