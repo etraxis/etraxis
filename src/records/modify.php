@@ -117,8 +117,9 @@ $xml .= '<form name="mainform" action="modify.php?id=' . $id . '">'
 
 // go through the list of all states and their fields
 
-$flag  = FALSE;
-$notes = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
+$flag    = FALSE;
+$onready = NULL;
+$notes   = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
 
 $states = dal_query('records/elist.sql', $id);
 
@@ -256,9 +257,9 @@ while (($state = $states->fetch()))
                             . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), get_date($field['param1']), get_date($field['param2']))
                             . '</note>';
 
-                    $onready = '<scriptonreadyitem>'
-                             . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-                             . '</scriptonreadyitem>';
+                    $onready .= '<scriptonreadyitem>'
+                              . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+                              . '</scriptonreadyitem>';
 
                     break;
 
@@ -339,11 +340,7 @@ switch ($error)
 }
 
 $xml .= '</content>';
-
-if (isset($onready))
-{
-    $xml .= $onready;
-}
+$xml .= $onready;
 
 echo(xml2html($xml, get_html_resource(RES_MODIFY_ID)));
 
