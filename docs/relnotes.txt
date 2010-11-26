@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-1-3
-Release date: 2010-11-23
-Release size: 47759
+Release tag:  MAIN_3-1-4
+Release date: 2010-11-26
+Release size: 47748
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,16 +21,19 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/diag/index.php
-[M] src/engine/res/czech.php
-[M] src/engine/res/dutch.php
-[M] src/engine/res/japanese.php
-[M] src/engine/res/turkish.php
 [M] src/engine/xml.php
 [M] src/records/create.php
 [M] src/records/modify.php
-[M] src/scripts/get.php
-[M] src/themes/css.php
+[M] src/records/state.php
+[A] src/settings/csv.php
+[M] src/settings/index.php
+[A] src/settings/password.php
+[A] src/sql/accounts/csv.sql
+[M] src/sql/accounts/settings.sql
+[M] src/subscriptions/create.php
+[M] src/subscriptions/modify.php
+[M] src/themes/Emerald/engine.xsl
+[M] src/themes/Orchid/images/note.png
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -100,6 +103,8 @@ Issue 121: Welcome page
 Issue 123: Filter - unread records
 Issue 131: Critical age of any state
 Issue 133: Advanced search
+Issue 166: UI: replace alerts and confirms by jquery ui dialog boxes
+Issue 169: Timed Subscriptions based on filters
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -111,15 +116,14 @@ Issue 94: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 130: Default project/template when subrecord is being created.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 158: DatePicker implementation broken
-Issue 159: diagnostic page does not show database connection problems when script execution time < database connect timeout
-Issue 161: Stylesheets and scripts are not cached.
-Issue 162: Stylesheets and scripts should not be compressed if client's browser doesn't support compression.
+Issue 163: Settings tab needs password
+Issue 164: datepicker only on last datefield
+Issue 168: Cannot create subscriptions
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
