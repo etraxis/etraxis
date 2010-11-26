@@ -127,8 +127,8 @@ elseif (try_request('submitted') == 'mainform')
     $project_id  = ustr2int(try_request('project'));
     $template_id = ustr2int(try_request('template'));
 
-    $subscription_name  = ustrcut($_REQUEST['subscribe_name'], MAX_SUBSCRIPTION_NAME);
-    $carbon_copy        = ustrcut($_REQUEST['carbon_copy'],    MAX_SUBSCRIPTION_CARBON_COPY);
+    $subscription_name  = ustrcut($_REQUEST['subscription_name'], MAX_SUBSCRIPTION_NAME);
+    $carbon_copy        = ustrcut($_REQUEST['carbon_copy'],       MAX_SUBSCRIPTION_CARBON_COPY);
     $subscription_flags = 0;
 
     foreach ($notifications as $notification)
