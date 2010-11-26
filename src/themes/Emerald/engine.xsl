@@ -336,27 +336,6 @@
 <!-- Tabs -->
 
 <xsl:template match="tabs">
-    <script type="text/javascript">
-    <xsl:text>
-    function reset_tabs (id)
-    {
-    </xsl:text>
-    <xsl:for-each select="tab">
-        <xsl:if test="boolean(@id)">
-            <xsl:text>document.getElementById('tab</xsl:text>
-            <xsl:value-of select="@id"/>
-            <xsl:text>').className = 'btab';</xsl:text>
-            <xsl:text>document.getElementById('page</xsl:text>
-            <xsl:value-of select="@id"/>
-            <xsl:text>').style.display = 'none';</xsl:text>
-        </xsl:if>
-    </xsl:for-each>
-    <xsl:text>
-    document.getElementById('tab' + id).className = 'ftab';
-    document.getElementById('page' + id).style.display = 'block';
-    }
-    </xsl:text>
-    </script>
     <ul class="tabs">
     <xsl:apply-templates select="tab"/>
     </ul>
@@ -365,12 +344,6 @@
 
 <xsl:template match="tab">
     <li>
-    <xsl:if test="boolean(@id)">
-        <xsl:attribute name="id">
-        <xsl:text>tab</xsl:text>
-        <xsl:value-of select="@id"/>
-        </xsl:attribute>
-    </xsl:if>
     <xsl:attribute name="class">
     <xsl:choose>
         <xsl:when test="boolean(@active = 'true')">
@@ -382,45 +355,12 @@
     </xsl:choose>
     </xsl:attribute>
     <a class="tab">
-    <xsl:choose>
-        <xsl:when test="boolean(@id)">
-            <xsl:attribute name="onclick">
-            <xsl:text>reset_tabs(</xsl:text>
-            <xsl:value-of select="@id"/>
-            <xsl:text>)</xsl:text>
-            </xsl:attribute>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:attribute name="href">
-            <xsl:value-of select="@url"/>
-            </xsl:attribute>
-        </xsl:otherwise>
-    </xsl:choose>
+    <xsl:attribute name="href">
+    <xsl:value-of select="@url"/>
+    </xsl:attribute>
     <xsl:apply-templates/>
     </a>
     </li>
-</xsl:template>
-
-<xsl:template match="subpage">
-    <div>
-    <xsl:if test="boolean(@id)">
-        <xsl:attribute name="id">
-        <xsl:text>page</xsl:text>
-        <xsl:value-of select="@id"/>
-        </xsl:attribute>
-    </xsl:if>
-    <xsl:attribute name="style">
-    <xsl:choose>
-        <xsl:when test="boolean(@active = 'true')">
-            <xsl:text>display:block</xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:text>display:none</xsl:text>
-        </xsl:otherwise>
-    </xsl:choose>
-    </xsl:attribute>
-    <xsl:apply-templates/>
-    </div>
 </xsl:template>
 
 <!-- Lists -->
