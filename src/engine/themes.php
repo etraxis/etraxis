@@ -161,13 +161,17 @@ function get_theme_css_file ($cssfile)
 function get_theme_xsl_file ($xslfile)
 {
     debug_write_log(DEBUG_TRACE, '[get_theme_xsl_file]');
-    debug_write_log(DEBUG_DUMP,  '[get_theme_xsl_file] $_SESSION[VAR_THEME_NAME] = ' . $_SESSION[VAR_THEME_NAME]);
 
-    if (is_theme_valid($_SESSION[VAR_THEME_NAME]))
+    if (isset($_SESSION[VAR_THEME_NAME]))
     {
-        if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile))
+        debug_write_log(DEBUG_DUMP,  '[get_theme_xsl_file] $_SESSION[VAR_THEME_NAME] = ' . $_SESSION[VAR_THEME_NAME]);
+
+        if (is_theme_valid($_SESSION[VAR_THEME_NAME]))
         {
-            return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile;
+            if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile))
+            {
+                return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile;
+            }
         }
     }
 
