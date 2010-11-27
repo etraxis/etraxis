@@ -76,6 +76,7 @@ if (try_request('submitted') == 'mainform')
     $is_required   = FALSE;
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = NULL;
 
     $error = field_validate($field_name);
 
@@ -166,6 +167,7 @@ elseif (try_request('submitted') == 'numberform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     $error = field_validate_number($field_name, $min_value, $max_value, $def_value);
 
@@ -177,6 +179,7 @@ elseif (try_request('submitted') == 'numberform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $description,
                               NULL, NULL, NULL,
                               $min_value,
                               $max_value,
@@ -205,6 +208,7 @@ elseif (try_request('submitted') == 'stringform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
     $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
     $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
     $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
@@ -222,6 +226,7 @@ elseif (try_request('submitted') == 'stringform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $description,
                               $regex_check,
                               $regex_search,
                               $regex_replace,
@@ -252,6 +257,7 @@ elseif (try_request('submitted') == 'multilinedform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
     $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
     $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
     $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
@@ -269,6 +275,7 @@ elseif (try_request('submitted') == 'multilinedform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $description,
                               $regex_check,
                               $regex_search,
                               $regex_replace,
@@ -297,6 +304,7 @@ elseif (try_request('submitted') == 'checkboxform')
     $def_value     = ustr2int(try_request('def_value', 1), 0, 1);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     $error = field_create($id,
                           $field_name,
@@ -304,6 +312,7 @@ elseif (try_request('submitted') == 'checkboxform')
                           FALSE,
                           $add_separator,
                           $guest_access,
+                          $description,
                           NULL, NULL, NULL, NULL, NULL,
                           $def_value);
 
@@ -330,6 +339,7 @@ elseif (try_request('submitted') == 'listform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     $error = field_create($id,
                           $field_name,
@@ -337,6 +347,7 @@ elseif (try_request('submitted') == 'listform')
                           $is_required,
                           $add_separator,
                           $guest_access,
+                          $description,
                           NULL, NULL, NULL, NULL, NULL,
                           $def_value);
 
@@ -361,13 +372,15 @@ elseif (try_request('submitted') == 'recordform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     $error = field_create($id,
                           $field_name,
                           $field_type,
                           $is_required,
                           $add_separator,
-                          $guest_access);
+                          $guest_access,
+                          $description);
 
     if ($error == NO_ERROR)
     {
@@ -393,6 +406,7 @@ elseif (try_request('submitted') == 'dateform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     $error = field_validate_date($field_name, $min_value, $max_value, $def_value);
 
@@ -404,6 +418,7 @@ elseif (try_request('submitted') == 'dateform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $description,
                               NULL, NULL, NULL,
                               $min_value,
                               $max_value,
@@ -434,6 +449,7 @@ elseif (try_request('submitted') == 'durationform')
     $is_required   = isset($_REQUEST['is_required']);
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     $error = field_validate_duration($field_name, $min_value, $max_value, $def_value);
 
@@ -445,6 +461,7 @@ elseif (try_request('submitted') == 'durationform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $description,
                               NULL, NULL, NULL,
                               ustr2time($min_value),
                               ustr2time($max_value),
@@ -725,17 +742,26 @@ elseif ($form == 'durationform')
 
 // generate common controls
 
-if ($form != 'mainform' &&
-    $form != 'checkboxform')
+if ($form != 'mainform')
 {
-    $xml .= '<control name="is_required">'
-          . '<label/>'
-          . ($is_required
-                ? '<checkbox checked="true">'
-                : '<checkbox>')
-          . ustrtolower(get_html_resource(RES_REQUIRED2_ID))
-          . '</checkbox>'
+    $xml .= '<control name="description">'
+          . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_DESCRIPTION . '">'
+          . ustr2html($description)
+          . '</textbox>'
           . '</control>';
+
+    if ($form != 'checkboxform')
+    {
+        $xml .= '<control name="is_required">'
+              . '<label/>'
+              . ($is_required
+                    ? '<checkbox checked="true">'
+                    : '<checkbox>')
+              . ustrtolower(get_html_resource(RES_REQUIRED2_ID))
+              . '</checkbox>'
+              . '</control>';
+    }
 }
 
 $xml .= '<control name="guest_access">'

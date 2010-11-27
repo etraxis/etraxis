@@ -7,6 +7,7 @@ select
     is_required,
     add_separator,
     guest_access,
+    description,
     regex_check,
     regex_search,
     regex_replace,

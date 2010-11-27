@@ -383,6 +383,7 @@ create table tbl_fields
     author_perm number (10) not null,
     responsible_perm number (10) not null,
     add_separator number (10) not null,
+    description nvarchar2 (1000) null,
     regex_check nvarchar2 (1000) null,
     regex_search nvarchar2 (1000) null,
     regex_replace nvarchar2 (1000) null,
@@ -1325,7 +1326,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.1');
+values ('FEATURE_LEVEL', '3.2');
 
 insert into tbl_accounts
 (

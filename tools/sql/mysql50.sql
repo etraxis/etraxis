@@ -322,6 +322,7 @@ create table tbl_fields
     author_perm int not null,
     responsible_perm int not null,
     add_separator int not null,
+    description varchar (1000) null,
     regex_check varchar (1000) null,
     regex_search varchar (1000) null,
     regex_replace varchar (1000) null,
@@ -1108,7 +1109,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MySQL 5.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.1');
+values ('FEATURE_LEVEL', '3.2');
 
 insert into tbl_accounts
 (

@@ -39,7 +39,7 @@ p.note {
   background-image: url('Orchid/images/note.png');
   background-repeat: no-repeat;
   height: 16px;
-  margin: 5px 0px;
+  margin: 7px 0px;
   padding: 0px;
   padding-left: 20px;
   vertical-align: middle;
@@ -194,7 +194,7 @@ li.menuitem_p {
 }
 
 li.mainmenu a {
- float: left;	
+ float: left;
 }
 
 li.mainmenu-splitter {
@@ -683,4 +683,36 @@ select.dropdown {
   margin: 3px 10px 0px 0px;
   vertical-align: top;
   width: 250px;
+}
+
+div.fielddescription {
+  border: 1px solid;
+  border-bottom-color: #954E99;
+  border-left-color: #DE8FE0;
+  border-right-color: #954E99;
+  border-top-color: #DE8FE0;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  -moz-border-radius: 3px 3px 0px 0px;
+  -webkit-border-top-left-radius: 3px;
+  -webkit-border-top-right-radius: 3px;
+  display: block;
+  margin: 5px;
+}
+
+div.fielddescriptionhl {
+  background-image: url('../images/button-bg.png');
+  background-repeat: repeat-x;
+  color: #FBFBFB;
+  height: 23px;
+  margin: 0px;
+  padding: 2px 2px 0px 2px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+div.fielddescriptionct {
+  background-color: #FBFBFB;
+  margin: 0px;
+  padding: 0px 2px;
 }

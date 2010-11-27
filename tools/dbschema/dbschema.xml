@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.1">
+<database name="etraxis" version="3.2">
 
 <table name="tbl_sys_vars">
 
@@ -249,6 +249,7 @@
     <column type="int">author_perm</column>
     <column type="int">responsible_perm</column>
     <column type="bool">add_separator</column>
+    <column type="nstr" size="1000" null="yes">description</column>
     <column type="nstr" size="1000" null="yes">regex_check</column>
     <column type="nstr" size="1000" null="yes">regex_search</column>
     <column type="nstr" size="1000" null="yes">regex_replace</column>

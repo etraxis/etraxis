@@ -109,9 +109,12 @@ $xml = '<breadcrumbs>'
 
 $xml .= '<form name="mainform" action="modify.php?id=' . $id . '">'
       . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-      . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '" description="true">'
       . '<label>' . get_html_resource(RES_SUBJECT_ID) . '</label>'
       . '<editbox maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
+      . '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+      . get_html_resource(RES_ALERT_SPECIFY_SHORT_DESCRIPTION_ID)
+      . '</description>'
       . '</control>'
       . '</group>';
 
@@ -142,9 +145,14 @@ while (($state = $states->fetch()))
             $name  = 'field' . $field['field_id'];
             $value = value_find($field['field_type'], $field['value_id']);
 
-            $xml .= ($field['is_required']
-                        ? '<control name="' . $name . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-                        : '<control name="' . $name . '">');
+            $xml .= '<control name="' . $name . '"'
+                  . ($field['is_required']
+                        ? ' required="' . get_html_resource(RES_REQUIRED3_ID) . '"'
+                        : NULL)
+                  . (ustrlen($field['description']) != 0
+                        ? ' description="true"'
+                        : NULL)
+                  . '>';
 
             switch ($field['field_type'])
             {
@@ -280,6 +288,13 @@ while (($state = $states->fetch()))
                 default:
 
                     debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $field['field_type']);
+            }
+
+            if (ustrlen($field['description']) != 0)
+            {
+                $xml .= '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+                      . update_references($field['description'], BBCODE_ALL)
+                      . '</description>';
             }
 
             $xml .= '</control>';

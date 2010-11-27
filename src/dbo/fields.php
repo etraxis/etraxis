@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2009  Artem Rodygin
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -44,17 +44,18 @@ require_once('../dbo/values.php');
 /**#@+
  * Data restriction.
  */
-define('MAX_FIELD_NAME',       50);
-define('MAX_FIELD_INTEGER',    1000000000);
-define('MAX_FIELD_STRING',     250);
-define('MAX_FIELD_MULTILINED', 4000);
-define('MAX_FIELD_LIST_ITEMS', 1000);
-define('MAX_LISTITEM_NAME',    50);
-define('MIN_FIELD_DATE',       ~MAXINT);
-define('MAX_FIELD_DATE',       MAXINT);
-define('MIN_FIELD_DURATION',   0);
-define('MAX_FIELD_DURATION',   59999999);
-define('MAX_FIELD_REGEX',      1000);
+define('MAX_FIELD_NAME',        50);
+define('MAX_FIELD_INTEGER',     1000000000);
+define('MAX_FIELD_STRING',      250);
+define('MAX_FIELD_MULTILINED',  4000);
+define('MAX_FIELD_LIST_ITEMS',  1000);
+define('MAX_LISTITEM_NAME',     50);
+define('MIN_FIELD_DATE',        ~MAXINT);
+define('MAX_FIELD_DATE',        MAXINT);
+define('MIN_FIELD_DURATION',    0);
+define('MAX_FIELD_DURATION',    59999999);
+define('MAX_FIELD_DESCRIPTION', 1000);
+define('MAX_FIELD_REGEX',       1000);
 /**#@-*/
 
 /**
@@ -665,6 +666,7 @@ function field_pickup_list_items ($field_id)
  * @param bool $is_required Whether the field is required.
  * @param bool $add_separator If TRUE, then eTraxis will add separator '<hr>' after the field, when record is being displayed.
  * @param bool $guest_access Ability of guest access to the field values.
+ * @param string $description Optional field description.
  * @param string $regex_check Perl-compatible regular expression, which values of the field must conform to.
  * @param string $regex_search Perl-compatible regular expression to modify values of the field, used to be searched for  (NULL by default).
  * @param string $regex_replace Perl-compatible regular expression to modify values of the field, used to replace with (NULL by default).
@@ -679,7 +681,7 @@ function field_pickup_list_items ($field_id)
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create field</li>
  * </ul>
  */
-function field_create ($state_id, $field_name, $field_type, $is_required, $add_separator, $guest_access,
+function field_create ($state_id, $field_name, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
                        $regex_check = NULL, $regex_search = NULL, $regex_replace = NULL,
                        $param1 = NULL, $param2 = NULL, $value_id = NULL)
 {
@@ -690,6 +692,7 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
     debug_write_log(DEBUG_DUMP,  '[field_create] $is_required   = ' . $is_required);
     debug_write_log(DEBUG_DUMP,  '[field_create] $add_separator = ' . $add_separator);
     debug_write_log(DEBUG_DUMP,  '[field_create] $guest_access  = ' . $guest_access);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $description   = ' . $description);
     debug_write_log(DEBUG_DUMP,  '[field_create] $regex_check   = ' . $regex_check);
     debug_write_log(DEBUG_DUMP,  '[field_create] $regex_search  = ' . $regex_search);
     debug_write_log(DEBUG_DUMP,  '[field_create] $regex_replace = ' . $regex_replace);
@@ -726,6 +729,7 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
               bool2sql($is_required),
               bool2sql($add_separator),
               bool2sql($guest_access),
+              ustrlen($description)   == 0 ? NULL : $description,
               ustrlen($regex_check)   == 0 ? NULL : $regex_check,
               ustrlen($regex_search)  == 0 ? NULL : $regex_search,
               ustrlen($regex_replace) == 0 ? NULL : $regex_replace,
@@ -770,6 +774,7 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
  * @param bool $is_required Whether the field is required.
  * @param bool $add_separator If TRUE, then eTraxis will add separator '<hr>' after the field, when record is being displayed.
  * @param bool $guest_access Ability of guest access to the field values.
+ * @param string $description Optional field description.
  * @param string $regex_check New perl-compatible regular expression, which values of the field must conform to.
  * @param string $regex_search New perl-compatible regular expression to modify values of the field, used to be searched for  (NULL by default).
  * @param string $regex_replace New perl-compatible regular expression to modify values of the field, used to replace with (NULL by default).
@@ -783,7 +788,7 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
  * <li>{@link ERROR_ALREADY_EXISTS} - another field with specified name already exists</li>
  * </ul>
  */
-function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access,
+function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
                        $regex_check = NULL, $regex_search = NULL, $regex_replace = NULL,
                        $param1 = NULL, $param2 = NULL, $value_id = NULL)
 {
@@ -797,6 +802,7 @@ function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new
     debug_write_log(DEBUG_DUMP,  '[field_modify] $is_required     = ' . $is_required);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $add_separator   = ' . $add_separator);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $guest_access    = ' . $guest_access);
+    debug_write_log(DEBUG_DUMP,  '[field_modify] $description     = ' . $description);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $regex_check     = ' . $regex_check);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $regex_search    = ' . $regex_search);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $regex_replace   = ' . $regex_replace);
@@ -861,6 +867,7 @@ function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new
               bool2sql($is_required),
               bool2sql($add_separator),
               bool2sql($guest_access),
+              ustrlen($description)   == 0 ? NULL : $description,
               ustrlen($regex_check)   == 0 ? NULL : $regex_check,
               ustrlen($regex_search)  == 0 ? NULL : $regex_search,
               ustrlen($regex_replace) == 0 ? NULL : $regex_replace,
@@ -1208,6 +1215,14 @@ function field_export ($id, &$groups)
             }
 
             $xml .= "            </permissions>\n";
+        }
+
+        // Description of field is processed in a specific way (must be out in dedicated XML tags).
+        if (strlen($field['description']) != 0)
+        {
+            $xml .= "            <description>\n";
+            $xml .= ustr2html($field['description']) . "\n";
+            $xml .= "            </description>\n";
         }
 
         $xml .= "          </field>\n";

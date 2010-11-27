@@ -71,7 +71,7 @@ $resource_english = array
     'Reminder with entered name already exists.',
     'Reminder is successfully sent.',
     'View with entered name already exists.',
-    'Column with entered name already exists.',
+    'Please specify short description of this record.',
     'Failed to write file to disk.',
     'File upload stopped by extension.',
     'JavaScript must be enabled.',

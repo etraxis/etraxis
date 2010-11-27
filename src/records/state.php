@@ -286,10 +286,14 @@ else
         }
 
         // generate control for the field
-
-        $xml .= ($row['is_required']
-                    ? '<control name="' . $name . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-                    : '<control name="' . $name . '">');
+        $xml .= '<control name="' . $name . '"'
+              . ($row['is_required'] && $row['field_type'] != FIELD_TYPE_CHECKBOX
+                    ? ' required="' . get_html_resource(RES_REQUIRED3_ID) . '"'
+                    : NULL)
+              . (ustrlen($row['description']) != 0
+                    ? ' description="true"'
+                    : NULL)
+              . '>';
 
         switch ($row['field_type'])
         {
@@ -425,6 +429,13 @@ else
             default:
 
                 debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $row['field_type']);
+        }
+
+        if (strlen($row['description']) != 0)
+        {
+            $xml .= '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+                  . update_references($row['description'], BBCODE_ALL)
+                  . '</description>';
         }
 
         $xml .= '</control>';
