@@ -34,8 +34,6 @@ require_once('../dbo/accounts.php');
 
 init_page();
 
-$error = NO_ERROR;
-
 // settings form is submitted
 
 if (try_request('submitted') == 'mainform')

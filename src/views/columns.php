@@ -260,21 +260,22 @@ $xml .= '</listbox>'
 
 $xml .= '<button action="document.disabledform.submit()">%gt;%gt;</button>'
       . '<button action="document.enabledform.submit()">%lt;%lt;</button>'
-      . '</dual>';
+      . '</dual>'
+      . '</content>'
+      . '</tabs>'
+      . '<script src="move.js"></script>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS), MAX_VIEW_SIZE) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS), MAX_VIEW_SIZE) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     default: ;  // nop
 }
-
-$xml .= '</content>'
-      . '</tabs>'
-      . '<script src="move.js"></script>';
 
 echo(xml2html($xml, $title));
 

@@ -201,7 +201,10 @@ if (can_record_be_reassigned($record, $permissions))
 
     if ($rs->rows > 1)
     {
-        $prompt = get_html_resource(RES_CONFIRM_ASSIGN_RECORD_ID);
+        $prompt        = get_html_resource(RES_CONFIRM_ASSIGN_RECORD_ID);
+        $msgtitle      = get_html_resource(RES_QUESTION_ID);
+        $btnactiontext = get_html_resource(RES_OK_ID);
+        $btncanceltext = get_html_resource(RES_CANCEL_ID);
 
         $script = <<<SCRIPT
 
@@ -209,7 +212,7 @@ if (can_record_be_reassigned($record, $permissions))
         {
             if (index != 0)
             {
-               if (confirm("{$prompt}")) document.assignform.submit();
+                jqConfirm("{$msgtitle}","{$prompt}","{$btnactiontext}","document.assignform.submit();","{$btncanceltext}");
             }
         }
 

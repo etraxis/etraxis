@@ -110,7 +110,7 @@ $xml = '<form name="addsubrecform" action="javascript:submitAddSubrecForm(' . $i
      . '</checkbox>'
      . '</control>'
      . '</group>'
-     . '<button default="true">'                   . get_html_resource(RES_OK_ID)     . '</button>'
+     . '<button default="true">'                 . get_html_resource(RES_OK_ID)     . '</button>'
      . '<button action="cancelAddSubrecForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
      . '</form>';
 

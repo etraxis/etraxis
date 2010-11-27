@@ -37,7 +37,16 @@ function submitPostponeForm (id)
         }
         else
         {
-            alert(data);
+            var params = data.split("#SPLIT#");
+
+            if (params.length == 3)
+            {
+                jqAlert(params[0],params[1],params[2]);
+            }
+            else
+            {
+                alert(data);
+            }
         }
     });
 }

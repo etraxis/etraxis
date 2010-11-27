@@ -59,7 +59,7 @@ if (try_request('submitted') == 'send')
         if (substr($request, 0, 3) == 'rem')
         {
             $reminder = reminder_find(intval(substr($request, 3)));
-            
+
             if ($reminder)
             {
                 reminder_send($reminder);
@@ -114,8 +114,8 @@ if ($list->rows != 0)
 
     $bookmarks = gen_xml_bookmarks($page, $list->rows, $from, $to);
 
-    $xml .= '<button action="document.reminders.submitted.value = \'send\'; document.reminders.submit()" prompt="'   . get_html_resource(RES_CONFIRM_SEND_REMINDER_ID)   . '">' . get_html_resource(RES_SEND_ID)    . '</button>'
-          . '<button action="document.reminders.submitted.value = \'delete\'; document.reminders.submit()" prompt="' . get_html_resource(RES_CONFIRM_DELETE_REMINDER_ID) . '">' . get_html_resource(RES_DELETE_ID)  . '</button>'
+    $xml .= '<button action="document.reminders.submitted.value = \\\'send\\\'; document.reminders.submit()" prompt="'   . get_html_resource(RES_CONFIRM_SEND_REMINDER_ID)   . '">' . get_html_resource(RES_SEND_ID)   . '</button>'
+          . '<button action="document.reminders.submitted.value = \\\'delete\\\'; document.reminders.submit()" prompt="' . get_html_resource(RES_CONFIRM_DELETE_REMINDER_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
           . '<form name="reminders" action="index.php">'
           . '<list>'
           . '<hrow>'

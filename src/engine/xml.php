@@ -155,14 +155,21 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
                         'version'     => ustrprocess(get_html_resource(RES_VERSION_X_ID), VERSION),
                         'username'    => isset($_SESSION[VAR_FULLNAME]) ? ustr2html($_SESSION[VAR_FULLNAME]) : get_html_resource(RES_GUEST_ID),
                         'logout'      => get_html_resource(get_user_level() == USER_LEVEL_GUEST ? RES_LOGIN_ID : RES_LOGOUT_ID),
-                        'search'      => get_html_resource(RES_SEARCH_ID));
+                        'search'      => get_html_resource(RES_SEARCH_ID),
+                        'msgboxTitle' => get_html_resource(RES_QUESTION_ID),
+                        'btnOk'       => get_html_resource(RES_OK_ID),
+                        'btnCancel'   => get_html_resource(RES_CANCEL_ID));
 
         $script = '<script>'
                 . 'function onLogoutButton()'
                 . '{'
                 . (get_user_level() == USER_LEVEL_GUEST
                       ? 'window.open("../logon/login.php", "_parent");'
-                      : 'if (confirm("' . get_html_resource(RES_CONFIRM_LOGOUT_ID) . '")) logout();')
+                      : sprintf('jqConfirm("%s","%s","%s","logout()","%s")',
+                                get_html_resource(RES_QUESTION_ID),
+                                get_html_resource(RES_CONFIRM_LOGOUT_ID),
+                                get_html_resource(RES_OK_ID),
+                                get_html_resource(RES_CANCEL_ID)))
                 . '}'
                 . '</script>';
 
