@@ -95,23 +95,26 @@ $xml = '<breadcrumbs>'
      . '</group>'
      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-     . '</form>';
+     . '</form>'
+     . '</content>'
+     . '</tabs>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_INCOMPLETE_FORM:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     case ERROR_ALREADY_EXISTS:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_GROUP_ALREADY_EXISTS_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_GROUP_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     default: ;  // nop
 }
-
-$xml .= '</content>'
-      . '</tabs>';
 
 echo(xml2html($xml, get_html_resource(RES_NEW_GROUP_ID)));
 

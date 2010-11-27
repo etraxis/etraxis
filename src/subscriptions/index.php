@@ -106,7 +106,7 @@ if ($list->rows != 0)
     $xml .= '<button action="document.subscriptions.submitted.value = \'enable\';  document.subscriptions.submit()">' . get_html_resource(RES_ENABLE_ID)  . '</button>'
           . '<button action="document.subscriptions.submitted.value = \'disable\'; document.subscriptions.submit()">' . get_html_resource(RES_DISABLE_ID) . '</button>'
           . HTML_SPLITTER
-          . '<button action="document.subscriptions.submitted.value = \'delete\'; document.subscriptions.submit()" prompt="' . get_html_resource(RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID) . '">' . get_html_resource(RES_DELETE_ID)  . '</button>'
+          . '<button action="document.subscriptions.submitted.value = \\\'delete\\\'; document.subscriptions.submit()" prompt="' . get_html_resource(RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
           . '<form name="subscriptions" action="index.php">'
           . '<list>'
           . '<hrow>'

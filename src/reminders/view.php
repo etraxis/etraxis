@@ -115,15 +115,16 @@ $xml .= '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
       . '<text label="' . get_html_resource(RES_REMINDER_NAME_ID)       . '">' . ustr2html($reminder['reminder_name']) . '</text>'
       . '<text label="' . get_html_resource(RES_REMINDER_SUBJECT_ID)    . '">' . ustr2html($reminder['subject_text'])  . '</text>'
       . '<text label="' . get_html_resource(RES_REMINDER_RECIPIENTS_ID) . '">' . $recipients                           . '</text>'
-      . '</group>';
+      . '</group>'
+      . '</content>'
+      . '</tabs>';
 
 if (try_request('sent'))
 {
-    $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REMINDER_IS_SENT_ID) . '");</script>';
+    $xml .= '<scriptonreadyitem>'
+          . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REMINDER_IS_SENT_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+          . '</scriptonreadyitem>';
 }
-
-$xml .= '</content>'
-      . '</tabs>';
 
 echo(xml2html($xml, $title));
 

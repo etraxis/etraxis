@@ -93,3 +93,61 @@ function onTextBox (id, maxlen, resizeable, minrows)
         }
     }
 }
+
+function jqAlert (title, message, btnText)
+{
+    $("#messagebox").dialog({
+        title: title.toUpperCase()
+    });
+
+    $("#messagebox").html(message);
+
+    var buttons = {};
+
+    buttons[btnText] = function(){
+        $(this).dialog("close");
+    }
+
+    $("#messagebox").dialog({
+        buttons: buttons
+    });
+
+    $("#messagebox").dialog("open");
+}
+
+function jqConfirm (title, message, btnTextOk, btnFunctionOk, btnTextCancel, btnFunctionCancel)
+{
+    $("#messagebox").dialog({
+        title: title.toUpperCase()
+    });
+
+    $("#messagebox").html(message);
+
+    var buttons = {};
+
+    buttons[btnTextOk] = function(){
+        $(this).dialog("close");
+
+        if (btnFunctionOk)
+        {
+            eval(btnFunctionOk);
+        }
+    }
+
+    buttons[btnTextCancel] = function(){
+        $(this).dialog("close");
+
+        if (btnFunctionCancel)
+        {
+            eval(btnFunctionCancel);
+        }
+    }
+
+    $("#messagebox").dialog({
+        buttons: buttons
+    });
+
+    $("#messagebox").dialog("open");
+
+    return false;
+}

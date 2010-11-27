@@ -141,36 +141,36 @@ if (try_request('submitted') == 'stateform')
     switch ($error)
     {
         case ERROR_INCOMPLETE_FORM:
-            echo(get_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             break;
 
         case ERROR_INVALID_INTEGER_VALUE:
-            echo(get_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             break;
 
         case ERROR_INVALID_DATE_VALUE:
-            echo(get_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             break;
 
         case ERROR_INVALID_TIME_VALUE:
-            echo(get_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            echo(ustrprocess(get_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['MIN_FIELD_INTEGER']);
             unset($_SESSION['MAX_FIELD_INTEGER']);
             break;
 
         case ERROR_RECORD_NOT_FOUND:
-            echo(get_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             break;
 
         case ERROR_VALUE_FAILS_REGEX_CHECK:
-            echo(ustrprocess(get_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['FIELD_VALUE']);
             break;

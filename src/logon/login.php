@@ -49,6 +49,12 @@ if (isset($_SESSION[VAR_ERROR]))
 {
     switch ($_SESSION[VAR_ERROR])
     {
+        case NO_ERROR:
+            $alert = NULL;
+            break;
+        case ERROR_UNAUTHORIZED:
+            $alert = get_js_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID);
+            break;
         case ERROR_UNKNOWN_USERNAME:
             $alert = get_js_resource(RES_ALERT_UNKNOWN_USERNAME_ID);
             break;
@@ -102,12 +108,17 @@ switch (AUTH_TYPE)
                  . '<button default="true" action="document.loginform.submit()">' . get_html_resource(RES_OK_ID) . '</button>'
                  . '</form>';
 
+            $xml .= '</content>';
+
             if (!is_null($alert))
             {
-                $xml .= "<script>alert('{$alert}');</script>";
+                $xml .= '<scriptonreadyitem>'
+                      . sprintf('jqAlert("%s","%s","%s");',
+                                get_html_resource(RES_ERROR_ID),
+                                $alert,
+                                get_html_resource(RES_OK_ID))
+                   . '</scriptonreadyitem>';
             }
-
-            $xml .= '</content>';
 
             echo(xml2html($xml, get_html_resource(RES_LOGIN_ID)));
             exit;

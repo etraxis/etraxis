@@ -99,26 +99,31 @@ $xml .= '<content>'
       . '</group>'
       . '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '</note>'
-      . '</form>';
+      . '</form>'
+      . '</content>'
+      . '</tabs>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_INCOMPLETE_FORM:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     case ERROR_PASSWORDS_DO_NOT_MATCH:
-        $xml .= "<script>alert('" . get_js_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . "');</script>";
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     case ERROR_PASSWORD_TOO_SHORT:
-        $xml .= "<script>alert('" . ustrprocess(get_js_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . "');</script>";
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     default: ;  // nop
 }
-
-$xml .= '</content>'
-      . '</tabs>';
 
 echo(xml2html($xml, get_html_resource(RES_SETTINGS_ID)));
 

@@ -406,10 +406,10 @@ define('RES_VIEW_X_ID',                             1267);
 define('RES_NO_VIEW_ID',                            1268);
 define('RES_SET_ID',                                1269);
 define('RES_COLUMNS_ID',                            1270);
-define('RES_UNUSED_1271_ID',                        1271);
-define('RES_UNUSED_1272_ID',                        1272);
-define('RES_UNUSED_1273_ID',                        1273);
-define('RES_UNUSED_1274_ID',                        1274);
+define('RES_WARNING_ID',                            1271);
+define('RES_INFORMATION_ID',                        1272);
+define('RES_ERROR_ID',                              1273);
+define('RES_QUESTION_ID',                           1274);
 define('RES_ALIGNMENT_ID',                          1275);  // reserved
 define('RES_LEFT_ID',                               1276);  // reserved
 define('RES_CENTER_ID',                             1277);  // reserved

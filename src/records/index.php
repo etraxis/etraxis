@@ -383,6 +383,10 @@ if ($list->rows != 0)
           . $bookmarks;
 }
 
+$xml .= '</content>'
+      . '</tabs>'
+      . '<script src="index.js"></script>';
+
 // if some error was specified to display, force an alert
 
 if (isset($_SESSION[VAR_ERROR]))
@@ -393,31 +397,39 @@ if (isset($_SESSION[VAR_ERROR]))
             // nop
             break;
         case ERROR_UNAUTHORIZED:
-            $xml .= '<script>alert("' . get_js_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_USER_NOT_AUTHORIZED_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
             $_SESSION[VAR_REQUEST_CREDENTIALS] = TRUE;
             break;
         case ERROR_UNKNOWN_USERNAME:
-            $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UNKNOWN_USERNAME_ID) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UNKNOWN_USERNAME_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
             break;
         case ERROR_ACCOUNT_DISABLED:
-            $xml .= '<script>alert("' . get_js_resource(RES_ALERT_ACCOUNT_DISABLED_ID) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_ACCOUNT_DISABLED_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
             break;
         case ERROR_ACCOUNT_LOCKED:
-            $xml .= '<script>alert("' . get_js_resource(RES_ALERT_ACCOUNT_LOCKED_ID) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_ACCOUNT_LOCKED_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
             break;
         case ERROR_UNKNOWN_AUTH_TYPE:
-            $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UNKNOWN_AUTH_TYPE_ID) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UNKNOWN_AUTH_TYPE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
             break;
         default:
-            $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
     }
 
     $_SESSION[VAR_ERROR] = NO_ERROR;
 }
-
-$xml .= '</content>'
-      . '</tabs>'
-      . '<script src="index.js"></script>';
 
 echo(xml2html($xml, get_html_resource(RES_RECORDS_ID)));
 

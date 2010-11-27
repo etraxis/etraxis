@@ -86,38 +86,54 @@ $xml = '<breadcrumbs>'
      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>'
-     . '</form>';
+     . '</form>'
+     . '</content>'
+     . '</tabs>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_UPLOAD_INI_SIZE:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UPLOAD_INI_SIZE_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_UPLOAD_FORM_SIZE:
-        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_UPLOAD_PARTIAL:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UPLOAD_PARTIAL_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_UPLOAD_NO_FILE:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UPLOAD_NO_FILE_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_UPLOAD_NO_TMP_DIR:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_UPLOAD_CANT_WRITE:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_UPLOAD_EXTENSION:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_UPLOAD_EXTENSION_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_DATE_VALUE_OUT_OF_RANGE:
@@ -134,14 +150,13 @@ switch ($error)
     case ERROR_TIME_VALUE_OUT_OF_RANGE:
     case ERROR_UNKNOWN:
     case ERROR_XML_PARSER:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_XML_PARSER_ERROR_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_XML_PARSER_ERROR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     default: ;  // nop
 }
-
-$xml .= '</content>'
-      . '</tabs>';
 
 echo(xml2html($xml, get_html_resource(RES_IMPORT_ID)));
 

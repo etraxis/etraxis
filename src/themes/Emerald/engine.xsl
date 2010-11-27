@@ -52,9 +52,11 @@
     <xsl:apply-templates select="script"/>
     <script type="text/javascript">
     $(document).ready(function() {
+    $("#messagebox").dialog({autoOpen:false,modal:true,resizable:false});
     <xsl:apply-templates select="scriptonreadyitem"/>
     });
     </script>
+    <div id="messagebox"></div>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
     <div id="toolbar">
         <div class="toolbarsplitt spacer"></div>
@@ -1095,20 +1097,41 @@
         </xsl:attribute>
     </xsl:if>
     <xsl:attribute name="onclick">
-    <xsl:if test="boolean(@prompt)">
-        <xsl:text>if (confirm('</xsl:text>
-        <xsl:value-of select="@prompt"/>
-        <xsl:text>')) </xsl:text>
-    </xsl:if>
     <xsl:choose>
-        <xsl:when test="boolean(@url)">
-            <xsl:text>window.open('</xsl:text>
-            <xsl:value-of select="@url"/>
-            <xsl:text>','_parent');</xsl:text>
-        </xsl:when>
-        <xsl:when test="boolean(@action)">
-            <xsl:value-of select="@action"/>
-        </xsl:when>
+    <xsl:when test="boolean(@prompt)">
+        <xsl:text>jqConfirm('</xsl:text>
+        <xsl:value-of select="/page/@msgboxTitle"/>
+        <xsl:text>','</xsl:text>
+        <xsl:value-of select="@prompt"/>
+        <xsl:text>','</xsl:text>
+        <xsl:value-of select="/page/@btnOk"/>
+        <xsl:text>','</xsl:text>
+        <xsl:choose>
+            <xsl:when test="boolean(@url)">
+                <xsl:text>window.open(\'</xsl:text>
+                <xsl:value-of select="@url"/>
+                <xsl:text>\',\'_parent\');</xsl:text>
+            </xsl:when>
+            <xsl:when test="boolean(@action)">
+                <xsl:value-of select="@action"/>
+            </xsl:when>
+        </xsl:choose>
+        <xsl:text>','</xsl:text>
+        <xsl:value-of select="/page/@btnCancel"/>
+        <xsl:text>')</xsl:text>
+    </xsl:when>
+    <xsl:otherwise>
+        <xsl:choose>
+            <xsl:when test="boolean(@url)">
+                <xsl:text>window.open('</xsl:text>
+                <xsl:value-of select="@url"/>
+                <xsl:text>','_parent');</xsl:text>
+            </xsl:when>
+            <xsl:when test="boolean(@action)">
+                <xsl:value-of select="@action"/>
+            </xsl:when>
+        </xsl:choose>
+    </xsl:otherwise>
     </xsl:choose>
     </xsl:attribute>
     <xsl:if test="boolean(@disabled)">

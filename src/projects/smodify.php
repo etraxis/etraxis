@@ -82,7 +82,7 @@ if (try_request('submitted') == 'mainform')
                               $state['template_id'],
                               $state_name,
                               $state_abbr,
-							  ($next_state_id == 0 ? NULL : $next_state_id),
+                              ($next_state_id == 0 ? NULL : $next_state_id),
                               $responsible);
 
         if ($error == NO_ERROR)
@@ -170,22 +170,25 @@ $xml .= '</group>'
       . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
       . '<button url="sview.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>';
+      . '</form>'
+      . '</content>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_INCOMPLETE_FORM:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     case ERROR_ALREADY_EXISTS:
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_STATE_ALREADY_EXISTS_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_STATE_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
     default: ;  // nop
 }
-
-$xml .= '</content>';
 
 echo(xml2html($xml, $title));
 

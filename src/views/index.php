@@ -80,7 +80,7 @@ if ($list->rows != 0)
 
     $bookmarks = gen_xml_bookmarks($page, $list->rows, $from, $to);
 
-    $xml .= '<button action="document.views.submitted.value = \'delete\'; document.views.submit()" prompt="' . get_html_resource(RES_CONFIRM_DELETE_VIEWS_ID) . '">' . get_html_resource(RES_DELETE_ID)  . '</button>'
+    $xml .= '<button action="document.views.submitted.value = \\\'delete\\\'; document.views.submit()" prompt="' . get_js_resource(RES_CONFIRM_DELETE_VIEWS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
           . '<form name="views" action="index.php">'
           . '<list>'
           . '<hrow>'

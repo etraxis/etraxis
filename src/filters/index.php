@@ -99,7 +99,7 @@ if ($list->rows != 0)
     $xml .= '<button action="document.filters.submitted.value = \'enable\';  document.filters.submit()">' . get_html_resource(RES_ENABLE_ID)  . '</button>'
           . '<button action="document.filters.submitted.value = \'disable\'; document.filters.submit()">' . get_html_resource(RES_DISABLE_ID) . '</button>'
           . HTML_SPLITTER
-          . '<button action="document.filters.submitted.value = \'delete\'; document.filters.submit()" prompt="' . get_html_resource(RES_CONFIRM_DELETE_FILTERS_ID) . '">' . get_html_resource(RES_DELETE_ID)  . '</button>'
+          . '<button action="document.filters.submitted.value = \\\'delete\\\'; document.filters.submit()" prompt="' . get_js_resource(RES_CONFIRM_DELETE_FILTERS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
           . '<form name="filters" action="index.php">'
           . '<list>'
           . '<hrow>'

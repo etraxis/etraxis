@@ -75,7 +75,7 @@ if (try_request('submitted') == 'postponeform')
     if (ustrlen($value) == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Date value is not specified.');
-        echo(get_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+        echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
     }
     else
     {
@@ -84,13 +84,13 @@ if (try_request('submitted') == 'postponeform')
         if ($duedate == -1)
         {
             debug_write_log(DEBUG_NOTICE, 'Invalid date value.');
-            echo(get_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
             $duedate = $today + SECS_IN_WEEK;
         }
         elseif ($duedate < ($today + SECS_IN_DAY))
         {
             debug_write_log(DEBUG_NOTICE, 'Date value is out of range.');
-            echo(ustrprocess(get_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)));
+            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)) . '#SPLIT#' . get_js_resource(RES_OK_ID));
         }
         else
         {

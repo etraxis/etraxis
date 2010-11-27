@@ -82,7 +82,7 @@ $xml .= '<button url="index.php">' . get_html_resource(RES_BACK_ID) . '</button>
       . '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
 
 $xml .= (is_account_removable($id)
-            ? '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_ACCOUNT_ID) . '">'
+            ? '<button url="delete.php?id=' . $id . '" prompt="' . get_js_resource(RES_CONFIRM_DELETE_ACCOUNT_ID) . '">'
             : '<button disabled="false">')
       . get_html_resource(RES_DELETE_ID)
       . '</button>';

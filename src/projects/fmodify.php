@@ -547,78 +547,92 @@ $xml .= '</group>'
       . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
       . '<button url="fview.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
-      . '</form>';
+      . '</form>'
+      . '</content>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_INCOMPLETE_FORM:
-
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_ALREADY_EXISTS:
-
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_INVALID_INTEGER_VALUE:
-
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
 
         if ($field['field_type'] == FIELD_TYPE_NUMBER)
         {
-            $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
         }
         elseif ($field['field_type'] == FIELD_TYPE_STRING)
         {
-            $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
         }
         elseif ($field['field_type'] == FIELD_TYPE_MULTILINED)
         {
-            $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED) . '");</script>';
+            $xml .= '<scriptonreadyitem>'
+                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED) . '","' . get_html_resource(RES_OK_ID) . '");'
+                  . '</scriptonreadyitem>';
         }
 
         break;
 
     case ERROR_MIN_MAX_VALUES:
-
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_INVALID_DATE_VALUE:
-
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_DATE_VALUE_OUT_OF_RANGE:
-
-        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_INVALID_TIME_VALUE:
-
-        $xml .= '<script>alert("' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_TIME_VALUE_OUT_OF_RANGE:
-
-        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
-
-        $xml .= '<script>alert("' . ustrprocess(get_js_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2) . '");</script>';
+        $xml .= '<scriptonreadyitem>'
+              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2) . '","' . get_html_resource(RES_OK_ID) . '");'
+              . '</scriptonreadyitem>';
         break;
 
     default: ;  // nop
 }
-
-$xml .= '</content>';
 
 echo(xml2html($xml, $title));
 
