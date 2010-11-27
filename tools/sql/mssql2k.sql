@@ -346,6 +346,7 @@ create table tbl_fields
     author_perm int not null,
     responsible_perm int not null,
     add_separator int not null,
+    description nvarchar (1000) null,
     regex_check nvarchar (1000) null,
     regex_search nvarchar (1000) null,
     regex_replace nvarchar (1000) null,
@@ -1192,7 +1193,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MSSQL 2000');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.1');
+values ('FEATURE_LEVEL', '3.2');
 
 insert into tbl_accounts
 (

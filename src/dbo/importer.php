@@ -132,7 +132,7 @@ class CImporter
             '6:REGISTERED'  => array('STATE'),
             '6:GROUP'       => array('STATE'),
             '5:FIELDS'      => array('FIELD'),
-            '6:FIELD'       => array('DEFAULT','LIST','PERMISSIONS'),
+            '6:FIELD'       => array('DEFAULT','LIST','PERMISSIONS','DESCRIPTION'),
             '7:LIST'        => array('ITEM'),
             '7:PERMISSIONS' => array('AUTHOR','RESPONSIBLE','REGISTERED','GROUP'),
         );
@@ -603,6 +603,7 @@ class CImporter
                                  $is_required,
                                  $add_separator,
                                  $guest_access,
+                                 $field_description,
                                  $regex_check,
                                  $regex_search,
                                  $regex_replace,
@@ -813,7 +814,7 @@ class CImporter
                               $this->field_id,
                               $value,
                               $itemName);
-                }           
+                }
             }
         }
 
@@ -893,6 +894,18 @@ class CImporter
                     dal_query('fields/setdefault.sql',
                               $this->field_id,
                               value_find_multilined(trim($cdata)));
+                }
+
+                break;
+
+            // field description
+            case '7:DESCRIPTION':
+
+                if (strlen(trim($cdata)) != 0)
+                {
+                    dal_query('fields/setdescription.sql',
+                              $this->field_id,
+                              trim($cdata));
                 }
 
                 break;

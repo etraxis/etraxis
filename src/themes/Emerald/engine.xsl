@@ -655,14 +655,39 @@
         </td>
         </xsl:for-each>
         <td>
-        <xsl:apply-templates select="control|editbox|passbox|filebox|checkbox|radio|combobox|listbox|textbox"/>
+        <xsl:if test="@description">
+            <p class="note">
+            <xsl:attribute name="onclick">$('#<xsl:value-of select="@name"/>description').slideToggle('fast');</xsl:attribute>
+            <xsl:text disable-output-escaping="yes">&amp;nbsp;</xsl:text>
+            </p>
+        </xsl:if>
+        </td>
+        <td>
+        <xsl:apply-templates select="control|editbox|passbox|filebox|checkbox|radio|combobox|listbox|textbox|description"/>
         </td>
         </tr>
     </xsl:when>
     <xsl:otherwise>
-        <xsl:apply-templates select="control|editbox|passbox|filebox|checkbox|radio|combobox|listbox|textbox"/>
+        <xsl:apply-templates select="control|editbox|passbox|filebox|checkbox|radio|combobox|listbox|textbox|description"/>
     </xsl:otherwise>
     </xsl:choose>
+</xsl:template>
+
+<xsl:template match="description">
+    <div class="fielddescription" style="display:none;">
+    <xsl:attribute name="id">
+    <xsl:value-of select="../@name"></xsl:value-of>
+    <xsl:text>description</xsl:text>
+    </xsl:attribute>
+    <xsl:if test="@headline">
+        <div class="fielddescriptionhl">
+        <xsl:value-of select="@headline"></xsl:value-of>
+        </div>
+    </xsl:if>
+    <div class="fielddescriptionct">
+    <xsl:apply-templates/>
+    </div>
+    </div>
 </xsl:template>
 
 <xsl:template match="label">
@@ -1358,7 +1383,7 @@
 
 <xsl:template match="hr">
     <tr>
-    <td colspan="2">
+    <td colspan="3">
     <hr/>
     </td>
     </tr>

@@ -425,9 +425,12 @@ else
               . '<listitem value="' . $template_id . '">' . ustr2html($template_name) . '</listitem>'
               . '</combobox>'
               . '</control>'
-              . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+              . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '" description="true">'
               . '<label>' . get_html_resource(RES_SUBJECT_ID) . '</label>'
               . '<editbox maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
+              . '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+              . get_html_resource(RES_ALERT_SPECIFY_SHORT_DESCRIPTION_ID)
+              . '</description>'
               . '</control>';
 
         if ($responsible == STATE_RESPONSIBLE_ASSIGN)
@@ -514,9 +517,14 @@ if ($step == 3)
                 $value = value_find($row['field_type'], ($row['field_type'] == FIELD_TYPE_DATE ? date_offset(time(), $row['value_id']) : $row['value_id']));
             }
 
-            $xml .= ($row['is_required'] && $row['field_type'] != FIELD_TYPE_CHECKBOX
-                        ? '<control name="' . $name . '" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-                        : '<control name="' . $name . '">');
+            $xml .= '<control name="' . $name . '"'
+                  . ($row['is_required'] && $row['field_type'] != FIELD_TYPE_CHECKBOX
+                        ? ' required="' . get_html_resource(RES_REQUIRED3_ID) . '"'
+                        : NULL)
+                  . (ustrlen($row['description']) != 0
+                        ? ' description="true"'
+                        : NULL)
+                  . '>';
 
             switch ($row['field_type'])
             {
@@ -652,6 +660,13 @@ if ($step == 3)
                 default:
 
                     debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $row['field_type']);
+            }
+
+            if (ustrlen($row['description']) != 0)
+            {
+                $xml .= '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+                      . update_references($row['description'], BBCODE_ALL)
+                      . '</description>';
             }
 
             $xml .= '</control>';

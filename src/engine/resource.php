@@ -75,7 +75,7 @@ define('RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID',  230);
 define('RES_ALERT_REMINDER_ALREADY_EXISTS_ID',      231);
 define('RES_ALERT_REMINDER_IS_SENT_ID',             232);
 define('RES_ALERT_VIEW_ALREADY_EXISTS_ID',          233);
-define('RES_ALERT_UNUSED_234_ID',                   234);
+define('RES_ALERT_SPECIFY_SHORT_DESCRIPTION_ID',    234);
 define('RES_ALERT_UPLOAD_CANT_WRITE_ID',            235);
 define('RES_ALERT_UPLOAD_EXTENSION_ID',             236);
 define('RES_ALERT_UNUSED_237_ID',                   237);

@@ -76,6 +76,7 @@ if (try_request('submitted') == 'mainform')
     $is_required   = ($field['field_type'] == FIELD_TYPE_CHECKBOX ? FALSE : isset($_REQUEST['is_required']));
     $guest_access  = isset($_REQUEST['guest_access']);
     $add_separator = isset($_REQUEST['add_separator']);
+    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     switch ($field['field_type'])
     {
@@ -201,6 +202,7 @@ if (try_request('submitted') == 'mainform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $description,
                               $regex_check,
                               $regex_search,
                               $regex_replace,
@@ -230,6 +232,7 @@ else
     $is_required   = $field['is_required'];
     $add_separator = $field['add_separator'];
     $guest_access  = $field['guest_access'];
+    $description   = $field['description'];
     $regex_check   = $field['regex_check'];
     $regex_search  = $field['regex_search'];
     $regex_replace = $field['regex_replace'];
@@ -500,6 +503,13 @@ elseif ($field['field_type'] == FIELD_TYPE_DURATION)
 }
 
 // generate common controls
+
+$xml .= '<control name="description">'
+      . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+      . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_DESCRIPTION . '">'
+      . ustr2html($description)
+      . '</textbox>'
+      . '</control>';
 
 if ($field['field_type'] != FIELD_TYPE_CHECKBOX)
 {

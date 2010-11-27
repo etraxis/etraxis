@@ -155,6 +155,11 @@ switch ($field['field_type'])
         debug_write_log(DEBUG_WARNING, 'Unknown field type = ' . $field['field_type']);
 }
 
+$xml .= '<text label="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+      . (is_null($field['description']) ? get_html_resource(RES_NONE_ID)
+                                        : ustr2html(ustr_replace("\n", '%br;', $field['description'])))
+      . '</text>';
+
 if ($field['field_type'] != FIELD_TYPE_CHECKBOX)
 {
     $xml .= '<text label="' . get_html_resource(RES_REQUIRED_ID) . '">' . get_html_resource($field['is_required'] ? RES_YES_ID : RES_NO_ID) . '</text>';
