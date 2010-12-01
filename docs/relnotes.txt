@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-2-0
-Release date: 2010-11-27
-Release size: 48558
+Release tag:  MAIN_3-2-1
+Release date: 2010-12-01
+Release size: 48564
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,115 +21,10 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/accounts/create.php
-[M] src/accounts/modify.php
-[M] src/accounts/view.php
-[M] src/dbo/fields.php
-[M] src/dbo/importer.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/czech.php
-[M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
-[M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
-[M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
-[M] src/engine/resource.php
-[M] src/engine/themes.php
+[M] src/engine/sessions.php
 [M] src/engine/xml.php
-[M] src/filters/create.php
-[M] src/filters/index.php
-[M] src/filters/modify.php
-[M] src/groups/create.php
-[M] src/groups/modify.php
-[M] src/logon/login.php
-[M] src/projects/create.php
-[M] src/projects/fcreate.php
-[M] src/projects/fmodify.php
-[M] src/projects/fview.php
-[M] src/projects/gcreate.php
-[M] src/projects/gmodify.php
-[M] src/projects/import.php
-[M] src/projects/modify.php
-[M] src/projects/screate.php
-[M] src/projects/smodify.php
-[M] src/projects/tclone.php
-[M] src/projects/tcreate.php
-[M] src/projects/tmodify.php
-[M] src/records/addsubrec.php
-[M] src/records/attachments.php
-[M] src/records/create.php
 [M] src/records/index.php
-[M] src/records/modify.php
-[M] src/records/postpone.js
-[M] src/records/postpone.php
-[M] src/records/state.js
-[M] src/records/state.php
-[M] src/records/view.php
-[M] src/reminders/create.php
-[M] src/reminders/index.php
-[M] src/reminders/modify.php
-[M] src/reminders/view.php
-[M] src/scripts/etraxis.js
-[M] src/scripts/jquery.js
-[M] src/scripts/jquery.ui.js
-[M] src/settings/index.php
-[M] src/settings/password.php
-[M] src/sql/fields/create.sql
-[M] src/sql/fields/fndid.sql
-[M] src/sql/fields/list.sql
-[M] src/sql/fields/modify.sql
-[A] src/sql/fields/setdescription.sql
-[M] src/sql/records/flist.sql
-[M] src/subscriptions/create.php
-[M] src/subscriptions/index.php
-[M] src/subscriptions/modify.php
-[M] src/themes/Azure/css/etraxis.css
-[M] src/themes/Azure/css/jquery.ui.css
-[A] src/themes/Azure/images/ui-bg_flat_100_e0e0e0_40x100.png
-[M] src/themes/Azure/images/ui-bg_flat_100_fbfbfb_40x100.png
-[M] src/themes/Azure/images/ui-bg_highlight-soft_25_84b7dd_1x100.png
-[M] src/themes/Azure/images/ui-icons_e0e0e0_256x240.png
-[M] src/themes/Azure/images/ui-icons_ff0000_256x240.png
-[M] src/themes/Emerald/css/etraxis.css
-[M] src/themes/Emerald/css/jquery.ui.css
 [M] src/themes/Emerald/engine.xsl
-[A] src/themes/Emerald/images/ui-bg_flat_100_e0e0e0_40x100.png
-[M] src/themes/Emerald/images/ui-bg_flat_100_f9f2c8_40x100.png
-[M] src/themes/Emerald/images/ui-bg_flat_100_fbfbfb_40x100.png
-[M] src/themes/Emerald/images/ui-bg_flat_100_ffd8d8_40x100.png
-[M] src/themes/Emerald/images/ui-bg_highlight-soft_25_00605d_1x100.png
-[M] src/themes/Emerald/images/ui-bg_highlight-soft_25_207f70_1x100.png
-[M] src/themes/Emerald/images/ui-icons_404040_256x240.png
-[M] src/themes/Emerald/images/ui-icons_e0e0e0_256x240.png
-[M] src/themes/Orchid/css/etraxis.css
-[M] src/themes/Orchid/css/jquery.ui.css
-[A] src/themes/Orchid/images/ui-bg_flat_100_e0e0e0_40x100.png
-[M] src/themes/Orchid/images/ui-bg_flat_100_fbfbfb_40x100.png
-[M] src/themes/Orchid/images/ui-icons_2e83ff_256x240.png
-[M] src/themes/Orchid/images/ui-icons_e0e0e0_256x240.png
-[M] src/views/columns.php
-[M] src/views/create.php
-[M] src/views/index.php
-[M] src/views/modify.php
-[M] tools/dbschema/dbschema.xml
-[M] tools/sql/mssql2k.sql
-[M] tools/sql/mysql50.sql
-[M] tools/sql/ora9i.sql
-[M] tools/sql/pgsql80.sql
-[A] tools/upgrade/3.1.x-3.2.x
-[A] tools/upgrade/3.1.x-3.2.x/mssql2k.sql
-[A] tools/upgrade/3.1.x-3.2.x/mysql50.sql
-[A] tools/upgrade/3.1.x-3.2.x/ora9i.sql
-[A] tools/upgrade/3.1.x-3.2.x/pgsql80.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -212,13 +107,14 @@ Issue 94: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 24: Add description/tooltip to fields
-Issue 166: UI: replace alerts and confirms by jquery ui dialog boxes
+Issue 175: Easier opening record in record table
+Issue 178: GUI: Apply view
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 172: Notice: Undefine Index eTraxis_ThemeName in incognito mode
+Issue 174: Newly created user cannot change his password on first logon.
+Issue 179: After default login, page does not allow navigating to any section other than Appearance page
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

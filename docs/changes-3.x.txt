@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-2-1 (2010-12-01)
+
+    Issue 175: Easier opening record in record table
+    Issue 178: GUI: Apply view
+
+Bug fixes integrated in MAIN_3-2-1 (2010-12-01)
+
+    Issue 174: Newly created user cannot change his password on first logon.
+    Issue 179: After default login, page does not allow navigating to any section other than Appearance page
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-2-0 (2010-11-27)
 
     Issue 24: Add description/tooltip to fields
