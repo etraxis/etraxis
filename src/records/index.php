@@ -139,9 +139,7 @@ if (get_user_level() != USER_LEVEL_GUEST)
     }
 
     $xml .= '</dropdown>'
-          . '<button action="setView()">' . get_html_resource(RES_SET_ID) . '</button>';
-
-    $xml .= HTML_SPLITTER;
+          . HTML_SPLITTER;
 }
 
 // generate buttons
@@ -386,6 +384,10 @@ if ($list->rows != 0)
 $xml .= '</content>'
       . '</tabs>'
       . '<script src="index.js"></script>';
+
+$xml .= '<scriptonreadyitem>'
+      . '$("#view").change(setView);'
+      . '</scriptonreadyitem>';
 
 // if some error was specified to display, force an alert
 
