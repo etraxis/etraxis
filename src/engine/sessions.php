@@ -440,13 +440,13 @@ function init_page ($guest_is_allowed = FALSE)
 
             dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
 
-            if ((strpos($_SERVER['PHP_SELF'], '/settings/index.php') === FALSE            ) &&
+            if ((strpos($_SERVER['PHP_SELF'], '/settings/password.php') === FALSE         ) &&
                 (PASSWORD_EXPIRATION != 0                                                 ) &&
                 ($_SESSION[VAR_PASSWD_EXPIRE] + PASSWORD_EXPIRATION * SECS_IN_DAY < time()) &&
                 (!$_SESSION[VAR_LDAPUSER]                                                 ))
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
-                header('Location: ' . WEBROOT . 'settings/index.php');
+                header('Location: ' . WEBROOT . 'settings/password.php');
                 exit;
             }
         }
