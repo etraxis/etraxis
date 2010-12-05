@@ -71,7 +71,7 @@ $resource_indonesian = array
     'Pengingat dengan nama yang dimasukkan telah ada.',
     'Pengingat berhasil dikirim.',
     'Tampilan dengan nama yang dimasukkan telah ada.',
-    'Kolom dengan nama yang dimasukkan telah ada.',
+    NULL,
     'Gagal menulis berkas ke disk.',
     'Pengunggahan berkas dihentikan oleh ekstensi.',
     'JavaScript harus diaktifkan.',

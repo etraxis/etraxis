@@ -71,7 +71,7 @@ $resource_polish = array
     'Przypomnienie o tej samej nazwie już istnieje.',
     'Przypomnienie zostało wysłane.',
     'Widok o tej samej nazwie już istnieje.',
-    'Kolumna o tej samej nazwie już istnieje.',
+    NULL,
     'Błąd zapisu na dysk.',
     'Upload pliku został zatrzymany przez roższeżenie.',
     'Musi być włączna obsługa JavaScript.',

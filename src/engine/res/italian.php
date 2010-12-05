@@ -71,7 +71,7 @@ $resource_italian = array
     'Nome sollecito già utilizzato.',
     'Sollecito inviato correttamente.',
     'Nome vista già utilizzato.',
-    'Nome colonna già utilizzato.',
+    NULL,
     'Impossibile scrivere il file su disco.',
     'Upload del file bloccato da una estensione.',
     'Il javaScript deve essere abilitato.',

@@ -71,7 +71,7 @@ $resource_latvian = array
     'Atgādinājums ar tādu vārdu jau eksistē.',
     'Atgādinājums tika veiksmīgi nosūtīts.',
     'Skats ar tądu nosaukumu jau eksistē.',
-    'Stabińš ar tādu nosaukumu jau eksistē.',
+    NULL,
     'Diska ieraksta kļūda',
     'Paplašinąjums apstądinąja faila ielądi',
     'JavaScript jābūt ieslēgtam.',

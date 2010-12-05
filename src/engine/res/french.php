@@ -71,7 +71,7 @@ $resource_french = array
     'Il existe déjà une note de rappel portant ce nom.',
     'Note de rappel envoyée correctement.',
     'Il existe déjà une vue portant ce nom..',
-    'Il existe déjà une colonne portant ce nom.',
+    NULL,
     'Ecriture vers le disque défectueuse.',
     'Chargement du fichier interrompu par extension.',
     'Le JavaScript doit être activé.',
