@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-2-2 (2010-12-05)
+
+    Issue 187: GUI: record - reordering general information
+
+Bug fixes integrated in MAIN_3-2-2 (2010-12-05)
+
+    Issue 185: Checkbox of Recordlist not useable
+    Issue 186: Wrong translation of "Subject" tooltip.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-2-1 (2010-12-01)
 
     Issue 175: Easier opening record in record table

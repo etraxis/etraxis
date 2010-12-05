@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-2-1
-Release date: 2010-12-01
-Release size: 48564
+Release tag:  MAIN_3-2-2
+Release date: 2010-12-05
+Release size: 48532
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,10 +21,29 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/sessions.php
+[M] src/dbo/events.php
+[M] src/engine/res/bulgarian.php
+[M] src/engine/res/czech.php
+[M] src/engine/res/dutch.php
+[M] src/engine/res/english.php
+[M] src/engine/res/french.php
+[M] src/engine/res/german.php
+[M] src/engine/res/indonesian.php
+[M] src/engine/res/italian.php
+[M] src/engine/res/japanese.php
+[M] src/engine/res/latvian.php
+[M] src/engine/res/polish.php
+[M] src/engine/res/portuguese.php
+[M] src/engine/res/romanian.php
+[M] src/engine/res/russian.php
+[M] src/engine/res/spanish.php
+[M] src/engine/res/turkish.php
+[M] src/engine/resource.php
 [M] src/engine/xml.php
-[M] src/records/index.php
+[M] src/records/view.php
+[M] src/themes/Emerald/css/list.css
 [M] src/themes/Emerald/engine.xsl
+[M] tools/upgrade/3.1.x-3.2.x/ora9i.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -96,6 +115,10 @@ Issue 133: Advanced search
 Issue 169: Timed Subscriptions based on filters
 Issue 170: Clone View
 Issue 171: temporary "excel filtering"
+Issue 181: Support for git
+Issue 182: Reopening of closed record.
+Issue 183: Built-in scheduler
+Issue 184: Support for floating point numbers
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -107,14 +130,13 @@ Issue 94: Values of restricted fields are still accessible via custom view.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 175: Easier opening record in record table
-Issue 178: GUI: Apply view
+Issue 187: GUI: record - reordering general information
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 174: Newly created user cannot change his password on first logon.
-Issue 179: After default login, page does not allow navigating to any section other than Appearance page
+Issue 185: Checkbox of Recordlist not useable
+Issue 186: Wrong translation of "Subject" tooltip.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
