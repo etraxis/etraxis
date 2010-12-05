@@ -76,9 +76,9 @@ $resource_indonesian = array
     'Pengunggahan berkas dihentikan oleh ekstensi.',
     'JavaScript harus diaktifkan.',
     'Ini adalah pesan otomatis, jangan dibalas.',
-    'Subdata yang ditentukan telah ada.',
+    NULL,
     /* 240 */
-    'Filter set yang dimasukkan telah ada.',
+    NULL,
     'Tampilan tidak boleh lebih dari %1 kolom.',
     'Nilai "%1" tidak lolos cek format.',
     'Pengguna tidak berwenang.',
@@ -86,7 +86,6 @@ $resource_indonesian = array
     'Jenis pengesahan tidak dikenal.',
     'Kesalahan yang tidak diketahui.',
     'Kesalahan XML parser.',
-    'Koneksi basis data gagal.',
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
@@ -97,7 +96,7 @@ $resource_indonesian = array
     'Anda yakin ingin menghapus templat ini?',
     'Anda yakin ingin menghapus status ini?',
     'Anda yakin ingin menghapus ruas ini?',
-    'Anda yakin ingin menunda data ini?',
+    NULL,
     'Anda yakin ingin melanjutkan data ini?',
     'Anda yakin ingin menugaskan data ini?',
     /* 310 */
@@ -105,9 +104,7 @@ $resource_indonesian = array
     'Anda yakin ingin menghapus semua pendaftaran yang dipilih?',
     'Anda yakin ingin mengirim pengingat ini?',
     'Anda yakin ingin menghapus pengingat ini?',
-    'Anda yakin ingin menghapus kolom ini?',
     'Anda yakin ingin keluar?',
-    'Anda yakin ingin menghapus semua filter set yang dipilih?',
     'Anda yakin ingin menghapus data ini?',
 
     RES_SECTION_PROMPTS =>
@@ -446,26 +443,26 @@ $resource_indonesian = array
     'Komentar rahasia ditambahkan.',
     'ID induk',
     'keterpautan',
-    'tersembunyi',
+    NULL,
     'Tambahkan pemisah',
     'Pembatas CSV',
     'Penyandian CSV',
     'Akhiran baris CSV',
-    'Hasil pencarian (tanpa filter)',
+    NULL,
     /* 1310 */
     'Aktifkan filter',
     'Nonaktifkan filter',
-    'Filter set saat ini',
-    'Simpan filter set',
-    'Filter set',
-    'Nama filter set',
-    'Filter set "%1"',
-    'Tampilan saat ini',
-    'Simpan tampilan',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
     'Perbesar semua',
     /* 1320 */
     'Perkecil semua',
-    'Kembali ke standar',
+    NULL,
     'T/P',
     'PCRE untuk memeriksa nilai ruas',
     'Cari PCRE untuk mengubah nilai ruas',
@@ -476,7 +473,7 @@ $resource_indonesian = array
     'tampilkan yang aktif saja',
     /* 1330 */
     'Peristiwa',
-    'Tidak ada filter set',
+    NULL,
     'Akses pengguna tamu.',
     'Tidak ada.',
     'Global kelompok',
@@ -500,6 +497,17 @@ $resource_indonesian = array
     'Kompresi',
     'T/S',
     'Komentar',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    /* 1360 */
+    NULL,
+    NULL,
+    NULL,
 );
 
 ?>

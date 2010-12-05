@@ -78,7 +78,7 @@ define('RES_ALERT_VIEW_ALREADY_EXISTS_ID',          233);
 define('RES_ALERT_SPECIFY_SHORT_DESCRIPTION_ID',    234);
 define('RES_ALERT_UPLOAD_CANT_WRITE_ID',            235);
 define('RES_ALERT_UPLOAD_EXTENSION_ID',             236);
-define('RES_ALERT_UNUSED_237_ID',                   237);
+define('RES_ALERT_JAVASCRIPT_MUST_BE_ENABLED_ID',   237);
 define('RES_ALERT_DO_NOT_REPLY_ID',                 238);
 define('RES_ALERT_UNUSED_239_ID',                   239);
 define('RES_ALERT_UNUSED_240_ID',                   240);
@@ -89,7 +89,6 @@ define('RES_ALERT_UNKNOWN_USERNAME_ID',             244);
 define('RES_ALERT_UNKNOWN_AUTH_TYPE_ID',            245);
 define('RES_ALERT_UNKNOWN_ERROR_ID',                246);
 define('RES_ALERT_XML_PARSER_ERROR_ID',             247);
-define('RES_ALERT_UNUSED_248_ID',                   248);
 
 //------------------------------------------------------------------------------
 //  Confirmations.
@@ -117,10 +116,8 @@ define('RES_CONFIRM_DELETE_FILTERS_ID',             310);
 define('RES_CONFIRM_DELETE_SUBSCRIPTIONS_ID',       311);
 define('RES_CONFIRM_SEND_REMINDER_ID',              312);
 define('RES_CONFIRM_DELETE_REMINDER_ID',            313);
-define('RES_CONFIRM_UNUSED_314_ID',                 314);
-define('RES_CONFIRM_LOGOUT_ID',                     315);
-define('RES_CONFIRM_UNUSED_316_ID',                 316);
-define('RES_CONFIRM_DELETE_RECORD_ID',              317);
+define('RES_CONFIRM_LOGOUT_ID',                     314);
+define('RES_CONFIRM_DELETE_RECORD_ID',              315);
 /**#@-*/
 
 //------------------------------------------------------------------------------
