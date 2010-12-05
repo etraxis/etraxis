@@ -76,9 +76,9 @@ $resource_romanian = array
     'Urcarea fisierului pe server a fost oprita datorita extensiei.',
     'JavaScript trebuie activat.',
     'Acesta este un mesaj automat, te rog nu raspunde la el.',
-    'Inregistrarea-fiu specificata exista deja.',
+    NULL,
     /* 240 */
-    'Exista deja un filtru cu aceeasi denumire.',
+    NULL,
     'View-ul nu poate avea mai mult de %1 coloane.',
     'Valoarea "%1" nu respecta formatul prestabilit.',
     'Cont neautorizat.',
@@ -86,7 +86,6 @@ $resource_romanian = array
     'TIp de autehtificare necunoscut.',
     'Eroare necunoscuta.',
     'Eroare de parsare XML.',
-    'Eroare de conexiune la baza de date.',
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
@@ -97,7 +96,7 @@ $resource_romanian = array
     'Sunteti sigur ca doriti sa stergeti acest sablon?',
     'Sunteti sigur ca doriti sa stergeti aceasta stare?',
     'Sunteti sigur ca doriti sa stergeti acest camp?',
-    'Sunteti sigur ca vreti sa amanati aceasta inregistrare?',
+    NULL,
     'Sunteti sigur ca vreti sa reluati aceasta inregistrare?',
     'Sunteti sigur ca vreti sa asignati aceasta inregistrare?',
     /* 310 */
@@ -105,9 +104,7 @@ $resource_romanian = array
     'Sunteti sigur ca doriti sa stergeti toate subscrierile selectate?',
     'Sunteti sigur ca doriti sa trimiteti aceasta alarma?',
     'Sunteti sigur ca doriti sa stergeti aceasta alarma?',
-    'Sunteti sigur ca doriti sa stergeti aceasta coloana?',
     'Sunteti sigur ca doriti sa iesiti?',
-    'Sunteti sigur ca doriti sa stergeti toate seturile de filtre selectate?',
     'Sunteti sigur ca doriti sa stergeti aceasta inregistrare?',
 
     RES_SECTION_PROMPTS =>
@@ -446,26 +443,26 @@ $resource_romanian = array
     'Comentariul confidential a fost adaugat.',
     'ID parinte',
     'dependenta',
-    'ascuns',
+    NULL,
     'Adauga separator',
     'Delimitator CSV',
     'Codare CSV',
     'CSV delimitator de linie',
-    'Rezultatul cautarii(nefiltrat)',
+    NULL,
     /* 1310 */
     'Activeaza filtrele',
     'Dezactiveaza filterele',
-    'Filtrele setate curent',
-    'Salveaza setarile curente de filtre',
-    'Setarile filtrelor',
-    'Setarile numelui setului de filtre',
-    'Setarea filtrelor "%1"',
-    'Sablon curent',
-    'Salveaza sablon',
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL,
     'Arata toate detaliile',
     /* 1320 */
     'Ascunde toate detaliile',
-    'Revino la valori prestabilite',
+    NULL,
     'U/E',
     'PCRE to check field values',
     'Search PCRE to transform field values',
@@ -476,7 +473,7 @@ $resource_romanian = array
     'arata doar pe cele active',
     /* 1330 */
     'Eveniment',
-    'Niciun filtru selectat',
+    NULL,
     'Acces pt vizitatori',
     'Niciunul.',
     'Grupuri globale',
@@ -500,7 +497,6 @@ $resource_romanian = array
     'Comprimare',
     'U/S',
     'Comentarii',
-
     'Dimensiune',
     'Mod de prezentare',
     'CSV',
