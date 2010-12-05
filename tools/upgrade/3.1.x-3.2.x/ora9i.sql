@@ -31,6 +31,6 @@ where var_name = 'FEATURE_LEVEL';
 
 /*------------------------------------------------------------------------------------------------*/
 
-alter table tbl_fields add description varchar2 (1000) null;
+alter table tbl_fields add description nvarchar2 (1000) null;
 
 /*------------------------------------------------------------------------------------------------*/
