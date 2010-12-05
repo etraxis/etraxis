@@ -71,7 +71,7 @@ $resource_spanish = array
     'Ya existe un Recordatorio con ese nombre.',
     'El recordatorio fue correctamente enviado.',
     'Ya existe una Vista con ese nombre.',
-    'Ya existe una columna con ese nombre.',
+    NULL,
     'Falla al escribir el archivo al disco.',
     'Se detuvo la carga del archivo por la extensión.',
     'Debe tener habilitado JavaScript.',

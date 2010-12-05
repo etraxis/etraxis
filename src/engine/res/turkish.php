@@ -71,7 +71,7 @@ $resource_turkish = array
     'Girilen adda bir hatırlatıcı zaten var.',
     'Hatırlatıcı başarıyla gönderildi.',
     'Girilen adda bir görünüm zaten var.',
-    'Girilen adda bir sütun zaten var.',
+    NULL,
     'Dosyanın diske yazımı başarısız oldu.',
     'Dosya yüklemesi bir uzantı tarafından durduruldu.',
     'JavaScript etkin olmalıdır.',

@@ -71,7 +71,7 @@ $resource_czech = array
     'Upomínka se zadaným jménem již existuje.',
     'Připomenutí úspěšně odesláno.',
     'Pohled se zadaným jménem již existuje.',
-    'Sloupec se zadaným jménem již existuje.',
+    NULL,
     'Nepodařilo se zapsat soubor na disk.',
     'Nahrání souboru zastaveno rozšířením.',
     'Musí být povolena podpora JavaScriptu.',

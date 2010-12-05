@@ -71,7 +71,7 @@ $resource_romanian = array
     'Reminder-ul cu numele introdus exista deja.',
     'Reminder-ul a fost trimis cu succes.',
     'Arata ce nume introduse exista deja.',
-    'Numele coloanelor introduse ce exista deja.',
+    NULL,
     'Eroare la scrierea fisierului pe disk.',
     'Urcarea fisierului pe server a fost oprita datorita extensiei.',
     'JavaScript trebuie activat.',

@@ -71,7 +71,7 @@ $resource_german = array
     'Eine Erinnerung mit diesem Namen existiert bereits.',
     'Die Erinnerung ist erfolgreich zugestellt worden.',
     'Eine Ansicht mit diesem Namen existiert bereits.',
-    'Eine Spalte mit diesem Namen existiert bereits.',
+    NULL,
     'Datei konnte nicht geschrieben werden.',
     'Das Hochladen wurde von einer Erweiterung beendet.',
     'JavaScript muss aktiviert sein.',

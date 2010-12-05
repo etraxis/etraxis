@@ -71,7 +71,7 @@ $resource_dutch = array
     'Herinnering met ingevoerde naam bestaat reeds.',
     'Herinnering werd succesvol verzonden.',
     'Weergave met ingevoerde naam bestaat reeds.',
-    'Kolom met ingevoerde naam bestaat reeds.',
+    NULL,
     'Het is niet gelukt het bestand naar de harde schijf weg te schrijven.',
     'Bestandsupload is gestopt door de extensie.',
     'JavaScript moet ingeschakeld zijn.',

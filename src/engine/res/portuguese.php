@@ -71,7 +71,7 @@ $resource_portuguese = array
     'O nome do lembrete utilizado já existe.',
     'Lembrete enviado com sucesso.',
     'O nome da visualização utilizado já existe.',
-    'O nome da coluna utilizado já existe.',
+    NULL,
     'Falha ao salvar arquivo no disco.',
     'Upload do arquivo parado por extensão.',
     'O JavaScript deve estar habilitado.',
