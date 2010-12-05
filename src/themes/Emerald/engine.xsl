@@ -434,11 +434,6 @@
         <xsl:value-of select="@color"/>
     </xsl:attribute>
     <xsl:if test="boolean(@url)">
-        <xsl:attribute name="onclick">
-            <xsl:text>window.open('</xsl:text>
-            <xsl:value-of select="@url"/>
-            <xsl:text>','_parent');</xsl:text>
-        </xsl:attribute>
         <xsl:attribute name="onmouseover">
             <xsl:text>this.className='hrow</xsl:text>
             <xsl:value-of select="@color"/>
@@ -493,7 +488,7 @@
         <xsl:text>nowrap</xsl:text>
         </xsl:attribute>
     </xsl:if>
-    <p>
+    <a>
     <xsl:attribute name="class">
     <xsl:choose>
         <xsl:when test="boolean(@align)">
@@ -504,7 +499,6 @@
         </xsl:otherwise>
     </xsl:choose>
     </xsl:attribute>
-    <a>
     <xsl:if test="boolean(../@url)">
         <xsl:attribute name="href">
         <xsl:value-of select="../@url"/>
@@ -519,7 +513,6 @@
         </xsl:otherwise>
     </xsl:choose>
     </a>
-    </p>
     </td>
 </xsl:template>
 

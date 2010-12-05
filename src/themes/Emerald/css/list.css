@@ -127,15 +127,23 @@ td.check {
 width: 15px;
 }
 
-p.center {
+table.list a.center,
+table.list a.left,
+table.list a.right {
+  display: block;
+  margin: 0px;
+  padding: 1px 5px;
+}
+
+a.center {
   text-align: center;
 }
 
-p.left {
+a.left {
   text-align: left;
 }
 
-p.right {
+a.right {
   text-align: right;
 }
 
