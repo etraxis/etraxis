@@ -311,28 +311,36 @@ function generate_message ($record, $event, $locale = NULL)
         '<hr/>' .
         '<table border="0" cellspacing="0" cellpadding="5">' .
         '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_PROJECT_ID, $locale) . ':</b></td>' .
-        '<td>'    . ustr2html($record['project_name']) . '</td>' .
+        '<td><b>' . get_html_resource(RES_ID_ID, $locale) . ':</b></td>' .
+        '<td>'    . record_id($record['record_id'], $record['template_prefix']) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_TEMPLATE_ID, $locale) . ':</b></td>' .
-        '<td>'    . ustr2html($record['template_name']) . '</td>' .
+        '<td><b>' . get_html_resource(RES_SUBJECT_ID, $locale) . ':</b></td>' .
+        '<td>'    . update_references($record['subject'], BBCODE_MINIMUM) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
         '<td><b>' . get_html_resource(RES_STATE_ID, $locale) . ':</b></td>' .
         '<td>'    . ustr2html($record['state_name']) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_AGE_ID, $locale) . ':</b></td>' .
-        '<td>'    . get_record_age($record) . '</td>' .
+        '<td><b>' . get_html_resource(RES_RESPONSIBLE_ID, $locale) . ':</b></td>' .
+        '<td>'    . (is_null($record['username']) ? get_html_resource(RES_NONE_ID, $locale) : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username'])))) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
         '<td><b>' . get_html_resource(RES_AUTHOR_ID, $locale) . ':</b></td>' .
         '<td>'  . ustr2html(sprintf('%s (%s)', $record['author_fullname'], account_get_username($record['author_username']))) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_RESPONSIBLE_ID, $locale) . ':</b></td>' .
-        '<td>'    . (is_null($record['username']) ? get_html_resource(RES_NONE_ID, $locale) : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username'])))) . '</td>' .
+        '<td><b>' . get_html_resource(RES_AGE_ID, $locale) . ':</b></td>' .
+        '<td>'    . get_record_last_event($record) . '/' . get_record_age($record) . '</td>' .
+        '</tr>' .
+        '<tr valign="top">' .
+        '<td><b>' . get_html_resource(RES_PROJECT_ID, $locale) . ':</b></td>' .
+        '<td>'    . ustr2html($record['project_name']) . '</td>' .
+        '</tr>' .
+        '<tr valign="top">' .
+        '<td><b>' . get_html_resource(RES_TEMPLATE_ID, $locale) . ':</b></td>' .
+        '<td>'    . ustr2html($record['template_name']) . '</td>' .
         '</tr>' .
         '<tr valign="top">' .
         '<td><b>' . get_html_resource(RES_EVENT_ID, $locale) . ':</b></td>' .
