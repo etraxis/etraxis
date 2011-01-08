@@ -223,7 +223,7 @@ if ($php_version == PHP_V5)
 <table class="form">
 <?php
 
-$extensions = array('gd', 'iconv', 'mbstring', 'xsl');
+$extensions = array('iconv', 'mbstring', 'xsl');
 
 switch (DATABASE_DRIVER)
 {
