@@ -416,7 +416,7 @@ while (($event = $events->fetch()))
         if ($attachment)
         {
             $xml .= '<text label="' . get_html_resource(RES_ATTACHMENT_NAME_ID) . '">'
-                  . '<url address="download.php?id=' . $attachment['attachment_id'] . '">' . $attachment['attachment_name'] . '</url>'
+                  . '<url address="download.php?id=' . $attachment['attachment_id'] . '">' . ustr2html($attachment['attachment_name']) . '</url>'
                   . '</text>';
 
             $xml .= '<text label="' . get_html_resource(RES_SIZE_ID) . '">'
