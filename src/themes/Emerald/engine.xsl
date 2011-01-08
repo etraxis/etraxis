@@ -1371,14 +1371,6 @@
     </blockquote>
 </xsl:template>
 
-<xsl:template match="chart">
-    <iframe class="chart">
-    <xsl:attribute name="src">
-    <xsl:value-of select="."/>
-    </xsl:attribute>
-    </iframe>
-</xsl:template>
-
 <xsl:template match="record">
     <a>
     <xsl:attribute name="href">

@@ -213,6 +213,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
         $header .= '>';
 
         $header .= '<css>../themes/css.php?name=jquery.ui.css</css>'
+                 . '<css>../themes/css.php?name=jquery.jqplot.css</css>'
                  . '<css>../themes/css.php?name=etraxis.css</css>'
                  . '<css>../themes/css.php?name=list.css</css>';
 
