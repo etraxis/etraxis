@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-2-3 (2011-01-08)
+
+    Issue 196: Remaster chart generation with some 3rd party library.
+
+Bug fixes integrated in MAIN_3-2-3 (2011-01-08)
+
+    Issue 190: IE ignores MIME type of downloading attachment
+    Issue 199: Variable $field_description was used before it was defined.
+    Issue 201: Attachment corrupts issue record
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-2-2 (2010-12-05)
 
     Issue 187: GUI: record - reordering general information
