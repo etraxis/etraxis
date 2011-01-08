@@ -64,8 +64,8 @@ $filename = stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') === FALSE
 
 header('Pragma: private');
 header('Cache-Control: private, must-revalidate');
-header('Content-type: ' . $attachment['attachment_type']);
-header('Content-Disposition: attachment; filename=' . $filename);
+header('Content-Type: ' . $attachment['attachment_type']);
+header('Content-Disposition: attachment; filename="' . $filename . '"');
 
 if (extension_loaded('zlib'))
 {
