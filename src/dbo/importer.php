@@ -603,7 +603,7 @@ class CImporter
                                  $is_required,
                                  $add_separator,
                                  $guest_access,
-                                 $field_description,
+                                 NULL,
                                  $regex_check,
                                  $regex_search,
                                  $regex_replace,
