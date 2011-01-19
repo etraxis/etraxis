@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -583,6 +583,14 @@ function account_register_ldapuser ($username, $passwd = NULL)
     {
         debug_write_log(DEBUG_NOTICE, 'Active Directory account is found.');
 
+        // Prepare list of LDAP admins
+        $ldap_admins = mb_split(',', ustrtolower(LDAP_ADMINS));
+
+        foreach ($ldap_admins as $key => $ldap_admin)
+        {
+            $ldap_admins[$key] = trim($ldap_admin);
+        }
+
         // Check whether this LDAP user is already registered in eTraxis database.
         $rs = dal_query('accounts/fndk.sql', ustrtolower($username));
 
@@ -597,7 +605,7 @@ function account_register_ldapuser ($username, $passwd = NULL)
                            $userinfo[1],
                            '',
                            'Active Directory account',
-                           in_array(ustrtolower($username), mb_split(',', ustrtolower(LDAP_ADMINS))),
+                           in_array(ustrtolower($username), $ldap_admins),
                            0, LANG_DEFAULT, TRUE);
 
             $rs = dal_query('accounts/fndk.sql', ustrtolower($username));
@@ -616,7 +624,7 @@ function account_register_ldapuser ($username, $passwd = NULL)
                            $userinfo[0],
                            $userinfo[1],
                            'Active Directory account',
-                           in_array(ustrtolower($username), mb_split(',', ustrtolower(LDAP_ADMINS))),
+                           in_array(ustrtolower($username), $ldap_admins),
                            0, 0, TRUE);
         }
     }
