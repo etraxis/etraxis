@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-2-4 (2011-01-19)
+
+    Issue 202: etraxis doesn't ignore spaces in ldap admins list
+    Issue 203: Reassigning "assigned" state - wrong default value in "date" field
+    Issue 204: File Format error when opening etraxis.csv in Excel for OS X
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-2-3 (2011-01-08)
 
     Issue 196: Remaster chart generation with some 3rd party library.
