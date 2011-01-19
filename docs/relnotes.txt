@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-2-3
-Release date: 2011-01-08
-Release size: 48002
+Release tag:  MAIN_3-2-4
+Release date: 2011-01-19
+Release size: 44702
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,37 +30,11 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/importer.php
-[M] src/diag/index.php
-[D] src/engine/charts.php
-[M] src/engine/engine.php
-[M] src/engine/locale.php
+[M] src/dbo/accounts.php
+[M] src/engine/utility.php
 [M] src/engine/xml.php
-[D] src/fonts
-[M] src/projects/metrics.php
-[D] src/projects/opened.php
-[M] src/records/download.php
-[M] src/records/view.php
-[A] src/scripts/excanvas.min.js
-[A] src/scripts/jqplot.barRenderer.min.js
-[A] src/scripts/jqplot.canvasAxisLabelRenderer.min.js
-[A] src/scripts/jqplot.canvasAxisTickRenderer.min.js
-[A] src/scripts/jqplot.canvasTextRenderer.min.js
-[A] src/scripts/jqplot.categoryAxisRenderer.min.js
-[A] src/scripts/jqplot.cursor.min.js
-[A] src/scripts/jqplot.dateAxisRenderer.min.js
-[A] src/scripts/jqplot.dragable.min.js
-[A] src/scripts/jqplot.highlighter.min.js
-[A] src/scripts/jqplot.logAxisRenderer.min.js
-[A] src/scripts/jqplot.mekkoAxisRenderer.min.js
-[A] src/scripts/jqplot.mekkoRenderer.min.js
-[A] src/scripts/jqplot.ohlcRenderer.min.js
-[A] src/scripts/jqplot.pieRenderer.min.js
-[A] src/scripts/jqplot.pointLabels.min.js
-[A] src/scripts/jqplot.trendline.min.js
-[A] src/scripts/jquery.jqplot.min.js
-[A] src/themes/Emerald/css/jquery.jqplot.css
-[M] src/themes/Emerald/engine.xsl
+[M] src/records/export.php
+[M] src/records/state.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -144,25 +118,27 @@ Issue 195: Quotes in comments
 Issue 197: Remaster some UI elements (tabs, buttons, modal dialogs).
 Issue 198: New "Mars" theme.
 Issue 200: Automatically email notification and assign issue to group or individual based on rules
+Issue 206: oldstile add comment buttons
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Issue 94: Values of restricted fields are still accessible via custom view.
+Issue 205: export-import issue
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 196: Remaster chart generation with some 3rd party library.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 190: IE ignores MIME type of downloading attachment
-Issue 199: Variable $field_description was used before it was defined.
-Issue 201: Attachment corrupts issue record
+Issue 202: etraxis doesn't ignore spaces in ldap admins list
+Issue 203: Reassigning "assigned" state - wrong default value in "date" field
+Issue 204: File Format error when opening etraxis.csv in Excel for OS X
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
