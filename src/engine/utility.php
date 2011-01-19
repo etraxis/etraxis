@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -333,14 +333,7 @@ function ustr2csv ($str, $delimiter = ',', $enclosure = '"')
 {
     $str = ustr_replace($enclosure, $enclosure . $enclosure, $str);
 
-    if (ustrpos($str, $enclosure) !== FALSE ||
-        ustrpos($str, $delimiter) !== FALSE ||
-        ustrpos($str, "\n")       !== FALSE)
-    {
-        $str = $enclosure . $str . $enclosure;
-    }
-
-    return $str;
+    return $enclosure . $str . $enclosure;
 }
 
 /**

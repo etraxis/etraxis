@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2006-2010  Artem Rodygin
+//  Copyright (C) 2006-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -115,11 +115,11 @@ while (($row = $list->fetch()))
                 break;
 
             case COLUMN_TYPE_LAST_EVENT:
-                array_push($data, ustr2csv(get_record_last_event($row), $_SESSION[VAR_DELIMITER]));
+                array_push($data, get_record_last_event($row));
                 break;
 
             case COLUMN_TYPE_AGE:
-                array_push($data, ustr2csv(get_record_age($row), $_SESSION[VAR_DELIMITER]));
+                array_push($data, get_record_age($row));
                 break;
 
             case COLUMN_TYPE_CREATION_DATE:
@@ -139,9 +139,12 @@ while (($row = $list->fetch()))
                 break;
 
             case COLUMN_TYPE_NUMBER:
+            case COLUMN_TYPE_LIST_NUMBER:
+                array_push($data, $row['value' . $column['column_id']]);
+                break;
+
             case COLUMN_TYPE_STRING:
             case COLUMN_TYPE_MULTILINED:
-            case COLUMN_TYPE_LIST_NUMBER:
             case COLUMN_TYPE_LIST_STRING:
                 array_push($data, ustr2csv($row['value' . $column['column_id']], $_SESSION[VAR_DELIMITER]));
                 break;
