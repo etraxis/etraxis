@@ -268,17 +268,32 @@ else
 
             if ($rsv->rows != 0)
             {
-                $value = value_find($row['field_type'], $rsv->fetch('value_id'));
+                $value = $rsv->fetch('value_id');
             }
             elseif (!is_null($row['value_id']))
             {
-                $value = value_find($row['field_type'], ($row['field_type'] == FIELD_TYPE_DATE ? date_offset(time(), $row['value_id']) : $row['value_id']));
+                $value = $row['value_id'];
             }
         }
         elseif (!is_null($row['value_id']))
         {
-            $value = value_find($row['field_type'], ($row['field_type'] == FIELD_TYPE_DATE ? date_offset(time(), $row['value_id']) : $row['value_id']));
+            $value = $row['value_id'];
         }
+
+        // adjust for current date the value of date fields
+
+        if ($row['field_type'] == FIELD_TYPE_DATE)
+        {
+            $today = time();
+
+            $row['param1'] = date_offset($today, $row['param1']);
+            $row['param2'] = date_offset($today, $row['param2']);
+
+            $value = ustr2int($value, $row['param1'], $row['param2']);
+        }
+
+        // convert to "human reading" format
+        $value = value_find($row['field_type'], $value);
 
         if ($row['is_required'])
         {
@@ -390,11 +405,6 @@ else
                 break;
 
             case FIELD_TYPE_DATE:
-
-                $today = time();
-
-                $row['param1'] = date_offset($today, $row['param1']);
-                $row['param2'] = date_offset($today, $row['param2']);
 
                 $xml .= '<label>' . sprintf('%s (%s)', ustr2html($row['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>';
 
