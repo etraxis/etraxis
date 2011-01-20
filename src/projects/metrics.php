@@ -140,7 +140,7 @@ $xml .= '<script type="text/javascript" src="../scripts/get.php?name=jquery.jqpl
       . '<script type="text/javascript" src="../scripts/get.php?name=jqplot.cursor.min.js"></script>'
       . '<script type="text/javascript" src="../scripts/get.php?name=jqplot.dateAxisRenderer.min.js"></script>'
       . '<script type="text/javascript" src="../scripts/get.php?name=jqplot.highlighter.min.js"></script>'
-      . '<scriptonreadyitem>'
+      . '<script>'
       . 'dataOpened  = [];'
       . 'dataCreated = [];'
       . 'dataClosed  = [];';
@@ -198,7 +198,7 @@ $xml .= <<<jqPlot
 
 jqPlot;
 
-$xml .= '</scriptonreadyitem>';
+$xml .= '</script>';
 
 echo(xml2html($xml));
 
