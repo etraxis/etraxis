@@ -65,6 +65,4 @@ else
     record_subscribe($record['record_id'], $_SESSION[VAR_USERID], $_SESSION[VAR_USERID]);
 }
 
-header('Location: view.php?id=' . $record['record_id']);
-
 ?>

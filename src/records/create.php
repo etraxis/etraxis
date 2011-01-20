@@ -263,76 +263,111 @@ elseif (try_request('submitted') == 'mainform')
                 subrecord_add($parent['record_id'], $record_id, $is_dependency);
             }
 
+            /* temporarily disabled
             if (isset($_REQUEST['attachname']) && ATTACHMENTS_ENABLED)
             {
                 $attachname = ustrcut($_REQUEST['attachname'], MAX_ATTACHMENT_NAME);
                 attachment_add($record_id, $attachname, $_FILES['attachfile']);
             }
+            */
 
             record_read($record_id);
 
-            header($parent ? 'Location: subrecords.php?id=' . $parent['record_id']
-                           : 'Location: view.php?id=' . $record_id);
-            exit;
+            if ($parent)
+            {
+                $rs = dal_query('depends/list.sql', $parent['record_id']);
+                echo(sprintf('%s (%u)', get_html_resource(RES_SUBRECORDS_ID), $rs->rows));
+            }
+            else
+            {
+                echo($record_id);
+            }
         }
     }
 
-    $form  = 'mainform';
-    $focus = '.subject';
-    $step  = 3;
-}
-
-// generate breadcrumbs
-
-$xml = '<breadcrumbs>';
-
-if ($id != 0)
-{
-    $xml .= '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-          . '<breadcrumb url="view.php?id='   . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</breadcrumb>'
-          . '<breadcrumb url="create.php?id=' . $id . '">' . get_html_resource(RES_CLONE_ID) . '</breadcrumb>';
-}
-elseif ($parent)
-{
-    $xml .= '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-          . '<breadcrumb url="view.php?id='       . $parent['record_id'] . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($parent['record_id'], $parent['template_prefix'])) . '</breadcrumb>'
-          . '<breadcrumb url="create.php?parent=' . $parent['record_id'] . '">' . get_html_resource(RES_CREATE_SUBRECORD_ID) . '</breadcrumb>';
-}
-else
-{
-    $xml .= '<breadcrumb url="create.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>';
-}
-
-$xml .= '</breadcrumbs>';
-
-// generate tabs
-
-if ($id == 0 && !$parent)
-{
-    $xml .= '<tabs>'
-          . '<tab url="index.php?search=">' . get_html_resource(RES_RECORDS_ID) . '</tab>';
-
-    if (ustrlen($_SESSION[VAR_SEARCH_TEXT]) != 0)
+    switch ($error)
     {
-        $xml .= '<tab url="index.php?search=' . urlencode($_SESSION[VAR_SEARCH_TEXT]) . '">'
-              . get_html_resource(RES_SEARCH_RESULTS_ID)
-              . '</tab>';
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_INVALID_INTEGER_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            break;
+
+        case ERROR_INVALID_DATE_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            break;
+
+        case ERROR_INVALID_TIME_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            break;
+
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+        case ERROR_DATE_VALUE_OUT_OF_RANGE:
+        case ERROR_TIME_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
+            unset($_SESSION['FIELD_NAME']);
+            unset($_SESSION['MIN_FIELD_INTEGER']);
+            unset($_SESSION['MAX_FIELD_INTEGER']);
+            break;
+
+        case ERROR_RECORD_NOT_FOUND:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
+            break;
+
+        case ERROR_VALUE_FAILS_REGEX_CHECK:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
+            unset($_SESSION['FIELD_NAME']);
+            unset($_SESSION['FIELD_VALUE']);
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
-    if (get_user_level() != USER_LEVEL_GUEST)
-    {
-        if (can_record_be_created())
-        {
-            $xml .= '<tab url="create.php" active="true">' . get_html_resource(RES_CREATE_ID) . '</tab>';
-        }
-    }
+    exit;
 }
+
+// local JS functions
+
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function cloneSuccess (data)
+{
+    var index = $("#tabs").tabs("option", "selected") + 1;
+    $("[href=#ui-tabs-" + index + "]").html(data);
+
+    closeModal();
+    reloadTab();
+}
+
+function createSuccess (data)
+{
+    closeModal();
+    window.open("view.php?id=" + data, "_parent");
+}
+
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate general information
 
-$xml .= '<content>'
-      . '<form name="' . $form . '" action="create.php' . ($id == 0 ? ($parent ? '?parent=' . $parent['record_id'] : NULL) : '?id=' . $id) . '" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">'
-      . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">';
+$xml .= '<form name="' . $form . '" action="create.php' . ($id == 0 ? ($parent ? '?parent=' . $parent['record_id'] : NULL) : '?id=' . $id) . '" success=' . ($parent ? '"cloneSuccess"' : '"createSuccess"') . ' error="createError">'
+      . '<group>';
 
 if ($step == 1)
 {
@@ -354,8 +389,6 @@ if ($step == 1)
     if ($rs->rows == 1)
     {
         debug_write_log(DEBUG_NOTICE, 'One project only is found.');
-        header('Location: create.php?submitted=projectform&project=' . $rs->fetch('project_id') . ($parent ? '&parent=' . $parent['record_id'] : NULL));
-        exit;
     }
 
     while (($row = $rs->fetch()))
@@ -399,8 +432,6 @@ else
         if ($rs->rows == 1)
         {
             debug_write_log(DEBUG_NOTICE, 'One template only is found.');
-            header('Location: create.php?submitted=templateform&project=' . $project_id . '&template=' . $rs->fetch('template_id') . ($parent ? '&parent=' . $parent['record_id'] : NULL));
-            exit;
         }
 
         while (($row = $rs->fetch()))
@@ -476,9 +507,9 @@ $xml .= '</group>';
 
 // go through the list of all fields of initial state
 
-$flag    = FALSE;
-$onready = NULL;
-$notes   = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
+$flag   = FALSE;
+$script = NULL;
+$notes  = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
 
 if ($step == 3)
 {
@@ -558,7 +589,7 @@ if ($step == 3)
 
                     $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
 
-                    $xml .= '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+                    $xml .= '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_MULTILINED . '">'
                           . ustr2html(try_request($name, $value))
                           . '</textbox>';
 
@@ -637,9 +668,9 @@ if ($step == 3)
                             . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), get_date($row['param1']), get_date($row['param2']))
                             . '</note>';
 
-                    $onready .= '<scriptonreadyitem>'
-                              . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-                              . '</scriptonreadyitem>';
+                    $script .= '<onready>'
+                             . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+                             . '</onready>';
 
                     break;
 
@@ -682,6 +713,7 @@ if ($step == 3)
 
     $permissions = record_get_permissions($template_id, $_SESSION[VAR_USERID], 0);
 
+    /* temporarily disabled
     if (get_user_level() != USER_LEVEL_GUEST &&
         ($permissions & PERMIT_ATTACH_FILES) &&
         ATTACHMENTS_ENABLED)
@@ -699,6 +731,7 @@ if ($step == 3)
 
         $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>';
     }
+    */
 }
 
 if ($flag)
@@ -706,77 +739,12 @@ if ($flag)
     $notes .= '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>';
 }
 
-$xml .= '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>';
-
-if ($id != 0)
-{
-    $xml .= '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>';
-}
-elseif ($parent)
-{
-    $xml .= '<button url="subrecords.php?id=' . $parent['record_id'] . '">' . get_html_resource(RES_CANCEL_ID) . '</button>';
-}
-
 $xml .= $notes
       . '</form>'
-      . '</content>';
+      . '<script>'
+      . $script
+      . '</script>';
 
-if ($id == 0 && !$parent)
-{
-    $xml .= '</tabs>';
-}
-
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_INTEGER_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_DATE_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_TIME_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-    case ERROR_DATE_VALUE_OUT_OF_RANGE:
-    case ERROR_TIME_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        unset($_SESSION['FIELD_NAME']);
-        unset($_SESSION['MIN_FIELD_INTEGER']);
-        unset($_SESSION['MAX_FIELD_INTEGER']);
-        break;
-    case ERROR_RECORD_NOT_FOUND:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_VALUE_FAILS_REGEX_CHECK:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        unset($_SESSION['FIELD_NAME']);
-        unset($_SESSION['FIELD_VALUE']);
-        break;
-    default: ;  // nop
-}
-
-$xml .= $onready;
-
-echo(xml2html($xml, ustrprocess(get_html_resource(RES_NEW_RECORD_ID), $step, 3)));
+echo(xml2html($xml));
 
 ?>

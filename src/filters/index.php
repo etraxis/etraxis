@@ -29,50 +29,9 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/filters.php');
 /**#@-*/
 
 init_page();
-
-// filters list is submitted
-
-if (try_request('submitted') == 'enable'  ||
-    try_request('submitted') == 'disable' ||
-    try_request('submitted') == 'delete')
-{
-    $filters = array();
-
-    foreach ($_REQUEST as $request)
-    {
-        if (substr($request, 0, 6) == 'filter')
-        {
-            array_push($filters, intval(substr($request, 6)));
-        }
-    }
-
-    if (try_request('submitted') == 'enable')
-    {
-        debug_write_log(DEBUG_NOTICE, 'Enable selected filters.');
-        filters_set($filters);
-    }
-    elseif (try_request('submitted') == 'disable')
-    {
-        debug_write_log(DEBUG_NOTICE, 'Disable selected filters.');
-        filters_clear($filters);
-    }
-    elseif (try_request('submitted') == 'delete')
-    {
-        debug_write_log(DEBUG_NOTICE, 'Delete selected filters.');
-        filters_delete($filters);
-    }
-}
-
-// get list of filters
-
-$sort = $page = NULL;
-$list = filters_list($_SESSION[VAR_USERID], FALSE, $sort, $page);
-
-$from = $to = 0;
 
 // generate breadcrumbs and tabs
 
@@ -80,71 +39,8 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_FILTERS_ID) . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="index.php" active="true">' . get_html_resource(RES_FILTERS_ID) . '</tab>'
-     . '<tab url="create.php">'              . get_html_resource(RES_CREATE_ID)  . '</tab>'
-     . '<content>';
-
-// generate list of filters
-
-if ($list->rows != 0)
-{
-    $columns = array
-    (
-        RES_FILTER_NAME_ID,
-        RES_OWNER_ID,
-    );
-
-    $bookmarks = gen_xml_bookmarks($page, $list->rows, $from, $to);
-
-    $xml .= '<button action="document.filters.submitted.value = \'enable\';  document.filters.submit()">' . get_html_resource(RES_ENABLE_ID)  . '</button>'
-          . '<button action="document.filters.submitted.value = \'disable\'; document.filters.submit()">' . get_html_resource(RES_DISABLE_ID) . '</button>'
-          . HTML_SPLITTER
-          . '<button action="document.filters.submitted.value = \\\'delete\\\'; document.filters.submit()" prompt="' . get_js_resource(RES_CONFIRM_DELETE_FILTERS_ID) . '">' . get_html_resource(RES_DELETE_ID) . '</button>'
-          . '<form name="filters" action="index.php">'
-          . '<list>'
-          . '<hrow>'
-          . '<hcell checkboxes="true"/>';
-
-    for ($i = 1; $i <= count($columns); $i++)
-    {
-        $smode = ($sort == $i ? ($i + count($columns)) : $i);
-
-        $xml .= "<hcell url=\"index.php?sort={$smode}&amp;page={$page}\">"
-              . get_html_resource($columns[$i - 1])
-              . '</hcell>';
-    }
-
-    $xml .= '</hrow>';
-
-    $list->seek($from - 1);
-
-    for ($i = $from; $i <= $to; $i++)
-    {
-        $row = $list->fetch();
-
-        if (is_null($row['fullname']))
-        {
-            $row['username'] = $_SESSION[VAR_USERNAME];
-            $row['fullname'] = $_SESSION[VAR_FULLNAME];
-        }
-
-        $color = $row['active'] ? NULL : 'grey';
-
-        $xml .= ($row['shared']
-                    ? "<row name=\"filter{$row['filter_id']}\" color=\"{$color}\">"
-                    : "<row name=\"filter{$row['filter_id']}\" url=\"view.php?id={$row['filter_id']}\" color=\"{$color}\">")
-              . '<cell>' . ustr2html($row['filter_name']) . '</cell>'
-              . '<cell>' . ustr2html(sprintf('%s (%s)', $row['fullname'], $row['username'])) . '</cell>'
-              . '</row>';
-    }
-
-    $xml .= '</list>'
-          . '</form>'
-          . $bookmarks;
-}
-
-$xml .= '</content>'
-      . '</tabs>';
+     . '<tab url="list.php">' . get_html_resource(RES_FILTERS_ID) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, get_html_resource(RES_FILTERS_ID)));
 

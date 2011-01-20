@@ -136,6 +136,13 @@ if (try_request('submitted') == 'othersform')
             }
         }
     }
+
+    if (LDAP_ENABLED && !LDAP_ENUMERATION)
+    {
+        $_SESSION[VAR_LDAP_ENUMERATION] = $accounts;
+    }
+
+    exit;
 }
 elseif (try_request('submitted') == 'membersform')
 {
@@ -152,44 +159,26 @@ elseif (try_request('submitted') == 'membersform')
     {
         debug_write_log(DEBUG_NOTICE, 'No accounts are selected.');
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
-
-    $accounts = NULL;
 }
-
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_GROUP_X_ID), ustr2html($group['group_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $pid)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="gindex.php?id=' . $pid . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="gview.php?pid='    . $pid . '&amp;id=' . $id . '"><i>'            . ustr2html($group['group_name'])       . '</i></tab>'
-     . '<tab url="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '" active="true">' . get_html_resource(RES_MEMBERSHIP_ID)  . '</tab>'
-     . '<tab url="gperms.php?pid='   . $pid . '&amp;id=' . $id . '">'               . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
-     . '<content>'
-     . '<dual>';
 
 // generate left side
 
-$xml .= '<dualleft>'
-      . '<form name="othersform" action="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">';
+$xml = '<dual>'
+     . '<dualleft>'
+     . '<form name="othersform" action="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '" success="reloadTab">'
+     . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">';
 
 if (LDAP_ENABLED && !LDAP_ENUMERATION)
 {
     $xml .= '<control name="accounts">'
           . '<textbox rows="10" maxlen="1000">'
-          . ustr2html($accounts)
+          . $_SESSION[VAR_LDAP_ENUMERATION]
           . '</textbox>'
           . '</control>';
 }
@@ -218,7 +207,7 @@ $xml .= '</group>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="membersform" action="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '">'
+      . '<form name="membersform" action="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_MEMBERS_ID) . '">'
       . '<control name="accounts[]">'
       . '<listbox size="10">';
@@ -240,12 +229,10 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="document.othersform.submit()">%gt;%gt;</button>'
-      . '<button action="document.membersform.submit()">%lt;%lt;</button>'
-      . '</dual>'
-      . '</content>'
-      . '</tabs>';
+$xml .= '<button action="$(\'#othersform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#membersform\').submit()">%lt;%lt;</button>'
+      . '</dual>';
 
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

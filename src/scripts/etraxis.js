@@ -30,15 +30,21 @@ function logout ()
     window.open("../logon/logout.php", "_parent");
 }
 
+//------------------------------------------------------------------------------
+
 function clear_topline (element, prompt)
 {
     if (element.value == prompt) element.value = '';
 }
 
+//------------------------------------------------------------------------------
+
 function reset_topline (element, prompt)
 {
     if (element.value == '') element.value = prompt;
 }
+
+//------------------------------------------------------------------------------
 
 function toggle_menu (id)
 {
@@ -57,6 +63,8 @@ function toggle_menu (id)
     }
 }
 
+//------------------------------------------------------------------------------
+
 function toggle_group (id)
 {
     var div    = document.getElementById('div'    + id);
@@ -74,6 +82,8 @@ function toggle_group (id)
     }
 }
 
+//------------------------------------------------------------------------------
+
 function onTextBox (id, maxlen, resizeable, minrows)
 {
     var textbox = document.getElementById(id);
@@ -87,67 +97,167 @@ function onTextBox (id, maxlen, resizeable, minrows)
     {
         var result = $.countLines('#' + id);
 
-        if ((result.visual > 2) && (result.visual != textbox.rows))
+        if ((result.visual > minrows) && (result.visual != textbox.rows))
         {
             textbox.rows = (result.visual >= minrows) ? result.visual : minrows;
         }
     }
 }
 
-function jqAlert (title, message, btnText)
+//------------------------------------------------------------------------------
+
+function reloadTab (url)
 {
+    var selected = $("#tabs").tabs("option", "selected");
+
+    if (url)
+    {
+        $("#tabs").tabs("url", selected, url);
+    }
+
+    $("#tabs").tabs("load", selected);
+}
+
+//------------------------------------------------------------------------------
+
+function closeModal ()
+{
+    $("#modaldlg").dialog("destroy");
+}
+
+//------------------------------------------------------------------------------
+
+function jqAlert (title, message, btnClose, funcClose)
+{
+    var buttons = {};
+
+    buttons[btnClose] = function () {
+        $(this).dialog("close");
+
+        if (funcClose)
+        {
+            eval(funcClose);
+        }
+    }
+
     $("#messagebox").dialog({
+        buttons: buttons,
+        position: "center",
         title: title.toUpperCase()
     });
 
     $("#messagebox").html(message);
-
-    var buttons = {};
-
-    buttons[btnText] = function(){
-        $(this).dialog("close");
-    }
-
-    $("#messagebox").dialog({
-        buttons: buttons
-    });
-
     $("#messagebox").dialog("open");
 }
 
-function jqConfirm (title, message, btnTextOk, btnFunctionOk, btnTextCancel, btnFunctionCancel)
+//------------------------------------------------------------------------------
+
+function jqConfirm (title, message, btnOk, btnCancel, funcOk, funcCancel)
 {
+    var buttons = {};
+
+    buttons[btnOk] = function () {
+        $(this).dialog("close");
+
+        if (funcOk)
+        {
+            eval(funcOk);
+        }
+    }
+
+    buttons[btnCancel] = function () {
+        $(this).dialog("close");
+
+        if (funcCancel)
+        {
+            eval(funcCancel);
+        }
+    }
+
     $("#messagebox").dialog({
+        buttons: buttons,
+        position: "center",
         title: title.toUpperCase()
     });
 
     $("#messagebox").html(message);
+    $("#messagebox").dialog("open");
+}
 
+//------------------------------------------------------------------------------
+
+function jqModal (title, url, btnOk, btnCancel, funcOk, funcCancel, funcLoad)
+{
     var buttons = {};
 
-    buttons[btnTextOk] = function(){
-        $(this).dialog("close");
-
-        if (btnFunctionOk)
+    buttons[btnOk] = function () {
+        if (funcOk)
         {
-            eval(btnFunctionOk);
+            eval(funcOk);
+        }
+        else
+        {
+            $("#modaldlg").dialog("destroy");
         }
     }
 
-    buttons[btnTextCancel] = function(){
-        $(this).dialog("close");
-
-        if (btnFunctionCancel)
-        {
-            eval(btnFunctionCancel);
+    if (btnCancel)
+    {
+        buttons[btnCancel] = function () {
+            if (funcCancel)
+            {
+                eval(funcCancel);
+            }
+            else
+            {
+                $("#modaldlg").dialog("destroy");
+            }
         }
     }
 
-    $("#messagebox").dialog({
-        buttons: buttons
+    var maxWidth  = $("body").width()  - 32;
+    var maxHeight = $("body").height() - 32;
+
+    $("#modaldlg").load(url, function () {
+
+        $("input.button").button();
+        $("span.buttonset").buttonset();
+
+        $("#modaldlg").dialog({
+            title: title,
+            modal: true,
+            width: "auto",
+            height: "auto",
+            resizable: false,
+            buttons: buttons
+        });
+
+        if ($("#modaldlg").width() > maxWidth)
+        {
+            $("#modaldlg").dialog("option", "width", maxWidth);
+        }
+
+        if ($("#modaldlg").height() > maxHeight)
+        {
+            $("#modaldlg").dialog("option", "height", maxHeight);
+        }
+
+        // width audjustment IE workaround
+        var userAgent = navigator.userAgent.toLowerCase();
+
+        if (userAgent.indexOf("msie") != -1)
+        {
+            var width = $("#modaldlg").width();
+
+            $("div[aria-labelledby='ui-dialog-title-modaldlg'] div.ui-dialog-titlebar").width(width);
+            $("div[aria-labelledby='ui-dialog-title-modaldlg'] div.ui-dialog-buttonpane").width(width);
+        }
+
+        $("#modaldlg").dialog("option", "position", "center");
+
+        if (funcLoad)
+        {
+            eval(funcLoad);
+        }
     });
-
-    $("#messagebox").dialog("open");
-
-    return false;
 }

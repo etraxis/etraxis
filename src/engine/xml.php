@@ -52,12 +52,9 @@ define('VERSION', '3.2.4');
 /**
  * Number of lines in a <textarea> control.
  */
-define('HTML_TEXTBOX_MIN_HEIGHT', 2);
-
-/**
- * Splitter between buttons.
- */
-define('HTML_SPLITTER', '%nbsp;%nbsp;%nbsp;%nbsp;');
+define('HTML_TEXTBOX_DEFAULT_HEIGHT', 8);
+define('HTML_TEXTBOX_MIN_HEIGHT',     2);
+define('HTML_TEXTBOX_MAX_HEIGHT',     100);
 
 //------------------------------------------------------------------------------
 //  Functions.
@@ -112,19 +109,19 @@ function gen_xml_bookmarks (&$curr_page, $rec_count, &$rec_from, &$rec_to, $url 
 
     if ($nav_from > 1)
     {
-        $xml .= '<bookmark url="' . $url . 'page=1">%lt;%lt;</bookmark>'
-              . '<bookmark url="' . $url . 'page=' . ($nav_from - 1) . '">%lt;</bookmark>';
+        $xml .= '<bookmark url="reloadTab(\'' . $url . 'page=1\')">%lt;%lt;</bookmark>'
+              . '<bookmark url="reloadTab(\'' . $url . 'page=' . ($nav_from - 1) . '\')">%lt;</bookmark>';
     }
 
     for ($i = $nav_from; $i <= $nav_to; $i++)
     {
-        $xml .= '<bookmark url="' . $url . 'page=' . $i . '" active="' . ($i == $curr_page ? 'true' : 'false') . '">' . $i . '</bookmark>';
+        $xml .= '<bookmark url="reloadTab(\'' . $url . 'page=' . $i . '\')" active="' . ($i == $curr_page ? 'true' : 'false') . '">' . $i . '</bookmark>';
     }
 
     if ($nav_to < $nav_count)
     {
-        $xml .= '<bookmark url="' . $url . 'page=' . ($nav_to + 1) . '">%gt;</bookmark>'
-              . '<bookmark url="' . $url . 'page=' . $nav_count . '">%gt;%gt;</bookmark>';
+        $xml .= '<bookmark url="reloadTab(\'' . $url . 'page=' . ($nav_to + 1) . '\')">%gt;</bookmark>'
+              . '<bookmark url="reloadTab(\'' . $url . 'page=' . $nav_count . '\')">%gt;%gt;</bookmark>';
     }
 
     $xml .= '</bookmarks>';
@@ -147,25 +144,23 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
     debug_write_log(DEBUG_TRACE, '[xml2html]');
     debug_write_log(DEBUG_DUMP,  '[xml2html] $title = ' . $title);
 
+    // a page is being generated
     if (!is_null($title))
     {
         // generate page parameters
 
-        $params = array('title'       => $title,
-                        'version'     => ustrprocess(get_html_resource(RES_VERSION_X_ID), VERSION),
-                        'username'    => isset($_SESSION[VAR_FULLNAME]) ? ustr2html($_SESSION[VAR_FULLNAME]) : get_html_resource(RES_GUEST_ID),
-                        'logout'      => get_html_resource(get_user_level() == USER_LEVEL_GUEST ? RES_LOGIN_ID : RES_LOGOUT_ID),
-                        'search'      => get_html_resource(RES_SEARCH_ID),
-                        'msgboxTitle' => get_html_resource(RES_QUESTION_ID),
-                        'btnOk'       => get_html_resource(RES_OK_ID),
-                        'btnCancel'   => get_html_resource(RES_CANCEL_ID));
+        $params = array('title'    => $title,
+                        'version'  => ustrprocess(get_html_resource(RES_VERSION_X_ID), VERSION),
+                        'username' => isset($_SESSION[VAR_FULLNAME]) ? ustr2html($_SESSION[VAR_FULLNAME]) : get_html_resource(RES_GUEST_ID),
+                        'logout'   => get_html_resource(get_user_level() == USER_LEVEL_GUEST ? RES_LOGIN_ID : RES_LOGOUT_ID),
+                        'search'   => get_html_resource(RES_SEARCH_ID));
 
         $script = '<script>'
                 . 'function onLogoutButton()'
                 . '{'
                 . (get_user_level() == USER_LEVEL_GUEST
-                      ? 'window.open("../logon/login.php", "_parent");'
-                      : sprintf('jqConfirm("%s","%s","%s","logout()","%s")',
+                      ? 'window.open("../logon/index.php", "_parent");'
+                      : sprintf('jqConfirm("%s","%s","%s","%s","logout()")',
                                 get_html_resource(RES_QUESTION_ID),
                                 get_html_resource(RES_CONFIRM_LOGOUT_ID),
                                 get_html_resource(RES_OK_ID),
@@ -212,10 +207,11 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         $header .= '>';
 
-        $header .= '<css>../themes/css.php?name=jquery.ui.css</css>'
+        $header .= '<css>../themes/css.php?name=jquery-ui.css</css>'
                  . '<css>../themes/css.php?name=jquery.jqplot.css</css>'
                  . '<css>../themes/css.php?name=etraxis.css</css>'
-                 . '<css>../themes/css.php?name=list.css</css>';
+                 . '<css>../themes/css.php?name=list.css</css>'
+                 . '<css>../themes/css.php?name=combobox.css</css>';
 
         // generate main menu
 
@@ -257,13 +253,44 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         $menu .= '</mainmenu>';
 
+        // select requested tab, if one was specified
+
+        $tab = '<onready>'
+             . '$("#tabs").tabs().tabs("select", ' . (try_request('tab', 1) - 1) . ');'
+             . '</onready>';
+
         // join all pieces together
 
         $xml = $header
              . $script
              . $menu
+             . $tab
              . $xml
              . '</page>';
+    }
+    // a part of page is being generated
+    else
+    {
+        // generate parameters
+
+        $params = array('msgboxTitle' => get_html_resource(RES_QUESTION_ID),
+                        'btnOk'       => get_html_resource(RES_OK_ID),
+                        'btnCancel'   => get_html_resource(RES_CANCEL_ID));
+
+        $header = '<tab-content';
+
+        foreach ($params as $name => $value)
+        {
+            $header .= sprintf(' %s="%s"', $name, $value);
+        }
+
+        $header .= '>';
+
+        // join all pieces together
+
+        $xml = $header
+             . $xml
+             . '</tab-content>';
     }
 
     // process resulted XML
@@ -290,6 +317,12 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
         $html = mb_eregi_replace('%([A-Za-z]+);',          '&\1;', $html);
         $html = mb_eregi_replace('%(#[0-9]{1,4});',        '&\1;', $html);
         $html = mb_eregi_replace('%(#x[0-9A-Fa-f]{1,4});', '&\1;', $html);
+    }
+
+    if (is_null($title))
+    {
+        $html = preg_replace('!\<\?xml(.*)\?\>!isUu',   NULL, $html);
+        $html = preg_replace('!\<\!DOCTYPE(.*)\>!isUu', NULL, $html);
     }
 
     debug_write_log(DEBUG_PERFORMANCE, 'page size = ' . strlen($html));

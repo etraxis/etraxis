@@ -9,7 +9,7 @@
 <xsl:text>/*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*  eTraxis - Records tracking web-based system                               */
-/*  Copyright (C) 2005-2010  Artem Rodygin                                    */
+/*  Copyright (C) 2005-2011  Artem Rodygin                                    */
 /*                                                                            */
 /*  This program is free software: you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -62,6 +62,7 @@ insert into tbl_accounts
     locks_count,
     lock_time,
     locale,
+    text_rows,
     page_rows,
     page_bkms,
     csv_delim,
@@ -77,7 +78,7 @@ values
     'root@example.com',
     'd41d8cd98f00b204e9800998ecf8427e',
     'Built-in administrator',
-    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 20, 10, 44, 1, 1, NULL, 'Emerald'
+    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 8, 20, 10, 44, 1, 1, NULL, 'Emerald'
 );
 </xsl:text>
 

@@ -71,7 +71,7 @@ $template_name = $reminder['template_name'];
 
 // changed reminder has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -91,13 +91,27 @@ if (try_request('submitted') == 'mainform')
                                  $state_id,
                                  ($group_id < 0 ? NULL      : $group_id),
                                  ($group_id < 0 ? $group_id : REMINDER_FLAG_GROUP));
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: view.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REMINDER_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -109,35 +123,47 @@ else
     $group_id = ($reminder['group_flag'] == REMINDER_FLAG_GROUP ? $reminder['group_id'] : $reminder['group_flag']);
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_REMINDER_X_ID), ustr2html($reminder['reminder_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_REMINDERS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="modify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-     . '<control name="project" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_PROJECT_ID) . '</label>'
-     . '<combobox>'
-     . '<listitem value="' . $project_id . '">' . ustr2html($project_name) . '</listitem>'
-     . '</combobox>'
-     . '</control>'
-     . '<control name="template" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_TEMPLATE_ID) . '</label>'
-     . '<combobox>'
-     . '<listitem value="' . $template_id . '">' . ustr2html($template_name) . '</listitem>'
-     . '</combobox>'
-     . '</control>'
-     . '<control name="state" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_STATE_ID) . '</label>'
-     . '<combobox>';
+$xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>'
+      . '<control name="project" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_PROJECT_ID) . '</label>'
+      . '<combobox>'
+      . '<listitem value="' . $project_id . '">' . ustr2html($project_name) . '</listitem>'
+      . '</combobox>'
+      . '</control>'
+      . '<control name="template" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_TEMPLATE_ID) . '</label>'
+      . '<combobox>'
+      . '<listitem value="' . $template_id . '">' . ustr2html($template_name) . '</listitem>'
+      . '</combobox>'
+      . '</control>'
+      . '<control name="state" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_STATE_ID) . '</label>'
+      . '<combobox>';
 
 $rs = dal_query('states/list.sql', $template_id, 'state_name');
 
@@ -180,34 +206,9 @@ while (($row = $rs->fetch()))
 $xml .= '</combobox>'
       . '</control>'
       . '</group>'
-      . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_EMAIL:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

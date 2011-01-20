@@ -29,7 +29,6 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/projects.php');
 require_once('../dbo/templates.php');
 /**#@-*/
 
@@ -63,45 +62,14 @@ $title = ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($template['
 $xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $template['project_id'], $id)
      . '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $template['project_id'] . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($template['project_name'])) . '</breadcrumb>'
+     . '<breadcrumb url="view.php?id=' . $template['project_id'] . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($template['project_name'])) . '</breadcrumb>'
      . '<breadcrumb url="tview.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="tview.php?id='  . $id . '" active="true"><i>' . ustr2html($template['template_name']) . '</i></tab>'
-     . '<tab url="sindex.php?id=' . $id . '">'                  . get_html_resource(RES_STATES_ID)      . '</tab>'
-     . '<tab url="tperms.php?id=' . $id . '">'                  . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
-     . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="tindex.php?id=' . $template['project_id'] . '">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . HTML_SPLITTER
-      . '<button url="texport.php?id=' . $id . '">' . get_html_resource(RES_EXPORT_ID) . '</button>'
-      . HTML_SPLITTER
-      . '<button url="tmodify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>'
-      . '<button url="tclone.php?id='  . $id . '">' . get_html_resource(RES_CLONE_ID)  . '</button>'
-      . (is_template_removable($id)
-            ? '<button url="tdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_TEMPLATE_ID) . '">'
-            : '<button disabled="false">')
-      . get_html_resource(RES_DELETE_ID)
-      . '</button>'
-      . '<button url="tlock.php?id=' . $id . '">'
-      . get_html_resource($template['is_locked'] ? RES_UNLOCK_ID : RES_LOCK_ID)
-      . '</button>';
-
-// generate template information
-
-$xml .= '<group title="' . get_html_resource(RES_TEMPLATE_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_TEMPLATE_NAME_ID)   . '">' . ustr2html($template['template_name'])   . '</text>'
-      . '<text label="' . get_html_resource(RES_TEMPLATE_PREFIX_ID) . '">' . ustr2html($template['template_prefix']) . '</text>'
-      . '<text label="' . get_html_resource(RES_CRITICAL_AGE_ID)    . '">' . (is_null($template['critical_age']) ? get_html_resource(RES_NONE_ID) : $template['critical_age']) . '</text>'
-      . '<text label="' . get_html_resource(RES_FROZEN_TIME_ID)     . '">' . (is_null($template['frozen_time'])  ? get_html_resource(RES_NONE_ID) : $template['frozen_time'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_DESCRIPTION_ID)     . '">' . ustr2html($template['description']) . '</text>'
-      . '<text label="' . get_html_resource(RES_GUEST_ACCESS_ID)    . '">' . get_html_resource($template['guest_access'] ? RES_YES_ID    : RES_NO_ID)     . '</text>'
-      . '<text label="' . get_html_resource(RES_STATUS_ID)          . '">' . get_html_resource($template['is_locked']    ? RES_LOCKED_ID : RES_ACTIVE_ID) . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
+     . '<tab url="template.php?id=' . $id . '">' . ustr2html($template['template_name']) . '</tab>'
+     . '<tab url="sindex.php?id='   . $id . '">' . get_html_resource(RES_STATES_ID)      . '</tab>'
+     . '<tab url="tperms.php?id='   . $id . '">' . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, $title));
 

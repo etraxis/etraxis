@@ -61,8 +61,6 @@ if (get_user_level() == USER_LEVEL_ADMIN)
         {
             debug_write_log(DEBUG_NOTICE, 'Template must be locked.');
         }
-
-        header('Location: sview.php?id=' . $id);
     }
 }
 else

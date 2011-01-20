@@ -60,6 +60,4 @@ if (!$reminder)
 
 reminder_send($reminder);
 
-header('Location: view.php?sent=1&id=' . $id);
-
 ?>

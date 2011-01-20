@@ -83,7 +83,6 @@ $resource_indonesian = array
     'Nilai "%1" tidak lolos cek format.',
     'Pengguna tidak berwenang.',
     'Nama pengguna tidak dikenal atau kata sandi salah.',
-    'Jenis pengesahan tidak dikenal.',
     'Kesalahan yang tidak diketahui.',
     'Kesalahan XML parser.',
 
@@ -215,7 +214,7 @@ $resource_indonesian = array
     'Templat',
     'Status',
     'Masa',
-    'Data baru (langkah %1/%2)',
+    'Data baru',
     'Data "%1"',
     NULL,
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_indonesian = array
     'Catatan debug',
     'Diaktifkan',
     'Dinonaktifkan',
-    '%1 menit',
+    NULL,
     'izin untuk melihat data saja',
     'Pilih semua',
     'Penulis',
@@ -376,7 +375,7 @@ $resource_indonesian = array
     'Nama pengingat',
     'Subjek pengingat',
     'Penerima pengingat',
-    'Pengingat baru (langkah %1/%2)',
+    'Pengingat baru',
     'Pengingat "%1"',
     'izin untuk mengirimkan pengingat',
     'Kirim',
@@ -385,7 +384,7 @@ $resource_indonesian = array
     'Pendaftaran baru',
     /* 1250 */
     'Pendaftaran "%1"',
-    'Kata sandi LDAP Anda',
+    NULL,
     'Anda dapat menyisipkan tautan ke data lain dengan menentukan "rec#" dan nomornya (contoh: "rec#305").',
     'Tampilkan hanya yang dipindahkan ke status ...',
     'Berbagi dengan ...',
@@ -480,7 +479,7 @@ $resource_indonesian = array
     'Tamu',
     'Impor',
     'izin untuk menghapus data',
-    'Jenis pengesahan',
+    NULL,
     'Bahasa standar',
     /* 1340 */
     'Waktu kadaluarsa kata sandi (hari)',

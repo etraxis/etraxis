@@ -84,121 +84,103 @@ if (try_request('submitted') == 'transform')
             dal_query(($gid < 0 ? 'states/rtadd.sql' : 'states/gtadd.sql'), $id, $row['state_id'], $gid);
         }
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
-
-    $gid = STATE_ROLE_AUTHOR;
 }
 
-// page's title
+// JS array with permissions
 
-$title = ustrprocess(get_html_resource(RES_STATE_X_ID), ustr2html($state['state_name']));
+$xml = '<script>'
+     . 'var transitions = new Array();';
 
-// generate breadcrumbs and tabs
+$roles = array(STATE_ROLE_AUTHOR,
+               STATE_ROLE_RESPONSIBLE,
+               STATE_ROLE_REGISTERED);
 
-$xml = gen_context_menu('sindex.php?id=', 'strans.php?id=', 'fview.php?id=', $state['project_id'], $state['template_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($state['project_name']))  . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="strans.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="sview.php?id='  . $id . '"><i>' . ustr2html($state['state_name']) . '</i></tab>'
-     . '<tab url="findex.php?id=' . $id . '">' . get_html_resource(RES_FIELDS_ID) . '</tab>';
-
-if ($state['state_type'] != STATE_TYPE_FINAL)
+foreach ($roles as $role)
 {
-    $xml .= '<tab url="strans.php?id=' . $id . '" active="true">' . get_html_resource(RES_TRANSITIONS_ID) . '</tab>';
+    $xml .= sprintf('transitions["g%d"] = new Array();', $role);
+
+    $list = dal_query('states/rtlist.sql', $state['template_id'], $id, $role);
+
+    while (($row = $list->fetch()))
+    {
+        $xml .= sprintf('transitions["g%d"]["state%d"] = %s;',
+                        $role,
+                        $row['state_id'],
+                        ($row['is_set'] == 0 ? 'false' : 'true'));
+    }
 }
-
-$xml .= '<content>';
-
-// generate script to update permissions
-
-$xml .= '<script>'
-      . 'function update_perms () {'
-      . 'switch (document.transform.group.value) {';
-
-// generate script to update permissions - 'author' system role
-
-$xml .= 'case "' . STATE_ROLE_AUTHOR . '":';
-
-$list = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_AUTHOR);
-
-while (($row = $list->fetch()))
-{
-    $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
-}
-
-$xml .= 'break;';
-
-// generate script to update permissions - 'responsible' system role
-
-$xml .= 'case "' . STATE_ROLE_RESPONSIBLE . '":';
-
-$list = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_RESPONSIBLE);
-
-while (($row = $list->fetch()))
-{
-    $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
-}
-
-$xml .= 'break;';
-
-// generate script to update permissions - 'registered' system role
-
-$xml .= 'case "' . STATE_ROLE_REGISTERED . '":';
-
-$list = dal_query('states/rtlist.sql', $state['template_id'], $id, STATE_ROLE_REGISTERED);
-
-while (($row = $list->fetch()))
-{
-    $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
-}
-
-$xml .= 'break;';
-
-// generate script to update permissions - groups
 
 while (($group = $groups->fetch()))
 {
-    $xml .= 'case "' . $group['group_id'] . '":';
+    $xml .= sprintf('transitions["g%d"] = new Array();', $group['group_id']);
 
     $list = dal_query('states/gtlist.sql', $state['template_id'], $id, $group['group_id']);
 
     while (($row = $list->fetch()))
     {
-        $xml .= 'document.transform.state' . $row['state_id'] . '.checked = ' . ($row['is_set'] == 0 ? 'false;' : 'true;');
+        $xml .= sprintf('transitions["g%d"]["state%d"] = %s;',
+                        $group['group_id'],
+                        $row['state_id'],
+                        ($row['is_set'] == 0 ? 'false' : 'true'));
     }
-
-    $xml .= 'break;';
 }
 
-$xml .= '}}'
-      . '</script>';
+// local JS functions
+
+$resTitle   = get_js_resource(RES_TRANSITIONS_ID);
+$resMessage = get_js_resource(RES_ALERT_SUCCESSFULLY_SAVED_ID);
+$resOK      = get_js_resource(RES_OK_ID);
+
+$xml .= <<<JQUERY
+
+function transitionsSuccess ()
+{
+    var id = $("#group").val();
+
+    $("#transform input:checkbox").each(function () {
+        var name = $(this).attr("name");
+        transitions["g"+id][name] = $(this).attr("checked");
+    });
+
+    jqAlert("{$resTitle}", "{$resMessage}", "{$resOK}");
+}
+
+function updateTrans ()
+{
+    var id = $("#group").val();
+
+    $("#transform input:checkbox").each(function () {
+        var name = $(this).attr("name");
+        $(this).attr("checked", transitions["g"+id][name] ? "checked" : "");
+    });
+}
+
+</script>
+JQUERY;
 
 // generate left side
 
-$xml .= '<form name="transform" action="strans.php?id=' . $id . '">'
+$xml .= '<form name="transform" action="strans.php?id=' . $id . '" success="transitionsSuccess">'
       . '<dual>'
       . '<dualleft>'
       . '<group title="' . get_html_resource(RES_GROUPS_ID) . '">'
       . '<control name="group">'
-      . '<listbox size="10" action="update_perms()">'
-      . '<listitem value="' . STATE_ROLE_AUTHOR      . ($gid == STATE_ROLE_AUTHOR      ? '" selected="true">' : '">') . sprintf('%s (%s)', get_html_resource(RES_AUTHOR_ID),      get_html_resource(RES_ROLE_ID)) . '</listitem>'
-      . '<listitem value="' . STATE_ROLE_RESPONSIBLE . ($gid == STATE_ROLE_RESPONSIBLE ? '" selected="true">' : '">') . sprintf('%s (%s)', get_html_resource(RES_RESPONSIBLE_ID), get_html_resource(RES_ROLE_ID)) . '</listitem>'
-      . '<listitem value="' . STATE_ROLE_REGISTERED  . ($gid == STATE_ROLE_REGISTERED  ? '" selected="true">' : '">') . sprintf('%s (%s)', get_html_resource(RES_REGISTERED_ID),  get_html_resource(RES_ROLE_ID)) . '</listitem>';
+      . '<listbox size="10" action="updateTrans()">'
+      . '<listitem value="' . STATE_ROLE_AUTHOR      . '">' . sprintf('%s (%s)', get_html_resource(RES_AUTHOR_ID),      get_html_resource(RES_ROLE_ID)) . '</listitem>'
+      . '<listitem value="' . STATE_ROLE_RESPONSIBLE . '">' . sprintf('%s (%s)', get_html_resource(RES_RESPONSIBLE_ID), get_html_resource(RES_ROLE_ID)) . '</listitem>'
+      . '<listitem value="' . STATE_ROLE_REGISTERED  . '">' . sprintf('%s (%s)', get_html_resource(RES_REGISTERED_ID),  get_html_resource(RES_ROLE_ID)) . '</listitem>';
 
 $groups->seek();
 
 while (($row = $groups->fetch()))
 {
-    $xml .= ($gid == $row['group_id']
-                ? '<listitem value="' . $row['group_id'] . '" selected="true">'
-                : '<listitem value="' . $row['group_id'] . '">')
+    $xml .= '<listitem value="' . $row['group_id'] . '">'
           . ustr2html(sprintf('%s (%s)', $row['group_name'], get_html_resource($row['is_global'] ? RES_GLOBAL_ID : RES_LOCAL_ID)))
           . '</listitem>';
 }
@@ -226,11 +208,13 @@ $xml .= '</group>'
       . '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '</dualright>'
       . '</dual>'
-      . '</form>'
-      . '<script>update_perms();</script>'
-      . '</content>'
-      . '</tabs>';
+      . '</form>';
 
-echo(xml2html($xml, $title));
+$xml .= '<onready>'
+      . '$("#group :first-child").attr("selected", "selected");'
+      . 'updateTrans();'
+      . '</onready>';
+
+echo(xml2html($xml));
 
 ?>

@@ -54,6 +54,7 @@ define('VAR_FULLNAME',              'eTraxis_FullName');
 define('VAR_PASSWD_EXPIRE',         'eTraxis_PasswdExpire');
 define('VAR_ISADMIN',               'eTraxis_IsAdmin');
 define('VAR_LDAPUSER',              'eTraxis_LdapUser');
+define('VAR_TEXTROWS',              'eTraxis_TextRows');
 define('VAR_PAGEROWS',              'eTraxis_PageRows');
 define('VAR_PAGEBKMS',              'eTraxis_PageBkms');
 define('VAR_DELIMITER',             'eTraxis_Delimiter');
@@ -64,7 +65,7 @@ define('VAR_THEME_NAME',            'eTraxis_ThemeName');
 define('VAR_SEARCH_MODE',           'eTraxis_SearchMode');
 define('VAR_SEARCH_TEXT',           'eTraxis_SearchText');
 define('VAR_USE_FILTERS',           'eTraxis_UseFilter');
-define('VAR_REQUEST_CREDENTIALS',   'eTraxis_RequestCredentials');
+define('VAR_LDAP_ENUMERATION',      'eTraxis_LdapEnumeration');
 /**#@-*/
 
 /**#@+
@@ -183,23 +184,25 @@ function open_session ($userid)
     global $encodings;
     global $line_endings_chars;
 
-    $_SESSION[VAR_USERID]        = $userid;
-    $_SESSION[VAR_USERNAME]      = get_html_resource(RES_GUEST_ID);
-    $_SESSION[VAR_FULLNAME]      = get_html_resource(RES_GUEST_ID);
-    $_SESSION[VAR_PASSWD_EXPIRE] = 0;
-    $_SESSION[VAR_ISADMIN]       = FALSE;
-    $_SESSION[VAR_LDAPUSER]      = FALSE;
-    $_SESSION[VAR_LOCALE]        = get_browser_locale();
-    $_SESSION[VAR_PAGEROWS]      = DEFAULT_PAGE_ROWS;
-    $_SESSION[VAR_PAGEBKMS]      = DEFAULT_PAGE_BKMS;
-    $_SESSION[VAR_DELIMITER]     = chr(DEFAULT_DELIMITER);
-    $_SESSION[VAR_ENCODING]      = $encodings[DEFAULT_ENCODING];
-    $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[DEFAULT_LINE_ENDINGS];
-    $_SESSION[VAR_VIEW]          = NULL;
-    $_SESSION[VAR_THEME_NAME]    = THEME_DEFAULT;
-    $_SESSION[VAR_SEARCH_MODE]   = FALSE;
-    $_SESSION[VAR_SEARCH_TEXT]   = NULL;
-    $_SESSION[VAR_USE_FILTERS]   = FALSE;
+    $_SESSION[VAR_USERID]           = $userid;
+    $_SESSION[VAR_USERNAME]         = get_html_resource(RES_GUEST_ID);
+    $_SESSION[VAR_FULLNAME]         = get_html_resource(RES_GUEST_ID);
+    $_SESSION[VAR_PASSWD_EXPIRE]    = 0;
+    $_SESSION[VAR_ISADMIN]          = FALSE;
+    $_SESSION[VAR_LDAPUSER]         = FALSE;
+    $_SESSION[VAR_LOCALE]           = get_browser_locale();
+    $_SESSION[VAR_TEXTROWS]         = HTML_TEXTBOX_DEFAULT_HEIGHT;
+    $_SESSION[VAR_PAGEROWS]         = DEFAULT_PAGE_ROWS;
+    $_SESSION[VAR_PAGEBKMS]         = DEFAULT_PAGE_BKMS;
+    $_SESSION[VAR_DELIMITER]        = chr(DEFAULT_DELIMITER);
+    $_SESSION[VAR_ENCODING]         = $encodings[DEFAULT_ENCODING];
+    $_SESSION[VAR_LINE_ENDINGS]     = $line_endings_chars[DEFAULT_LINE_ENDINGS];
+    $_SESSION[VAR_VIEW]             = NULL;
+    $_SESSION[VAR_THEME_NAME]       = THEME_DEFAULT;
+    $_SESSION[VAR_SEARCH_MODE]      = FALSE;
+    $_SESSION[VAR_SEARCH_TEXT]      = NULL;
+    $_SESSION[VAR_USE_FILTERS]      = FALSE;
+    $_SESSION[VAR_LDAP_ENUMERATION] = NULL;
 
     return session_id();
 }
@@ -217,6 +220,7 @@ function close_session ()
     unset($_SESSION[VAR_ISADMIN]);
     unset($_SESSION[VAR_LDAPUSER]);
     unset($_SESSION[VAR_LOCALE]);
+    unset($_SESSION[VAR_TEXTROWS]);
     unset($_SESSION[VAR_PAGEROWS]);
     unset($_SESSION[VAR_PAGEBKMS]);
     unset($_SESSION[VAR_DELIMITER]);
@@ -227,6 +231,7 @@ function close_session ()
     unset($_SESSION[VAR_SEARCH_MODE]);
     unset($_SESSION[VAR_SEARCH_TEXT]);
     unset($_SESSION[VAR_USE_FILTERS]);
+    unset($_SESSION[VAR_LDAP_ENUMERATION]);
 
     @session_destroy();
 }
@@ -370,6 +375,11 @@ function init_page ($guest_is_allowed = FALSE)
 
     @session_start();
 
+    if (!isset($_SESSION[VAR_ERROR]))
+    {
+        $_SESSION[VAR_ERROR] = NO_ERROR;
+    }
+
     if (get_magic_quotes_gpc() != 0)
     {
         foreach ($_REQUEST as $key => $value)
@@ -401,9 +411,9 @@ function init_page ($guest_is_allowed = FALSE)
         // Force the guest to log in
         if (!$guest_is_allowed)
         {
-            save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
             debug_write_log(DEBUG_NOTICE, '[init_page] Guest must be logged in.');
-            header('Location: ' . WEBROOT . 'logon/login.php');
+            save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
+            header('Location: ' . WEBROOT . 'logon/index.php');
             exit;
         }
     }
@@ -430,6 +440,7 @@ function init_page ($guest_is_allowed = FALSE)
             $_SESSION[VAR_ISADMIN]       = $account['is_admin'];
             $_SESSION[VAR_LDAPUSER]      = $account['is_ldapuser'];
             $_SESSION[VAR_LOCALE]        = $account['locale'];
+            $_SESSION[VAR_TEXTROWS]      = $account['text_rows'];
             $_SESSION[VAR_PAGEROWS]      = $account['page_rows'];
             $_SESSION[VAR_PAGEBKMS]      = $account['page_bkms'];
             $_SESSION[VAR_DELIMITER]     = chr($account['csv_delim']);
@@ -440,13 +451,13 @@ function init_page ($guest_is_allowed = FALSE)
 
             dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
 
-            if ((strpos($_SERVER['PHP_SELF'], '/settings/password.php') === FALSE         ) &&
+            if ((strpos($_SERVER['PHP_SELF'], '/settings/') === FALSE                     ) &&
                 (PASSWORD_EXPIRATION != 0                                                 ) &&
                 ($_SESSION[VAR_PASSWD_EXPIRE] + PASSWORD_EXPIRATION * SECS_IN_DAY < time()) &&
                 (!$_SESSION[VAR_LDAPUSER]                                                 ))
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
-                header('Location: ' . WEBROOT . 'settings/password.php');
+                header('Location: ' . WEBROOT . 'settings/index.php?tab=3');
                 exit;
             }
         }

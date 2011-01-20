@@ -62,6 +62,4 @@ else
     debug_write_log(DEBUG_NOTICE, 'Record cannot be resumed.');
 }
 
-header('Location: view.php?id=' . $id);
-
 ?>

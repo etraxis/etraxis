@@ -29,7 +29,6 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/groups.php');
 require_once('../dbo/reminders.php');
 /**#@-*/
 
@@ -72,59 +71,8 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="view.php?id=' . $id . '" active="true"><i>' . ustr2html($reminder['reminder_name']) . '</i></tab>'
-     . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="index.php">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . HTML_SPLITTER
-      . '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
-
-$xml .= '<button url="send.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_SEND_REMINDER_ID) . '">'
-      . get_html_resource(RES_SEND_ID)
-      . '</button>';
-
-$xml .= '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_REMINDER_ID) . '">'
-      . get_html_resource(RES_DELETE_ID)
-      . '</button>';
-
-// generate reminder information
-
-if ($reminder['group_flag'] == REMINDER_FLAG_AUTHOR)
-{
-    $recipients = sprintf('%s (%s)', get_html_resource(RES_AUTHOR_ID), get_html_resource(RES_ROLE_ID));
-}
-elseif ($reminder['group_flag'] == REMINDER_FLAG_RESPONSIBLE)
-{
-    $recipients = sprintf('%s (%s)', get_html_resource(RES_RESPONSIBLE_ID), get_html_resource(RES_ROLE_ID));
-}
-else
-{
-    $group = group_find($reminder['group_id']);
-
-    $recipients = $group
-                ? sprintf('%s (%s)', ustr2html($group['group_name']), get_html_resource($group['is_global'] ? RES_GLOBAL_ID : RES_LOCAL_ID))
-                : get_html_resource(RES_NONE_ID);
-}
-
-$xml .= '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_PROJECT_ID)             . '">' . ustr2html($reminder['project_name'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_TEMPLATE_ID)            . '">' . ustr2html($reminder['template_name']) . '</text>'
-      . '<text label="' . get_html_resource(RES_STATE_ID)               . '">' . ustr2html($reminder['state_name'])    . '</text>'
-      . '<text label="' . get_html_resource(RES_REMINDER_NAME_ID)       . '">' . ustr2html($reminder['reminder_name']) . '</text>'
-      . '<text label="' . get_html_resource(RES_REMINDER_SUBJECT_ID)    . '">' . ustr2html($reminder['subject_text'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_REMINDER_RECIPIENTS_ID) . '">' . $recipients                           . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
-
-if (try_request('sent'))
-{
-    $xml .= '<scriptonreadyitem>'
-          . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REMINDER_IS_SENT_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-          . '</scriptonreadyitem>';
-}
+     . '<tab url="reminder.php?id=' . $id . '">' . ustr2html($reminder['reminder_name']) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, $title));
 

@@ -97,20 +97,25 @@ else
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
 
-// generate breadcrumbs
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</breadcrumb>'
-     . '<breadcrumb url="subscribe.php?id=' . $id . '">' . get_html_resource(RES_SUBSCRIBE_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<dual>';
+$xml = <<<JQUERY
+<script>
+
+function subscribeSuccess (data)
+{
+    $("#modaldlg").html(data);
+    $("input.button").button();
+}
+
+</script>
+JQUERY;
 
 // generate left side
 
-$xml .= '<dualleft>'
-      . '<form name="subscribeform" action="subscribe.php?id=' . $id . '">'
+$xml .= '<dual>'
+      . '<dualleft>'
+      . '<form name="subscribeform" action="subscribe.php?id=' . $id . '" success="subscribeSuccess">'
       . '<group title="' . get_html_resource(RES_MEMBERS_ID) . '">'
       . '<control name="nsubscribed[]">'
       . '<listbox size="10">';
@@ -136,7 +141,7 @@ $xml .= '</listbox>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="unsubscribeform" action="subscribe.php?id=' . $id . '">'
+      . '<form name="unsubscribeform" action="subscribe.php?id=' . $id . '" success="subscribeSuccess">'
       . '<group title="' . get_html_resource(RES_SUBSCRIBED_ID) . '">'
       . '<control name="subscribed[]">'
       . '<listbox size="10">';
@@ -161,12 +166,10 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="document.subscribeform.submit()">%gt;%gt;</button>'
-      . '<button action="document.unsubscribeform.submit()">%lt;%lt;</button>'
-      . '</dual>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . '</content>';
+$xml .= '<button action="$(\'#subscribeform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#unsubscribeform\').submit()">%lt;%lt;</button>'
+      . '</dual>';
 
-echo(xml2html($xml, get_html_resource(RES_SUBSCRIBE_ID)));
+echo(xml2html($xml));
 
 ?>

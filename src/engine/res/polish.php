@@ -83,7 +83,6 @@ $resource_polish = array
     'Sprawdzenie wartości "%1" nie powiodło się.',
     'Użytkownik nie uzyskał autoryzacji.',
     'Nieprawidłowa nazwa użytkownika lub hasła.',
-    'Nieznana nazwa autoryzacji.',
     'Nieznany błąd.',
     'Błąd parsowania XMLa.',
 
@@ -215,7 +214,7 @@ $resource_polish = array
     'Szablon',
     'Stan',
     'Wiek',
-    'Nowy rekord (krok %1/%2)',
+    'Nowy rekord',
     'Rekord "%1"',
     'Moje rekordy',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_polish = array
     'Debug logs',
     'Włączony',
     'Wyłączony',
-    '%1 min',
+    NULL,
     'pozwolenie na przeglądanie rekordów',
     'Zaznacz wszystko',
     'Autor',
@@ -376,7 +375,7 @@ $resource_polish = array
     'Nazwa przypomnienia',
     'Tytuł przypomnienia',
     'Odbiorcy przypomnienia',
-    'Nowe przypomnienie (krok %1/%2)',
+    'Nowe przypomnienie',
     'Przypomnienie "%1"',
     'pozwolenie do wysyłania przypomnień',
     'Wyślij',
@@ -385,7 +384,7 @@ $resource_polish = array
     'Nowe powiadomienie',
     /* 1250 */
     'Powiadomienie "%1"',
-    'Twoje hasło LDAP',
+    NULL,
     'Możesz wstawić link do innego rekordu wpisując "rec#" i jego numer (np. "rec#305").',
     'Pokaż tylko przeniesione do stanu ...',
     'Podziel się z ...',
@@ -480,7 +479,7 @@ $resource_polish = array
     'Gość',
     'Import',
     'pozwolenie na kasowanie rekordów',
-    'Rodzaj autoryzacji',
+    NULL,
     'Domyślny język',
     /* 1340 */
     'Wygaśnięcie hasła (dni)',

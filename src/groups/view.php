@@ -71,30 +71,9 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="view.php?id='    . $id . '" active="true"><i>' . ustr2html($group['group_name'])      . '</i></tab>'
-     . '<tab url="members.php?id=' . $id . '">'                  . get_html_resource(RES_MEMBERSHIP_ID) . '</tab>'
-     . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="index.php">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . HTML_SPLITTER
-      . '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
-
-$xml .= (is_group_removable($id)
-            ? '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_GROUP_ID) . '">'
-            : '<button disabled="false">')
-      . get_html_resource(RES_DELETE_ID)
-      . '</button>';
-
-// generate group information
-
-$xml .= '<group title="' . get_html_resource(RES_GROUP_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_GROUP_NAME_ID)  . '">' . ustr2html($group['group_name'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_DESCRIPTION_ID) . '">' . ustr2html($group['description']) . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
+     . '<tab url="group.php?id='   . $id . '">' . ustr2html($group['group_name'])      . '</tab>'
+     . '<tab url="members.php?id=' . $id . '">' . get_html_resource(RES_MEMBERSHIP_ID) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, $title));
 

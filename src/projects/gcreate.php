@@ -58,7 +58,7 @@ if (!$project)
 
 // new group has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'createform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -70,13 +70,27 @@ if (try_request('submitted') == 'mainform')
     if ($error == NO_ERROR)
     {
         $error = group_create($id, $group_name, $description);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: gindex.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_GROUP_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -86,49 +100,44 @@ else
     $description = NULL;
 }
 
-// generate page
+// local JS functions
 
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="gindex.php?id='  . $id . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="gcreate.php?id=' . $id . '">' . get_html_resource(RES_NEW_GROUP_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="gcreate.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_GROUP_INFO_ID) . '">'
-     . '<control name="group_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_GROUP_NAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_GROUP_NAME . '">' . ustr2html($group_name) . '</editbox>'
-     . '</control>'
-     . '<control name="description">'
-     . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_GROUP_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-     . '<button url="gindex.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-     . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-     . '</form>'
-     . '</content>';
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// if some error was specified to display, force an alert
+$xml = <<<JQUERY
+<script>
 
-switch ($error)
+function createSuccess ()
 {
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_GROUP_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
+    closeModal();
+    reloadTab();
 }
 
-echo(xml2html($xml, get_html_resource(RES_NEW_GROUP_ID)));
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate page
+
+$xml .= '<form name="createform" action="gcreate.php?id=' . $id . '" success="createSuccess" error="createError">'
+      . '<group>'
+      . '<control name="group_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_GROUP_NAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_GROUP_NAME . '">' . ustr2html($group_name) . '</editbox>'
+      . '</control>'
+      . '<control name="description">'
+      . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_GROUP_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
+      . '</control>'
+      . '</group>'
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '</form>';
+
+echo(xml2html($xml));
 
 ?>

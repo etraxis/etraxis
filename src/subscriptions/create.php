@@ -57,7 +57,7 @@ if (try_request('submitted') == 'projectform')
     if ($project_id == 0)
     {
         $project_name = get_html_resource(RES_ALL_PROJECTS_ID);
-        $form = 'mainform';
+        $form = 'createform';
     }
     else
     {
@@ -97,7 +97,7 @@ elseif (try_request('submitted') == 'templateform')
 
         $project_name  = $rs->fetch('project_name');
         $template_name = get_html_resource(RES_ALL_TEMPLATES_ID);
-        $form = 'mainform';
+        $form = 'createform';
     }
     else
     {
@@ -114,13 +114,13 @@ elseif (try_request('submitted') == 'templateform')
 
         $project_name  = $row['project_name'];
         $template_name = $row['template_name'];
-        $form = 'mainform';
+        $form = 'createform';
     }
 }
 
 // new subscription has been submitted
 
-elseif (try_request('submitted') == 'mainform')
+elseif (try_request('submitted') == 'createform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -161,54 +161,31 @@ elseif (try_request('submitted') == 'mainform')
                                      $subscription_type,
                                      $subscription_flags,
                                      $subscription_param);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: index.php');
-            exit;
-        }
     }
 
-    if ($template_id == 0)
+    switch ($error)
     {
-        if ($project_id == 0)
-        {
-            $project_name = get_html_resource(RES_ALL_PROJECTS_ID);
-            unset($template_id);
-        }
-        else
-        {
-            $rs = dal_query('records/pfndid2.sql', $_SESSION[VAR_USERID], $project_id);
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
 
-            if ($rs->rows == 0)
-            {
-                debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-                header('Location: index.php');
-                exit;
-            }
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
 
-            $project_name  = $rs->fetch('project_name');
-            $template_name = get_html_resource(RES_ALL_TEMPLATES_ID);
-        }
-    }
-    else
-    {
-        $rs = dal_query('records/tfndid2.sql', $_SESSION[VAR_USERID], $project_id, $template_id);
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID));
+            break;
 
-        if ($rs->rows == 0)
-        {
-            debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-            header('Location: index.php');
-            exit;
-        }
+        case ERROR_INVALID_EMAIL:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID));
+            break;
 
-        $row = $rs->fetch();
-
-        $project_name  = $row['project_name'];
-        $template_name = $row['template_name'];
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
-    $form = 'mainform';
+    exit;
 }
 else
 {
@@ -217,20 +194,34 @@ else
     $form = 'projectform';
 }
 
-// generate breadcrumbs and tabs
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="create.php">' . get_html_resource(RES_SUBSCRIPTIONS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="index.php">'                . get_html_resource(RES_SUBSCRIPTIONS_ID) . '</tab>'
-     . '<tab url="create.php" active="true">' . get_html_resource(RES_CREATE_ID)        . '</tab>';
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// generate general information
+$xml = <<<JQUERY
+<script>
 
-$xml .= '<content>'
-      . '<form name="' . $form . '" action="create.php">'
-      . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">';
+function createSuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate header
+
+$xml .= '<form name="' . $form . '" action="create.php" success="createSuccess" error="createError">'
+      . '<group>';
+
+// generate project selector
 
 if ($form == 'projectform')
 {
@@ -261,6 +252,8 @@ elseif (isset($project_id))
           . '</control>';
 }
 
+// generate template selector
+
 if ($form == 'templateform')
 {
     $xml .= '<control name="template" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
@@ -290,7 +283,9 @@ elseif (isset($template_id))
           . '</control>';
 }
 
-if ($form == 'mainform')
+// generate other subscription attributes
+
+if ($form == 'createform')
 {
     $xml .= '<control name="subscription_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
           . '<label>' . get_html_resource(RES_SUBSCRIPTION_NAME_ID) . '</label>'
@@ -315,35 +310,12 @@ if ($form == 'mainform')
     }
 }
 
+// generate footer
+
 $xml .= '</group>'
-      . '<button default="true">' . get_html_resource($form == 'mainform' ? RES_OK_ID : RES_NEXT_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>'
-      . '</tabs>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_EMAIL:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, get_html_resource(RES_NEW_SUBSCRIPTION_ID)));
+echo(xml2html($xml));
 
 ?>

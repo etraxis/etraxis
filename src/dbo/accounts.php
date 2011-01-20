@@ -400,6 +400,7 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
               bool2sql($is_disabled),
               bool2sql($is_ldapuser),
               $locale,
+              HTML_TEXTBOX_DEFAULT_HEIGHT,
               DEFAULT_PAGE_ROWS,
               DEFAULT_PAGE_BKMS,
               DEF_THEME_NAME);

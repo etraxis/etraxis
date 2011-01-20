@@ -64,6 +64,4 @@ else
     dal_query('projects/suspend.sql', $id, bool2sql(TRUE));
 }
 
-header('Location: view.php?id=' . $id);
-
 ?>

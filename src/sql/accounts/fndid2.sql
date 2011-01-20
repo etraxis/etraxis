@@ -6,6 +6,7 @@ select
     is_admin,
     is_ldapuser,
     locale,
+    text_rows,
     page_rows,
     page_bkms,
     csv_delim,

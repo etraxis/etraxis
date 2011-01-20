@@ -48,38 +48,6 @@ if (!$filter)
     exit;
 }
 
-// determine filter's project
-
-switch ($filter['filter_type'])
-{
-    case FILTER_TYPE_ALL_PROJECTS:
-
-        $project_id = 0;
-
-        break;
-
-    case FILTER_TYPE_ALL_TEMPLATES:
-
-        $project    = project_find($filter['filter_param']);
-        $project_id = ($project ? $project['project_id'] : 0);
-
-        break;
-
-    case FILTER_TYPE_ALL_STATES:
-    case FILTER_TYPE_SEL_STATES:
-
-        $template   = template_find($filter['filter_param']);
-        $project_id = ($template ? $template['project_id'] : 0);
-
-        break;
-
-    default:
-
-        $project_id = 0;
-
-        debug_write_log(DEBUG_WARNING, 'Unknown filter type = ' . $filter['filter_type']);
-}
-
 // add/remove selected groups
 
 if (try_request('submitted') == 'othersform')
@@ -97,6 +65,8 @@ if (try_request('submitted') == 'othersform')
     {
         debug_write_log(DEBUG_NOTICE, 'No groups are selected.');
     }
+
+    exit;
 }
 elseif (try_request('submitted') == 'allowedform')
 {
@@ -113,35 +83,53 @@ elseif (try_request('submitted') == 'allowedform')
     {
         debug_write_log(DEBUG_NOTICE, 'No groups are selected.');
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
+
+    // determine filter's project
+    switch ($filter['filter_type'])
+    {
+        case FILTER_TYPE_ALL_PROJECTS:
+
+            $project_id = 0;
+
+            break;
+
+        case FILTER_TYPE_ALL_TEMPLATES:
+
+            $project    = project_find($filter['filter_param']);
+            $project_id = ($project ? $project['project_id'] : 0);
+
+            break;
+
+        case FILTER_TYPE_ALL_STATES:
+        case FILTER_TYPE_SEL_STATES:
+
+            $template   = template_find($filter['filter_param']);
+            $project_id = ($template ? $template['project_id'] : 0);
+
+            break;
+
+        default:
+
+            $project_id = 0;
+
+            debug_write_log(DEBUG_WARNING, 'Unknown filter type = ' . $filter['filter_type']);
+    }
 }
-
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_FILTER_X_ID), ustr2html($filter['filter_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_FILTERS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="share.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id='  . $id . '"><i>' . ustr2html($filter['filter_name']) . '</i></tab>'
-     . '<tab url="share.php?id=' . $id . '" active="true">' . get_html_resource(RES_SHARE_WITH_ID) . '</tab>'
-     . '<content>'
-     . '<dual>';
 
 // generate left side
 
-$xml .= '<dualleft>'
-      . '<form name="othersform" action="share.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">'
-      . '<control name="groups[]">'
-      . '<listbox size="10">';
+$xml = '<dual>'
+     . '<dualleft>'
+     . '<form name="othersform" action="share.php?id=' . $id . '" success="reloadTab">'
+     . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">'
+     . '<control name="groups[]">'
+     . '<listbox size="10">';
 
 $rs = dal_query('filters/sharing.sql', $id, $project_id);
 
@@ -164,7 +152,7 @@ $xml .= '</listbox>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="allowedform" action="share.php?id=' . $id . '">'
+      . '<form name="allowedform" action="share.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_ALLOWED_ID) . '">'
       . '<control name="groups[]">'
       . '<listbox size="10">';
@@ -189,13 +177,10 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="document.othersform.submit()">%gt;%gt;</button>'
-      . '<button action="document.allowedform.submit()">%lt;%lt;</button>';
+$xml .= '<button action="$(\'#othersform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#allowedform\').submit()">%lt;%lt;</button>'
+      . '</dual>';
 
-$xml .= '</dual>'
-      . '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

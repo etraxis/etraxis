@@ -78,147 +78,228 @@ if (try_request('submitted') == 'mainform')
     $add_separator = isset($_REQUEST['add_separator']);
     $description   = NULL;
 
-    $error = field_validate($field_name);
-
-    if ($error == NO_ERROR)
+    switch ($field_type)
     {
-        switch ($field_type)
-        {
-            case FIELD_TYPE_NUMBER:
-                $form      = 'numberform';
-                $min_value = NULL;
-                $max_value = NULL;
-                $def_value = NULL;
-                break;
+        case FIELD_TYPE_NUMBER:
+            $form      = 'numberform';
+            $min_value = NULL;
+            $max_value = NULL;
+            $def_value = NULL;
+            break;
 
-            case FIELD_TYPE_STRING:
-                $form          = 'stringform';
-                $max_length    = NULL;
-                $regex_check   = NULL;
-                $regex_search  = NULL;
-                $regex_replace = NULL;
-                $def_value     = NULL;
-                break;
+        case FIELD_TYPE_STRING:
+            $form          = 'stringform';
+            $max_length    = NULL;
+            $regex_check   = NULL;
+            $regex_search  = NULL;
+            $regex_replace = NULL;
+            $def_value     = NULL;
+            break;
 
-            case FIELD_TYPE_MULTILINED:
-                $form          = 'multilinedform';
-                $max_length    = NULL;
-                $regex_check   = NULL;
-                $regex_search  = NULL;
-                $regex_replace = NULL;
-                $def_value     = NULL;
-                break;
+        case FIELD_TYPE_MULTILINED:
+            $form          = 'multilinedform';
+            $max_length    = NULL;
+            $regex_check   = NULL;
+            $regex_search  = NULL;
+            $regex_replace = NULL;
+            $def_value     = NULL;
+            break;
 
-            case FIELD_TYPE_CHECKBOX:
-                $form      = 'checkboxform';
-                $def_value = 1;
-                break;
+        case FIELD_TYPE_CHECKBOX:
+            $form      = 'checkboxform';
+            $def_value = 1;
+            break;
 
-            case FIELD_TYPE_LIST:
-                $form       = 'listform';
-                $list_items = NULL;
-                $def_value  = NULL;
-                break;
+        case FIELD_TYPE_LIST:
+            $form       = 'listform';
+            $list_items = NULL;
+            $def_value  = NULL;
+            break;
 
-            case FIELD_TYPE_RECORD:
-                $form      = 'recordform';
-                $min_value = NULL;
-                $max_value = NULL;
-                break;
+        case FIELD_TYPE_RECORD:
+            $form      = 'recordform';
+            $min_value = NULL;
+            $max_value = NULL;
+            break;
 
-            case FIELD_TYPE_DATE:
-                $form      = 'dateform';
-                $min_value = NULL;
-                $max_value = NULL;
-                $def_value = NULL;
-                break;
+        case FIELD_TYPE_DATE:
+            $form      = 'dateform';
+            $min_value = NULL;
+            $max_value = NULL;
+            $def_value = NULL;
+            break;
 
-            case FIELD_TYPE_DURATION:
-                $form      = 'durationform';
-                $min_value = NULL;
-                $max_value = NULL;
-                $def_value = NULL;
-                break;
+        case FIELD_TYPE_DURATION:
+            $form      = 'durationform';
+            $min_value = NULL;
+            $max_value = NULL;
+            $def_value = NULL;
+            break;
 
-            default: ;  // nop
-        }
-    }
-    else
-    {
-        $form      = 'mainform';
-        $def_value = NULL;
+        default: ;  // nop
     }
 }
 
-// 2nd step of new field (number) has been submitted
+// 2st step of new field has been submitted
 
-elseif (try_request('submitted') == 'numberform')
+elseif (isset($_REQUEST['submitted']))
 {
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (number) are submitted.');
+    debug_write_log(DEBUG_NOTICE, 'Data for step #2 are submitted.');
 
-    $form = 'numberform';
+    // 2nd step of new field (number) has been submitted
 
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_NUMBER;
-    $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
-    $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
-    $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
-    $def_value     = (ustrlen($def_value) == 0 ? NULL : intval($def_value));
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
-
-    $error = field_validate_number($field_name, $min_value, $max_value, $def_value);
-
-    if ($error == NO_ERROR)
+    if (try_request('submitted') == 'numberform')
     {
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (number) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_NUMBER;
+        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
+        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
+        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
+        $def_value     = (ustrlen($def_value) == 0 ? NULL : intval($def_value));
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+
+        $error = field_validate_number($field_name, $min_value, $max_value, $def_value);
+
+        if ($error == NO_ERROR)
+        {
+            $error = field_create($id,
+                                  $field_name,
+                                  $field_type,
+                                  $is_required,
+                                  $add_separator,
+                                  $guest_access,
+                                  $description,
+                                  NULL, NULL, NULL,
+                                  $min_value,
+                                  $max_value,
+                                  $def_value);
+        }
+    }
+
+    // 2nd step of new field (string) has been submitted
+
+    elseif (try_request('submitted') == 'stringform')
+    {
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (string) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_STRING;
+        $max_length    = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_STRING));
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
+        $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
+        $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
+        $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
+
+        $error = field_validate_string($field_name, $max_length);
+
+        if ($error == NO_ERROR)
+        {
+            $def_value = ustrcut($_REQUEST['def_value'], $max_length);
+            $value_id  = (ustrlen($def_value) == 0 ? NULL : value_find_string($def_value));
+
+            $error = field_create($id,
+                                  $field_name,
+                                  $field_type,
+                                  $is_required,
+                                  $add_separator,
+                                  $guest_access,
+                                  $description,
+                                  $regex_check,
+                                  $regex_search,
+                                  $regex_replace,
+                                  $max_length,
+                                  NULL,
+                                  $value_id);
+        }
+    }
+
+    // 2nd step of new field (multilined) has been submitted
+
+    elseif (try_request('submitted') == 'multilinedform')
+    {
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (multilined text) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_MULTILINED;
+        $max_length    = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_MULTILINED));
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
+        $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
+        $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
+        $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
+
+        $error = field_validate_multilined($field_name, $max_length);
+
+        if ($error == NO_ERROR)
+        {
+            $def_value = ustrcut($_REQUEST['def_value'], $max_length);
+            $value_id  = (ustrlen($def_value) == 0 ? NULL : value_find_multilined($def_value));
+
+            $error = field_create($id,
+                                  $field_name,
+                                  $field_type,
+                                  $is_required,
+                                  $add_separator,
+                                  $guest_access,
+                                  $description,
+                                  $regex_check,
+                                  $regex_search,
+                                  $regex_replace,
+                                  $max_length,
+                                  NULL,
+                                  $value_id);
+        }
+    }
+
+    // 2nd step of new field (checkbox) has been submitted
+
+    elseif (try_request('submitted') == 'checkboxform')
+    {
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (checkbox) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_CHECKBOX;
+        $def_value     = ustr2int(try_request('def_value', 1), 0, 1);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+
         $error = field_create($id,
                               $field_name,
                               $field_type,
-                              $is_required,
+                              FALSE,
                               $add_separator,
                               $guest_access,
                               $description,
-                              NULL, NULL, NULL,
-                              $min_value,
-                              $max_value,
+                              NULL, NULL, NULL, NULL, NULL,
                               $def_value);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: findex.php?id=' . $id);
-            exit;
-        }
     }
-}
 
-// 2nd step of new field (string) has been submitted
+    // 2nd step of new field (list) has been submitted
 
-elseif (try_request('submitted') == 'stringform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (string) are submitted.');
-
-    $form      = 'stringform';
-    $def_value = NULL;
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_STRING;
-    $max_length    = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_STRING));
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
-    $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
-    $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
-    $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
-
-    $error = field_validate_string($field_name, $max_length);
-
-    if ($error == NO_ERROR)
+    elseif (try_request('submitted') == 'listform')
     {
-        $def_value = ustrcut($_REQUEST['def_value'], $max_length);
-        $value_id  = (ustrlen($def_value) == 0 ? NULL : value_find_string($def_value));
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (list) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_LIST;
+        $list_items    = ustrcut($_REQUEST['list_items'], MAX_FIELD_LIST_ITEMS);
+        $def_value     = try_request('def_value');
+        $def_value     = (ustrlen($def_value) == 0 ? NULL : ustr2int($def_value, 1, MAXINT));
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_create($id,
                               $field_name,
@@ -227,47 +308,22 @@ elseif (try_request('submitted') == 'stringform')
                               $add_separator,
                               $guest_access,
                               $description,
-                              $regex_check,
-                              $regex_search,
-                              $regex_replace,
-                              $max_length,
-                              NULL,
-                              $value_id);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: findex.php?id=' . $id);
-            exit;
-        }
+                              NULL, NULL, NULL, NULL, NULL,
+                              $def_value);
     }
-}
 
-// 2nd step of new field (multilined) has been submitted
+    // 2nd step of new field (record) has been submitted
 
-elseif (try_request('submitted') == 'multilinedform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (multilined text) are submitted.');
-
-    $form      = 'multilinedform';
-    $def_value = NULL;
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_MULTILINED;
-    $max_length    = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_MULTILINED));
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
-    $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
-    $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
-    $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
-
-    $error = field_validate_multilined($field_name, $max_length);
-
-    if ($error == NO_ERROR)
+    elseif (try_request('submitted') == 'recordform')
     {
-        $def_value = ustrcut($_REQUEST['def_value'], $max_length);
-        $value_id  = (ustrlen($def_value) == 0 ? NULL : value_find_multilined($def_value));
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (record) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_RECORD;
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_create($id,
                               $field_name,
@@ -275,206 +331,148 @@ elseif (try_request('submitted') == 'multilinedform')
                               $is_required,
                               $add_separator,
                               $guest_access,
-                              $description,
-                              $regex_check,
-                              $regex_search,
-                              $regex_replace,
-                              $max_length,
-                              NULL,
-                              $value_id);
+                              $description);
+    }
+
+    // 2nd step of new field (date) has been submitted
+
+    elseif (try_request('submitted') == 'dateform')
+    {
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (date) are submitted.');
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_DATE;
+        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_DATE));
+        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MIN_FIELD_DATE));
+        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MIN_FIELD_DATE));
+        $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+
+        $error = field_validate_date($field_name, $min_value, $max_value, $def_value);
 
         if ($error == NO_ERROR)
         {
-            header('Location: findex.php?id=' . $id);
-            exit;
+            $error = field_create($id,
+                                  $field_name,
+                                  $field_type,
+                                  $is_required,
+                                  $add_separator,
+                                  $guest_access,
+                                  $description,
+                                  NULL, NULL, NULL,
+                                  $min_value,
+                                  $max_value,
+                                  is_null($def_value) ? NULL : ustr2int($def_value, MIN_FIELD_DATE, MAX_FIELD_DATE));
         }
     }
-}
 
-// 2nd step of new field (checkbox) has been submitted
+    // 2nd step of new field (duration) has been submitted
 
-elseif (try_request('submitted') == 'checkboxform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (checkbox) are submitted.');
-
-    $form = 'checkboxform';
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_CHECKBOX;
-    $def_value     = ustr2int(try_request('def_value', 1), 0, 1);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
-
-    $error = field_create($id,
-                          $field_name,
-                          $field_type,
-                          FALSE,
-                          $add_separator,
-                          $guest_access,
-                          $description,
-                          NULL, NULL, NULL, NULL, NULL,
-                          $def_value);
-
-    if ($error == NO_ERROR)
+    elseif (try_request('submitted') == 'durationform')
     {
-        header('Location: findex.php?id=' . $id);
-        exit;
-    }
-}
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (duration) are submitted.');
 
-// 2nd step of new field (list) has been submitted
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_DURATION;
+        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+        $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
-elseif (try_request('submitted') == 'listform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (list) are submitted.');
-
-    $form = 'listform';
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_LIST;
-    $list_items    = ustrcut($_REQUEST['list_items'], MAX_FIELD_LIST_ITEMS);
-    $def_value     = try_request('def_value');
-    $def_value     = (ustrlen($def_value) == 0 ? NULL : ustr2int($def_value, 1, MAXINT));
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
-
-    $error = field_create($id,
-                          $field_name,
-                          $field_type,
-                          $is_required,
-                          $add_separator,
-                          $guest_access,
-                          $description,
-                          NULL, NULL, NULL, NULL, NULL,
-                          $def_value);
-
-    if ($error == NO_ERROR)
-    {
-        field_create_list_items($id, $field_name, $list_items);
-        header('Location: findex.php?id=' . $id);
-        exit;
-    }
-}
-
-// 2nd step of new field (record) has been submitted
-
-elseif (try_request('submitted') == 'recordform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (record) are submitted.');
-
-    $form = 'recordform';
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_RECORD;
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
-
-    $error = field_create($id,
-                          $field_name,
-                          $field_type,
-                          $is_required,
-                          $add_separator,
-                          $guest_access,
-                          $description);
-
-    if ($error == NO_ERROR)
-    {
-        header('Location: findex.php?id=' . $id);
-        exit;
-    }
-}
-
-// 2nd step of new field (date) has been submitted
-
-elseif (try_request('submitted') == 'dateform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (date) are submitted.');
-
-    $form = 'dateform';
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_DATE;
-    $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_DATE));
-    $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MIN_FIELD_DATE));
-    $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MIN_FIELD_DATE));
-    $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
-
-    $error = field_validate_date($field_name, $min_value, $max_value, $def_value);
-
-    if ($error == NO_ERROR)
-    {
-        $error = field_create($id,
-                              $field_name,
-                              $field_type,
-                              $is_required,
-                              $add_separator,
-                              $guest_access,
-                              $description,
-                              NULL, NULL, NULL,
-                              $min_value,
-                              $max_value,
-                              is_null($def_value) ? NULL : ustr2int($def_value, MIN_FIELD_DATE, MAX_FIELD_DATE));
+        $error = field_validate_duration($field_name, $min_value, $max_value, $def_value);
 
         if ($error == NO_ERROR)
         {
-            header('Location: findex.php?id=' . $id);
-            exit;
+            $error = field_create($id,
+                                  $field_name,
+                                  $field_type,
+                                  $is_required,
+                                  $add_separator,
+                                  $guest_access,
+                                  $description,
+                                  NULL, NULL, NULL,
+                                  ustr2time($min_value),
+                                  ustr2time($max_value),
+                                  is_null($def_value) ? NULL : ustr2time($def_value));
         }
     }
-}
 
-// 2nd step of new field (duration) has been submitted
-
-elseif (try_request('submitted') == 'durationform')
-{
-    debug_write_log(DEBUG_NOTICE, 'Data for step #2 (duration) are submitted.');
-
-    $form = 'durationform';
-
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = FIELD_TYPE_DURATION;
-    $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
-    $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
-    $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
-    $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
-    $is_required   = isset($_REQUEST['is_required']);
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
-
-    $error = field_validate_duration($field_name, $min_value, $max_value, $def_value);
-
-    if ($error == NO_ERROR)
+    switch ($error)
     {
-        $error = field_create($id,
-                              $field_name,
-                              $field_type,
-                              $is_required,
-                              $add_separator,
-                              $guest_access,
-                              $description,
-                              NULL, NULL, NULL,
-                              ustr2time($min_value),
-                              ustr2time($max_value),
-                              is_null($def_value) ? NULL : ustr2time($def_value));
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
 
-        if ($error == NO_ERROR)
-        {
-            header('Location: findex.php?id=' . $id);
-            exit;
-        }
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID));
+            break;
+
+        case ERROR_INVALID_INTEGER_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            break;
+
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+
+            if (try_request('submitted') == 'numberform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER));
+            }
+            elseif (try_request('submitted') == 'stringform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING));
+            }
+            elseif (try_request('submitted') == 'multilinedform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED));
+            }
+            else
+            {
+                header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            }
+
+            break;
+
+        case ERROR_MIN_MAX_VALUES:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_MIN_MAX_VALUES_ID));
+            break;
+
+        case ERROR_INVALID_DATE_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            break;
+
+        case ERROR_DATE_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE));
+            break;
+
+        case ERROR_INVALID_TIME_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            break;
+
+        case ERROR_TIME_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)));
+            break;
+
+        case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $min_value, $max_value));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
-}
 
+    exit;
+}
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
@@ -487,27 +485,36 @@ else
     $add_separator = FALSE;
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_NEW_FIELD_ID), ($form == 'mainform' ? 1 : 2), 2);
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// generate breadcrumbs
+$xml = <<<JQUERY
+<script>
 
-$xml = gen_context_menu('sindex.php?id=', 'findex.php?id=', 'fview.php?id=', $state['project_id'], $state['template_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($state['project_name']))  . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="findex.php?id=' . $id                   . '">' . ustrprocess(get_html_resource(RES_STATE_X_ID),    ustr2html($state['state_name']))    . '</breadcrumb>'
-     . '<breadcrumb url="fcreate.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>';
+function createSuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate header
+
+$xml .= '<form name="' . $form . '" action="fcreate.php?id=' . $id . '" success="createSuccess" error="createError">'
+      . '<group>';
 
 // generate common controls
 
-$xml .= '<content>'
-      . '<form name="' . $form . '" action="fcreate.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_FIELD_INFO_ID) . '">'
-      . '<control name="field_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+$xml .= '<control name="field_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
       . '<label>' . get_html_resource(RES_FIELD_NAME_ID) . '</label>'
       . '<editbox maxlen="' . MAX_FIELD_NAME . '">' . ustr2html($field_name) . '</editbox>'
       . '</control>'
@@ -622,7 +629,7 @@ elseif ($form == 'multilinedform')
 
     $xml .= '<control name="def_value">'
           . '<label>' . get_html_resource(RES_DEFAULT_VALUE_ID) . '</label>'
-          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_MULTILINED . '">'
           . ustr2html($def_value)
           . '</textbox>'
           . '</control>';
@@ -668,7 +675,7 @@ elseif ($form == 'listform')
 {
     $xml .= '<control name="list_items" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
           . '<label>' . get_html_resource(RES_LIST_ITEMS_ID) . '</label>'
-          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_LIST_ITEMS . '">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_LIST_ITEMS . '">'
           . ustr2html($list_items)
           . '</textbox>'
           . '</control>';
@@ -746,7 +753,7 @@ if ($form != 'mainform')
 {
     $xml .= '<control name="description">'
           . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
-          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_DESCRIPTION . '">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_DESCRIPTION . '">'
           . ustr2html($description)
           . '</textbox>'
           . '</control>';
@@ -782,99 +789,12 @@ $xml .= '<control name="add_separator">'
       . '</checkbox>'
       . '</control>';
 
-// generate buttons
+// generate footer
 
 $xml .= '</group>'
-      . '<button default="true">' . get_html_resource($form == 'mainform' ? RES_NEXT_ID : RES_OK_ID) . '</button>'
-      . '<button url="findex.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INVALID_INTEGER_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-
-        if ($form == 'numberform')
-        {
-            $xml .= '<scriptonreadyitem>'
-                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER) . '","' . get_html_resource(RES_OK_ID) . '");'
-                  . '</scriptonreadyitem>';
-        }
-        elseif ($form == 'stringform')
-        {
-            $xml .= '<scriptonreadyitem>'
-                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING) . '","' . get_html_resource(RES_OK_ID) . '");'
-                  . '</scriptonreadyitem>';
-        }
-        elseif ($form == 'multilinedform')
-        {
-            $xml .= '<scriptonreadyitem>'
-                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED) . '","' . get_html_resource(RES_OK_ID) . '");'
-                  . '</scriptonreadyitem>';
-        }
-
-        break;
-
-    case ERROR_MIN_MAX_VALUES:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INVALID_DATE_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_DATE_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INVALID_TIME_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_TIME_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $min_value, $max_value) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

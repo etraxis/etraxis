@@ -57,6 +57,4 @@ else
     subscriptions_enable(array($id));
 }
 
-header('Location: view.php?id=' . $id);
-
 ?>

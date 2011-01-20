@@ -56,11 +56,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 
 if (!can_record_be_displayed($permissions))
 {
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-    }
-
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
     header('Location: index.php');
     exit;
@@ -70,26 +65,12 @@ if (!can_record_be_displayed($permissions))
 
 record_read($id);
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="fields.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_FIELDS)
-     . '<content>';
-
 // generate general information
 
-$xml .= '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_PROJECT_ID)  . '">' . ustr2html($record['project_name'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_TEMPLATE_ID) . '">' . ustr2html($record['template_name']) . '</text>'
-      . '<text label="' . get_html_resource(RES_STATE_ID)    . '">' . ustr2html($record['state_name'])    . '</text>';
+$xml = '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
+     . '<text label="' . get_html_resource(RES_PROJECT_ID)  . '">' . ustr2html($record['project_name'])  . '</text>'
+     . '<text label="' . get_html_resource(RES_TEMPLATE_ID) . '">' . ustr2html($record['template_name']) . '</text>'
+     . '<text label="' . get_html_resource(RES_STATE_ID)    . '">' . ustr2html($record['state_name'])    . '</text>';
 
 if (is_record_postponed($record))
 {
@@ -151,9 +132,6 @@ while (($state = $states->fetch()))
     }
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

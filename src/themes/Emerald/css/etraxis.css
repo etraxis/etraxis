@@ -155,7 +155,10 @@ ul.contextmenu {
   background-color: #404140;
   background-image: url('Emerald/images/contextmenu-bg.png');
   background-repeat: repeat-x;
-  border: 1px solid #404140;
+  border-bottom: 1px solid #505250;
+  border-left: 1px solid #303030;
+  border-right: 1px solid #505250;
+  border-top: 1px solid #303030;
   display: none;
   margin: 0px 0px 0px -11px;
   position: absolute;
@@ -440,138 +443,13 @@ a.breadcrumb:hover {
   background-image: url('Emerald/images/toolbar-bg-hl.png');
 }
 
-/* Tabs */
-
-ul.tabs {
-  clear: both;
-  float: left;
-  list-style-type: none;
-  margin: 0px;
-  padding: 0px;
-  position: relative;
-  top: 1px;
-  z-index: 1;
-}
-
-li.ftab,
-li.btab {
-  border: #808080 1px solid;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  -moz-border-radius: 5px 5px 0px 0px;
-  -webkit-border-top-left-radius: 5px;
-  -webkit-border-top-right-radius: 5px;
-  cursor: pointer;
-  float: left;
-}
-
-li.ftab {
-  background-image: url('Emerald/images/tab-bg.png');
-  background-repeat: repeat-x;
-  background-position: bottom;
-  border-bottom-color: #FBFBFB;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 3px 10px 1px 10px;
-  text-transform: uppercase;
-}
-
-li.btab {
-  background-image: url('Emerald/images/tab-bg2.png');
-  border-bottom-color: #00403E;
-  border-left-color: #006663;
-  border-right-color: #00403E;
-  border-top-color: #006663;
-  font-size: 10px;
-  font-weight: bold;
-  padding: 2px 10px;
-  text-transform: uppercase;
-}
-
-li.ftab a.tab {
-  color: #404040;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-li.btab a.tab {
-  color: #C0C0C0;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-li.btab a.tab:hover {
-  color: #FBFBFB;
-}
-
-#simple_content,
-#tabbed_content {
+#content {
   background: #FBFBFB;
-  border: #808080 1px solid;
+  border: 0px;
   clear: both;
-  padding: 5px 10px;
+  padding: 0px;
   position: relative;
   text-align: justify;
-  top: expression('-10px');
-}
-
-/* Charts */
-
-iframe.chart {
-  border: #CCC 1px solid;
-  height: 475px;
-  margin: 5px 0px;
-  padding: 0px;
-  width: 100%;
-}
-
-/* Button */
-
-input.button,
-input.button_disabled {
-  background-image: url('Emerald/images/button-bg.png');
-  background-repeat: repeat-x;
-  border: 1px solid;
-  border-bottom-color: #00403E;
-  border-left-color: #006663;
-  border-right-color: #00403E;
-  border-top-color: #006663;
-  border-radius: 3px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  color: #E0E0E0;
-  font-size: 10px;
-  font-weight: bold;
-  height: 23px;
-  margin: 3px 3px 3px 0px;
-  padding: 2px 10px;
-  text-transform: uppercase;
-}
-
-input.button:hover {
-  background-image: url('Emerald/images/button-bg2.png');
-  border-bottom-color: #308B74;
-  border-left-color: #30806A;
-  border-right-color: #308B74;
-  border-top-color: #30806A;
-  color: #FBFBFB;
-}
-
-input.button:active {
-  border-bottom-color: #00403E;
-  border-left-color: #006663;
-  border-right-color: #00403E;
-  border-top-color: #006663;
-  color: #FBFBFB;
-}
-
-input.button_disabled {
-  background-image: url('Emerald/images/button-bg-dis.png');
-  border-bottom-color: #49494A;
-  border-left-color: #5A5A5A;
-  border-right-color: #49494A;
-  border-top-color: #5A5A5A;
-  color: #808080;
 }
 
 /* Basic controls */
@@ -623,8 +501,13 @@ span.disabled {
 }
 
 form {
-  margin: 0px;
+  margin: 5px 0px;
   padding: 0px;
+}
+
+form[name="searchform"],
+form[name="quickfindform"] {
+  margin: 0px;
 }
 
 fieldset {
@@ -684,11 +567,7 @@ select.dropdown {
 }
 
 div.fielddescription {
-  border: 1px solid;
-  border-bottom-color: #00403E;
-  border-left-color: #006663;
-  border-right-color: #00403E;
-  border-top-color: #006663;
+  border: 1px solid #00413F;
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   -moz-border-radius: 3px 3px 0px 0px;
@@ -696,13 +575,15 @@ div.fielddescription {
   -webkit-border-top-right-radius: 3px;
   display: block;
   margin: 5px;
+  width: 350px;
 }
 
 div.fielddescriptionhl {
-  background-image: url('Emerald/images/button-bg.png');
-  background-repeat: repeat-x;
-  color: #FBFBFB;
+  background: #00605D url('Emerald/images/ui-bg_gloss-wave_25_00605d_500x100.png') 50% 50% repeat-x;
+  color: #D0D0D0;
+  font-weight: normal;
   height: 23px;
+  line-height: 23px;
   margin: 0px;
   padding: 2px 2px 0px 2px;
   text-align: center;
@@ -713,4 +594,15 @@ div.fielddescriptionct {
   background-color: #FBFBFB;
   margin: 0px;
   padding: 0px 2px;
+}
+
+.uploadstate {
+  background-image: url('Emerald/images/load.gif');
+  background-repeat: no-repeat;
+  display: none;
+  height: 16px;
+  margin: 0px;
+  padding: 0px;
+  padding-left: 20px;
+  vertical-align: middle;
 }

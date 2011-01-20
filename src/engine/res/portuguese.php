@@ -83,7 +83,6 @@ $resource_portuguese = array
     'Valor de "%1" falha na checagem do formato.',
     'Usuário não está autorizado.',
     'Usuário desconhecido ou senha incorreta.',
-    'Tipo de autenticação desconhecida.',
     'Erro desconhecido.',
     'Erro durante o parse do XML.',
 
@@ -215,7 +214,7 @@ $resource_portuguese = array
     'Assunto',
     'Estado',
     'Idade',
-    'Novo registro (passo %1/%2)',
+    'Novo registro',
     'Registro "%1"',
     NULL,
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_portuguese = array
     'Logs de debug',
     'Habilitado',
     'Desabilitado',
-    '%1 min',
+    NULL,
     'permissão para apenas visualizar registros.',
     'Selecinar todos',
     'Autor',
@@ -376,7 +375,7 @@ $resource_portuguese = array
     'Nome do lembrete',
     'Assunto do lembrete',
     'Receptores do lembrete',
-    'Novo lembrete (passo %1/%2)',
+    'Novo lembrete',
     'Lembrete "%1"',
     'permissão para enviar lembretes',
     'Enviar',
@@ -385,7 +384,7 @@ $resource_portuguese = array
     'Nova assinatura',
     /* 1250 */
     'Assinatura "%1"',
-    'Sua senha LDAP',
+    NULL,
     'Você pode inserir links para outros registros especificando "rec#" e seu número (e.g. "rec#305").',
     'Visualizar apenas estados movidos ...',
     'Compartilhar com ...',
@@ -480,7 +479,7 @@ $resource_portuguese = array
     'Convidado',
     'Importar',
     'permissão para remover registros',
-    'Tipo de autenticação',
+    NULL,
     'Língua padrão',
     /* 1340 */
     'Expiração da senha (em dias)',

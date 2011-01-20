@@ -83,7 +83,6 @@ $resource_italian = array
     'Il valore di "%1" non è valido.',
     'Utente non autorizzato.',
     'Nome utente non riconosciuto o password errata.',
-    'Tipo di autenticazione non valida.',
     'Errore sconosciuto.',
     'Errore nel parser XML.',
 
@@ -215,7 +214,7 @@ $resource_italian = array
     'Modello',
     'Stato',
     'Età',
-    'Nuovo record (step %1/%2)',
+    'Nuovo record',
     'Record "%1"',
     'I miei record',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_italian = array
     'Debug logs',
     'Abilitato',
     'Disabilitato',
-    '%1 min',
+    NULL,
     'abilitazione alla sola visualizzazione dei record',
     'Seleziona tutto',
     'Autore',
@@ -376,7 +375,7 @@ $resource_italian = array
     'Nome sollecito',
     'Oggetto del sollecito',
     'Destinatari del sollecito',
-    'Nuovo sollecito (step %1/%2)',
+    'Nuovo sollecito',
     'Sollecito "%1"',
     'abilitazione ad inviare solleciti',
     'Invia',
@@ -385,7 +384,7 @@ $resource_italian = array
     'Nuova sottoscrizione',
     /* 1250 */
     'Sottoscrizione "%1"',
-    'Password LDAP',
+    NULL,
     'E\' possibile inserire link ad un altro record specificando "rec#" e il suo numero (ad esempio "rec#305").',
     'Mostra solo quelli negli stati ...',
     'Condividi con ...',
@@ -480,7 +479,7 @@ $resource_italian = array
     'Ospite',
     'Importa',
     'abilitazione ad eliminare record',
-    'Tipo di autenticazione',
+    NULL,
     'Lingua predefinita',
     /* 1340 */
     'Scadenza password (giorni)',

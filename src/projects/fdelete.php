@@ -44,7 +44,7 @@ if (get_user_level() == USER_LEVEL_ADMIN)
         if ($field['is_locked'])
         {
             field_delete($id);
-            header('Location: findex.php?id=' . $field['state_id']);
+            header('Location: sview.php?tab=2&id=' . $field['state_id']);
         }
         else
         {

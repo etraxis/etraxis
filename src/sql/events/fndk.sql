@@ -27,4 +27,5 @@ where
     e.record_id     = %1 and
     e.originator_id = %2 and
     e.event_type    = %3 and
-    e.event_time    = %4
+    e.event_time    = %4 and
+    e.event_param   = %5

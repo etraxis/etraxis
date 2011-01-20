@@ -56,6 +56,4 @@ if (!$account)
 // unlock
 account_unlock($id);
 
-header('Location: view.php?id=' . $id);
-
 ?>

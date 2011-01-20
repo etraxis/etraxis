@@ -60,11 +60,27 @@ if (try_request('submitted') == 'disabledform')
     if (isset($_REQUEST['lcolumns']))
     {
         $error = columns_add($id, $_REQUEST['lcolumns']);
+
+        switch ($error)
+        {
+            case NO_ERROR:
+                header('HTTP/1.0 200 OK');
+                break;
+
+            case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+                header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS), MAX_VIEW_SIZE));
+                break;
+
+            default:
+                header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+        }
     }
     else
     {
         debug_write_log(DEBUG_NOTICE, 'No columns are selected.');
     }
+
+    exit;
 }
 elseif (try_request('submitted') == 'enabledform')
 {
@@ -78,28 +94,13 @@ elseif (try_request('submitted') == 'enabledform')
     {
         debug_write_log(DEBUG_NOTICE, 'No columns are selected.');
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
-
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_VIEW_X_ID), ustr2html($view['view_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_VIEWS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="columns.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id='    . $id . '"><i>'            . ustr2html($view['view_name']) . '</i></tab>'
-     . '<tab url="columns.php?id=' . $id . '" active="true">' . get_html_resource(RES_COLUMNS_ID) . '</tab>'
-     . '<tab url="filters.php?id=' . $id . '">'               . get_html_resource(RES_FILTERS_ID) . '</tab>'
-     . '<content>'
-     . '<dual>';
 
 // split all columns of the view into 2 arrays - standard columns, and custom ones
 
@@ -124,10 +125,51 @@ foreach ($columns as $column)
     }
 }
 
+// local JS functions
+
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function onError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+function moveUp ()
+{
+    var id = document.getElementById("rcolumns[]").value;
+
+    $.post("move.php?offset=-1&amp;id=" + id, function(data){
+        if (data.length != 0)
+        {
+            document.getElementById("rcolumns[]").innerHTML = data;
+        }
+    });
+}
+
+function moveDown ()
+{
+    var id = document.getElementById("rcolumns[]").value;
+
+    $.post("move.php?offset=1&amp;id=" + id, function(data){
+        if (data.length != 0)
+        {
+            document.getElementById("rcolumns[]").innerHTML = data;
+        }
+    });
+}
+
+</script>
+JQUERY;
+
 // generate left side
 
-$xml .= '<dualleft>'
-      . '<form name="disabledform" action="columns.php?id=' . $id . '">'
+$xml .= '<dual>'
+      . '<dualleft>'
+      . '<form name="disabledform" action="columns.php?id=' . $id . '" success="reloadTab" error="onError">'
       . '<group title="' . get_html_resource(RES_DISABLED2_ID) . '">'
       . '<control name="lcolumns[]">'
       . '<listbox size="10">';
@@ -225,7 +267,7 @@ $xml .= '</listbox>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="enabledform" action="columns.php?id=' . $id . '">'
+      . '<form name="enabledform" action="columns.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_ENABLED2_ID) . '">'
       . '<control name="rcolumns[]">'
       . '<listbox size="10">';
@@ -258,25 +300,10 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="document.disabledform.submit()">%gt;%gt;</button>'
-      . '<button action="document.enabledform.submit()">%lt;%lt;</button>'
-      . '</dual>'
-      . '</content>'
-      . '</tabs>'
-      . '<script src="move.js"></script>';
+$xml .= '<button action="$(\'#disabledform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#enabledform\').submit()">%lt;%lt;</button>'
+      . '</dual>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS), MAX_VIEW_SIZE) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

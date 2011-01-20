@@ -129,20 +129,23 @@ $notifications_filter = array
  * @param int $record_id Record ID.
  * @param int $type Type of event.
  * @param int $time {@link http://en.wikipedia.org/wiki/Unix_time Unix timestamp} of event.
+ * @param int $param Parameter of event, depends on the event type.
  * @return array Array with data if event is found in database, FALSE otherwise.
  */
-function event_find ($record_id, $type, $time)
+function event_find ($record_id, $type, $time, $param)
 {
     debug_write_log(DEBUG_TRACE, '[event_find]');
     debug_write_log(DEBUG_DUMP,  '[event_find] $record_id = ' . $record_id);
     debug_write_log(DEBUG_DUMP,  '[event_find] $type      = ' . $type);
     debug_write_log(DEBUG_DUMP,  '[event_find] $time      = ' . $time);
+    debug_write_log(DEBUG_DUMP,  '[event_find] $param     = ' . $param);
 
-    $rs = dal_query('events/fndk.sql',
+    $rs = dal_query(is_null($param) ? 'events/fndk2.sql' : 'events/fndk.sql',
                     $record_id,
                     $_SESSION[VAR_USERID],
                     $type,
-                    $time);
+                    $time,
+                    $param);
 
     return ($rs->rows == 0 ? FALSE : $rs->fetch());
 }
@@ -175,7 +178,7 @@ function event_create ($record_id, $type, $time, $param = NULL)
               $record_id,
               $time);
 
-    return event_find($record_id, $type, $time);
+    return event_find($record_id, $type, $time, is_null($param) ? NULL : $param);
 }
 
 /**

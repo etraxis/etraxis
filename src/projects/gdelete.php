@@ -64,6 +64,6 @@ else
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
 }
 
-header('Location: gindex.php?id=' . $project_id);
+header('Location: view.php?tab=2&id=' . $project_id);
 
 ?>

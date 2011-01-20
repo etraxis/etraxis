@@ -58,7 +58,7 @@ $xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
      . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="view.php?id=' . $id . '" active="true"><i>' . ustr2html($project['project_name']) . '</i></tab>';
+     . '<tab url="project.php?id=' . $id . '" active="true">' . ustr2html($project['project_name']) . '</tab>';
 
 if (get_user_level() == USER_LEVEL_ADMIN)
 {
@@ -67,39 +67,6 @@ if (get_user_level() == USER_LEVEL_ADMIN)
 }
 
 $xml .= '<tab url="metrics.php?id=' . $id . '">' . get_html_resource(RES_METRICS_ID) . '</tab>'
-      . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="index.php">' . get_html_resource(RES_BACK_ID) . '</button>';
-
-if (get_user_level() == USER_LEVEL_ADMIN)
-{
-    $xml .= HTML_SPLITTER
-          . '<button url="pexport.php?id=' . $id . '">' . get_html_resource(RES_EXPORT_ID) . '</button>'
-          . HTML_SPLITTER
-          . '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
-
-    $xml .= (is_project_removable($id)
-                ? '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_PROJECT_ID) . '">'
-                : '<button disabled="false">')
-          . get_html_resource(RES_DELETE_ID)
-          . '</button>';
-
-    $xml .= '<button url="disable.php?id=' . $id . '">'
-          . get_html_resource($project['is_suspended'] ? RES_ENABLE_ID : RES_DISABLE_ID)
-          . '</button>';
-}
-
-// generate project information
-
-$xml .= '<group title="' . get_html_resource(RES_PROJECT_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_PROJECT_NAME_ID) . '">' . ustr2html($project['project_name']) . '</text>'
-      . '<text label="' . get_html_resource(RES_START_TIME_ID)   . '">' . get_date($project['start_time'])    . '</text>'
-      . '<text label="' . get_html_resource(RES_DESCRIPTION_ID)  . '">' . ustr2html($project['description'])  . '</text>'
-      . '<text label="' . get_html_resource(RES_STATUS_ID)       . '">' . get_html_resource($project['is_suspended'] ? RES_SUSPENDED_ID : RES_ACTIVE_ID) . '</text>'
-      . '</group>'
-      . '</content>'
       . '</tabs>';
 
 echo(xml2html($xml, $title));

@@ -29,6 +29,7 @@
  * Dependency.
  */
 require_once('../engine/config.php');
+require_once('../engine/xml.php');
 require_once('../engine/themes.php');
 /**#@-*/
 
@@ -76,8 +77,9 @@ header('Content-Type: text/css');
 header('Content-Length: ' . strlen($output));
 header('Pragma: cache');
 header('Cache-Control: public');
-header('Last-Modified: ' . date(DATE_RFC822));
+header('Last-Modified: ' . date(DATE_RFC822, filectime($file)));
 header('Expires: ' . date(DATE_RFC822, time() + 86400));
+header('ETag: "' . md5(sprintf('%s/%s', VERSION, $file)) . '"');
 
 echo($output);
 

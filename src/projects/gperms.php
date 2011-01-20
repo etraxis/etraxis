@@ -120,91 +120,126 @@ if (try_request('submitted') == 'permsform')
     {
         debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
-
-    $tid = 0;
 }
 
-// page's title
+// JS arrays with permissions
 
-$title = ustrprocess(get_html_resource(RES_GROUP_X_ID), ustr2html($group['group_name']));
+$xml = <<<JQUERY
+<script>
 
-// generate breadcrumbs and tabs
+var perm_view         = new Array();
+var perm_create       = new Array();
+var perm_modify       = new Array();
+var perm_postpone     = new Array();
+var perm_resume       = new Array();
+var perm_reassign     = new Array();
+var perm_state        = new Array();
+var perm_comment      = new Array();
+var perm_confidential = new Array();
+var perm_attach       = new Array();
+var perm_remove       = new Array();
+var perm_remind       = new Array();
+var perm_delete       = new Array();
+var perm_addsub       = new Array();
+var perm_remsub       = new Array();
 
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $pid)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="gindex.php?id=' . $pid . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="gperms.php?pid=' . $pid . '&amp;id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="gview.php?pid='    . $pid . '&amp;id=' . $id . '"><i>'            . ustr2html($group['group_name'])       . '</i></tab>'
-     . '<tab url="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '">'               . get_html_resource(RES_MEMBERSHIP_ID)  . '</tab>'
-     . '<tab url="gperms.php?pid='   . $pid . '&amp;id=' . $id . '" active="true">' . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
-     . '<content>';
-
-// generate script to select all permissions
-
-$xml .= '<script>'
-      . 'function select_all () {';
-
-foreach ($gperms as $gperm)
-{
-    $xml .= 'document.permsform.' . $gperm[GPERMS_CONTROL] . '.checked = true;';
-}
-
-$xml .= '}';
-
-// generate script to update permissions
-
-$xml .= 'function update_perms () {'
-      . 'switch (document.permsform.template.value) {';
+JQUERY;
 
 $rs = dal_query('templates/list.sql', $pid, 'template_name');
-
-if ($tid == 0 && $rs->rows != 0)
-{
-    $tid = $rs->fetch('template_id');
-    $rs->seek();
-}
 
 while (($row = $rs->fetch()))
 {
     $permissions = group_get_permissions($id, $row['template_id']);
 
-    $xml .= 'case "' . $row['template_id'] . '":';
-
     foreach ($gperms as $gperm)
     {
-        $xml .= 'document.permsform.' . $gperm[GPERMS_CONTROL] . '.checked = ' . (($permissions & $gperm[GPERMS_PERMISSION]) == 0 ? 'false;' : 'true;');
+        $xml .= sprintf('%s["t%d"] = %s;',
+                        $gperm[GPERMS_CONTROL],
+                        $row['template_id'],
+                        (($permissions & $gperm[GPERMS_PERMISSION]) == 0 ? 'false' : 'true'));
     }
-
-    $xml .= 'break;';
 }
 
-$xml .= '}'
-      . '}'
-      . '</script>';
+// local JS functions
+
+$resTitle   = get_js_resource(RES_PERMISSIONS_ID);
+$resMessage = get_js_resource(RES_ALERT_SUCCESSFULLY_SAVED_ID);
+$resOK      = get_js_resource(RES_OK_ID);
+
+$xml .= <<<JQUERY
+
+function permissionsSuccess ()
+{
+    var id = $("#template").val();
+
+    perm_view["t"+id]         = $("#perm_view").attr("checked");
+    perm_create["t"+id]       = $("#perm_create").attr("checked");
+    perm_modify["t"+id]       = $("#perm_modify").attr("checked");
+    perm_postpone["t"+id]     = $("#perm_postpone").attr("checked");
+    perm_resume["t"+id]       = $("#perm_resume").attr("checked");
+    perm_reassign["t"+id]     = $("#perm_reassign").attr("checked");
+    perm_state["t"+id]        = $("#perm_state").attr("checked");
+    perm_comment["t"+id]      = $("#perm_comment").attr("checked");
+    perm_confidential["t"+id] = $("#perm_confidential").attr("checked");
+    perm_attach["t"+id]       = $("#perm_attach").attr("checked");
+    perm_remove["t"+id]       = $("#perm_remove").attr("checked");
+    perm_remind["t"+id]       = $("#perm_remind").attr("checked");
+    perm_delete["t"+id]       = $("#perm_delete").attr("checked");
+    perm_addsub["t"+id]       = $("#perm_addsub").attr("checked");
+    perm_remsub["t"+id]       = $("#perm_remsub").attr("checked");
+
+    jqAlert("{$resTitle}", "{$resMessage}", "{$resOK}");
+}
+
+function selectAll ()
+{
+    $("#permsform input:checkbox").attr("checked", "checked");
+}
+
+function updatePerms ()
+{
+    var id = $("#template").val();
+
+    $("#perm_view").attr("checked",         perm_view["t"+id]         ? "checked" : "");
+    $("#perm_create").attr("checked",       perm_create["t"+id]       ? "checked" : "");
+    $("#perm_modify").attr("checked",       perm_modify["t"+id]       ? "checked" : "");
+    $("#perm_postpone").attr("checked",     perm_postpone["t"+id]     ? "checked" : "");
+    $("#perm_resume").attr("checked",       perm_resume["t"+id]       ? "checked" : "");
+    $("#perm_reassign").attr("checked",     perm_reassign["t"+id]     ? "checked" : "");
+    $("#perm_state").attr("checked",        perm_state["t"+id]        ? "checked" : "");
+    $("#perm_comment").attr("checked",      perm_comment["t"+id]      ? "checked" : "");
+    $("#perm_confidential").attr("checked", perm_confidential["t"+id] ? "checked" : "");
+    $("#perm_attach").attr("checked",       perm_attach["t"+id]       ? "checked" : "");
+    $("#perm_remove").attr("checked",       perm_remove["t"+id]       ? "checked" : "");
+    $("#perm_remind").attr("checked",       perm_remind["t"+id]       ? "checked" : "");
+    $("#perm_delete").attr("checked",       perm_delete["t"+id]       ? "checked" : "");
+    $("#perm_addsub").attr("checked",       perm_addsub["t"+id]       ? "checked" : "");
+    $("#perm_remsub").attr("checked",       perm_remsub["t"+id]       ? "checked" : "");
+}
+
+</script>
+JQUERY;
 
 // generate left side
 
-$xml .= '<form name="permsform" action="gperms.php?pid=' . $pid . '&amp;id=' . $id . '">'
+$xml .= '<form name="permsform" action="gperms.php?pid=' . $pid . '&amp;id=' . $id . '" success="permissionsSuccess">'
       . '<dual>'
       . '<dualleft>'
       . '<group title="' . get_html_resource(RES_TEMPLATES_ID) . '">'
       . '<control name="template">'
-      . '<listbox size="10" action="update_perms()">';
+      . '<listbox size="10" action="updatePerms()">';
 
 $rs->seek();
 
 while (($row = $rs->fetch()))
 {
-    $xml .= ($tid == $row['template_id']
-                ? '<listitem value="' . $row['template_id'] . '" selected="true">'
-                : '<listitem value="' . $row['template_id'] . '">')
+    $xml .= '<listitem value="' . $row['template_id'] . '">'
           . ustr2html($row['template_name'])
           . '</listitem>';
 }
@@ -227,15 +262,17 @@ foreach ($gperms as $gperm)
 }
 
 $xml .= '</group>'
-      . '<button default="true">'        . get_html_resource(RES_SAVE_ID)       . '</button>'
-      . '<button action="select_all()">' . get_html_resource(RES_SELECT_ALL_ID) . '</button>'
+      . '<button default="true">'       . get_html_resource(RES_SAVE_ID)       . '</button>'
+      . '<button action="selectAll()">' . get_html_resource(RES_SELECT_ALL_ID) . '</button>'
       . '</dualright>'
       . '</dual>'
-      . '</form>'
-      . '<script>update_perms();</script>'
-      . '</content>'
-      . '</tabs>';
+      . '</form>';
 
-echo(xml2html($xml, $title));
+$xml .= '<onready>'
+      . '$("#template :first-child").attr("selected", "selected");'
+      . 'updatePerms();'
+      . '</onready>';
+
+echo(xml2html($xml));
 
 ?>

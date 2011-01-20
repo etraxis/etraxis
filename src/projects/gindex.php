@@ -54,6 +54,23 @@ if (!$project)
     exit;
 }
 
+// local JS functions
+
+$resTitle  = get_js_resource(RES_NEW_GROUP_ID);
+$resOK     = get_js_resource(RES_OK_ID);
+$resCancel = get_js_resource(RES_CANCEL_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function groupCreate ()
+{
+    jqModal("{$resTitle}", "gcreate.php?id={$id}", "{$resOK}", "{$resCancel}", "$('#createform').submit()");
+}
+
+</script>
+JQUERY;
+
 // get list of groups
 
 $sort = $page = NULL;
@@ -61,27 +78,9 @@ $list = groups_list($id, $sort, $page);
 
 $from = $to = 0;
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="gindex.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id='    . $id . '"><i>'            . ustr2html($project['project_name']) . '</i></tab>'
-     . '<tab url="gindex.php?id='  . $id . '" active="true">' . get_html_resource(RES_GROUPS_ID)    . '</tab>'
-     . '<tab url="tindex.php?id='  . $id . '">'               . get_html_resource(RES_TEMPLATES_ID) . '</tab>'
-     . '<tab url="metrics.php?id=' . $id . '">'               . get_html_resource(RES_METRICS_ID)   . '</tab>'
-     . '<content>';
-
 // generate buttons
 
-$xml .= '<button url="gcreate.php?id=' . $id . '">' . get_html_resource(RES_CREATE_ID) . '</button>';
+$xml .= '<button action="groupCreate()">' . get_html_resource(RES_CREATE_ID) . '</button>';
 
 // generate list of groups
 
@@ -94,9 +93,9 @@ if ($list->rows != 0)
 
     $xml .= '<list>'
           . '<hrow>'
-          . "<hcell url=\"gindex.php?id={$id}&amp;sort={$sort1}&amp;page={$page}\">" . get_html_resource(RES_GROUP_NAME_ID)  . '</hcell>'
+          . "<hcell url=\"gindex.php?id={$id}&amp;sort={$sort1}\">" . get_html_resource(RES_GROUP_NAME_ID)  . '</hcell>'
           . "<hcell/>"
-          . "<hcell url=\"gindex.php?id={$id}&amp;sort={$sort2}&amp;page={$page}\">" . get_html_resource(RES_DESCRIPTION_ID) . '</hcell>'
+          . "<hcell url=\"gindex.php?id={$id}&amp;sort={$sort2}\">" . get_html_resource(RES_DESCRIPTION_ID) . '</hcell>'
           . '</hrow>';
 
     $list->seek($from - 1);
@@ -116,9 +115,6 @@ if ($list->rows != 0)
           . $bookmarks;
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

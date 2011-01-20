@@ -29,7 +29,6 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/groups.php');
 /**#@-*/
 
 init_page();
@@ -41,67 +40,14 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
-// get list of groups
-
-$sort = $page = NULL;
-$list = groups_list(0, $sort, $page);
-
-$from = $to = 0;
-
 // generate breadcrumbs and tabs
 
 $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="index.php" active="true">' . get_html_resource(RES_GROUPS_ID) . '</tab>'
-     . '<tab url="create.php">'              . get_html_resource(RES_CREATE_ID)   . '</tab>'
-     . '<content>';
-
-// generate list of groups
-
-if ($list->rows != 0)
-{
-    $columns = array
-    (
-        RES_GROUP_NAME_ID,
-        RES_DESCRIPTION_ID,
-    );
-
-    $bookmarks = gen_xml_bookmarks($page, $list->rows, $from, $to);
-
-    $xml .= '<list>'
-          . '<hrow>';
-
-    for ($i = 1; $i <= count($columns); $i++)
-    {
-        $smode = ($sort == $i ? ($i + count($columns)) : $i);
-
-        $xml .= "<hcell url=\"index.php?sort={$smode}&amp;page={$page}\">"
-              . get_html_resource($columns[$i - 1])
-              . '</hcell>';
-    }
-
-    $xml .= '</hrow>';
-
-    $list->seek($from - 1);
-
-    for ($i = $from; $i <= $to; $i++)
-    {
-        $row = $list->fetch();
-
-        $xml .= "<row url=\"view.php?id={$row['group_id']}\">"
-              . '<cell>' . ustr2html($row['group_name'])  . '</cell>'
-              . '<cell>' . ustr2html($row['description']) . '</cell>'
-              . '</row>';
-    }
-
-    $xml .= '</list>'
-          . $bookmarks;
-}
-
-$xml .= '</content>'
-      . '</tabs>';
+     . '<tab url="list.php">' . get_html_resource(RES_GROUPS_ID) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, get_html_resource(RES_GLOBAL_GROUPS_ID)));
 

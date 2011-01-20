@@ -83,7 +83,6 @@ $resource_dutch = array
     'De waarde "%1" heeft een foutief formaat.',
     'Gebruiker is niet gemachtigd.',
     'Onbekende gebruikersnaam of verkeerd wachtwoord.',
-    'Onbekend authenticatietype.',
     'Onbekende fout.',
     'XML parser fout.',
 
@@ -215,7 +214,7 @@ $resource_dutch = array
     'Sjabloon',
     'Status',
     'Leeftijd',
-    'Nieuw record (stap %1/%2)',
+    'Nieuw record',
     'Record "%1"',
     'Mijn records',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_dutch = array
     'Debug logbestanden',
     'Ingeschakeld',
     'Uitgeschakeld',
-    '%1 min',
+    NULL,
     'toestemming om enkel records te lezen',
     'Selecteer alles',
     'Auteur',
@@ -376,7 +375,7 @@ $resource_dutch = array
     'Herinneringsnaam',
     'Herinneringsonderwerp',
     'Herinneringsontvangers',
-    'Nieuwe herinnering (stap %1/%2)',
+    'Nieuwe herinnering',
     'Herinnering "%1"',
     'toestemming om herinneringen te sturen',
     'Verzenden',
@@ -385,7 +384,7 @@ $resource_dutch = array
     'Nieuwe inschrijving',
     /* 1250 */
     'Inschrijving "%1"',
-    'Je LDAP wachtwoord',
+    NULL,
     'Je kan een link aan ander record toevoegen door vermelding van "rec#" en recordnummer (bijv. "rec#305").',
     'Toon enkel verplaatst naar statussen ...',
     'Delen met ...',
@@ -480,7 +479,7 @@ $resource_dutch = array
     'Gast',
     'Importeer',
     'toestemming om records te verwijderen',
-    'Authenticatietype',
+    NULL,
     'Standaardtaal',
     /* 1340 */
     'Vervaldatum wachtwoord (dagen)',

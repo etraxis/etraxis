@@ -49,8 +49,8 @@ $list = records_list($columns, $sort, $page, $_SESSION[VAR_SEARCH_MODE], $_SESSI
 
 header('Pragma: private');
 header('Cache-Control: private, must-revalidate');
-header('Content-type: text/csv');
-header('Content-Disposition: attachment; filename=etraxis.csv');
+header('Content-Type: text/csv');
+header('Content-Disposition: attachment; filename="etraxis.csv"');
 
 // generate header of the list
 

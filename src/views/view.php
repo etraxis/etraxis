@@ -57,28 +57,10 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="view.php?id=' . $id . '" active="true"><i>' . ustr2html($view['view_name']) . '</i></tab>'
+     . '<tab url="view2.php?id='   . $id . '">' . ustr2html($view['view_name'])     . '</tab>'
      . '<tab url="columns.php?id=' . $id . '">' . get_html_resource(RES_COLUMNS_ID) . '</tab>'
      . '<tab url="filters.php?id=' . $id . '">' . get_html_resource(RES_FILTERS_ID) . '</tab>'
-     . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="index.php">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . HTML_SPLITTER
-      . '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
-
-$xml .= '<button url="delete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_VIEWS_ID) . '">'
-      . get_html_resource(RES_DELETE_ID)
-      . '</button>';
-
-// generate view information
-
-$xml .= '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_VIEW_NAME_ID) . '">' . ustr2html($view['view_name']) . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
+     . '</tabs>';
 
 echo(xml2html($xml, $title));
 
