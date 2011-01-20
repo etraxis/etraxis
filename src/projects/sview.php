@@ -33,9 +33,6 @@ require_once('../dbo/projects.php');
 require_once('../dbo/states.php');
 /**#@-*/
 
-global $state_type_res;
-global $state_responsible_res;
-
 init_page();
 
 if (get_user_level() != USER_LEVEL_ADMIN)
@@ -63,15 +60,15 @@ $title = ustrprocess(get_html_resource(RES_STATE_X_ID), ustr2html($state['state_
 
 // generate breadcrumbs and tabs
 
-$xml = gen_context_menu('sindex.php?id=', 'sview.php?id=', 'fview.php?id=', $state['project_id'], $state['template_id'], $id)
+$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $state['project_id'], $state['template_id'], $id)
      . '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($state['project_name']))  . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</breadcrumb>'
+     . '<breadcrumb url="view.php?id='  . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($state['project_name']))  . '</breadcrumb>'
+     . '<breadcrumb url="tview.php?id=' . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</breadcrumb>'
      . '<breadcrumb url="sview.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="sview.php?id='  . $id . '" active="true"><i>' . ustr2html($state['state_name']) . '</i></tab>'
+     . '<tab url="state.php?id='  . $id . '">' . ustr2html($state['state_name'])  . '</tab>'
      . '<tab url="findex.php?id=' . $id . '">' . get_html_resource(RES_FIELDS_ID) . '</tab>';
 
 if ($state['state_type'] != STATE_TYPE_FINAL)
@@ -79,49 +76,7 @@ if ($state['state_type'] != STATE_TYPE_FINAL)
     $xml .= '<tab url="strans.php?id=' . $id . '">' . get_html_resource(RES_TRANSITIONS_ID) . '</tab>';
 }
 
-$xml .= '<content>';
-
-// generate buttons
-
-$xml .= '<button url="sindex.php?id=' . $state['template_id'] . '">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . HTML_SPLITTER;
-
-$xml .= ($state['is_locked']
-            ? '<button url="smodify.php?id=' . $id . '">'
-            : '<button disabled="false">')
-      . get_html_resource(RES_MODIFY_ID)
-      . '</button>';
-
-$xml .= ($state['is_locked'] && is_state_removable($id)
-            ? '<button url="sdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_STATE_ID) . '">'
-            : '<button disabled="false">')
-      . get_html_resource(RES_DELETE_ID)
-      . '</button>';
-
-if ($state['state_type'] == STATE_TYPE_INTERMEDIATE)
-{
-    $xml .= ($state['is_locked']
-                ? '<button url="initial.php?id=' . $id . '">'
-                : '<button disabled="false">')
-          . get_html_resource(RES_SET_INITIAL_ID)
-          . '</button>';
-}
-
-// generate state information
-
-$next_state = is_null($state['next_state_id'])
-            ? get_html_resource(RES_NONE_ID)
-            : ustr2html($state['next_state_name']);
-
-$xml .= '<group title="' . get_html_resource(RES_STATE_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_STATE_NAME_ID)            . '">' . ustr2html($state['state_name'])                                  . '</text>'
-      . '<text label="' . get_html_resource(RES_STATE_ABBR_ID)            . '">' . ustr2html($state['state_abbr'])                                  . '</text>'
-      . '<text label="' . get_html_resource(RES_STATE_TYPE_ID)            . '">' . get_html_resource($state_type_res[$state['state_type']])         . '</text>'
-      . '<text label="' . get_html_resource(RES_RESPONSIBLE_ID)           . '">' . get_html_resource($state_responsible_res[$state['responsible']]) . '</text>'
-      . '<text label="' . get_html_resource(RES_NEXT_STATE_BY_DEFAULT_ID) . '">' . $next_state                                                      . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
+$xml .= '</tabs>';
 
 echo(xml2html($xml, $title));
 

@@ -52,7 +52,7 @@ if (!$filter)
 
 // changed filter has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -176,11 +176,28 @@ if (try_request('submitted') == 'mainform')
                 filter_trans_set($id, $template_id);
                 filter_fields_set($id, $template_id);
             }
-
-            header('Location: view.php?id=' . $id);
-            exit;
         }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_FILTER_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -193,20 +210,32 @@ else
     $postponed   = ($filter['filter_flags'] & (FILTER_FLAG_POSTPONED | FILTER_FLAG_ACTIVE));
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_FILTER_X_ID), ustr2html($filter['filter_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// generate page
+$xml = <<<JQUERY
+<script>
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_FILTERS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="modify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">';
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate header
+
+$xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>';
 
 // generate project and template selectors
 
@@ -583,31 +612,11 @@ if ($template_id != 0)
     }
 }
 
-// generate buttons and notes
+// generate footer
 
-$xml .= '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>';
+$xml .= '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

@@ -14,6 +14,7 @@ insert into tbl_accounts
     locks_count,
     lock_time,
     locale,
+    text_rows,
     page_rows,
     page_bkms,
     csv_delim,
@@ -22,4 +23,4 @@ insert into tbl_accounts
     view_id,
     theme_name)
 
-values ('%1', '%2', '%3', '%4', '%5', NULL, 0, 0, %6, %7, %8, 0, 0, %9, %10, %11, 44, 1, 1, NULL, '%12')
+values ('%1', '%2', '%3', '%4', '%5', NULL, 0, 0, %6, %7, %8, 0, 0, %9, %10, %11, %12, 44, 1, 1, NULL, '%13')

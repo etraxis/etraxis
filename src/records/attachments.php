@@ -34,8 +34,8 @@ require_once('../dbo/records.php');
 
 init_page(GUEST_IS_ALLOWED);
 
-$error      = NO_ERROR;
 $attachname = NULL;
+$xml        = NULL;
 
 // check that requested record exists
 
@@ -55,11 +55,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 
 if (!can_record_be_displayed($permissions))
 {
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-    }
-
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
     header('Location: index.php');
     exit;
@@ -71,21 +66,23 @@ if (try_request('submitted') == 'attachform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
+    debug_write_log(DEBUG_DUMP, 'REQUEST = ' . print_r($_REQUEST, true));
+
     if (can_file_be_attached($record, $permissions))
     {
         $attachname = ustrcut($_REQUEST['attachname'], MAX_ATTACHMENT_NAME);
 
-        $error = attachment_add($id, $attachname, $_FILES['attachfile']);
-
-        if ($error == NO_ERROR)
-        {
-            $attachname = NULL;
-        }
+        $_SESSION[VAR_ERROR] = attachment_add($id, $attachname, $_FILES['attachfile']);
     }
     else
     {
         debug_write_log(DEBUG_NOTICE, 'No permissions to attach file.');
     }
+
+    debug_write_log(DEBUG_DUMP, 'VAR_ERROR = ' . $_SESSION[VAR_ERROR]);
+
+    header('Location: view.php?id=' . $id . '&tab=5');
+    exit;
 }
 
 // attachments list is submitted
@@ -106,6 +103,8 @@ elseif (try_request('submitted') == 'attachlist')
     {
         debug_write_log(DEBUG_NOTICE, 'Files cannot be removed.');
     }
+
+    exit;
 }
 
 else
@@ -117,19 +116,58 @@ else
 
 record_read($id);
 
-// page's title
+// display error, if any
 
-$title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
+if ($_SESSION[VAR_ERROR] != NO_ERROR)
+{
+    switch ($_SESSION[VAR_ERROR])
+    {
+        case ERROR_INCOMPLETE_FORM:
+            $message = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+            break;
 
-// generate breadcrumbs and tabs
+        case ERROR_ALREADY_EXISTS:
+            $message = get_html_resource(RES_ALERT_ATTACHMENT_ALREADY_EXISTS_ID);
+            break;
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="attachments.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_ATTACHMENTS)
-     . '<content>';
+        case ERROR_UPLOAD_INI_SIZE:
+            $message = get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID);
+            break;
+
+        case ERROR_UPLOAD_FORM_SIZE:
+            $message = ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE);
+            break;
+
+        case ERROR_UPLOAD_PARTIAL:
+            $message = get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID);
+            break;
+
+        case ERROR_UPLOAD_NO_FILE:
+            $message = get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID);
+            break;
+
+        case ERROR_UPLOAD_NO_TMP_DIR:
+            $message = get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID);
+            break;
+
+        case ERROR_UPLOAD_CANT_WRITE:
+            $message = get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID);
+            break;
+
+        case ERROR_UPLOAD_EXTENSION:
+            $message = get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID);
+            break;
+
+        default: ;  // nop
+            $message = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+    }
+
+    $xml = '<onready>'
+         . sprintf('jqAlert("%s", "%s", "%s");', get_html_resource(RES_ERROR_ID), $message, get_html_resource(RES_OK_ID))
+         . '</onready>';
+
+    $_SESSION[VAR_ERROR] = NO_ERROR;
+}
 
 // whether user is allowed to add new attachment
 
@@ -182,7 +220,7 @@ else
 
     $bookmarks = gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'attachments.php?id=' . $id . '&amp;');
 
-    $xml .= '<form name="attachlist" action="attachments.php?id=' . $id . '">'
+    $xml .= '<form name="attachlist" action="attachments.php?id=' . $id . '" success="reloadTab">'
           . '<list>'
           . '<hrow>'
           . '<hcell checkboxes="true"/>';
@@ -220,66 +258,11 @@ else
           . '</form>'
           . $bookmarks;
 
-    $xml .= '<button action="document.attachlist.submit()">'
+    $xml .= '<button action="$(\'#attachlist\').submit()">'
           . get_html_resource(RES_REMOVE_FILE_ID)
           . '</button>';
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_ATTACHMENT_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_INI_SIZE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_FORM_SIZE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_PARTIAL:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_NO_FILE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_NO_TMP_DIR:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_CANT_WRITE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_UPLOAD_EXTENSION:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

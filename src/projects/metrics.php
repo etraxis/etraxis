@@ -46,32 +46,6 @@ if (!$project)
     exit;
 }
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="metrics.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id=' . $id . '"><i>' . ustr2html($project['project_name']) . '</i></tab>';
-
-if (get_user_level() == USER_LEVEL_ADMIN)
-{
-    $xml .= '<tab url="gindex.php?id=' . $id . '">' . get_html_resource(RES_GROUPS_ID)    . '</tab>'
-          . '<tab url="tindex.php?id=' . $id . '">' . get_html_resource(RES_TEMPLATES_ID) . '</tab>';
-}
-
-$xml .= '<tab url="metrics.php?id=' . $id . '" active="true">' . get_html_resource(RES_METRICS_ID) . '</tab>'
-      . '<content>'
-      . '<div id="chart"></div>'
-      . '</content>'
-      . '</tabs>';
-
 // prepare charts data
 
 $first_week = intval(floor($project['start_time'] / SECS_IN_WEEK));
@@ -150,6 +124,8 @@ $format = str_replace('y', '%y',  $format);
 
 // generate charts
 
+$xml = '<div id="chart"></div>';
+
 $titleChart   = get_html_resource(RES_CREATION_VS_CLOSURE_ID);
 $titleOpened  = ustrtolower(get_html_resource(RES_OPENED_RECORDS_ID));
 $titleCreated = get_html_resource(RES_CREATED_RECORDS_ID);
@@ -224,6 +200,6 @@ jqPlot;
 
 $xml .= '</scriptonreadyitem>';
 
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

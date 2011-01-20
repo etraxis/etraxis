@@ -140,42 +140,47 @@ if (try_request('submitted') == 'stateform')
 
     switch ($error)
     {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
         case ERROR_INCOMPLETE_FORM:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_INVALID_INTEGER_VALUE:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
         case ERROR_INVALID_DATE_VALUE:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
             break;
 
         case ERROR_INVALID_TIME_VALUE:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['MIN_FIELD_INTEGER']);
             unset($_SESSION['MAX_FIELD_INTEGER']);
             break;
 
         case ERROR_RECORD_NOT_FOUND:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_RECORD_NOT_FOUND_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
             break;
 
         case ERROR_VALUE_FAILS_REGEX_CHECK:
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['FIELD_VALUE']);
             break;
 
-        default: ;  // nop
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
     exit;
@@ -187,10 +192,32 @@ else
     $responsible_id = NULL;
 }
 
+// local JS functions
+
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function stateSuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function stateError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
 // generate state form
 
-$xml = '<form name="stateform" action="javascript:submitStateForm(' . $id . ',' . $state_id . ')">'
-     . '<group title="' . ustr2html($state['state_name']) . '">';
+$xml .= '<form name="stateform" action="state.php?id=' . $id . '&amp;state=' . $state_id . '" success="stateSuccess" error="stateError">'
+      . '<group>';
 
 // if state must be assigned, generate list of accounts
 
@@ -342,7 +369,7 @@ else
 
                 $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
 
-                $xml .= '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+                $xml .= '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_MULTILINED . '">'
                       . ustr2html(try_request($name, $value))
                       . '</textbox>';
 
@@ -416,9 +443,7 @@ else
                         . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), get_date($row['param1']), get_date($row['param2']))
                         . '</note>';
 
-                $script .= '<script>'
-                         . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-                         . '</script>';
+                $script .= '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);';
 
                 break;
 
@@ -468,10 +493,10 @@ if ($flag2)
 }
 
 $xml .= '</group>'
-      . '<button default="true">'             . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button action="cancelStateForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
+      . '<script>'
       . $script
+      . '</script>'
       . '</form>';
 
 echo(xml2html($xml));

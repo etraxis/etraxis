@@ -67,7 +67,7 @@ if (!$field['is_locked'])
 $error  = NO_ERROR;
 $fields = field_count($field['state_id']);
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -217,11 +217,77 @@ if (try_request('submitted') == 'mainform')
                 $list_items = ustrcut($_REQUEST['list_items'], MAX_FIELD_LIST_ITEMS);
                 field_create_list_items($field['state_id'], $field_name, $list_items);
             }
-
-            header('Location: fview.php?id=' . $id);
-            exit;
         }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID));
+            break;
+
+        case ERROR_INVALID_INTEGER_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            break;
+
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+
+            if (try_request('submitted') == 'numberform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER));
+            }
+            elseif (try_request('submitted') == 'stringform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING));
+            }
+            elseif (try_request('submitted') == 'multilinedform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED));
+            }
+            else
+            {
+                header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            }
+
+            break;
+
+        case ERROR_MIN_MAX_VALUES:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_MIN_MAX_VALUES_ID));
+            break;
+
+        case ERROR_INVALID_DATE_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            break;
+
+        case ERROR_DATE_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE));
+            break;
+
+        case ERROR_INVALID_TIME_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            break;
+
+        case ERROR_TIME_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)));
+            break;
+
+        case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -268,28 +334,36 @@ else
     }
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_FIELD_X_ID), ustr2html($field['field_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// generate breadcrumbs
+$xml = <<<JQUERY
+<script>
 
-$xml = gen_context_menu('sindex.php?id=', 'findex.php?id=', 'fview.php?id=', $field['project_id'], $field['template_id'], $field['state_id'])
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $field['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($field['project_name']))  . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $field['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($field['template_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="findex.php?id=' . $field['state_id']    . '">' . ustrprocess(get_html_resource(RES_STATE_X_ID),    ustr2html($field['state_name']))    . '</breadcrumb>'
-     . '<breadcrumb url="fview.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="fmodify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>';
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate header
+
+$xml .= '<form name="modifyform" action="fmodify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>';
 
 // generate common controls
 
-$xml .= '<content>'
-      . '<form name="mainform" action="fmodify.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_FIELD_INFO_ID) . '">'
-      . '<control name="field_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+$xml .= '<control name="field_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
       . '<label>' . get_html_resource(RES_FIELD_NAME_ID) . '</label>'
       . '<editbox maxlen="' . MAX_FIELD_NAME . '">' . ustr2html($field_name) . '</editbox>'
       . '</control>'
@@ -384,7 +458,7 @@ elseif ($field['field_type'] == FIELD_TYPE_MULTILINED)
 
     $xml .= '<control name="def_value">'
           . '<label>' . get_html_resource(RES_DEFAULT_VALUE_ID) . '</label>'
-          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_MULTILINED . '">'
           . ustr2html($default)
           . '</textbox>'
           . '</control>';
@@ -430,7 +504,7 @@ elseif ($field['field_type'] == FIELD_TYPE_LIST)
 {
     $xml .= '<control name="list_items" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
           . '<label>' . get_html_resource(RES_LIST_ITEMS_ID) . '</label>'
-          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_LIST_ITEMS . '">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_LIST_ITEMS . '">'
           . ustr2html($list_items)
           . '</textbox>'
           . '</control>';
@@ -506,7 +580,7 @@ elseif ($field['field_type'] == FIELD_TYPE_DURATION)
 
 $xml .= '<control name="description">'
       . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
-      . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_DESCRIPTION . '">'
+      . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_DESCRIPTION . '">'
       . ustr2html($description)
       . '</textbox>'
       . '</control>';
@@ -541,99 +615,12 @@ $xml .= '<control name="add_separator">'
       . '</checkbox>'
       . '</control>';
 
-// generate buttons
+// generate footer
 
 $xml .= '</group>'
-      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-      . '<button url="fview.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . $notes
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INVALID_INTEGER_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-
-        if ($field['field_type'] == FIELD_TYPE_NUMBER)
-        {
-            $xml .= '<scriptonreadyitem>'
-                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER) . '","' . get_html_resource(RES_OK_ID) . '");'
-                  . '</scriptonreadyitem>';
-        }
-        elseif ($field['field_type'] == FIELD_TYPE_STRING)
-        {
-            $xml .= '<scriptonreadyitem>'
-                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING) . '","' . get_html_resource(RES_OK_ID) . '");'
-                  . '</scriptonreadyitem>';
-        }
-        elseif ($field['field_type'] == FIELD_TYPE_MULTILINED)
-        {
-            $xml .= '<scriptonreadyitem>'
-                  . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED) . '","' . get_html_resource(RES_OK_ID) . '");'
-                  . '</scriptonreadyitem>';
-        }
-
-        break;
-
-    case ERROR_MIN_MAX_VALUES:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INVALID_DATE_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_DATE_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_INVALID_TIME_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_TIME_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

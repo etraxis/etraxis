@@ -36,7 +36,7 @@ init_page();
 
 // new view has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'createform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -47,13 +47,27 @@ if (try_request('submitted') == 'mainform')
     if ($error == NO_ERROR)
     {
         $error = view_create($_SESSION[VAR_USERID], $view_name);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: index.php');
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_VIEW_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -63,45 +77,40 @@ else
     $view_name = NULL;
 }
 
-// generate page
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="create.php">' . get_html_resource(RES_VIEWS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="index.php">'                . get_html_resource(RES_VIEWS_ID)  . '</tab>'
-     . '<tab url="create.php" active="true">' . get_html_resource(RES_CREATE_ID) . '</tab>'
-     . '<content>'
-     . '<form name="mainform" action="create.php">'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-     . '<control name="view_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_VIEW_NAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_VIEW_NAME . '">' . ustr2html($view_name) . '</editbox>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-     . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-     . '</form>'
-     . '</content>'
-     . '</tabs>';
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// if some error was specified to display, force an alert
+$xml = <<<JQUERY
+<script>
 
-switch ($error)
+function createSuccess ()
 {
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_VIEW_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
+    closeModal();
+    reloadTab();
 }
 
-echo(xml2html($xml, get_html_resource(RES_NEW_VIEW_ID)));
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate page
+
+$xml .= '<form name="createform" action="create.php" success="createSuccess" error="createError">'
+      . '<group>'
+      . '<control name="view_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_VIEW_NAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_VIEW_NAME . '">' . ustr2html($view_name) . '</editbox>'
+      . '</control>'
+      . '</group>'
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '</form>';
+
+echo(xml2html($xml));
 
 ?>

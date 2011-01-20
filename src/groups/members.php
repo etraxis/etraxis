@@ -130,6 +130,13 @@ if (try_request('submitted') == 'othersform')
             }
         }
     }
+
+    if (LDAP_ENABLED && !LDAP_ENUMERATION)
+    {
+        $_SESSION[VAR_LDAP_ENUMERATION] = $accounts;
+    }
+
+    exit;
 }
 elseif (try_request('submitted') == 'membersform')
 {
@@ -146,41 +153,26 @@ elseif (try_request('submitted') == 'membersform')
     {
         debug_write_log(DEBUG_NOTICE, 'No accounts are selected.');
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
-
-    $accounts = NULL;
 }
-
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_GROUP_X_ID), ustr2html($group['group_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id='    . $id . '"><i>'            . ustr2html($group['group_name'])      . '</i></tab>'
-     . '<tab url="members.php?id=' . $id . '" active="true">' . get_html_resource(RES_MEMBERSHIP_ID) . '</tab>'
-     . '<content>'
-     . '<dual>';
 
 // generate left side
 
-$xml .= '<dualleft>'
-      . '<form name="othersform" action="members.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">';
+$xml = '<dual>'
+     . '<dualleft>'
+     . '<form name="othersform" action="members.php?id=' . $id . '" success="reloadTab">'
+     . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">';
 
 if (LDAP_ENABLED && !LDAP_ENUMERATION)
 {
     $xml .= '<control name="accounts">'
           . '<textbox rows="10" maxlen="1000">'
-          . ustr2html($accounts)
+          . $_SESSION[VAR_LDAP_ENUMERATION]
           . '</textbox>'
           . '</control>';
 }
@@ -209,7 +201,7 @@ $xml .= '</group>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="membersform" action="members.php?id=' . $id . '">'
+      . '<form name="membersform" action="members.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_MEMBERS_ID) . '">'
       . '<control name="accounts[]">'
       . '<listbox size="10">';
@@ -231,13 +223,10 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="document.othersform.submit()">%gt;%gt;</button>'
-      . '<button action="document.membersform.submit()">%lt;%lt;</button>';
+$xml .= '<button action="$(\'#othersform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#membersform\').submit()">%lt;%lt;</button>'
+      . '</dual>';
 
-$xml .= '</dual>'
-      . '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

@@ -68,15 +68,7 @@ else
 
 // generate page
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="index.php">'                . get_html_resource(RES_PROJECTS_ID) . '</tab>'
-     . '<tab url="create.php">'               . get_html_resource(RES_CREATE_ID)   . '</tab>'
-     . '<tab url="import.php" active="true">' . get_html_resource(RES_IMPORT_ID)   . '</tab>'
-     . '<content>'
-     . '<form name="mainform" action="import.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">'
+$xml = '<form name="mainform" action="import.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">'
      . '<group>'
      . '<control name="xmlfile" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
      . '<label>' . get_html_resource(RES_TEMPLATE_ID) . '</label>'
@@ -86,54 +78,52 @@ $xml = '<breadcrumbs>'
      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>'
-     . '</form>'
-     . '</content>'
-     . '</tabs>';
+     . '</form>';
 
 // if some error was specified to display, force an alert
 
 switch ($error)
 {
     case ERROR_UPLOAD_INI_SIZE:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_UPLOAD_FORM_SIZE:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_UPLOAD_PARTIAL:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_UPLOAD_NO_FILE:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_UPLOAD_NO_TMP_DIR:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_UPLOAD_CANT_WRITE:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_UPLOAD_EXTENSION:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     case ERROR_DATE_VALUE_OUT_OF_RANGE:
@@ -150,14 +140,14 @@ switch ($error)
     case ERROR_TIME_VALUE_OUT_OF_RANGE:
     case ERROR_UNKNOWN:
     case ERROR_XML_PARSER:
-        $xml .= '<scriptonreadyitem>'
+        $xml .= '<onready>'
               . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_XML_PARSER_ERROR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
+              . '</onready>';
         break;
 
     default: ;  // nop
 }
 
-echo(xml2html($xml, get_html_resource(RES_IMPORT_ID)));
+echo(xml2html($xml));
 
 ?>

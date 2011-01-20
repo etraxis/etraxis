@@ -72,16 +72,6 @@ define('ERROR_UPLOAD_CANT_WRITE',          27);
 define('ERROR_UPLOAD_EXTENSION',           28);
 define('ERROR_VALUE_FAILS_REGEX_CHECK',    29);
 define('ERROR_XML_PARSER',                 30);
-define('ERROR_UNKNOWN_AUTH_TYPE',          31);
-/**#@-*/
-
-/**#@+
- * Authentication type.
- */
-define('AUTH_TYPE_BUILTIN', 1);
-define('AUTH_TYPE_BASIC',   2);
-define('AUTH_TYPE_DIGEST',  3);
-define('AUTH_TYPE_NTLM',    4);
 /**#@-*/
 
 //------------------------------------------------------------------------------

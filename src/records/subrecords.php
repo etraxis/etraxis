@@ -52,11 +52,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 
 if (!can_record_be_displayed($permissions))
 {
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-    }
-
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
     header('Location: index.php');
     exit;
@@ -75,46 +70,79 @@ if (try_request('submitted') == 'subrecords')
             subrecord_remove($id, intval(substr($request, 3)));
         }
     }
+
+    $rs = dal_query('depends/list.sql', $record['record_id']);
+    echo(sprintf('%s (%u)', get_html_resource(RES_SUBRECORDS_ID), $rs->rows));
+    exit;
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
+$resTitle  = get_js_resource(RES_ATTACH_SUBRECORD_ID);
+$resOK     = get_js_resource(RES_OK_ID);
+$resNext   = get_js_resource(RES_NEXT_ID);
+$resCancel = get_js_resource(RES_CANCEL_ID);
 
-// generate breadcrumbs and tabs
+$xml = <<<JQUERY
+<script>
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="subrecords.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_SUBRECORDS)
-     . '<content>';
+function createSubrecordStep1 ()
+{
+    jqModal("{$resTitle}", "create.php?parent={$id}", "{$resNext}", "{$resCancel}", "createSubrecordStep2()");
+}
+
+function createSubrecordStep2 ()
+{
+    closeModal();
+    jqModal("{$resTitle}", "create.php?parent={$id}&amp;" + $("#projectform").serialize(), "{$resNext}", "{$resCancel}", "createSubrecordStep3()");
+}
+
+function createSubrecordStep3 ()
+{
+    closeModal();
+    jqModal("{$resTitle}", "create.php?parent={$id}&amp;" + $("#templateform").serialize(), "{$resOK}", "{$resCancel}", "$('#mainform').submit()");
+}
+
+function addSubrecord ()
+{
+    jqModal("{$resTitle}", "addsubrec.php?id={$id}", "{$resOK}", "{$resCancel}", "$('#addsubrecform').submit()");
+}
+
+function removeSubrecordSuccess (data)
+{
+    var index = $("#tabs").tabs("option", "selected") + 1;
+    $("[href=#ui-tabs-" + index + "]").html(data);
+    reloadTab();
+}
+
+</script>
+JQUERY;
 
 // generate buttons
 
+$xml .= '<buttonset>';
+
 $xml .= (can_subrecord_be_added($record, $permissions)
-            ? '<button url="create.php?parent=' . $id . '">'
+            ? '<button action="createSubrecordStep1()">'
             : '<button disabled="true">')
       . get_html_resource(RES_CREATE_SUBRECORD_ID)
       . '</button>';
 
-$xml .= '<script src="addsubrec.js"/>'
-      . (can_subrecord_be_added($record, $permissions)
-            ? '<button action="javascript:loadAddSubrecForm(' . $id . ')">'
+$xml .= (can_subrecord_be_added($record, $permissions)
+            ? '<button action="addSubrecord()">'
             : '<button disabled="true">')
       . get_html_resource(RES_ATTACH_SUBRECORD_ID)
       . '</button>';
 
+$xml .= '</buttonset>';
+
 $xml .= (can_subrecord_be_removed($record, $permissions)
-            ? '<button action="document.subrecords.submit()">'
+            ? '<button action="$(\'#subrecords\').submit()">'
             : '<button disabled="true">')
       . get_html_resource(RES_REMOVE_SUBRECORD_ID)
       . '</button>';
 
-$xml .= '<div id="addsubrecdiv"/>';
-
-// generate list of records
+// generate list of subrecords
 
 $list = subrecords_list($id);
 
@@ -128,7 +156,7 @@ if ($list->rows != 0)
         RES_RESPONSIBLE_ID,
     );
 
-    $xml .= '<form name="subrecords" action="subrecords.php?id=' . $id . '">'
+    $xml .= '<form name="subrecords" action="subrecords.php?id=' . $id . '" success="removeSubrecordSuccess">'
           . '<list>'
           . '<hrow>'
           . '<hcell checkboxes="true"/>';
@@ -167,9 +195,6 @@ if ($list->rows != 0)
           . '</form>';
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

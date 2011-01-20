@@ -24,17 +24,9 @@
 
 <xsl:output method="text" version="1.0" encoding="UTF-8"/>
 
-<xsl:template match="page">
-    <xsl:apply-templates select="tabs|content"/>
-    <xsl:text>--------------------------------------------------------------------------------&#10;</xsl:text>
-</xsl:template>
-
-<xsl:template match="tabs">
-    <xsl:apply-templates select="content"/>
-</xsl:template>
-
 <xsl:template match="content">
     <xsl:apply-templates select="group"/>
+    <xsl:text>--------------------------------------------------------------------------------&#10;</xsl:text>
 </xsl:template>
 
 <xsl:template match="group">

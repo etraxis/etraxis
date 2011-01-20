@@ -68,7 +68,7 @@ $is_final = ustr2int(try_request('final', 0), 0, 1);
 
 // new state has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'createform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -87,13 +87,27 @@ if (try_request('submitted') == 'mainform')
                               ($is_final ? STATE_TYPE_FINAL : STATE_TYPE_INTERMEDIATE),
                               ($next_state_id == 0 ? NULL : $next_state_id),
                               $responsible);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: sindex.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_STATE_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -105,26 +119,40 @@ else
     $responsible   = STATE_RESPONSIBLE_REMAIN;
 }
 
+// local JS functions
+
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function createSuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
 // generate page
 
-$xml = gen_context_menu('sindex.php?id=', 'sview.php?id=', 'fview.php?id=', $template['project_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $template['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($template['project_name']))  . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $template['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($template['template_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="screate.php?id=' . $id . '&amp;final=' . $is_final . '">' . get_html_resource(RES_NEW_STATE_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="screate.php?id=' . $id . '&amp;final=' . $is_final . '">'
-     . '<group title="' . get_html_resource(RES_STATE_INFO_ID) . '">'
-     . '<control name="state_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_STATE_NAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_STATE_NAME . '">' . ustr2html($state_name) . '</editbox>'
-     . '</control>'
-     . '<control name="state_abbr" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_STATE_ABBR_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_STATE_ABBR . '">' . ustr2html($state_abbr) . '</editbox>'
-     . '</control>';
+$xml .= '<form name="createform" action="screate.php?id=' . $id . '&amp;final=' . $is_final . '" success="createSuccess" error="createError">'
+      . '<group>'
+      . '<control name="state_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_STATE_NAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_STATE_NAME . '">' . ustr2html($state_name) . '</editbox>'
+      . '</control>'
+      . '<control name="state_abbr" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_STATE_ABBR_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_STATE_ABBR . '">' . ustr2html($state_abbr) . '</editbox>'
+      . '</control>';
 
 if (!$is_final)
 {
@@ -159,29 +187,9 @@ if (!$is_final)
 }
 
 $xml .= '</group>'
-      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-      . '<button url="sindex.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_STATE_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, get_html_resource(RES_NEW_STATE_ID)));
+echo(xml2html($xml));
 
 ?>

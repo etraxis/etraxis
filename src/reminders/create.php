@@ -105,12 +105,12 @@ elseif (try_request('submitted') == 'templateform')
     $project_name  = $row['project_name'];
     $template_name = $row['template_name'];
 
-    $form = 'mainform';
+    $form = 'createform';
 }
 
 // new reminder has been submitted
 
-elseif (try_request('submitted') == 'mainform')
+elseif (try_request('submitted') == 'createform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -148,15 +148,27 @@ elseif (try_request('submitted') == 'mainform')
                                  $state_id,
                                  ($group_id < 0 ? NULL      : $group_id),
                                  ($group_id < 0 ? $group_id : REMINDER_FLAG_GROUP));
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: index.php');
-            exit;
-        }
     }
 
-    $form = 'mainform';
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REMINDER_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -165,20 +177,34 @@ else
     $form = 'projectform';
 }
 
-// generate breadcrumbs and tabs
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="create.php">' . get_html_resource(RES_REMINDERS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="index.php">'                . get_html_resource(RES_REMINDERS_ID) . '</tab>'
-     . '<tab url="create.php" active="true">' . get_html_resource(RES_CREATE_ID)    . '</tab>';
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
 
-// generate general information
+$xml = <<<JQUERY
+<script>
 
-$xml .= '<content>'
-      . '<form name="' . $form . '" action="create.php">'
-      . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">';
+function createSuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function createError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
+// generate header
+
+$xml .= '<form name="' . $form . '" action="create.php" success="createSuccess" error="createError">'
+      . '<group>';
+
+// generate project selector
 
 if ($form == 'projectform')
 {
@@ -192,8 +218,6 @@ if ($form == 'projectform')
     if ($rs->rows == 1)
     {
         debug_write_log(DEBUG_NOTICE, 'One project only is found.');
-        header('Location: create.php?submitted=projectform&project=' . $rs->fetch('project_id'));
-        exit;
     }
 
     while (($row = $rs->fetch()))
@@ -216,6 +240,8 @@ elseif (isset($project_id))
           . '</control>';
 }
 
+// generate template selector
+
 if ($form == 'templateform')
 {
     $xml .= '<control name="template" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
@@ -229,8 +255,6 @@ if ($form == 'templateform')
     if ($rs->rows == 1)
     {
         debug_write_log(DEBUG_NOTICE, 'One template only is found.');
-        header('Location: create.php?submitted=templateform&project=' . $project_id . '&template=' . $rs->fetch('template_id'));
-        exit;
     }
 
     while (($row = $rs->fetch()))
@@ -253,7 +277,9 @@ elseif (isset($template_id))
           . '</control>';
 }
 
-if ($form == 'mainform')
+// generate other reminder attributes
+
+if ($form == 'createform')
 {
     $xml .= '<control name="state" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
           . '<label>' . get_html_resource(RES_STATE_ID) . '</label>'
@@ -276,7 +302,7 @@ if ($form == 'mainform')
           . '<label>' . get_html_resource(RES_REMINDER_NAME_ID) . '</label>'
           . '<editbox maxlen="' . MAX_REMINDER_NAME . '">' . ustr2html($name) . '</editbox>'
           . '</control>'
-          . '<control name="subject">'
+          . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
           . '<label>' . get_html_resource(RES_REMINDER_SUBJECT_ID) . '</label>'
           . '<editbox maxlen="' . MAX_REMINDER_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
           . '</control>'
@@ -301,30 +327,12 @@ if ($form == 'mainform')
           . '</control>';
 }
 
+// generate footer
+
 $xml .= '</group>'
-      . '<button default="true">' . get_html_resource($form == 'mainform' ? RES_OK_ID : RES_NEXT_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>'
-      . '</tabs>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REMINDER_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, get_html_resource(RES_NEW_REMINDER_ID)));
+echo(xml2html($xml));
 
 ?>

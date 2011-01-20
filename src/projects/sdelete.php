@@ -44,7 +44,7 @@ if (get_user_level() == USER_LEVEL_ADMIN)
         if (is_state_removable($id) && $state['is_locked'])
         {
             state_delete($id);
-            header('Location: sindex.php?id=' . $state['template_id']);
+            header('Location: tview.php?tab=2&id=' . $state['template_id']);
         }
         else
         {

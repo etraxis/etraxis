@@ -57,7 +57,7 @@ if (!$project)
 
 // changed project has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -69,13 +69,27 @@ if (try_request('submitted') == 'mainform')
     if ($error == NO_ERROR)
     {
         $error = project_modify($id, $project_name, $description);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: view.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_PROJECT_ALREADY_EXISTS_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -85,53 +99,44 @@ else
     $description  = $project['description'];
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="modify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_PROJECT_INFO_ID) . '">'
-     . '<control name="project_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_PROJECT_NAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_PROJECT_NAME . '">' . ustr2html($project_name) . '</editbox>'
-     . '</control>'
-     . '<control name="description">'
-     . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_PROJECT_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-     . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-     . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-     . '</form>'
-     . '</content>';
+$xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>'
+      . '<control name="project_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_PROJECT_NAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_PROJECT_NAME . '">' . ustr2html($project_name) . '</editbox>'
+      . '</control>'
+      . '<control name="description">'
+      . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_PROJECT_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
+      . '</control>'
+      . '</group>'
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_PROJECT_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

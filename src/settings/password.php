@@ -45,86 +45,96 @@ $error = NO_ERROR;
 
 // settings form is submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'passwordform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
-    $passwd1 = ustrcut($_REQUEST['passwd1'], MAX_ACCOUNT_PASSWORD);
-    $passwd2 = ustrcut($_REQUEST['passwd2'], MAX_ACCOUNT_PASSWORD);
+    $password1 = ustrcut($_REQUEST['password1'], MAX_ACCOUNT_PASSWORD);
+    $password2 = ustrcut($_REQUEST['password2'], MAX_ACCOUNT_PASSWORD);
 
-    $error = password_validate($passwd1, $passwd2);
-
-    if ($error == NO_ERROR)
-    {
-        $error = password_change($_SESSION[VAR_USERID], $passwd1);
-    }
+    $error = password_validate($password1, $password2);
 
     if ($error == NO_ERROR)
     {
-        header('Location: ../index.php');
-        exit;
+        $error = password_change($_SESSION[VAR_USERID], $password1);
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_PASSWORDS_DO_NOT_MATCH:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID));
+            break;
+
+        case ERROR_PASSWORD_TOO_SHORT:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
 
-// generate breadcrumbs
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_SETTINGS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>';
+$resTitle   = get_js_resource(RES_SETTINGS_ID);
+$resError   = get_js_resource(RES_ERROR_ID);
+$resMessage = get_js_resource(RES_ALERT_SUCCESSFULLY_SAVED_ID);
+$resOK      = get_js_resource(RES_OK_ID);
 
-// generate tabs
+$uri = try_cookie(COOKIE_URI, '../settings/index.php');
 
-$xml .= '<tabs>'
-      . '<tab url="index.php">'                  . get_html_resource(RES_APPEARANCE_ID)      . '</tab>'
-      . '<tab url="csv.php">'                    . get_html_resource(RES_CSV_ID)             . '</tab>'
-      . '<tab url="password.php" active="true">' . get_html_resource(RES_CHANGE_PASSWORD_ID) . '</tab>';
+$xml = <<<JQUERY
+<script>
+
+function passwordRefresh ()
+{
+    window.open("{$uri}", "_parent");
+}
+
+function passwordSuccess ()
+{
+    jqAlert("{$resTitle}", "{$resMessage}", "{$resOK}", "passwordRefresh()");
+}
+
+function passwordError (XMLHttpRequest)
+{
+    jqAlert("{$resError}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate contents
 
-$xml .= '<content>'
-      . '<form name="mainform" action="password.php">'
+$xml .= '<form name="passwordform" action="password.php" success="passwordSuccess" error="passwordError">'
       . '<group>'
-      . '<control name="passwd1">'
+      . '<control name="password1">'
       . '<label>' . get_html_resource(RES_PASSWORD_ID) . '</label>'
       . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
       . '</control>'
-      . '<control name="passwd2">'
+      . '<control name="password2">'
       . '<label>' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '</label>'
       . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '"/>'
       . '</control>'
       . '</group>'
       . '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '</note>'
-      . '</form>'
-      . '</content>'
-      . '</tabs>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_PASSWORDS_DO_NOT_MATCH:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_PASSWORD_TOO_SHORT:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, get_html_resource(RES_SETTINGS_ID)));
+echo(xml2html($xml));
 
 ?>

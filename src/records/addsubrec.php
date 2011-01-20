@@ -90,6 +90,8 @@ if (try_request('submitted') == 'addsubrecform')
 
     record_read($id);
 
+    $rs = dal_query('depends/list.sql', $record['record_id']);
+    echo(sprintf('%s (%u)', get_html_resource(RES_SUBRECORDS_ID), $rs->rows));
     exit;
 }
 else
@@ -97,22 +99,38 @@ else
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
 
+// local JS functions
+
+$xml = <<<JQUERY
+<script>
+
+function addSubrecordSuccess (data)
+{
+    var index = $("#tabs").tabs("option", "selected") + 1;
+    $("[href=#ui-tabs-" + index + "]").html(data);
+    closeModal();
+    reloadTab();
+}
+
+</script>
+JQUERY;
+
 // generate subrecords form
 
-$xml = '<form name="addsubrecform" action="javascript:submitAddSubrecForm(' . $id . ')">'
-     . '<group title="' . get_html_resource(RES_SUBRECORDS_ID) . '">'
-     . '<control name="subrecords">'
-     . '<editbox maxlen="100"/>'
-     . '</control>'
-     . '<control name="is_dependency">'
-     . '<checkbox checked="true">'
-     . get_html_resource(RES_DEPENDENCY_ID)
-     . '</checkbox>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">'                 . get_html_resource(RES_OK_ID)     . '</button>'
-     . '<button action="cancelAddSubrecForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-     . '</form>';
+$xml .= '<form name="addsubrecform" action="addsubrec.php?id=' . $id . '" success="addSubrecordSuccess">'
+      . '<group>'
+      . '<control name="subrecords">'
+      . '<label>' . get_html_resource(RES_ID_ID) . '</label>'
+      . '<editbox maxlen="100"/>'
+      . '</control>'
+      . '<control name="is_dependency">'
+      . '<label/>'
+      . '<checkbox checked="true">'
+      . get_html_resource(RES_DEPENDENCY_ID)
+      . '</checkbox>'
+      . '</control>'
+      . '</group>'
+      . '</form>';
 
 echo(xml2html($xml));
 

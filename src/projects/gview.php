@@ -75,39 +75,14 @@ $title = ustrprocess(get_html_resource(RES_GROUP_X_ID), ustr2html($group['group_
 $xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $pid)
      . '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="gindex.php?id=' . $pid . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</breadcrumb>'
+     . '<breadcrumb url="view.php?id=' . $pid . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name'])) . '</breadcrumb>'
      . '<breadcrumb url="gview.php?pid=' . $pid . '&amp;id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="gview.php?pid='    . $pid . '&amp;id=' . $id . '" active="true"><i>' . ustr2html($group['group_name'])       . '</i></tab>'
-     . '<tab url="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '">'                  . get_html_resource(RES_MEMBERSHIP_ID)  . '</tab>'
-     . '<tab url="gperms.php?pid='   . $pid . '&amp;id=' . $id . '">'                  . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
-     . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="gindex.php?id=' . $pid . '">' . get_html_resource(RES_BACK_ID) . '</button>';
-
-if (!$group['is_global'])
-{
-    $xml .= HTML_SPLITTER
-          . '<button url="gmodify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>'
-          . (is_group_removable($id)
-                ? '<button url="gdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_GROUP_ID) . '">'
-                : '<button disabled="false">')
-          . get_html_resource(RES_DELETE_ID)
-          . '</button>';
-}
-
-// generate group information
-
-$xml .= '<group title="' . get_html_resource(RES_GROUP_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_GROUP_NAME_ID)  . '">' . ustr2html($group['group_name']) . '</text>'
-      . '<text label="' . get_html_resource(RES_GROUP_TYPE_ID)  . '">' . get_html_resource($group['is_global'] ? RES_GLOBAL_ID : RES_LOCAL_ID) . '</text>'
-      . '<text label="' . get_html_resource(RES_DESCRIPTION_ID) . '">' . ustr2html($group['description']) . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
+     . '<tab url="group.php?pid='    . $pid . '&amp;id=' . $id . '">' . ustr2html($group['group_name'])       . '</tab>'
+     . '<tab url="gmembers.php?pid=' . $pid . '&amp;id=' . $id . '">' . get_html_resource(RES_MEMBERSHIP_ID)  . '</tab>'
+     . '<tab url="gperms.php?pid='   . $pid . '&amp;id=' . $id . '">' . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, $title));
 

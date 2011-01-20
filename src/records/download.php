@@ -50,7 +50,10 @@ if (!can_record_be_displayed($permissions))
 {
     if (get_user_level() == USER_LEVEL_GUEST)
     {
+        debug_write_log(DEBUG_NOTICE, 'Guest must be logged in.');
         save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
+        header('Location: ../logon/index.php');
+        exit;
     }
 
     debug_write_log(DEBUG_NOTICE, 'Attachment cannot be displayed.');

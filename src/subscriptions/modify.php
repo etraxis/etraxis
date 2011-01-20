@@ -57,7 +57,7 @@ if (!$subscription)
 
 // changed subscription has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -78,13 +78,31 @@ if (try_request('submitted') == 'mainform')
                                      $subscription_name,
                                      $carbon_copy,
                                      $subscription_flags);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: view.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID));
+            break;
+
+        case ERROR_INVALID_EMAIL:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -97,20 +115,32 @@ else
     $subscription_flags = $subscription['subscribe_flags'];
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_SUBSCRIPTION_X_ID), ustr2html($subscription['subscribe_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_SUBSCRIPTIONS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="modify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">';
+$xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>';
 
 switch ($subscription['subscribe_type'])
 {
@@ -205,34 +235,9 @@ foreach ($notifications as $notification)
 }
 
 $xml .= '</group>'
-      . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_SUBSCRIPTION_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_EMAIL:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

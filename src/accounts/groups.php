@@ -71,6 +71,8 @@ if (try_request('submitted') == 'othersform')
     {
         debug_write_log(DEBUG_NOTICE, 'No groups are selected.');
     }
+
+    exit;
 }
 elseif (try_request('submitted') == 'groupsform')
 {
@@ -87,35 +89,22 @@ elseif (try_request('submitted') == 'groupsform')
     {
         debug_write_log(DEBUG_NOTICE, 'No groups are selected.');
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_ACCOUNT_X_ID), ustr2html(account_get_username($account['username'], FALSE)));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_ACCOUNTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id='   . $id . '"><i>'            . ustr2html($account['fullname'])      . '</i></tab>'
-     . '<tab url="groups.php?id=' . $id . '" active="true">' . get_html_resource(RES_MEMBERSHIP_ID) . '</tab>'
-     . '<content>'
-     . '<dual>';
-
 // generate left side
 
-$xml .= '<dualleft>'
-      . '<form name="othersform" action="groups.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">'
-      . '<control name="groups[]">'
-      . '<listbox size="10">';
+$xml = '<dual>'
+     . '<dualleft>'
+     . '<form name="othersform" action="groups.php?id=' . $id . '" success="reloadTab">'
+     . '<group title="' . get_html_resource(RES_OTHERS_ID) . '">'
+     . '<control name="groups[]">'
+     . '<listbox size="10">';
 
 $rs = dal_query('accounts/glist2.sql', $id);
 
@@ -135,7 +124,7 @@ $xml .= '</listbox>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="groupsform" action="groups.php?id=' . $id . '">'
+      . '<form name="groupsform" action="groups.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_GLOBAL_GROUPS_ID) . '">'
       . '<control name="groups[]">'
       . '<listbox size="10">';
@@ -157,14 +146,10 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="document.othersform.submit()">%gt;%gt;</button>'
-      . '<br/>'
-      . '<button action="document.groupsform.submit()">%lt;%lt;</button>';
+$xml .= '<button action="$(\'#othersform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#groupsform\').submit()">%lt;%lt;</button>'
+      . '</dual>';
 
-$xml .= '</dual>'
-      . '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

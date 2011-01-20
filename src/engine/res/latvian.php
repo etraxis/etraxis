@@ -83,7 +83,6 @@ $resource_latvian = array
     '"%1" vērtības formāta pārbaudes kļūme.',
     'Lietotājs nav autorizēts.',
     'Nezināms lietotāja vārds vai parole.',
-    'Nezināms autorizācijas tips.',
     'Nezināma kļūda.',
     'XML-parsētāja kļūda.',
 
@@ -215,7 +214,7 @@ $resource_latvian = array
     'Lekāls',
     'Stāvoklis',
     'Vecums',
-    'Jauns ieraksts (solis %1/%2)',
+    'Jauns ieraksts',
     'Ieraksts "%1"',
     'Mani ieraksti',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_latvian = array
     'Kļūdu meklēšanas žurnāli',
     'Ieslēgts',
     'Izslēgts',
-    '%1 min',
+    NULL,
     'tiesības tikai skatīties ierakstus',
     'Atlasīt visu',
     'Autors',
@@ -376,7 +375,7 @@ $resource_latvian = array
     'Atgādinājuma vārds',
     'Atgādinājuma temats',
     'Atgādinājuma saņēmēji',
-    'Jauns atgādinājums (solis %1 no %2) ',
+    'Jauns atgādinājums',
     'Atgādinājums "%1"',
     'tiesības sūtīt atgādinājumus',
     'Nosūtīt',
@@ -385,7 +384,7 @@ $resource_latvian = array
     'Jauna parakstīšanās',
     /* 1250 */
     'Parakstīšanās "%1"',
-    'Jūsu LDAP parole',
+    NULL,
     'Jūs varat ievietot saiti uz citu ierakstu, norādot "rec#" un tā numuru (piem. "rec#305").',
     'Rādīt tikai tos, kas pārvietoti stāvokļos ...',
     'Koplietošana ar ...',
@@ -480,7 +479,7 @@ $resource_latvian = array
     'Viesis',
     'Imports',
     'tiesības dzēst ierakstus',
-    'Autorizācias tips',
+    NULL,
     'Noklusējuma valoda',
     /* 1340 */
     'Paroles derīguma termiņš (d.)',

@@ -31,14 +31,6 @@
 require_once('../engine/engine.php');
 /**#@-*/
 
-$res_auth_types = array
-(
-    AUTH_TYPE_BUILTIN => 'eTraxis',
-    AUTH_TYPE_BASIC   => 'basic HTTP',
-    AUTH_TYPE_DIGEST  => 'digest HTTP',
-    AUTH_TYPE_NTLM    => 'NTLM',
-);
-
 $res_debug_modes = array
 (
     DEBUG_MODE_OFF   => RES_DISABLED_ID,
@@ -61,27 +53,27 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_CONFIGURATION_ID) . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<content>'
-     . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-     . '<text label="' . get_html_resource(RES_LOCALROOT_ID)           . '">' . ustr2html(LOCALROOT)                           . '</text>'
-     . '<text label="' . get_html_resource(RES_WEBROOT_ID)             . '">' . ustr2html(WEBROOT)                             . '</text>'
-     . '<text label="' . get_html_resource(RES_AUTHENTICATION_TYPE_ID) . '">' . ustr2html($res_auth_types[AUTH_TYPE])          . '</text>'
-     . '<text label="' . get_html_resource(RES_DEFAULT_LANGUAGE_ID)    . '">' . get_html_resource(RES_LOCALE_ID, LANG_DEFAULT) . '</text>'
-     . '<text label="' . get_html_resource(RES_THEME_ID)               . '">' . ustr2html(THEME_DEFAULT)                       . '</text>'
-     . '</group>'
-     . '<group title="' . get_html_resource(RES_SECURITY_ID) . '">'
+     . '<accordion_container id="configuration">'
+     . '<accordion_section title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
+     . '<text label="' . get_html_resource(RES_LOCALROOT_ID)        . '">' . ustr2html(LOCALROOT)                           . '</text>'
+     . '<text label="' . get_html_resource(RES_WEBROOT_ID)          . '">' . ustr2html(WEBROOT)                             . '</text>'
+     . '<text label="' . get_html_resource(RES_DEFAULT_LANGUAGE_ID) . '">' . get_html_resource(RES_LOCALE_ID, LANG_DEFAULT) . '</text>'
+     . '<text label="' . get_html_resource(RES_THEME_ID)            . '">' . ustr2html(THEME_DEFAULT)                       . '</text>'
+     . '</accordion_section>'
+     . '<accordion_section title="' . get_html_resource(RES_SECURITY_ID) . '">'
      . '<text label="' . get_html_resource(RES_MIN_PASSWORD_LENGTH_ID) . '">' . ustr2html(MIN_PASSWORD_LENGTH) . '</text>'
      . '<text label="' . get_html_resource(RES_PASSWORD_EXPIRATION_ID) . '">' . ustr2html(PASSWORD_EXPIRATION) . '</text>'
      . '<text label="' . get_html_resource(RES_SESSION_EXPIRATION_ID)  . '">' . ustr2html(SESSION_EXPIRE)      . '</text>'
      . '<text label="' . get_html_resource(RES_LOCKS_COUNT_ID)         . '">' . ustr2html(LOCKS_COUNT)         . '</text>'
      . '<text label="' . get_html_resource(RES_LOCKS_TIMEOUT_ID)       . '">' . ustr2html(LOCKS_TIMEOUT)       . '</text>'
-     . '</group>'
-     . '<group title="' . get_html_resource(RES_DATABASE_ID) . '">'
+     . '</accordion_section>'
+     . '<accordion_section title="' . get_html_resource(RES_DATABASE_ID) . '">'
      . '<text label="' . get_html_resource(RES_DATABASE_TYPE_ID)   . '">' . get_html_resource($res_driver[DATABASE_DRIVER]) . '</text>'
      . '<text label="' . get_html_resource(RES_DATABASE_SERVER_ID) . '">' . ustr2html(DATABASE_HOST)                        . '</text>'
      . '<text label="' . get_html_resource(RES_DATABASE_NAME_ID)   . '">' . ustr2html(DATABASE_DBNAME)                      . '</text>'
      . '<text label="' . get_html_resource(RES_DATABASE_USER_ID)   . '">' . ustr2html(DATABASE_USERNAME)                    . '</text>'
-     . '</group>'
-     . '<group title="' . get_html_resource(RES_ACTIVE_DIRECTORY_ID) . '">'
+     . '</accordion_section>'
+     . '<accordion_section title="' . get_html_resource(RES_ACTIVE_DIRECTORY_ID) . '">'
      . '<text label="' . get_html_resource(RES_STATUS_ID) . '">'  . ustrtolower(get_html_resource(LDAP_ENABLED ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>';
 
 if (LDAP_ENABLED)
@@ -100,8 +92,8 @@ if (LDAP_ENABLED)
           . '<text label="' . get_html_resource(RES_ADMINISTRATORS_ID)   . '">' . ustr2html(ustr_replace(',', '%br;', LDAP_ADMINS)) . '</text>';
 }
 
-$xml .= '</group>'
-      . '<group title="' . get_html_resource(RES_ATTACHMENTS_ID) . '">'
+$xml .= '</accordion_section>'
+      . '<accordion_section title="' . get_html_resource(RES_ATTACHMENTS_ID) . '">'
       . '<text label="' . get_html_resource(RES_STATUS_ID) . '">' . ustrtolower(get_html_resource(ATTACHMENTS_ENABLED ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>';
 
 if (ATTACHMENTS_ENABLED)
@@ -111,8 +103,8 @@ if (ATTACHMENTS_ENABLED)
           . '<text label="' . get_html_resource(RES_STORAGE_ID)     . '">' . ustr2html(ATTACHMENTS_PATH) . '</text>';
 }
 
-$xml .= '</group>'
-      . '<group title="' . get_html_resource(RES_EMAIL_NOTIFICATIONS_ID) . '">'
+$xml .= '</accordion_section>'
+      . '<accordion_section title="' . get_html_resource(RES_EMAIL_NOTIFICATIONS_ID) . '">'
       . '<text label="' . get_html_resource(RES_STATUS_ID) . '">' . ustrtolower(get_html_resource(EMAIL_NOTIFICATIONS_ENABLED ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>';
 
 if (EMAIL_NOTIFICATIONS_ENABLED)
@@ -120,8 +112,8 @@ if (EMAIL_NOTIFICATIONS_ENABLED)
     $xml .= '<text label="' . get_html_resource(RES_MAX_SIZE_ID) . '">' . ustrprocess(get_html_resource(RES_KB_ID), EMAIL_ATTACHMENTS_MAXSIZE) . '</text>';
 }
 
-$xml .= '</group>'
-      . '<group title="' . get_html_resource(RES_DEBUG_ID) . '">'
+$xml .= '</accordion_section>'
+      . '<accordion_section title="' . get_html_resource(RES_DEBUG_ID) . '">'
       . '<text label="' . get_html_resource(RES_DEBUG_MODE_ID) . '">' . get_html_resource($res_debug_modes[DEBUG_MODE]) . '</text>';
 
 if (DEBUG_MODE != DEBUG_MODE_OFF)
@@ -129,8 +121,12 @@ if (DEBUG_MODE != DEBUG_MODE_OFF)
     $xml .= '<text label="' . get_html_resource(RES_DEBUG_LOGS_ID) . '">' . ustr2html(DEBUG_LOGS) . '</text>';
 }
 
-$xml .= '</group>'
-      . '</content>';
+$xml .= '</accordion_section>'
+      . '</accordion_container>'
+      . '</content>'
+      . '<onready>'
+      . '$("#configuration").accordion();'
+      . '</onready>';
 
 echo(xml2html($xml, get_html_resource(RES_CONFIGURATION_ID)));
 

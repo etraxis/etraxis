@@ -56,7 +56,7 @@ if (!$template)
 
 // cloned template has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'cloneform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -97,12 +97,39 @@ if (try_request('submitted') == 'mainform')
             {
                 $template_id = $rs->fetch('template_id');
                 template_clone($id, $template_id);
-                header('Location: tview.php?id=' . $template_id);
+                $id = $template_id;
             }
-
-            exit;
         }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            echo($id);
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID));
+            break;
+
+        case ERROR_INVALID_INTEGER_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            break;
+
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -119,25 +146,35 @@ else
     $guest_access    = $template['guest_access'];
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($template['template_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function cloneSuccess (data)
+{
+    closeModal();
+    window.open("tview.php?id=" + data, "_parent");
+}
+
+function cloneError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $template['project_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $template['project_id'] . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($template['project_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="tview.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="tclone.php?id=' . $id . '">' . get_html_resource(RES_CLONE_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="tclone.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_TEMPLATE_INFO_ID) . '">'
-     . '<control name="project" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_PROJECT_ID) . '</label>'
-     . '<combobox>';
+$xml .= '<form name="cloneform" action="tclone.php?id=' . $id . '" success="cloneSuccess" error="cloneError">'
+      . '<group>'
+      . '<control name="project" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_PROJECT_ID) . '</label>'
+      . '<combobox>';
 
 $rs = dal_query('projects/list.sql', 'project_name');
 
@@ -181,41 +218,11 @@ $xml .= '</combobox>'
       . '</checkbox>'
       . '</control>'
       . '</group>'
-      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-      . '<button url="tview.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_CRITICAL_AGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_FROZEN_TIME_ID),  MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '</note>'
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_INTEGER_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

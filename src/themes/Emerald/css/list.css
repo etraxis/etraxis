@@ -177,6 +177,7 @@ td.total {
 a.bookmark {
   border: #CCC 1px solid;
   color: #00638F;
+  cursor: pointer;
   display: block;
   padding: 2px 4px;
   white-space: nowrap;

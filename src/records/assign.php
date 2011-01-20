@@ -75,6 +75,4 @@ else
     }
 }
 
-header('Location: view.php?id=' . $record['record_id']);
-
 ?>

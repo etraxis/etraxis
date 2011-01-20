@@ -42,7 +42,7 @@ $error = NO_ERROR;
 
 // settings form is submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'csvform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -62,7 +62,7 @@ if (try_request('submitted') == 'mainform')
               $encoding,
               $line_endings);
 
-    header('Location: ../index.php');
+    exit;
 }
 else
 {
@@ -73,27 +73,33 @@ else
     $line_endings = $_SESSION[VAR_LINE_ENDINGS];
 }
 
-// generate breadcrumbs
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_SETTINGS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>';
+$resTitle    = get_js_resource(RES_SETTINGS_ID);
+$resError    = get_js_resource(RES_ERROR_ID);
+$resMessage1 = get_js_resource(RES_ALERT_SUCCESSFULLY_SAVED_ID);
+$resMessage2 = get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+$resOK       = get_js_resource(RES_OK_ID);
 
-// generate tabs
+$xml = <<<JQUERY
+<script>
 
-$xml .= '<tabs>'
-      . '<tab url="index.php">'             . get_html_resource(RES_APPEARANCE_ID) . '</tab>'
-      . '<tab url="csv.php" active="true">' . get_html_resource(RES_CSV_ID)        . '</tab>';
-
-if (!$_SESSION[VAR_LDAPUSER])
+function csvSuccess ()
 {
-    $xml .= '<tab url="password.php">' . get_html_resource(RES_CHANGE_PASSWORD_ID) . '</tab>';
+    jqAlert("{$resTitle}", "{$resMessage1}", "{$resOK}");
 }
+
+function csvError ()
+{
+    jqAlert("{$resError}", "{$resMessage2}", "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate contents
 
-$xml .= '<content>'
-      . '<form name="mainform" action="csv.php">'
+$xml .= '<form name="csvform" action="csv.php" success="csvSuccess" error="csvError">'
       . '<group>'
       . '<control name="delimiter" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
       . '<label>' . get_html_resource(RES_CSV_DELIMITER_ID) . '</label>'
@@ -132,10 +138,8 @@ $xml .= '</combobox>'
       . '</group>'
       . '<button default="true">' . get_html_resource(RES_SAVE_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-      . '</form>'
-      . '</content>'
-      . '</tabs>';
+      . '</form>';
 
-echo(xml2html($xml, get_html_resource(RES_SETTINGS_ID)));
+echo(xml2html($xml));
 
 ?>

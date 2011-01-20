@@ -64,7 +64,7 @@ if ($account['is_ldapuser'])
 
 // changed account has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -107,11 +107,44 @@ if (try_request('submitted') == 'mainform')
             {
                 locale_change($id, $locale);
             }
-
-            header('Location: view.php?id=' . $id);
-            exit;
         }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_INVALID_USERNAME:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_USERNAME_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_ACCOUNT_ALREADY_EXISTS_ID));
+            break;
+
+        case ERROR_INVALID_EMAIL:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID));
+            break;
+
+        case ERROR_PASSWORDS_DO_NOT_MATCH:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID));
+            break;
+
+        case ERROR_PASSWORD_TOO_SHORT:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -129,47 +162,59 @@ else
     $is_locked   = is_account_locked($account['locks_count'], $account['lock_time']);
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_ACCOUNT_X_ID), ustr2html(account_get_username($account['username'], FALSE)));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_ACCOUNTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="modify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_ACCOUNT_INFO_ID) . '">'
-     . '<control name="username" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_USERNAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_ACCOUNT_USERNAME . '">' . ustr2html($username) . '</editbox>'
-     . '</control>'
-     . '<control name="fullname" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_FULLNAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_ACCOUNT_FULLNAME . '">' . ustr2html($fullname) . '</editbox>'
-     . '</control>'
-     . '<control name="email" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_EMAIL_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_ACCOUNT_EMAIL . '">' . ustr2html($email) . '</editbox>'
-     . '</control>'
-     . '<control name="description">'
-     . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_ACCOUNT_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
-     . '</control>'
-     . '<control name="passwd1" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_PASSWORD_ID) . '</label>'
-     . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '">' . str_repeat('*', MAX_ACCOUNT_PASSWORD) . '</passbox>'
-     . '</control>'
-     . '<control name="passwd2" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '</label>'
-     . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '">' . str_repeat('*', MAX_ACCOUNT_PASSWORD) . '</passbox>'
-     . '</control>'
-     . '<control name="locale" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_LANGUAGE_ID) . '</label>'
-     . '<combobox>';
+$xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>'
+      . '<control name="username" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_USERNAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_ACCOUNT_USERNAME . '">' . ustr2html($username) . '</editbox>'
+      . '</control>'
+      . '<control name="fullname" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_FULLNAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_ACCOUNT_FULLNAME . '">' . ustr2html($fullname) . '</editbox>'
+      . '</control>'
+      . '<control name="email" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_EMAIL_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_ACCOUNT_EMAIL . '">' . ustr2html($email) . '</editbox>'
+      . '</control>'
+      . '<control name="description">'
+      . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_ACCOUNT_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
+      . '</control>'
+      . '<control name="passwd1" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_PASSWORD_ID) . '</label>'
+      . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '">' . str_repeat('*', MAX_ACCOUNT_PASSWORD) . '</passbox>'
+      . '</control>'
+      . '<control name="passwd2" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_PASSWORD_CONFIRM_ID) . '</label>'
+      . '<passbox maxlen="' . MAX_ACCOUNT_PASSWORD . '">' . str_repeat('*', MAX_ACCOUNT_PASSWORD) . '</passbox>'
+      . '</control>'
+      . '<control name="locale" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_LANGUAGE_ID) . '</label>'
+      . '<combobox>';
 
 $supported_locales = get_supported_locales_sorted();
 
@@ -211,50 +256,10 @@ $xml .= '</combobox>'
       . '</checkbox>'
       . '</control>'
       . '</group>'
-      . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
       . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID)                                   . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '</note>'
-      . '</form>'
-      . '</content>';
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_USERNAME:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_USERNAME_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_ACCOUNT_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_EMAIL:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_EMAIL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_PASSWORDS_DO_NOT_MATCH:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_PASSWORD_TOO_SHORT:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

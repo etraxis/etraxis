@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
 /*                                                                            */
 /*  eTraxis - Records tracking web-based system                               */
-/*  Copyright (C) 2005-2010  Artem Rodygin                                    */
+/*  Copyright (C) 2005-2011  Artem Rodygin                                    */
 /*                                                                            */
 /*  This program is free software: you can redistribute it and/or modify      */
 /*  it under the terms of the GNU General Public License as published by      */
@@ -48,6 +48,7 @@ create table tbl_accounts
     locks_count int not null,
     lock_time int not null,
     locale int not null,
+    text_rows int not null,
     page_rows int not null,
     page_bkms int not null,
     csv_delim int not null,
@@ -544,7 +545,8 @@ alter table tbl_events add constraint ix_events unique
     record_id,
     originator_id,
     event_type,
-    event_time
+    event_time,
+    event_param
 );
 
 alter table tbl_events add constraint fk_events_record_id foreign key
@@ -1103,7 +1105,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'PostgreSQL 8.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.2');
+values ('FEATURE_LEVEL', '3.3');
 
 insert into tbl_accounts
 (
@@ -1121,6 +1123,7 @@ insert into tbl_accounts
     locks_count,
     lock_time,
     locale,
+    text_rows,
     page_rows,
     page_bkms,
     csv_delim,
@@ -1136,5 +1139,5 @@ values
     'root@example.com',
     'd41d8cd98f00b204e9800998ecf8427e',
     'Built-in administrator',
-    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 20, 10, 44, 1, 1, NULL, 'Emerald'
+    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 8, 20, 10, 44, 1, 1, NULL, 'Emerald'
 );

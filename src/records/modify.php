@@ -63,15 +63,13 @@ if (!can_record_be_modified($record, $permissions))
 
 // modification form is submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
     $subject = ustrcut($_REQUEST['subject'], MAX_RECORD_SUBJECT);
 
     $rs = dal_query('records/elist.sql', $id);
-
-    $error = NO_ERROR;
 
     while (($row = $rs->fetch()) && ($error == NO_ERROR))
     {
@@ -81,13 +79,54 @@ if (try_request('submitted') == 'mainform')
     if ($error == NO_ERROR)
     {
         $error = record_modify($id, $subject, $record['creator_id'], $record['responsible_id']);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: view.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_INVALID_INTEGER_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            break;
+
+        case ERROR_INVALID_DATE_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            break;
+
+        case ERROR_INVALID_TIME_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            break;
+
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+        case ERROR_DATE_VALUE_OUT_OF_RANGE:
+        case ERROR_TIME_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
+            unset($_SESSION['FIELD_NAME']);
+            unset($_SESSION['MIN_FIELD_INTEGER']);
+            unset($_SESSION['MAX_FIELD_INTEGER']);
+            break;
+
+        case ERROR_RECORD_NOT_FOUND:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
+            break;
+
+        case ERROR_VALUE_FAILS_REGEX_CHECK:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
+            unset($_SESSION['FIELD_NAME']);
+            unset($_SESSION['FIELD_VALUE']);
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -96,19 +135,33 @@ else
     $subject = $record['subject'];
 }
 
-// generate breadcrumbs
+// local JS functions
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="view.php?id=' . $id . '">' . ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix'])) . '</breadcrumb>'
-     . '<breadcrumb url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>';
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function modifySuccess ()
+{
+    closeModal();
+    $("#tabs").tabs("load", 2);
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate general information
 
-$xml .= '<form name="mainform" action="modify.php?id=' . $id . '">'
-      . '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
+$xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>'
       . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '" description="true">'
       . '<label>' . get_html_resource(RES_SUBJECT_ID) . '</label>'
       . '<editbox maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
@@ -120,9 +173,9 @@ $xml .= '<form name="mainform" action="modify.php?id=' . $id . '">'
 
 // go through the list of all states and their fields
 
-$flag    = FALSE;
-$onready = NULL;
-$notes   = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
+$flag   = FALSE;
+$script = NULL;
+$notes  = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>';
 
 $states = dal_query('records/elist.sql', $id);
 
@@ -186,7 +239,7 @@ while (($state = $states->fetch()))
 
                     $xml .= '<label>' . ustr2html($field['field_name']) . '</label>';
 
-                    $xml .= '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_FIELD_MULTILINED . '">'
+                    $xml .= '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_FIELD_MULTILINED . '">'
                           . ustr2html(try_request($name, $value))
                           . '</textbox>';
 
@@ -265,9 +318,7 @@ while (($state = $states->fetch()))
                             . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($field['field_name']), get_date($field['param1']), get_date($field['param2']))
                             . '</note>';
 
-                    $onready .= '<scriptonreadyitem>'
-                              . '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-                              . '</scriptonreadyitem>';
+                    $script .= '$("#' . $name . '").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);';
 
                     break;
 
@@ -314,63 +365,12 @@ if ($flag)
     $notes .= '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>';
 }
 
-$xml .= '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-      . '<button url="view.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-      . $notes
+$xml .= $notes
       . '</form>'
-      . '</content>';
+      . '<script>'
+      . $script
+      . '</script>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_INTEGER_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_DATE_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_TIME_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-    case ERROR_DATE_VALUE_OUT_OF_RANGE:
-    case ERROR_TIME_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        unset($_SESSION['FIELD_NAME']);
-        unset($_SESSION['MIN_FIELD_INTEGER']);
-        unset($_SESSION['MAX_FIELD_INTEGER']);
-        break;
-    case ERROR_RECORD_NOT_FOUND:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_VALUE_FAILS_REGEX_CHECK:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        unset($_SESSION['FIELD_NAME']);
-        unset($_SESSION['FIELD_VALUE']);
-        break;
-    default: ;  // nop
-}
-
-$xml .= $onready;
-
-echo(xml2html($xml, get_html_resource(RES_MODIFY_ID)));
+echo(xml2html($xml));
 
 ?>

@@ -75,7 +75,7 @@ if (try_request('submitted') == 'postponeform')
     if (ustrlen($value) == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Date value is not specified.');
-        echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+        header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
     }
     else
     {
@@ -84,13 +84,12 @@ if (try_request('submitted') == 'postponeform')
         if ($duedate == -1)
         {
             debug_write_log(DEBUG_NOTICE, 'Invalid date value.');
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID) . '#SPLIT#' . get_js_resource(RES_OK_ID));
-            $duedate = $today + SECS_IN_WEEK;
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
         }
         elseif ($duedate < ($today + SECS_IN_DAY))
         {
             debug_write_log(DEBUG_NOTICE, 'Date value is out of range.');
-            echo(get_js_resource(RES_ERROR_ID) . '#SPLIT#' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)) . '#SPLIT#' . get_js_resource(RES_OK_ID));
+            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)));
         }
         else
         {
@@ -102,6 +101,8 @@ if (try_request('submitted') == 'postponeform')
             record_postpone($id, $duedate);
             $event = event_create($id, EVENT_RECORD_POSTPONED, time(), $duedate);
             event_mail($event);
+
+            header('HTTP/1.0 200 OK');
         }
     }
 
@@ -115,30 +116,50 @@ else
     $comment = NULL;
 }
 
+// local JS functions
+
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function postponeSuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function postponeError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
+
 // generate postpone form
 
-$xml = '<form name="postponeform" action="javascript:submitPostponeForm(' . $id . ')">'
-     . '<group title="' . get_html_resource(RES_POSTPONE_ID) . '">'
-     . '<control name="duedate" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . sprintf('%s (%s)', get_html_resource(RES_DUEDATE_ID), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>'
-     . '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
-     . ustr2html(get_date($duedate))
-     . '</editbox>'
-     . '</control>'
-     . '<control name="comment">'
-     . '<label>' . get_html_resource(RES_COMMENT_ID) . '</label>'
-     . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
-     . ustr2html($comment)
-     . '</textbox>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">'                . get_html_resource(RES_OK_ID)     . '</button>'
-     . '<button action="cancelPostponeForm()">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-     . '<note>' . ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)) . '</note>'
-     . '<script>'
-     . '$("#duedate").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
-     . '</script>'
-     . '</form>';
+$xml .= '<form name="postponeform" action="postpone.php?id=' . $id . '" success="postponeSuccess" error="postponeError">'
+      . '<group>'
+      . '<control name="duedate" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . sprintf('%s (%s)', get_html_resource(RES_DUEDATE_ID), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>'
+      . '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
+      . ustr2html(get_date($duedate))
+      . '</editbox>'
+      . '</control>'
+      . '<control name="comment">'
+      . '<label>' . get_html_resource(RES_COMMENT_ID) . '</label>'
+      . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" maxlen="' . MAX_COMMENT_BODY . '">'
+      . ustr2html($comment)
+      . '</textbox>'
+      . '</control>'
+      . '</group>'
+      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)) . '</note>'
+      . '<script>'
+      . '$("#duedate").datepicker($.datepicker.regional["' . $_SESSION[VAR_LOCALE] . '"]);'
+      . '</script>'
+      . '</form>';
 
 echo(xml2html($xml));
 

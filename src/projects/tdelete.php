@@ -44,7 +44,7 @@ if (get_user_level() == USER_LEVEL_ADMIN)
         if (is_template_removable($id) && $template['is_locked'])
         {
             template_delete($id);
-            header('Location: tindex.php?id=' . $template['project_id']);
+            header('Location: view.php?tab=3&id=' . $template['project_id']);
         }
         else
         {

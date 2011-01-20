@@ -54,11 +54,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 
 if (!can_record_be_displayed($permissions))
 {
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-    }
-
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
     header('Location: index.php');
     exit;
@@ -66,13 +61,14 @@ if (!can_record_be_displayed($permissions))
 
 // comment is submitted
 
-if (try_request('submitted') == 'commentform')
+if (try_request('submitted') == 'commentform' ||
+    try_request('submitted') == 'confidentialform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
     if (can_comment_be_added($record, $permissions))
     {
-        $is_confidential = try_request('confidential', FALSE);
+        $is_confidential = (try_request('submitted') == 'confidentialform');
 
         if ($is_confidential && ($permissions & PERMIT_CONFIDENTIAL_COMMENTS) == 0)
         {
@@ -91,60 +87,77 @@ if (try_request('submitted') == 'commentform')
             else
             {
                 comment_add($id, $comment, $is_confidential);
-        }
+            }
         }
     }
     else
     {
         debug_write_log(DEBUG_NOTICE, 'Comment cannot be added.');
     }
+
+    $rs = dal_query('comments/list.sql', $record['record_id'], ($permissions & PERMIT_CONFIDENTIAL_COMMENTS) ? EVENT_CONFIDENTIAL_COMMENT : EVENT_UNUSED);
+    echo(sprintf('%s (%u)', get_html_resource(RES_COMMENTS_ID), $rs->rows));
+    exit;
 }
 
 // mark the record as read
 
 record_read($id);
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="comments.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_COMMENTS)
-     . '<content>';
-
 // get list of comments
 
-$comments = dal_query('comments/list.sql', $id);
+$comments = dal_query('comments/list.sql', $id, ($permissions & PERMIT_CONFIDENTIAL_COMMENTS) ? EVENT_CONFIDENTIAL_COMMENT : EVENT_UNUSED);
+
+// local JS functions
+
+$xml = <<<JQUERY
+<script>
+
+function addConfidentialComment ()
+{
+    $("#commentform :input[name=submitted]").val("confidentialform");
+    $("#commentform").submit();
+    $("#commentform :input[name=submitted]").val("commentform");
+}
+
+function previewComment ()
+{
+    $("#previewdiv").load("preview.php", $("#commentform").serialize());
+}
+
+function commentSuccess (data)
+{
+    var index = $("#tabs").tabs("option", "selected") + 1;
+    $("[href=#ui-tabs-" + index + "]").html(data);
+    reloadTab();
+}
+
+</script>
+JQUERY;
 
 // whether user is allowed to add new comment
 
 if (can_comment_be_added($record, $permissions))
 {
-    $xml .= '<form name="commentform" action="comments.php?id=' . $id . '">'
-          . '<script src="preview.js"></script>'
+    $xml .= '<form name="commentform" action="comments.php?id=' . $id . '" success="commentSuccess">'
           . '<group title="' . get_html_resource(RES_COMMENT_ID) . '">'
           . '<control name="comment">'
-          . '<textbox rows="' . HTML_TEXTBOX_MIN_HEIGHT . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
           . '</textbox>'
           . '</control>'
           . '</group>'
+          . '<buttonset>'
           . '<button default="true">' . get_html_resource(RES_ADD_COMMENT_ID) . '</button>';
 
     if ($permissions & PERMIT_CONFIDENTIAL_COMMENTS)
     {
-        $xml .= '<button action="document.commentform.action=\'comments.php?id=' . $id . '&amp;confidential=1\'; document.commentform.submit();">'
+        $xml .= '<button action="addConfidentialComment()">'
               . get_html_resource(RES_ADD_CONFIDENTIAL_COMMENT_ID)
               . '</button>';
     }
 
-    $xml .= HTML_SPLITTER
-          . '<button name="preview">' . get_html_resource(RES_PREVIEW_ID) . '</button>'
+    $xml .= '</buttonset>'
+          . '<button action="previewComment()">' . get_html_resource(RES_PREVIEW_ID) . '</button>'
           . '<div id="previewdiv"/>'
           . '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>'
           . '</form>';
@@ -185,9 +198,6 @@ while (($comment = $comments->fetch()))
           . '</group>';
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

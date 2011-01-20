@@ -83,7 +83,6 @@ $resource_spanish = array
     'El valor de "%1" falló en la varificación de formato.',
     'Usuario no autorizado.',
     'Nombre de usuario desconocido o contraseña incorrecta.',
-    'Tipo de autenticación desconocida.',
     'Error desconocido.',
     'Error del analizador XML.',
 
@@ -215,7 +214,7 @@ $resource_spanish = array
     'Plantilla',
     'Estado',
     'Edad',
-    'Nuevo registro (paso %1/%2)',
+    'Nuevo registro',
     'Registro "%1"',
     'Mis registros',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_spanish = array
     'Registro de depuración',
     'Habilitado',
     'Deshabilitado',
-    '%1 min',
+    NULL,
     'permiso para ver sólo regitros',
     'Seleccionar todo',
     'Autor',
@@ -376,7 +375,7 @@ $resource_spanish = array
     'Nombre de recordatorio',
     'Asunto del recordatorio',
     'Destinatarios del recordatorio',
-    'Nuevo recordatorio (paso %1/%2)',
+    'Nuevo recordatorio',
     'Recordatorio "%1"',
     'permiso para enviar recordatorios',
     'Enviar',
@@ -385,7 +384,7 @@ $resource_spanish = array
     'Nueva suscripción',
     /* 1250 */
     'Suscripción "%1"',
-    'Su contraseña LDAP',
+    NULL,
     'Puede insertar un enlace hacia otro registro ingresando "rec#" y el número del mismo (ej. "rec#305").',
     'Mostrar sólo los movidos al estado ...',
     'Compartir con ...',
@@ -480,7 +479,7 @@ $resource_spanish = array
     'Invitado',
     'Importar',
     'permiso para eliminar registros',
-    'Tipo de autenticación',
+    NULL,
     'Idioma predeterminado',
     /* 1340 */
     'Expiración de contraseña (días)',

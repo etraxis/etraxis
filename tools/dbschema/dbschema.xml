@@ -4,7 +4,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   eTraxis - Records tracking web-based system
-  Copyright (C) 2005-2010  Artem Rodygin
+  Copyright (C) 2005-2011  Artem Rodygin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.2">
+<database name="etraxis" version="3.3">
 
 <table name="tbl_sys_vars">
 
@@ -52,6 +52,7 @@
     <column type="byte">locks_count</column>
     <column type="int">lock_time</column>
     <column type="word">locale</column>
+    <column type="byte">text_rows</column>
     <column type="byte">page_rows</column>
     <column type="byte">page_bkms</column>
     <column type="byte">csv_delim</column>
@@ -389,6 +390,7 @@
         <column>originator_id</column>
         <column>event_type</column>
         <column>event_time</column>
+        <column>event_param</column>
     </unique>
 
     <foreign name="fk_events_record_id" table="tbl_records">record_id</foreign>

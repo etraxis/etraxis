@@ -83,7 +83,6 @@ $resource_czech = array
     'Hodnota "%1" neodpovídá definovanému formátu.',
     'Uživatel není přihlášen.',
     'Neznámé uživatelské jméno nebo chybné heslo.',
-    'Neznámý typ ověřování.',
     'Neznámá chyba.',
     'Chyba XML parseru.',
 
@@ -215,7 +214,7 @@ $resource_czech = array
     'Šablona',
     'Stav',
     'Stáří',
-    'Nový záznam (krok %1/%2)',
+    'Nový záznam',
     'Záznam "%1"',
     'Moje záznamy',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_czech = array
     'Ladící soubory',
     'Povoleno',
     'Zakázáno',
-    '%1 min',
+    NULL,
     'oprávnění zobrazit záznamy',
     'Vybrat vše',
     'Autor',
@@ -376,7 +375,7 @@ $resource_czech = array
     'Název upomínky',
     'Předmět upomínky',
     'Seznam příjemců',
-    'Nová připomínka (krok %1/%2)',
+    'Nová připomínka',
     'Připomínka "%1"',
     'oprávnění zasílat připomínky',
     'Odeslat',
@@ -385,7 +384,7 @@ $resource_czech = array
     'Nové upozorňování',
     /* 1250 */
     'Upozorňování "%1"',
-    'Vaše heslo LDAP',
+    NULL,
     'Odkaz na jiný záznam lze vložit zadáním "rec#" a jeho číslo (např. "rec#305").',
     'Zobrazit pouze přesunuté do stavu ...',
     'Sdílet s ...',
@@ -480,7 +479,7 @@ $resource_czech = array
     'Návštěvník',
     'Importovat',
     'oprávnění smazat záznam',
-    'Typ autentizace',
+    NULL,
     'Výchozí jazyk',
     /* 1340 */
     'Platnost hesla (ve dnech)',

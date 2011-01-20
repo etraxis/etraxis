@@ -45,18 +45,23 @@
     </head>
     <body>
     <script type="text/javascript" src="../scripts/get.php?name=jquery.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.dp.res.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery.TextareaLineCount.js"></script>
-    <script type="text/javascript" src="../scripts/get.php?name=jquery.ui.js"></script>
-    <script type="text/javascript" src="../scripts/get.php?name=jquery.ui.dp.res.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=combobox.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=etraxis.js"></script>
     <xsl:apply-templates select="script"/>
     <script type="text/javascript">
     $(document).ready(function() {
-    $("#messagebox").dialog({autoOpen:false,modal:true,resizable:false});
-    <xsl:apply-templates select="scriptonreadyitem"/>
+        $("#messagebox").dialog({autoOpen:false,modal:true,resizable:false});
+        $("#tabs").tabs();
+        $("input.button").button();
+        $("span.buttonset").buttonset();
+        <xsl:apply-templates select="onready"/>
     });
     </script>
     <div id="messagebox"></div>
+    <div id="modaldlg"></div>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
     <div id="toolbar">
         <div class="toolbarsplitt spacer"></div>
@@ -132,17 +137,7 @@
 </xsl:template>
 
 <xsl:template match="content">
-    <div>
-    <xsl:attribute name="id">
-        <xsl:choose>
-           <xsl:when test="name(parent::node()) = 'tabs'">
-               <xsl:text>tabbed_content</xsl:text>
-           </xsl:when>
-           <xsl:otherwise>
-               <xsl:text>simple_content</xsl:text>
-           </xsl:otherwise>
-        </xsl:choose>
-    </xsl:attribute>
+    <div id="content">
     <xsl:apply-templates/>
     </div>
 </xsl:template>
@@ -155,15 +150,15 @@
         </xsl:attribute>
     </xsl:if>
     <xsl:if test="not(boolean(@src))">
-        <xsl:value-of select="."/>
+        <xsl:value-of disable-output-escaping="yes" select="."/>
     </xsl:if>
     </script>
 </xsl:template>
 
 <!-- Script Functions executing document.ready -->
 
-<xsl:template match="scriptonreadyitem">
-    <xsl:value-of select="."/>
+<xsl:template match="onready">
+    <xsl:value-of disable-output-escaping="yes" select="."/>
 </xsl:template>
 
 <!-- Menu -->
@@ -338,31 +333,45 @@
 <!-- Tabs -->
 
 <xsl:template match="tabs">
-    <ul class="tabs">
+    <div id="tabs">
+    <ul>
     <xsl:apply-templates select="tab"/>
     </ul>
-    <xsl:apply-templates select="content"/>
+    </div>
+    <script type="text/javascript">
+    $("#tabs").bind("tabsload", function(event, ui) {
+        tabinit();
+    });
+    </script>
 </xsl:template>
 
 <xsl:template match="tab">
     <li>
-    <xsl:attribute name="class">
-    <xsl:choose>
-        <xsl:when test="boolean(@active = 'true')">
-            <xsl:text>ftab</xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-            <xsl:text>btab</xsl:text>
-        </xsl:otherwise>
-    </xsl:choose>
-    </xsl:attribute>
-    <a class="tab">
+    <a>
     <xsl:attribute name="href">
     <xsl:value-of select="@url"/>
     </xsl:attribute>
-    <xsl:apply-templates/>
+    <xsl:value-of select="."/>
     </a>
     </li>
+</xsl:template>
+
+<xsl:template match="tab-content">
+    <!-- skip all "<onready>" nodes -->
+    <xsl:for-each select="*">
+        <xsl:if test="not(name(current()) = 'onready')">
+        <xsl:apply-templates select="."/>
+        </xsl:if>
+    </xsl:for-each>
+    <!-- generate tab init function with all "<onready>" nodes in it -->
+    <script type="text/javascript">
+    function tabinit ()
+    {
+        $("input.button").button();
+        $("span.buttonset").buttonset();
+        <xsl:apply-templates select="onready"/>
+    }
+    </script>
 </xsl:template>
 
 <!-- Lists -->
@@ -404,9 +413,9 @@
         <xsl:otherwise>
             <xsl:if test="boolean(@url)">
                 <xsl:attribute name="onclick">
-                    <xsl:text>window.open('</xsl:text>
+                    <xsl:text>reloadTab('</xsl:text>
                     <xsl:value-of select="@url"/>
-                    <xsl:text>', '_parent')</xsl:text>
+                    <xsl:text>')</xsl:text>
                 </xsl:attribute>
             </xsl:if>
             <p>
@@ -538,12 +547,36 @@
     </xsl:choose>
     </xsl:attribute>
     <a class="bookmark">
-    <xsl:attribute name="href">
+    <xsl:attribute name="onclick">
     <xsl:value-of select="@url"/>
     </xsl:attribute>
     <xsl:value-of select="."/>
     </a>
     </td>
+</xsl:template>
+
+<!-- Accordion -->
+
+<xsl:template match="accordion_container">
+    <div>
+    <xsl:attribute name="id">
+    <xsl:value-of select="@id"/>
+    </xsl:attribute>
+    <xsl:apply-templates select="accordion_section"/>
+    </div>
+</xsl:template>
+
+<xsl:template match="accordion_section">
+    <h3>
+    <a href="#">
+    <xsl:value-of select="@title"/>
+    </a>
+    </h3>
+    <div>
+    <table class="form">
+    <xsl:apply-templates/>
+    </table>
+    </div>
 </xsl:template>
 
 <!-- Forms & Controls -->
@@ -572,30 +605,64 @@
 </xsl:template>
 
 <xsl:template match="form">
-    <form target="_parent" method="post">
-    <xsl:attribute name="name">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    <xsl:attribute name="action">
-    <xsl:value-of select="@action"/>
-    </xsl:attribute>
+    <!-- new AJAX form -->
+    <xsl:if test="not(boolean(@upload))">
+        <form>
+        <xsl:attribute name="name">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+        <input type="hidden" name="submitted">
+        <xsl:attribute name="value">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+        </input>
+        <xsl:apply-templates/>
+        </form>
+        <xsl:if test="boolean(@action)">
+            <script type="text/javascript">
+            $(document).ready(function() {
+                $("#<xsl:value-of select="@name"/>").submit(function ()
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "<xsl:value-of disable-output-escaping="yes" select="@action"/>",
+                        <xsl:if test="boolean(@success)">
+                        success: <xsl:value-of select="@success"/>,
+                        </xsl:if>
+                        <xsl:if test="boolean(@error)">
+                        error: <xsl:value-of select="@error"/>,
+                        </xsl:if>
+                        data: $("#<xsl:value-of select="@name"/>").serialize()
+                    });
+
+                    return false;
+                });
+            });
+            </script>
+        </xsl:if>
+    </xsl:if>
+    <!-- old fashion form for files upload - should be removed when attachments are remastered via AJAX -->
     <xsl:if test="boolean(@upload)">
-        <xsl:attribute name="enctype">
-        <xsl:text>multipart/form-data</xsl:text>
+        <form method="post" target="_parent" enctype="multipart/form-data">
+        <xsl:attribute name="name">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+        <xsl:attribute name="action">
+        <xsl:value-of select="@action"/>
         </xsl:attribute>
         <input type="hidden" name="MAX_FILE_SIZE">
         <xsl:attribute name="value">
         <xsl:value-of select="@upload"/>
         </xsl:attribute>
         </input>
+        <input type="hidden" name="submitted">
+        <xsl:attribute name="value">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+        </input>
+        <xsl:apply-templates/>
+        </form>
     </xsl:if>
-    <input type="hidden" name="submitted">
-    <xsl:attribute name="value">
-    <xsl:value-of select="@name"/>
-    </xsl:attribute>
-    </input>
-    <xsl:apply-templates/>
-    </form>
 </xsl:template>
 
 <xsl:template match="group">
@@ -909,6 +976,11 @@
 </xsl:template>
 
 <xsl:template match="combobox">
+    <span class="ui-combobox">
+    <xsl:attribute name="id">
+    <xsl:text>cbx-</xsl:text>
+    <xsl:value-of select="../@name"/>
+    </xsl:attribute>
     <select size="1">
     <xsl:if test="boolean(@small)">
         <xsl:attribute name="class">
@@ -928,9 +1000,15 @@
     </xsl:if>
     <xsl:apply-templates select="listitem"/>
     </select>
+    </span>
 </xsl:template>
 
 <xsl:template match="dropdown">
+    <span class="ui-combobox">
+    <xsl:attribute name="id">
+    <xsl:text>cbx-</xsl:text>
+    <xsl:value-of select="@name"/>
+    </xsl:attribute>
     <select class="dropdown" size="1">
     <xsl:attribute name="id">
     <xsl:value-of select="@name"/>
@@ -945,6 +1023,7 @@
     </xsl:if>
     <xsl:apply-templates select="listitem"/>
     </select>
+    </span>
 </xsl:template>
 
 <xsl:template match="listbox">
@@ -1074,6 +1153,17 @@
     </textarea>
 </xsl:template>
 
+<xsl:template match="buttonset">
+    <span class="buttonset">
+    <xsl:if test="boolean(@name)">
+        <xsl:attribute name="id">
+        <xsl:value-of select="@name"/>
+        </xsl:attribute>
+    </xsl:if>
+    <xsl:apply-templates/>
+    </span>
+</xsl:template>
+
 <xsl:template match="button">
     <input class="button">
     <xsl:attribute name="type">
@@ -1098,11 +1188,13 @@
     <xsl:choose>
     <xsl:when test="boolean(@prompt)">
         <xsl:text>jqConfirm('</xsl:text>
-        <xsl:value-of select="/page/@msgboxTitle"/>
+        <xsl:value-of select="/tab-content/@msgboxTitle"/>
         <xsl:text>','</xsl:text>
         <xsl:value-of select="@prompt"/>
         <xsl:text>','</xsl:text>
-        <xsl:value-of select="/page/@btnOk"/>
+        <xsl:value-of select="/tab-content/@btnOk"/>
+        <xsl:text>','</xsl:text>
+        <xsl:value-of select="/tab-content/@btnCancel"/>
         <xsl:text>','</xsl:text>
         <xsl:choose>
             <xsl:when test="boolean(@url)">
@@ -1114,8 +1206,6 @@
                 <xsl:value-of select="@action"/>
             </xsl:when>
         </xsl:choose>
-        <xsl:text>','</xsl:text>
-        <xsl:value-of select="/page/@btnCancel"/>
         <xsl:text>')</xsl:text>
     </xsl:when>
     <xsl:otherwise>
@@ -1134,7 +1224,7 @@
     </xsl:attribute>
     <xsl:if test="boolean(@disabled)">
         <xsl:attribute name="class">
-        <xsl:text>button_disabled</xsl:text>
+        <xsl:text>button button_disabled</xsl:text>
         </xsl:attribute>
         <xsl:attribute name="disabled">
         <xsl:text>disabled</xsl:text>

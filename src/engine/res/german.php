@@ -83,7 +83,6 @@ $resource_german = array
     'Regulärer Ausdruck in "%1" ist ungültig.',
     'Benutzer ist nicht autorisiert.',
     'Unbekannter Benutzername oder falsches Passwort.',
-    'Unbekannte Authentifizierungsart.',
     'Unbekannter Fehler.',
     'XML-Parser fehlerhaft.',
 
@@ -215,7 +214,7 @@ $resource_german = array
     'Art der Anfrage',
     'Status',
     'Alter',
-    'Neue Anfrage (Schritt %1/%2)',
+    'Neue Anfrage',
     'Anfrage "%1"',
     'Meine Anfragen',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_german = array
     'Debug-Log',
     'Aktiviert',
     'Deaktiviert',
-    '%1 Min.',
+    NULL,
     'Berechtigt, um Anfragen nur anzuzeigen',
     'Alles auswählen',
     'Verfasser(in)',
@@ -376,7 +375,7 @@ $resource_german = array
     'Erinnerungsname',
     'Erinnerungsbetreff',
     'Erinnerungsempfänger',
-    'Neue Erinnerung (Schritt %1/%2)',
+    'Neue Erinnerung',
     'Erinnerung "%1"',
     'Berechtigt, um Erinnerungen zu senden',
     'Senden',
@@ -385,7 +384,7 @@ $resource_german = array
     'Neues Abonnement',
     /* 1250 */
     'Abonnement "%1"',
-    'Ihr LDAP-Passwort',
+    NULL,
     'Man kann Verweise zu anderen Anfragen einfügen, indem man "rec#" und die entsprechende Nummer (z.B. "rec#305") angibt.',
     'Nur Anfragen anzeigen, die gewechselt sind nach Status ...',
     'Gemeinsam verwenden mit ...',
@@ -480,7 +479,7 @@ $resource_german = array
     'Gast',
     'Importieren',
     'Berechtigt, um Anfragen zu löschen',
-    'Authentisierungstyp',
+    NULL,
     'Voreinstellung Sprache',
     /* 1340 */
     'Maximales Passwortalter (Tage)',

@@ -66,14 +66,14 @@ define('OPERATION_CHANGE_STATE',  3);
 /**#@+
  * Tabs on record view page.
  */
-define('RECORD_TAB_MAIN',           0);
-define('RECORD_TAB_HISTORY',        1);
-define('RECORD_TAB_CHANGES',        2);
-define('RECORD_TAB_FIELDS',         3);
-define('RECORD_TAB_COMMENTS',       4);
-define('RECORD_TAB_ATTACHMENTS',    5);
-define('RECORD_TAB_PARENTS',        6);
-define('RECORD_TAB_SUBRECORDS',     7);
+define('RECORD_TAB_MAIN',           1);
+define('RECORD_TAB_HISTORY',        2);
+define('RECORD_TAB_CHANGES',        3);
+define('RECORD_TAB_FIELDS',         4);
+define('RECORD_TAB_COMMENTS',       5);
+define('RECORD_TAB_ATTACHMENTS',    6);
+define('RECORD_TAB_PARENTS',        7);
+define('RECORD_TAB_SUBRECORDS',     8);
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -164,6 +164,7 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
         array_push($clause_select, '0 as read_time');
         array_push($clause_from,   'tbl_templates t');
         array_push($clause_where,  't.guest_access = 1');
+        array_push($clause_where,  'r.closure_time is null');
     }
     else
     {
@@ -2770,81 +2771,6 @@ function update_references ($value, $bbcode_mode = BBCODE_ALL, $regex_search = N
     debug_write_log(DEBUG_DUMP, '[update_references] return = ' . $value);
 
     return $value;
-}
-
-/**
- * Generates XML code for tabs on record's view page for specified record.
- *
- * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $tab ID of active tab.
- * @return string Generated XML code.
- */
-function gen_record_tabs ($record, $tab = RECORD_TAB_MAIN)
-{
-    debug_write_log(DEBUG_TRACE, '[gen_record_tabs]');
-
-    // count some of records data
-
-    $rs = dal_query('comments/list.sql', $record['record_id']);
-    $comments = $rs->rows;
-
-    $rs = dal_query('attachs/list.sql', $record['record_id'], 'attachment_id');
-    $attachments = $rs->rows;
-
-    $rs = dal_query('depends/parents.sql', $record['record_id']);
-    $parents = $rs->rows;
-
-    $rs = dal_query('depends/list.sql', $record['record_id']);
-    $subrecords = $rs->rows;
-
-    // tabs data
-
-    $url = array(RECORD_TAB_MAIN        => 'view.php?id='        . $record['record_id'],
-                 RECORD_TAB_HISTORY     => 'history.php?id='     . $record['record_id'],
-                 RECORD_TAB_CHANGES     => 'changes.php?id='     . $record['record_id'],
-                 RECORD_TAB_FIELDS      => 'fields.php?id='      . $record['record_id'],
-                 RECORD_TAB_COMMENTS    => 'comments.php?id='    . $record['record_id'],
-                 RECORD_TAB_ATTACHMENTS => 'attachments.php?id=' . $record['record_id'],
-                 RECORD_TAB_PARENTS     => 'parents.php?id='     . $record['record_id'],
-                 RECORD_TAB_SUBRECORDS  => 'subrecords.php?id='  . $record['record_id']);
-
-    $title = array(RECORD_TAB_MAIN        => '<i>' . record_id($record['record_id'], $record['template_prefix']) . '</i>',
-                   RECORD_TAB_HISTORY     => get_html_resource(RES_HISTORY_ID),
-                   RECORD_TAB_CHANGES     => get_html_resource(RES_CHANGES_ID),
-                   RECORD_TAB_FIELDS      => get_html_resource(RES_FIELDS_ID),
-                   RECORD_TAB_COMMENTS    => sprintf('%s (%u)', get_html_resource(RES_COMMENTS_ID), $comments),
-                   RECORD_TAB_ATTACHMENTS => sprintf('%s (%u)', get_html_resource(RES_ATTACHMENTS_ID), $attachments),
-                   RECORD_TAB_PARENTS     => sprintf('%s (%u)', get_html_resource(RES_PARENT_RECORDS_ID), $parents),
-                   RECORD_TAB_SUBRECORDS  => sprintf('%s (%u)', get_html_resource(RES_SUBRECORDS_ID), $subrecords));
-
-    // if no changes have been made, remove "Changes" tab
-
-    $rs = dal_query('changes/list.sql',
-                    $record['record_id'],
-                    $record['creator_id'],
-                    is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
-                    $_SESSION[VAR_USERID],
-                    'event_time asc, field_name asc');
-
-    if ($rs->rows == 0)
-    {
-        $url[RECORD_TAB_CHANGES] = NULL;
-    }
-
-    // generate tabs
-
-    $xml = NULL;
-
-    for ($i = 0; $i < count($url); $i++)
-    {
-        if (!is_null($url[$i]))
-        {
-            $xml .= ($i == $tab ? '<tab url="' . $url[$i] . '" active="true">' . $title[$i] . '</tab>'
-                                : '<tab url="' . $url[$i] . '">' . $title[$i] . '</tab>');
-        }
-    }
-
-    return $xml;
 }
 
 ?>

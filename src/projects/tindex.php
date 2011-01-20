@@ -54,6 +54,23 @@ if (!$project)
     exit;
 }
 
+// local JS functions
+
+$resTitle  = get_js_resource(RES_NEW_TEMPLATE_ID);
+$resOK     = get_js_resource(RES_OK_ID);
+$resCancel = get_js_resource(RES_CANCEL_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function templateCreate ()
+{
+    jqModal("{$resTitle}", "tcreate.php?id={$id}", "{$resOK}", "{$resCancel}", "$('#createform').submit()");
+}
+
+</script>
+JQUERY;
+
 // get list of templates
 
 $sort = $page = NULL;
@@ -61,27 +78,9 @@ $list = templates_list($id, $sort, $page);
 
 $from = $to = 0;
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($project['project_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="view.php?id='    . $id . '"><i>'            . ustr2html($project['project_name']) . '</i></tab>'
-     . '<tab url="gindex.php?id='  . $id . '">'               . get_html_resource(RES_GROUPS_ID)    . '</tab>'
-     . '<tab url="tindex.php?id='  . $id . '" active="true">' . get_html_resource(RES_TEMPLATES_ID) . '</tab>'
-     . '<tab url="metrics.php?id=' . $id . '">'               . get_html_resource(RES_METRICS_ID)   . '</tab>'
-     . '<content>';
-
 // generate buttons
 
-$xml .= '<button url="tcreate.php?id=' . $id . '">' . get_html_resource(RES_CREATE_ID) . '</button>';
+$xml .= '<button action="templateCreate()">' . get_html_resource(RES_CREATE_ID) . '</button>';
 
 // generate list of templates
 
@@ -105,7 +104,7 @@ if ($list->rows != 0)
     {
         $smode = ($sort == $i ? ($i + count($columns)) : $i);
 
-        $xml .= "<hcell url=\"tindex.php?id={$id}&amp;sort={$smode}&amp;page={$page}\">"
+        $xml .= "<hcell url=\"tindex.php?id={$id}&amp;sort={$smode}\">"
               . get_html_resource($columns[$i - 1])
               . '</hcell>';
     }
@@ -133,9 +132,6 @@ if ($list->rows != 0)
           . $bookmarks;
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

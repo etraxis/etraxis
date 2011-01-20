@@ -83,7 +83,6 @@ $resource_turkish = array
     '"%1" değeri biçim kontrolünü geçemedi.',
     'Kullanıcı yetkili değil.',
     'Bilinmeyen kullanıcı adı ya da yanlış parola.',
-    'Bilinmeyen kimlik doğrulama tipi.',
     'Bilinmeyen hata.',
     'XML ayrıştırıcı hatası.',
 
@@ -215,7 +214,7 @@ $resource_turkish = array
     'Şablon',
     'Durum',
     'Dönem',
-    'Yeni kayıt (adım: %1/%2)',
+    'Yeni kayıt',
     '"%1" Kaydı',
     'Kayıtlarım',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_turkish = array
     'Hata ayıklama günlükleri',
     'Etkinleştirildi',
     'Etkisizleştirildi',
-    '%1 dak',
+    NULL,
     'sadece kayıtları görüntüleme izni',
     'Tümünü seç',
     'Yazar',
@@ -376,7 +375,7 @@ $resource_turkish = array
     'Hatırlatıcı adı',
     'Hatırlatıcının konusu',
     'Hatırlatıcıyı alacaklar',
-    'Yeni hatırlatıcı (adım: %1/%2)',
+    'Yeni hatırlatıcı',
     '"%1" Hatırlatıcısı',
     'hatırlatıcılar gönderme izni',
     'Gönder',
@@ -385,7 +384,7 @@ $resource_turkish = array
     'Yeni abonelik',
     /* 1250 */
     '"%1" Aboneliği',
-    'LDAP parolanız',
+    NULL,
     '"rec#" ve numarasını belirterek (ör: "rec#305") başka bir kayda bağlantı ekleyebilirsiniz.',
     'Sadece durumlara taşınanları göster: ...',
     'Şununla paylaş: ...',
@@ -480,7 +479,7 @@ $resource_turkish = array
     'Konuk',
     'İçe Aktar',
     'kayıtları silme izni',
-    'Kimlik doğrulama tipi',
+    NULL,
     'Varsayılan dil',
     /* 1340 */
     'Parola zaman aşımı (günler)',

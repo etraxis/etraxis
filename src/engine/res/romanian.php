@@ -83,7 +83,6 @@ $resource_romanian = array
     'Valoarea "%1" nu respecta formatul prestabilit.',
     'Cont neautorizat.',
     'Cont inexistent sau parola incorecta.',
-    'TIp de autehtificare necunoscut.',
     'Eroare necunoscuta.',
     'Eroare de parsare XML.',
 
@@ -215,7 +214,7 @@ $resource_romanian = array
     'Sablon',
     'Stare',
     'Vechime (zile)',
-    'Inregistrare noua (pas %1/%2)',
+    'Inregistrare noua',
     'Inregistrare "%1"',
     'Inregistrarile mele',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_romanian = array
     'Jurnale de depanare',
     'Activate',
     'Dezactivate',
-    '%1 min',
+    NULL,
     'permisiune a a vedea numai inregistrarile',
     'Selecteaza toate',
     'Autor',
@@ -376,7 +375,7 @@ $resource_romanian = array
     'Numele alarmei',
     'Subiectul alarmei',
     'Recipientii alarmei',
-    'Alarma noua (pas %1/%2)',
+    'Alarma noua',
     'Alarma "%1"',
     'permisiune de trimitere alarma',
     'Trimite',
@@ -385,7 +384,7 @@ $resource_romanian = array
     'Subscriere noua',
     /* 1250 */
     'Subscriere "%1"',
-    'Parola ta de LDAP',
+    NULL,
     'Poti introduce o legatura catre o alta inregistrare specificand "rec#" si numarul sau (ex. "rec#305").',
     'Arata numai pe cele mutate catre statusurile ...',
     'Partajeaza cu ...',
@@ -480,7 +479,7 @@ $resource_romanian = array
     'Vizitator',
     'Importa',
     'permisiunea de a sterge inregistrari',
-    'Tip de autentificare',
+    NULL,
     'Limba prestabilita',
     /* 1340 */
     'Expirarea parolei (zile)',

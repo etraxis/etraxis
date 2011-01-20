@@ -56,7 +56,7 @@ if (!$template)
 
 // changed template has been submitted
 
-if (try_request('submitted') == 'mainform')
+if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
@@ -72,13 +72,35 @@ if (try_request('submitted') == 'mainform')
     if ($error == NO_ERROR)
     {
         $error = template_modify($id, $template['project_id'], $template_name, $template_prefix, $critical_age, $frozen_time, $description, $guest_access);
-
-        if ($error == NO_ERROR)
-        {
-            header('Location: tview.php?id=' . $id);
-            exit;
-        }
     }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+            header('HTTP/1.0 200 OK');
+            break;
+
+        case ERROR_INCOMPLETE_FORM:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            break;
+
+        case ERROR_ALREADY_EXISTS:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID));
+            break;
+
+        case ERROR_INVALID_INTEGER_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            break;
+
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT));
+            break;
+
+        default:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+    }
+
+    exit;
 }
 else
 {
@@ -94,86 +116,66 @@ else
     $guest_access    = $template['guest_access'];
 }
 
-// page's title
+// local JS functions
 
-$title = ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($template['template_name']));
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function modifySuccess ()
+{
+    closeModal();
+    reloadTab();
+}
+
+function modifyError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $template['project_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $template['project_id'] . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($template['project_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="tview.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '<breadcrumb url="tmodify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<content>'
-     . '<form name="mainform" action="tmodify.php?id=' . $id . '">'
-     . '<group title="' . get_html_resource(RES_TEMPLATE_INFO_ID) . '">'
-     . '<control name="template_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_TEMPLATE_NAME_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_TEMPLATE_NAME . '">' . ustr2html($template_name) . '</editbox>'
-     . '</control>'
-     . '<control name="template_prefix" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_TEMPLATE_PREFIX_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_TEMPLATE_PREFIX . '">' . ustr2html($template_prefix) . '</editbox>'
-     . '</control>'
-     . '<control name="critical_age">'
-     . '<label>' . get_html_resource(RES_CRITICAL_AGE_ID) . '</label>'
-     . '<editbox maxlen="' . ustrlen(MAX_TEMPLATE_DAYS_COUNT) . '">' . ustr2html($critical_age) . '</editbox>'
-     . '</control>'
-     . '<control name="frozen_time">'
-     . '<label>' . get_html_resource(RES_FROZEN_TIME_ID) . '</label>'
-     . '<editbox maxlen="' . ustrlen(MAX_TEMPLATE_DAYS_COUNT) . '">' . ustr2html($frozen_time) . '</editbox>'
-     . '</control>'
-     . '<control name="description">'
-     . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
-     . '<editbox maxlen="' . MAX_TEMPLATE_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
-     . '</control>'
-     . '<control name="guest_access">'
-     . '<label/>'
-     . ($guest_access
-           ? '<checkbox checked="true">'
-           : '<checkbox>')
-     . get_html_resource(RES_GUEST_ACCESS_ID)
-     . '</checkbox>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-     . '<button url="tview.php?id=' . $id . '">' . get_html_resource(RES_CANCEL_ID) . '</button>'
-     . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-     . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_CRITICAL_AGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '</note>'
-     . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_FROZEN_TIME_ID),  MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '</note>'
-     . '</form>'
-     . '</content>';
+$xml .= '<form name="modifyform" action="tmodify.php?id=' . $id . '" success="modifySuccess" error="modifyError">'
+      . '<group>'
+      . '<control name="template_name" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_TEMPLATE_NAME_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_TEMPLATE_NAME . '">' . ustr2html($template_name) . '</editbox>'
+      . '</control>'
+      . '<control name="template_prefix" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_TEMPLATE_PREFIX_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_TEMPLATE_PREFIX . '">' . ustr2html($template_prefix) . '</editbox>'
+      . '</control>'
+      . '<control name="critical_age">'
+      . '<label>' . get_html_resource(RES_CRITICAL_AGE_ID) . '</label>'
+      . '<editbox maxlen="' . ustrlen(MAX_TEMPLATE_DAYS_COUNT) . '">' . ustr2html($critical_age) . '</editbox>'
+      . '</control>'
+      . '<control name="frozen_time">'
+      . '<label>' . get_html_resource(RES_FROZEN_TIME_ID) . '</label>'
+      . '<editbox maxlen="' . ustrlen(MAX_TEMPLATE_DAYS_COUNT) . '">' . ustr2html($frozen_time) . '</editbox>'
+      . '</control>'
+      . '<control name="description">'
+      . '<label>' . get_html_resource(RES_DESCRIPTION_ID) . '</label>'
+      . '<editbox maxlen="' . MAX_TEMPLATE_DESCRIPTION . '">' . ustr2html($description) . '</editbox>'
+      . '</control>'
+      . '<control name="guest_access">'
+      . '<label/>'
+      . ($guest_access
+            ? '<checkbox checked="true">'
+            : '<checkbox>')
+      . get_html_resource(RES_GUEST_ACCESS_ID)
+      . '</checkbox>'
+      . '</control>'
+      . '</group>'
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_CRITICAL_AGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '</note>'
+      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_FROZEN_TIME_ID),  MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '</note>'
+      . '</form>';
 
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_INCOMPLETE_FORM:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_ALREADY_EXISTS:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INVALID_INTEGER_VALUE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-        $xml .= '<scriptonreadyitem>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</scriptonreadyitem>';
-        break;
-    default: ;  // nop
-}
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

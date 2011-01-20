@@ -64,6 +64,4 @@ else
     account_disable($id);
 }
 
-header('Location: view.php?id=' . $id);
-
 ?>

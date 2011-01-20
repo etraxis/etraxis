@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2009  Artem Rodygin
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -54,11 +54,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 
 if (!can_record_be_displayed($permissions))
 {
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-    }
-
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
     header('Location: index.php');
     exit;
@@ -68,20 +63,6 @@ if (!can_record_be_displayed($permissions))
 
 record_read($id);
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="history.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_HISTORY)
-     . '<content>';
-
 // get the history
 
 $sort = $page = NULL;
@@ -90,7 +71,6 @@ $list = history_list($id, $permissions, $sort, $page);
 if ($list->rows == 0)
 {
     debug_write_log(DEBUG_WARNING, 'History is empty.');
-    header('Location: view.php?id=' . $id);
     exit;
 }
 
@@ -107,14 +87,14 @@ $rec_from = $rec_to = 0;
 
 $bookmarks = gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'history.php?id=' . $id . '&amp;');
 
-$xml .= '<list>'
-      . '<hrow>';
+$xml = '<list>'
+     . '<hrow>';
 
 for ($i = 1; $i <= count($columns); $i++)
 {
     $smode = ($sort == $i ? ($i + count($columns)) : $i);
 
-    $xml .= "<hcell url=\"history.php?id={$id}&amp;sort={$smode}&amp;page={$page}\">"
+    $xml .= "<hcell url=\"history.php?id={$id}&amp;sort={$smode}\">"
           . get_html_resource($columns[$i - 1])
           . '</hcell>';
 }
@@ -139,10 +119,8 @@ for ($i = $rec_from; $i <= $rec_to; $i++)
 }
 
 $xml .= '</list>'
-      . $bookmarks
-      . '</content>'
-      . '</tabs>';
+      . $bookmarks;
 
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

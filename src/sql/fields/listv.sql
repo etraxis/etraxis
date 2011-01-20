@@ -6,6 +6,7 @@ select
     f.field_type,
     f.is_required,
     f.add_separator,
+    f.description,
     f.param1,
     f.param2,
     fv.value_id

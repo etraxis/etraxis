@@ -69,9 +69,9 @@ function get_available_themes_sorted ()
 
     $available_themes = array();
 
-    foreach (array_diff(scandir('../themes/'), array ('.','..') ) as $item)
+    foreach (array_diff(scandir('../themes/'), array ('.', '..')) as $item)
     {
-        if (is_file('../themes/' . $item . '/version.php'))
+        if (is_dir("../themes/{$item}"))
         {
             debug_write_log(DEBUG_DUMP, '[get_available_themes_sorted] $item = ' . $item);
             $available_themes[] = $item;
@@ -84,47 +84,13 @@ function get_available_themes_sorted ()
 }
 
 /**
- * Check is given Theme is valid.
- *
- * @return bool TRUE/FALSE.
- */
-function is_theme_valid ($theme_name)
-{
-    debug_write_log(DEBUG_TRACE, '[is_theme_valid]');
-    debug_write_log(DEBUG_DUMP,  '[is_theme_valid] $theme_name = ' . $theme_name);
-
-    if (is_file(LOCALROOT . 'themes/' . ustr2html($theme_name) . '/version.php'))
-    {
-        require(LOCALROOT . 'themes/' . ustr2html($theme_name) . '/version.php');
-
-        if (isset($theme_version) && version_compare($theme_version, VERSION) <= 0)
-        {
-            return TRUE;
-        }
-        else
-        {
-            debug_write_log(DEBUG_NOTICE, '[is_theme_valid] Wrong version.');
-            return FALSE;
-        }
-    }
-    else
-    {
-        debug_write_log(DEBUG_NOTICE, '[is_theme_valid] "version.php" is not found.');
-        return FALSE;
-    }
-}
-
-/**
  * Returns the file path for the given css file.
  *
  * @return string Path to css file.
  */
 function get_theme_css_file ($cssfile)
 {
-    debug_write_log(DEBUG_TRACE, '[get_theme_css_file]');
-    debug_write_log(DEBUG_DUMP,  '[get_theme_css_file] $_SESSION[VAR_THEME_NAME] = ' . $_SESSION[VAR_THEME_NAME]);
-
-    if (is_theme_valid($_SESSION[VAR_THEME_NAME]))
+    if (isset($_SESSION[VAR_THEME_NAME]))
     {
         if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile))
         {
@@ -132,23 +98,15 @@ function get_theme_css_file ($cssfile)
         }
     }
 
-    if (is_theme_valid(THEME_DEFAULT))
+    if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile))
     {
-        if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile))
-        {
-            return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile;
-        }
+        return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile;
     }
 
-    if (is_theme_valid(DEF_THEME_NAME))
+    if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile))
     {
-        if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile))
-        {
-            return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile;
-        }
+        return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile;
     }
-
-    debug_write_log(DEBUG_ERROR, '[get_theme_css_file] Valid filepath for css file "' . $cssfile . '" is not found.');
 
     return NULL;
 }
@@ -166,32 +124,23 @@ function get_theme_xsl_file ($xslfile)
     {
         debug_write_log(DEBUG_DUMP,  '[get_theme_xsl_file] $_SESSION[VAR_THEME_NAME] = ' . $_SESSION[VAR_THEME_NAME]);
 
-        if (is_theme_valid($_SESSION[VAR_THEME_NAME]))
+        if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile))
         {
-            if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile))
-            {
-                return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile;
-            }
+            return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile;
         }
     }
 
-    if (is_theme_valid(THEME_DEFAULT))
+    if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile))
     {
-        if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile))
-        {
-            return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile;
-        }
+        return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile;
     }
 
-    if (is_theme_valid(DEF_THEME_NAME))
+    if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/' . $xslfile))
     {
-        if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/' . $xslfile))
-        {
-            return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/' . $xslfile;
-        }
+        return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/' . $xslfile;
     }
 
-    debug_write_log(DEBUG_ERROR, '[get_theme_xsl_file] Valid filepath for xsl file "' . $xslfile . '" is not found.');
+    debug_write_log(DEBUG_WARNING, '[get_theme_xsl_file] Valid filepath for xsl file "' . $xslfile . '" is not found.');
 
     return LOCALROOT . 'engine/' . $xslfile;
 }

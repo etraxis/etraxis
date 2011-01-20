@@ -71,45 +71,9 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
-     . '<tab url="view.php?id='   . $id . '" active="true"><i>' . ustr2html($account['fullname'])      . '</i></tab>'
-     . '<tab url="groups.php?id=' . $id . '">'                  . get_html_resource(RES_MEMBERSHIP_ID) . '</tab>'
-     . '<content>';
-
-// generate buttons
-
-$xml .= '<button url="index.php">' . get_html_resource(RES_BACK_ID) . '</button>'
-      . HTML_SPLITTER
-      . '<button url="modify.php?id=' . $id . '">' . get_html_resource(RES_MODIFY_ID) . '</button>';
-
-$xml .= (is_account_removable($id)
-            ? '<button url="delete.php?id=' . $id . '" prompt="' . get_js_resource(RES_CONFIRM_DELETE_ACCOUNT_ID) . '">'
-            : '<button disabled="false">')
-      . get_html_resource(RES_DELETE_ID)
-      . '</button>';
-
-$xml .= '<button url="disable.php?id=' . $id . '">'
-      . get_html_resource($account['is_disabled'] ? RES_ENABLE_ID : RES_DISABLE_ID)
-      . '</button>';
-
-if (is_account_locked($account['locks_count'], $account['lock_time']))
-{
-    $xml .= '<button url="unlock.php?id=' . $id . '">'
-          . get_html_resource(RES_UNLOCK_ID)
-          . '</button>';
-}
-
-// generate account information
-
-$xml .= '<group title="' . get_html_resource(RES_ACCOUNT_INFO_ID) . '">'
-      . '<text label="' . get_html_resource(RES_USERNAME_ID)    . '">' . ustr2html(account_get_username($account['username'], FALSE)) . '</text>'
-      . '<text label="' . get_html_resource(RES_FULLNAME_ID)    . '">' . ustr2html($account['fullname']) . '</text>'
-      . '<text label="' . get_html_resource(RES_EMAIL_ID)       . '">' . ustr2html($account['email']) . '</text>'
-      . '<text label="' . get_html_resource(RES_DESCRIPTION_ID) . '">' . ustr2html($account['description']) . '</text>'
-      . '<text label="' . get_html_resource(RES_PERMISSIONS_ID) . '">' . get_html_resource($account['is_admin'] ? RES_ADMINISTRATOR_ID : RES_USER_ID) . '</text>'
-      . '<text label="' . get_html_resource(RES_STATUS_ID)      . '">' . get_html_resource(is_account_locked($account['locks_count'], $account['lock_time']) ? RES_LOCKED_ID : ($account['is_disabled'] ? RES_DISABLED_ID : RES_ACTIVE_ID)) . '</text>'
-      . '</group>'
-      . '</content>'
-      . '</tabs>';
+     . '<tab url="account.php?id=' . $id . '">' . ustr2html($account['fullname'])      . '</tab>'
+     . '<tab url="groups.php?id='  . $id . '">' . get_html_resource(RES_MEMBERSHIP_ID) . '</tab>'
+     . '</tabs>';
 
 echo(xml2html($xml, $title));
 

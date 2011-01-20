@@ -61,7 +61,6 @@ define('DATABASE_PASSWORD', '');
 /**#@+
  * See {@link http://code.google.com/p/etraxis/wiki/SecurityOptions online documentation} for details.
  */
-define('AUTH_TYPE',           1);
 define('MIN_PASSWORD_LENGTH', 6);
 define('LOCKS_COUNT',         3);
 define('LOCKS_TIMEOUT',       30);

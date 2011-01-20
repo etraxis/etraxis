@@ -58,6 +58,23 @@ if (!$template)
     exit;
 }
 
+// local JS functions
+
+$resTitle  = get_js_resource(RES_NEW_STATE_ID);
+$resOK     = get_js_resource(RES_OK_ID);
+$resCancel = get_js_resource(RES_CANCEL_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function stateCreate (final)
+{
+    jqModal("{$resTitle}", "screate.php?id={$id}&amp;final=" + final, "{$resOK}", "{$resCancel}", "$('#createform').submit()");
+}
+
+</script>
+JQUERY;
+
 // get list of states
 
 $sort = $page = NULL;
@@ -65,37 +82,23 @@ $list = states_list($id, $sort, $page);
 
 $from = $to = 0;
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($template['template_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = gen_context_menu('sindex.php?id=', 'sview.php?id=', 'fview.php?id=', $template['project_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $template['project_id'] . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID), ustr2html($template['project_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="tview.php?id='  . $id . '"><i>'            . ustr2html($template['template_name']) . '</i></tab>'
-     . '<tab url="sindex.php?id=' . $id . '" active="true">' . get_html_resource(RES_STATES_ID)      . '</tab>'
-     . '<tab url="tperms.php?id=' . $id . '">'               . get_html_resource(RES_PERMISSIONS_ID) . '</tab>'
-     . '<content>';
-
 // generate buttons
 
+$xml .= '<buttonset>';
+
 $xml .= ($template['is_locked']
-            ? '<button url="screate.php?id=' . $id . '&amp;final=0">'
+            ? '<button action="stateCreate(0)">'
             : '<button disabled="true">')
       . get_html_resource(RES_CREATE_INTERMEDIATE_ID)
       . '</button>';
 
 $xml .= ($template['is_locked']
-            ? '<button url="screate.php?id=' . $id . '&amp;final=1">'
+            ? '<button action="stateCreate(1)">'
             : '<button disabled="true">')
       . get_html_resource(RES_CREATE_FINAL_ID)
       . '</button>';
+
+$xml .= '</buttonset>';
 
 // generate list of states
 
@@ -119,7 +122,7 @@ if ($list->rows != 0)
     {
         $smode = ($sort == $i ? ($i + count($columns)) : $i);
 
-        $xml .= "<hcell url=\"sindex.php?id={$id}&amp;sort={$smode}&amp;page={$page}\">"
+        $xml .= "<hcell url=\"sindex.php?id={$id}&amp;sort={$smode}\">"
               . get_html_resource($columns[$i - 1])
               . '</hcell>';
     }
@@ -145,9 +148,6 @@ if ($list->rows != 0)
           . $bookmarks;
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

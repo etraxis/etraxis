@@ -57,6 +57,32 @@ if (!$state)
     exit;
 }
 
+// local JS functions
+
+$resTitle1 = ustrprocess(get_js_resource(RES_NEW_FIELD_ID), 1, 2);
+$resTitle2 = ustrprocess(get_js_resource(RES_NEW_FIELD_ID), 2, 2);
+$resOK     = get_js_resource(RES_OK_ID);
+$resNext   = get_js_resource(RES_NEXT_ID);
+$resCancel = get_js_resource(RES_CANCEL_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function fieldCreateStep1 ()
+{
+    jqModal("{$resTitle1}", "fcreate.php?id={$id}", "{$resNext}", "{$resCancel}", "fieldCreateStep2()");
+}
+
+function fieldCreateStep2 ()
+{
+    closeModal();
+
+    jqModal("{$resTitle2}", "fcreate.php?id={$id}&amp;" + $("#mainform").serialize(), "{$resOK}", "{$resCancel}", "$('#modaldlg form').submit()");
+}
+
+</script>
+JQUERY;
+
 // get list of fields
 
 $sort = $page = NULL;
@@ -64,37 +90,13 @@ $list = fields_list($id, $sort, $page);
 
 $from = $to = 0;
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_STATE_X_ID), ustr2html($state['state_name']));
-
-// generate breadcrumbs and tabs
-
-$xml = gen_context_menu('sindex.php?id=', 'findex.php?id=', 'fview.php?id=', $state['project_id'], $state['template_id'], $id)
-     . '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_PROJECTS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="tindex.php?id=' . $state['project_id']  . '">' . ustrprocess(get_html_resource(RES_PROJECT_X_ID),  ustr2html($state['project_name']))  . '</breadcrumb>'
-     . '<breadcrumb url="sindex.php?id=' . $state['template_id'] . '">' . ustrprocess(get_html_resource(RES_TEMPLATE_X_ID), ustr2html($state['template_name'])) . '</breadcrumb>'
-     . '<breadcrumb url="findex.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="sview.php?id='  . $id . '"><i>' . ustr2html($state['state_name']) . '</i></tab>'
-     . '<tab url="findex.php?id=' . $id . '" active="true">' . get_html_resource(RES_FIELDS_ID) . '</tab>';
-
-if ($state['state_type'] != STATE_TYPE_FINAL)
-{
-    $xml .= '<tab url="strans.php?id=' . $id . '">' . get_html_resource(RES_TRANSITIONS_ID) . '</tab>';
-}
-
-$xml .= '<content>';
-
 // generate buttons
 
 $xml .= ($state['is_locked']
-            ? '<button url="fcreate.php?id=' . $id . '">'
+            ? '<button action="fieldCreateStep1()">'
             : '<button disabled="true">')
-      . get_html_resource(RES_CREATE_ID)
-      . '</button>';
+     . get_html_resource(RES_CREATE_ID)
+     . '</button>';
 
 // generate list of fields
 
@@ -118,7 +120,7 @@ if ($list->rows != 0)
     {
         $smode = ($sort == $i ? ($i + count($columns)) : $i);
 
-        $xml .= "<hcell url=\"findex.php?id={$id}&amp;sort={$smode}&amp;page={$page}\">"
+        $xml .= "<hcell url=\"findex.php?id={$id}&amp;sort={$smode}\">"
               . get_html_resource($columns[$i - 1])
               . '</hcell>';
     }
@@ -144,9 +146,6 @@ if ($list->rows != 0)
           . $bookmarks;
 }
 
-$xml .= '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>

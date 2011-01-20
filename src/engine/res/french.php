@@ -83,7 +83,6 @@ $resource_french = array
     'Format de la valeur "%1" erroné.',
     'Utilisateur non habilité.',
     'Utilisateur inconnu ou mauvais mot de passe.',
-    'Type d\'authentification inconnu.',
     'Erreur inconnue.',
     'Erreur du parseur XML.',
 
@@ -215,7 +214,7 @@ $resource_french = array
     'Modèle',
     'Etat',
     'Age',
-    'Nouvel enregistrement (étape %1/%2)',
+    'Nouvel enregistrement',
     'Enregistrement "%1"',
     'Mes enregistrements',
     /* 1100 */
@@ -357,7 +356,7 @@ $resource_french = array
     'Debug logs',
     'Activés',
     'Désactivés',
-    '%1 min',
+    NULL,
     'permission de voir les enregistrements seulement',
     'Tout sélectionner',
     'Auteur',
@@ -376,7 +375,7 @@ $resource_french = array
     'Nom du rappel',
     'Sujet du rappel',
     'Destinataires du rappel',
-    'Nouveau rappel (étape %1/%2)',
+    'Nouveau rappel',
     'Note de rappel "%1"',
     'permission d\'envoyer aux destinataires',
     'Envoyer',
@@ -385,7 +384,7 @@ $resource_french = array
     'Nouvelle souscription',
     /* 1250 */
     'Souscription "%1"',
-    'Mot de passe LDAP',
+    NULL,
     'Vous pouver relier avec un autre entregistrement en précisant "rec#" et sa référence (ex. "rec#305").',
     'Seulement ceux dans l\'état ...',
     'Partager avec ...',
@@ -480,7 +479,7 @@ $resource_french = array
     'Invité',
     'Importer',
     'permission de supprimer des enregistrements',
-    'Type d\'authentification',
+    NULL,
     'Langue par défaut',
     /* 1340 */
     'Expiration du mot de passe (jours)',

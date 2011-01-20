@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2009  Artem Rodygin
+//  Copyright (C) 2005-2010  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -55,11 +55,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 
 if (!can_record_be_displayed($permissions))
 {
-    if (get_user_level() == USER_LEVEL_GUEST)
-    {
-        save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-    }
-
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
     header('Location: index.php');
     exit;
@@ -69,20 +64,6 @@ if (!can_record_be_displayed($permissions))
 
 record_read($id);
 
-// page's title
-
-$title = ustrprocess(get_html_resource(RES_RECORD_X_ID), record_id($id, $record['template_prefix']));
-
-// generate breadcrumbs and tabs
-
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
-     . '<breadcrumb url="changes.php?id=' . $id . '">' . $title . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . gen_record_tabs($record, RECORD_TAB_CHANGES)
-     . '<content>';
-
 // get the list of changes
 
 $sort = $page = NULL;
@@ -91,97 +72,99 @@ $list = changes_list($id,
                      is_null($record['responsible_id']) ? 0 : $record['responsible_id'],
                      $sort, $page);
 
+$xml = NULL;
+
 if ($list->rows == 0)
 {
     debug_write_log(DEBUG_NOTICE, 'List of changes is empty.');
-    header('Location: view.php?id=' . $id);
-    exit;
+
+    $xml .= '<text>' . get_html_resource(RES_NONE2_ID) . '</text>';
 }
-
-// generate list header
-
-$columns = array
-(
-    RES_TIMESTAMP_ID,
-    RES_ORIGINATOR_ID,
-    RES_FIELD_NAME_ID,
-    RES_OLD_VALUE_ID,
-    RES_NEW_VALUE_ID,
-);
-
-$rec_from = $rec_to = 0;
-
-$bookmarks = gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'changes.php?id=' . $id . '&amp;');
-
-$xml .= '<list>'
-      . '<hrow>';
-
-for ($i = 1; $i <= count($columns); $i++)
+else
 {
-    if ($i < 4)
-    {
-        $smode = ($sort == $i ? ($i + count($columns)) : $i);
+    // generate list header
 
-        $xml .= "<hcell url=\"changes.php?id={$id}&amp;sort={$smode}&amp;page={$page}\">"
-              . get_html_resource($columns[$i - 1])
-              . '</hcell>';
-    }
-    else
+    $columns = array
+    (
+        RES_TIMESTAMP_ID,
+        RES_ORIGINATOR_ID,
+        RES_FIELD_NAME_ID,
+        RES_OLD_VALUE_ID,
+        RES_NEW_VALUE_ID,
+    );
+
+    $rec_from = $rec_to = 0;
+
+    $bookmarks = gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'changes.php?id=' . $id . '&amp;');
+
+    $xml .= '<list>'
+          . '<hrow>';
+
+    for ($i = 1; $i <= count($columns); $i++)
     {
-        $xml .= "<hcell>"
-              . get_html_resource($columns[$i - 1])
-              . '</hcell>';
+        if ($i < 4)
+        {
+            $smode = ($sort == $i ? ($i + count($columns)) : $i);
+
+            $xml .= "<hcell url=\"changes.php?id={$id}&amp;sort={$smode}\">"
+                  . get_html_resource($columns[$i - 1])
+                  . '</hcell>';
+        }
+        else
+        {
+            $xml .= "<hcell>"
+                  . get_html_resource($columns[$i - 1])
+                  . '</hcell>';
+        }
     }
+
+    $xml .= '</hrow>';
+
+    // go through the list of changes
+
+    $list->seek($rec_from - 1);
+
+    for ($i = $rec_from; $i <= $rec_to; $i++)
+    {
+        $row = $list->fetch();
+
+        $old_value = value_find($row['field_type'], $row['old_value_id']);
+        $new_value = value_find($row['field_type'], $row['new_value_id']);
+
+        if ($row['field_type'] == FIELD_TYPE_CHECKBOX)
+        {
+            $old_value = get_html_resource($old_value ? RES_YES_ID : RES_NO_ID);
+            $new_value = get_html_resource($new_value ? RES_YES_ID : RES_NO_ID);
+        }
+        elseif ($row['field_type'] == FIELD_TYPE_LIST)
+        {
+            $old_value = (is_null($old_value) ? NULL : value_find_listvalue($row['field_id'], $old_value));
+            $new_value = (is_null($new_value) ? NULL : value_find_listvalue($row['field_id'], $new_value));
+        }
+        elseif ($row['field_type'] == FIELD_TYPE_RECORD)
+        {
+            $old_value = (is_null($old_value) ? NULL : 'rec#' . $old_value);
+            $new_value = (is_null($new_value) ? NULL : 'rec#' . $new_value);
+        }
+        elseif ($row['field_type'] == FIELD_TYPE_DATE)
+        {
+            $old_value = (is_null($old_value) ? NULL : get_date(ustr2date($old_value)));
+            $new_value = (is_null($new_value) ? NULL : get_date(ustr2date($new_value)));
+        }
+
+        $xml .= '<row>'
+              . '<cell>' . get_datetime($row['event_time']) . '</cell>'
+              . '<cell>' . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username']))) . '</cell>'
+              . '<cell>' . (is_null($row['field_name']) ? get_html_resource(RES_SUBJECT_ID) : ustr2html($row['field_name'])) . '</cell>'
+              . '<cell>' . (is_null($old_value) ? get_html_resource(RES_NONE_ID) : update_references($old_value)) . '</cell>'
+              . '<cell>' . (is_null($new_value) ? get_html_resource(RES_NONE_ID) : update_references($new_value)) . '</cell>'
+              . '</row>';
+    }
+
+    $xml .= '</list>'
+          . $bookmarks;
 }
 
-$xml .= '</hrow>';
-
-// go through the list of changes
-
-$list->seek($rec_from - 1);
-
-for ($i = $rec_from; $i <= $rec_to; $i++)
-{
-    $row = $list->fetch();
-
-    $old_value = value_find($row['field_type'], $row['old_value_id']);
-    $new_value = value_find($row['field_type'], $row['new_value_id']);
-
-    if ($row['field_type'] == FIELD_TYPE_CHECKBOX)
-    {
-        $old_value = get_html_resource($old_value ? RES_YES_ID : RES_NO_ID);
-        $new_value = get_html_resource($new_value ? RES_YES_ID : RES_NO_ID);
-    }
-    elseif ($row['field_type'] == FIELD_TYPE_LIST)
-    {
-        $old_value = (is_null($old_value) ? NULL : value_find_listvalue($row['field_id'], $old_value));
-        $new_value = (is_null($new_value) ? NULL : value_find_listvalue($row['field_id'], $new_value));
-    }
-    elseif ($row['field_type'] == FIELD_TYPE_RECORD)
-    {
-        $old_value = (is_null($old_value) ? NULL : 'rec#' . $old_value);
-        $new_value = (is_null($new_value) ? NULL : 'rec#' . $new_value);
-    }
-    elseif ($row['field_type'] == FIELD_TYPE_DATE)
-    {
-        $old_value = (is_null($old_value) ? NULL : get_date(ustr2date($old_value)));
-        $new_value = (is_null($new_value) ? NULL : get_date(ustr2date($new_value)));
-    }
-
-    $xml .= '<row>'
-          . '<cell>' . get_datetime($row['event_time']) . '</cell>'
-          . '<cell>' . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username']))) . '</cell>'
-          . '<cell>' . (is_null($row['field_name']) ? get_html_resource(RES_SUBJECT_ID) : ustr2html($row['field_name'])) . '</cell>'
-          . '<cell>' . (is_null($old_value) ? get_html_resource(RES_NONE_ID) : update_references($old_value)) . '</cell>'
-          . '<cell>' . (is_null($new_value) ? get_html_resource(RES_NONE_ID) : update_references($new_value)) . '</cell>'
-          . '</row>';
-}
-
-$xml .= '</list>'
-      . $bookmarks
-      . '</content>'
-      . '</tabs>';
-
-echo(xml2html($xml, $title));
+echo(xml2html($xml));
 
 ?>
