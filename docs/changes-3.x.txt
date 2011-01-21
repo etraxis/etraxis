@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-3-0 (2011-01-21)
+
+    Issue 189: Text box enhancements
+    Issue 197: Remaster some UI elements (tabs, buttons, modal dialogs).
+    Issue 198: New "Mars" theme.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-2-4 (2011-01-19)
 
     Issue 202: etraxis doesn't ignore spaces in ldap admins list
