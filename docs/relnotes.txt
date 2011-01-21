@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-2-4
-Release date: 2011-01-19
-Release size: 44702
+Release tag:  MAIN_3-3-0
+Release date: 2011-01-21
+Release size: 45969
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -22,7 +22,7 @@ THIRD PARTY LIBRARIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 jQuery:             1.4.4   http://jquery.com/
-jQuery UI:          1.8.6   http://jqueryui.com/
+jQuery UI:          1.8.8   http://jqueryui.com/
 jqPlot:             0.9.7   http://www.jqplot.com/
 TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 
@@ -30,11 +30,8 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/accounts.php
-[M] src/engine/utility.php
-[M] src/engine/xml.php
-[M] src/records/export.php
-[M] src/records/state.php
+Almost every single file was either deleted or modified (including config.php),
+also a lot of new files have been added. Please deploy the system from scratch.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -111,14 +108,13 @@ Issue 182: Reopening of closed record.
 Issue 183: Built-in scheduler
 Issue 184: Support for floating point numbers
 Issue 188: Stateless fields
-Issue 189: Text box enhancements
 Issue 191: localization of project
 Issue 192: Float and granularity
 Issue 195: Quotes in comments
-Issue 197: Remaster some UI elements (tabs, buttons, modal dialogs).
-Issue 198: New "Mars" theme.
 Issue 200: Automatically email notification and assign issue to group or individual based on rules
 Issue 206: oldstile add comment buttons
+Issue 207: Search issues by user names (author / responsible)
+Issue 210: Attaching subrecords - usability issue
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -126,19 +122,21 @@ KNOWN ISSUES
 
 Issue 94: Values of restricted fields are still accessible via custom view.
 Issue 205: export-import issue
+Issue 209: Bug with changing states to a state with Date field
+Issue 211: Automatically updating views
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 189: Text box enhancements
+Issue 197: Remaster some UI elements (tabs, buttons, modal dialogs).
+Issue 198: New "Mars" theme.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 202: etraxis doesn't ignore spaces in ldap admins list
-Issue 203: Reassigning "assigned" state - wrong default value in "date" field
-Issue 204: File Format error when opening etraxis.csv in Excel for OS X
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
