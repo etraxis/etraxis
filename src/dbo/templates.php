@@ -620,7 +620,7 @@ function template_export ($id, $just_the_node = FALSE)
  * <ul>
  * <li>{@link NO_ERROR} - template is successfully imported</li>
  * <li>{@link ERROR_UPLOAD_INI_SIZE} - the uploaded file exceeds the upload_max_filesize directive in 'php.ini'</li>
- * <li>{@link ERROR_UPLOAD_FORM_SIZE} - the uploaded file exceeds the {@link ATTACHMENTS_MAXSIZE} constant in 'engine/config.php'</li>
+ * <li>{@link ERROR_UPLOAD_FORM_SIZE} - the uploaded file exceeds the {@link ATTACHMENTS_MAXSIZE} constant in 'config.php'</li>
  * <li>{@link ERROR_UPLOAD_PARTIAL} - the uploaded file was only partially uploaded</li>
  * <li>{@link ERROR_UPLOAD_NO_FILE} - no file was uploaded</li>
  * <li>{@link ERROR_UPLOAD_NO_TMP_DIR} - missing a temporary folder</li>

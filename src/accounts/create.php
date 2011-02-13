@@ -43,6 +43,15 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
+$accounts = dal_query('accounts/count.sql');
+
+if (MAX_ACCOUNTS_NUMBER != 0 && $accounts->fetch(0) >= MAX_ACCOUNTS_NUMBER)
+{
+    debug_write_log(DEBUG_NOTICE, 'Maximum amount of accounts is already reached.');
+    header('Location: index.php');
+    exit;
+}
+
 // new account has been submitted
 
 if (try_request('submitted') == 'createform')

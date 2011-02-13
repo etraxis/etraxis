@@ -32,8 +32,8 @@
 /**#@+
  * Dependency.
  */
+require_once('../config.php');
 require_once('../engine/resource.php');
-require_once('../engine/config.php');
 require_once('../engine/debug.php');
 require_once('../engine/utility.php');
 /**#@-*/

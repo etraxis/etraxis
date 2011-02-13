@@ -78,7 +78,11 @@ $from = $to = 0;
 
 // generate buttons
 
-$xml .= '<button action="templateCreate()">' . get_html_resource(RES_CREATE_ID) . '</button>';
+$xml .= (MAX_TEMPLATES_NUMBER == 0 || $list->rows < MAX_TEMPLATES_NUMBER
+            ? '<button action="templateCreate()">'
+            : '<button disabled="true">')
+      . get_html_resource(RES_CREATE_ID)
+      . '</button>';
 
 // generate list of templates
 

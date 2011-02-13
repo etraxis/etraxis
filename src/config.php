@@ -176,4 +176,15 @@ define('DEBUG_MODE', 0);
 define('DEBUG_LOGS', '/usr/local/etraxis/logs/');
 /**#@-*/
 
+#-------------------------------------------------------------------------------
+#  Restrictions
+#-------------------------------------------------------------------------------
+
+/**#@+
+ * @ignore
+ */
+define('MAX_ACCOUNTS_NUMBER',  0);
+define('MAX_TEMPLATES_NUMBER', 0);
+/**#@-*/
+
 ?>

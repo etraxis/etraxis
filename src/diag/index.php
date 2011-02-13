@@ -28,7 +28,7 @@
 /**#@+
  * Dependency.
  */
-require_once('../engine/config.php');
+require_once('../config.php');
 /**#@-*/
 
 define('PHP_V4',       4);

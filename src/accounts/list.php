@@ -66,7 +66,11 @@ $from = $to = 0;
 
 // generate buttons
 
-$xml .= '<button action="accountCreate()">' . get_html_resource(RES_CREATE_ID) . '</button>';
+$xml .= (MAX_ACCOUNTS_NUMBER == 0 || $list->rows < MAX_ACCOUNTS_NUMBER
+            ? '<button action="accountCreate()">'
+            : '<button disabled="true">')
+      . get_html_resource(RES_CREATE_ID)
+      . '</button>';
 
 // generate list of accounts
 
