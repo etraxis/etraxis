@@ -157,6 +157,24 @@ function stateChange ()
     jqModal(title, "state.php?id={$id}&amp;state=" + state, "{$resOK}", "{$resCancel}", "$('#stateform').submit()");
 }
 
+function addConfidentialComment ()
+{
+    $("#commentform :input[name=submitted]").val("confidentialform");
+    $("#commentform").submit();
+    $("#commentform :input[name=submitted]").val("commentform");
+}
+
+function previewComment ()
+{
+    $("#previewdiv").load("preview.php", $("#commentform").serialize());
+}
+
+function commentSuccess (data)
+{
+    $("[href=#ui-tabs-5]").html(data);
+    reloadTab();
+}
+
 </script>
 JQUERY;
 
@@ -460,6 +478,38 @@ while (($event = $events->fetch()))
     }
 
     $xml .= '</group>';
+}
+
+// whether user is allowed to add new comment
+
+if (can_comment_be_added($record, $permissions))
+{
+    $xml .= '<form name="commentform" action="comments.php?id=' . $id . '" success="commentSuccess">'
+          . '<group title="' . get_html_resource(RES_COMMENT_ID) . '">'
+          . '<control name="comment">'
+          . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
+          . '</textbox>'
+          . '</control>'
+          . '</group>'
+          . '<buttonset>'
+          . '<button default="true">' . get_html_resource(RES_ADD_COMMENT_ID) . '</button>';
+
+    if ($permissions & PERMIT_CONFIDENTIAL_COMMENTS)
+    {
+        $xml .= '<button action="addConfidentialComment()">'
+              . get_html_resource(RES_ADD_CONFIDENTIAL_COMMENT_ID)
+              . '</button>';
+    }
+
+    $xml .= '</buttonset>'
+          . '<button action="previewComment()">' . get_html_resource(RES_PREVIEW_ID) . '</button>'
+          . '<div id="previewdiv"/>'
+          . '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>'
+          . '</form>';
+}
+else
+{
+    debug_write_log(DEBUG_NOTICE, 'Comment cannot be added.');
 }
 
 // generate HTML or dumpfile
