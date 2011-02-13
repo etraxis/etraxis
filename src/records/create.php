@@ -272,6 +272,14 @@ elseif (try_request('submitted') == 'mainform')
             */
 
             record_read($record_id);
+        }
+    }
+
+    switch ($error)
+    {
+        case NO_ERROR:
+
+            header('HTTP/1.0 200 OK');
 
             if ($parent)
             {
@@ -282,13 +290,7 @@ elseif (try_request('submitted') == 'mainform')
             {
                 echo($record_id);
             }
-        }
-    }
 
-    switch ($error)
-    {
-        case NO_ERROR:
-            header('HTTP/1.0 200 OK');
             break;
 
         case ERROR_INCOMPLETE_FORM:
