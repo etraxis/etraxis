@@ -79,7 +79,7 @@ if (try_request('submitted') == 'attachform')
 
     debug_write_log(DEBUG_DUMP, 'VAR_ERROR = ' . $_SESSION[VAR_ERROR]);
 
-    header('Location: view.php?id=' . $id . '&tab=5');
+    header('Location: view.php?id=' . $id . '&tab=6');
     exit;
 }
 
