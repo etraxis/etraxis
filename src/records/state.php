@@ -316,7 +316,10 @@ else
             $row['param1'] = date_offset($today, $row['param1']);
             $row['param2'] = date_offset($today, $row['param2']);
 
-            $value = ustr2int($value, $row['param1'], $row['param2']);
+            if (!is_null($value))
+            {
+                $value = ustr2int($value, $row['param1'], $row['param2']);
+            }
         }
 
         // convert to "human reading" format
