@@ -325,11 +325,10 @@ function ustr2sql ($str)
  * Convert UTF-8 encoded string to CSV format.
  *
  * @param string $str The UTF-8 encoded string.
- * @param string $delimiter CSV delimiter.
  * @param string $enclosure CSV enclosure.
  * @return string CSV string (UTF-8 encoded).
  */
-function ustr2csv ($str, $delimiter = ',', $enclosure = '"')
+function ustr2csv ($str, $enclosure = '"')
 {
     $str = ustr_replace($enclosure, $enclosure . $enclosure, $str);
 
