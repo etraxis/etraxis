@@ -44,6 +44,15 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
+$templates = dal_query('templates/count.sql');
+
+if (MAX_TEMPLATES_NUMBER != 0 && $templates->fetch(0) >= MAX_TEMPLATES_NUMBER)
+{
+    debug_write_log(DEBUG_NOTICE, 'Maximum amount of templates is already reached.');
+    header('Location: index.php');
+    exit;
+}
+
 // check that requested project exists
 
 $id      = ustr2int(try_request('id'));

@@ -32,7 +32,7 @@
 /**
  * Engine configuration.
  */
-require_once('../engine/config.php');
+require_once('../config.php');
 
 //------------------------------------------------------------------------------
 //  Definitions.
