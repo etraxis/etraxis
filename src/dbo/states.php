@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2009  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ function state_create ($template_id, $state_name, $state_abbr, $state_type, $nex
     debug_write_log(DEBUG_DUMP,  '[state_create] $state_name    = ' . $state_name);
     debug_write_log(DEBUG_DUMP,  '[state_create] $state_abbr    = ' . $state_abbr);
     debug_write_log(DEBUG_DUMP,  '[state_create] $state_type    = ' . $state_type);
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $next_state_id = ' . $next_state_id);
+    debug_write_log(DEBUG_DUMP,  '[state_create] $next_state_id = ' . $next_state_id);
     debug_write_log(DEBUG_DUMP,  '[state_create] $responsible   = ' . $responsible);
 
     // Check that there is no state with the same name or abbreviation in the specified template.
@@ -238,7 +238,8 @@ function state_create ($template_id, $state_name, $state_abbr, $state_type, $nex
  *
  * @param int $id ID of state to be modified.
  * @param int $template_id ID of template which the state belongs to.
- * @param string $state_name New state name.
+ * @param string $state_old_name Current state name.
+ * @param string $state_new_name New state name.
  * @param string $state_abbr New state abbreviation.
  * @param int $next_state_id New ID of state, which will be next by default in this dataflow.
  * @param int $responsible New state responsibility.
@@ -248,18 +249,19 @@ function state_create ($template_id, $state_name, $state_abbr, $state_type, $nex
  * <li>{@link ERROR_ALREADY_EXISTS} - state with specified name or abbreviation already exists</li>
  * </ul>
  */
-function state_modify ($id, $template_id, $state_name, $state_abbr, $next_state_id, $responsible)
+function state_modify ($id, $template_id, $state_old_name, $state_new_name, $state_abbr, $next_state_id, $responsible)
 {
     debug_write_log(DEBUG_TRACE, '[state_modify]');
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $id            = ' . $id);
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $template_id   = ' . $template_id);
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $state_name    = ' . $state_name);
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $state_abbr    = ' . $state_abbr);
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $next_state_id = ' . $next_state_id);
-    debug_write_log(DEBUG_DUMP,  '[state_modify] $responsible   = ' . $responsible);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $id             = ' . $id);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $template_id    = ' . $template_id);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $state_old_name = ' . $state_old_name);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $state_new_name = ' . $state_new_name);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $state_abbr     = ' . $state_abbr);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $next_state_id  = ' . $next_state_id);
+    debug_write_log(DEBUG_DUMP,  '[state_modify] $responsible    = ' . $responsible);
 
     // Check that there is no state with the same name or abbreviation, besides this one.
-    $rs = dal_query('states/fndku.sql', $id, $template_id, ustrtolower($state_name), ustrtolower($state_abbr));
+    $rs = dal_query('states/fndku.sql', $id, $template_id, ustrtolower($state_new_name), ustrtolower($state_abbr));
 
     if ($rs->rows != 0)
     {
@@ -267,10 +269,15 @@ function state_modify ($id, $template_id, $state_name, $state_abbr, $next_state_
         return ERROR_ALREADY_EXISTS;
     }
 
+    // Update existing views.
+    dal_query('states/views.sql',
+              $state_old_name,
+              $state_new_name);
+
     // Modify the state.
     dal_query('states/modify.sql',
               $id,
-              $state_name,
+              $state_new_name,
               $state_abbr,
               is_null($next_state_id) ? NULL : $next_state_id,
               $responsible);

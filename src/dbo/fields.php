@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -766,8 +766,10 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
  * Modifies specified field.
  *
  * @param int $id ID of field to be modified.
- * @param int $state_id ID of state which the field belongs to.
- * @param string $field_name New field name.
+ * @param int $state_id ID of the state which the field belongs to.
+ * @param int $state_name Name of the state which the field belongs to.
+ * @param string $field_old_name Current field name.
+ * @param string $field_new_name New field name.
  * @param int $field_old_order Current field order.
  * @param int $field_new_order New field order.
  * @param int $field_type Current field type (field type is not modifiable).
@@ -788,14 +790,16 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
  * <li>{@link ERROR_ALREADY_EXISTS} - another field with specified name already exists</li>
  * </ul>
  */
-function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
+function field_modify ($id, $state_id, $state_name, $field_old_name, $field_new_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
                        $regex_check = NULL, $regex_search = NULL, $regex_replace = NULL,
                        $param1 = NULL, $param2 = NULL, $value_id = NULL)
 {
     debug_write_log(DEBUG_TRACE, '[field_modify]');
     debug_write_log(DEBUG_DUMP,  '[field_modify] $id              = ' . $id);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $state_id        = ' . $state_id);
-    debug_write_log(DEBUG_DUMP,  '[field_modify] $field_name      = ' . $field_name);
+    debug_write_log(DEBUG_DUMP,  '[field_modify] $state_name      = ' . $state_name);
+    debug_write_log(DEBUG_DUMP,  '[field_modify] $field_old_name  = ' . $field_old_name);
+    debug_write_log(DEBUG_DUMP,  '[field_modify] $field_new_name  = ' . $field_new_name);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $field_old_order = ' . $field_old_order);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $field_new_order = ' . $field_new_order);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $field_type      = ' . $field_type);
@@ -811,14 +815,14 @@ function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new
     debug_write_log(DEBUG_DUMP,  '[field_modify] $value_id        = ' . $value_id);
 
     // Check that field name is not empty.
-    if (ustrlen($field_name) == 0)
+    if (ustrlen($field_new_name) == 0)
     {
         debug_write_log(DEBUG_NOTICE, '[field_modify] At least one required field is empty.');
         return ERROR_INCOMPLETE_FORM;
     }
 
     // Check that there is no field with the same name, besides this one.
-    $rs = dal_query('fields/fndku.sql', $id, $state_id, ustrtolower($field_name));
+    $rs = dal_query('fields/fndku.sql', $id, $state_id, ustrtolower($field_new_name));
 
     if ($rs->rows != 0)
     {
@@ -860,10 +864,16 @@ function field_modify ($id, $state_id, $field_name, $field_old_order, $field_new
         dal_query('fields/setorder.sql', $state_id, 0, $field_new_order);
     }
 
+    // Update existing views.
+    dal_query('fields/views.sql',
+              $state_name,
+              $field_old_name,
+              $field_new_name);
+
     // Modify the field.
     dal_query('fields/modify.sql',
               $id,
-              $field_name,
+              $field_new_name,
               bool2sql($is_required),
               bool2sql($add_separator),
               bool2sql($guest_access),

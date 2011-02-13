@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -80,6 +80,7 @@ if (try_request('submitted') == 'modifyform')
     {
         $error = state_modify($id,
                               $state['template_id'],
+                              $state['state_name'],
                               $state_name,
                               $state_abbr,
                               ($next_state_id == 0 ? NULL : $next_state_id),
