@@ -33,19 +33,17 @@ require_once('../dbo/groups.php');
 require_once('../dbo/reminders.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (!EMAIL_NOTIFICATIONS_ENABLED)
 {
     debug_write_log(DEBUG_NOTICE, 'Email Notifications functionality is disabled.');
-    header('Location: ../index.php');
     exit;
 }
 
 if (!can_reminder_be_created())
 {
     debug_write_log(DEBUG_NOTICE, 'Reminders are denied.');
-    header('Location: ../index.php');
     exit;
 }
 
@@ -57,7 +55,6 @@ $reminder = reminder_find($id);
 if (!$reminder)
 {
     debug_write_log(DEBUG_NOTICE, 'Reminder cannot be found.');
-    header('Location: index.php');
     exit;
 }
 

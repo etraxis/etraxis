@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 // views list is submitted
 

@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/projects.php');
 /**#@-*/
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_CONTAINER, GUEST_IS_ALLOWED);
 
 // check that requested project exists
 

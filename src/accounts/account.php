@@ -32,12 +32,11 @@ require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
     exit;
 }
 
@@ -49,14 +48,12 @@ $account = account_find($id);
 if (!$account)
 {
     debug_write_log(DEBUG_NOTICE, 'Account cannot be found.');
-    header('Location: index.php');
     exit;
 }
 
 if ($account['is_ldapuser'])
 {
     debug_write_log(DEBUG_NOTICE, 'Active Directory account cannot be viewed.');
-    header('Location: index.php');
     exit;
 }
 

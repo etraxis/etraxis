@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 // new view has been submitted
 

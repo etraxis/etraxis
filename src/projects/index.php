@@ -31,7 +31,7 @@
 require_once('../engine/engine.php');
 /**#@-*/
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_CONTAINER, GUEST_IS_ALLOWED);
 
 // generate breadcrumbs and tabs
 

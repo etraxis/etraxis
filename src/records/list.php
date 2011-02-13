@@ -37,7 +37,7 @@ require_once('../dbo/views.php');
 global $column_type_align;
 global $column_type_res;
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_TAB, GUEST_IS_ALLOWED);
 
 // process search mode, if one is specified
 

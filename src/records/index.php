@@ -34,7 +34,7 @@ require_once('../dbo/records.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_CONTAINER, GUEST_IS_ALLOWED);
 
 // process search mode, if one is specified
 

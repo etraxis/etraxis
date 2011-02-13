@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 // settings form is submitted
 

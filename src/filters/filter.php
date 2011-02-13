@@ -35,7 +35,7 @@ require_once('../dbo/filters.php');
 require_once('../dbo/values.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 // check that requested filter exists
 
@@ -45,7 +45,6 @@ $filter = filter_find($id);
 if (!$filter)
 {
     debug_write_log(DEBUG_NOTICE, 'Filter cannot be found.');
-    header('Location: ../index.php');
     exit;
 }
 

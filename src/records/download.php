@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/records.php');
 /**#@-*/
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_CONTAINER, GUEST_IS_ALLOWED);
 
 $id         = ustr2int(try_request('id'));
 $attachment = attachment_find($id);

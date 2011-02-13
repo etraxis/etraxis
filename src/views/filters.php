@@ -33,7 +33,7 @@ require_once('../dbo/filters.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 // check that requested view exists
 
@@ -43,7 +43,6 @@ $view = view_find($id);
 if (!$view)
 {
     debug_write_log(DEBUG_NOTICE, 'View cannot be found.');
-    header('Location: index.php');
     exit;
 }
 

@@ -32,14 +32,14 @@ require_once('../engine/engine.php');
 require_once('../dbo/projects.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 $error = NO_ERROR;
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -51,7 +51,7 @@ $project = project_find($id);
 if (!$project)
 {
     debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 

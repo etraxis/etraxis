@@ -218,46 +218,60 @@ function jqModal (title, url, btnOk, btnCancel, funcOk, funcCancel, funcLoad)
     var maxWidth  = $("body").width()  - 32;
     var maxHeight = $("body").height() - 32;
 
-    $("#modaldlg").load(url, function () {
+    $("#modaldlg").load(url, function (responseText, textStatus, XMLHttpRequest) {
 
-        $("input.button").button();
-        $("span.buttonset").buttonset();
-
-        $("#modaldlg").dialog({
-            title: title,
-            modal: true,
-            width: "auto",
-            height: "auto",
-            resizable: false,
-            buttons: buttons
-        });
-
-        if ($("#modaldlg").width() > maxWidth)
+        if (textStatus == "success")
         {
-            $("#modaldlg").dialog("option", "width", maxWidth);
+            $("input.button").button();
+            $("span.buttonset").buttonset();
+
+            $("#modaldlg").dialog({
+                title: title,
+                modal: true,
+                width: "auto",
+                height: "auto",
+                resizable: false,
+                buttons: buttons
+            });
+
+            if ($("#modaldlg").width() > maxWidth)
+            {
+                $("#modaldlg").dialog("option", "width", maxWidth);
+            }
+
+            if ($("#modaldlg").height() > maxHeight)
+            {
+                $("#modaldlg").dialog("option", "height", maxHeight);
+            }
+
+            // width audjustment IE workaround
+            var userAgent = navigator.userAgent.toLowerCase();
+
+            if (userAgent.indexOf("msie") != -1)
+            {
+                var width = $("#modaldlg").width();
+
+                $("div[aria-labelledby='ui-dialog-title-modaldlg'] div.ui-dialog-titlebar").width(width);
+                $("div[aria-labelledby='ui-dialog-title-modaldlg'] div.ui-dialog-buttonpane").width(width);
+            }
+
+            $("#modaldlg").dialog("option", "position", "center");
+
+            if (funcLoad)
+            {
+                eval(funcLoad);
+            }
         }
-
-        if ($("#modaldlg").height() > maxHeight)
+        else
         {
-            $("#modaldlg").dialog("option", "height", maxHeight);
-        }
-
-        // width audjustment IE workaround
-        var userAgent = navigator.userAgent.toLowerCase();
-
-        if (userAgent.indexOf("msie") != -1)
-        {
-            var width = $("#modaldlg").width();
-
-            $("div[aria-labelledby='ui-dialog-title-modaldlg'] div.ui-dialog-titlebar").width(width);
-            $("div[aria-labelledby='ui-dialog-title-modaldlg'] div.ui-dialog-buttonpane").width(width);
-        }
-
-        $("#modaldlg").dialog("option", "position", "center");
-
-        if (funcLoad)
-        {
-            eval(funcLoad);
+            if (XMLHttpRequest.status == 307)
+            {
+                window.open(XMLHttpRequest.statusText, "_parent");
+            }
+            else
+            {
+                jqAlert(title, XMLHttpRequest.statusText, "OK");
+            }
         }
     });
 }

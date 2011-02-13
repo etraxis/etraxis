@@ -81,6 +81,14 @@ define('USER_LEVEL_ADMIN',  3);
  */
 define('GUEST_USER_ID', 0);
 
+/**#@+
+ * Type of a page to be loaded.
+ */
+define('LOAD_CONTAINER', 1);
+define('LOAD_TAB',       2);
+define('LOAD_INLINE',    3);
+/**#@-*/
+
 /**
  * Flag that guest is allowed to access a page.
  */
@@ -366,9 +374,10 @@ function get_user_level ()
  *
  * Must be called once and at the very beginning of each PHP page.
  *
+ * @param int $page_type Type of the page.
  * @param int $guest_is_allowed Flag that guest is allowed to access the page.
  */
-function init_page ($guest_is_allowed = FALSE)
+function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
 {
     global $encodings;
     global $line_endings_chars;
@@ -413,7 +422,16 @@ function init_page ($guest_is_allowed = FALSE)
         {
             debug_write_log(DEBUG_NOTICE, '[init_page] Guest must be logged in.');
             save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-            header('Location: ' . WEBROOT . 'logon/index.php');
+
+            if ($page_type == LOAD_CONTAINER)
+            {
+                header('Location: ' . WEBROOT . 'logon/index.php');
+            }
+            elseif ($page_type == LOAD_INLINE)
+            {
+                header('HTTP/1.1 307 ' . WEBROOT . 'logon/index.php');
+            }
+
             exit;
         }
     }
@@ -457,7 +475,16 @@ function init_page ($guest_is_allowed = FALSE)
                 (!$_SESSION[VAR_LDAPUSER]                                                 ))
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
-                header('Location: ' . WEBROOT . 'settings/index.php?tab=3');
+
+                if ($page_type == LOAD_CONTAINER)
+                {
+                    header('Location: ' . WEBROOT . 'settings/index.php?tab=3');
+                }
+                elseif ($page_type == LOAD_INLINE)
+                {
+                    header('HTTP/1.1 307 ' . WEBROOT . 'settings/index.php?tab=3');
+                }
+
                 exit;
             }
         }

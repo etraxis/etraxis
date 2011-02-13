@@ -32,12 +32,11 @@ require_once('../engine/engine.php');
 require_once('../dbo/subscriptions.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (!EMAIL_NOTIFICATIONS_ENABLED)
 {
     debug_write_log(DEBUG_NOTICE, 'Email Notifications functionality is disabled.');
-    header('Location: ../index.php');
     exit;
 }
 

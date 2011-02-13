@@ -36,7 +36,7 @@ require_once('../dbo/fields.php');
 require_once('../dbo/filters.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 // check that requested filter exists
 
@@ -46,7 +46,7 @@ $filter = filter_find($id);
 if (!$filter)
 {
     debug_write_log(DEBUG_NOTICE, 'Filter cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -158,7 +158,7 @@ if (try_request('submitted') == 'modifyform')
                     if (!$template)
                     {
                         debug_write_log(DEBUG_WARNING, 'Template cannot be found.');
-                        header('Location: view.php?id=' . $id);
+                        header('HTTP/1.1 307 view.php?id=' . $id);
                         exit;
                     }
 
@@ -262,7 +262,7 @@ switch ($filter['filter_type'])
         if (!$project)
         {
             debug_write_log(DEBUG_WARNING, 'Project cannot be found.');
-            header('Location: view.php?id=' . $id);
+            header('HTTP/1.1 307 view.php?id=' . $id);
             exit;
         }
 
@@ -293,7 +293,7 @@ switch ($filter['filter_type'])
         if (!$template)
         {
             debug_write_log(DEBUG_WARNING, 'Template cannot be found.');
-            header('Location: view.php?id=' . $id);
+            header('HTTP/1.1 307 view.php?id=' . $id);
             exit;
         }
 
