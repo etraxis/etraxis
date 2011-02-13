@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ $accounts = dal_query('accounts/count.sql');
 if (MAX_ACCOUNTS_NUMBER != 0 && $accounts->fetch(0) >= MAX_ACCOUNTS_NUMBER)
 {
     debug_write_log(DEBUG_NOTICE, 'Maximum amount of accounts is already reached.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
