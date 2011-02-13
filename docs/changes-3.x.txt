@@ -2,6 +2,21 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-3-1 (2011-02-13)
+
+    Issue 206: Oldstyle "add comment" buttons
+
+Bug fixes integrated in MAIN_3-3-1 (2011-02-13)
+
+    Issue 209: Bug with changing states to a state with Date field
+    Issue 211: Automatically updating views
+    Issue 217: Wrong tab get selected after attaching file
+    Issue 225: Variable $delimiter appears only once.
+    Issue 226: Cannot modify header information - headers already sent by
+    Issue 228: Filter for "Off" checkbox fields returns only "On" ones.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-3-0 (2011-01-21)
 
     Issue 189: Text box enhancements
