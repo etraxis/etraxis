@@ -68,7 +68,7 @@ foreach ($columns as $column)
         $title = $column['field_name'];
     }
 
-    array_push($data, ustr2csv($title, $_SESSION[VAR_DELIMITER]));
+    array_push($data, ustr2csv($title));
 }
 
 $csv = implode($_SESSION[VAR_DELIMITER], $data) . $_SESSION[VAR_LINE_ENDINGS];
@@ -91,27 +91,27 @@ while (($row = $list->fetch()))
         switch ($column['column_type'])
         {
             case COLUMN_TYPE_ID:
-                array_push($data, ustr2csv(record_id($row['record_id'], $row['template_prefix']), $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv(record_id($row['record_id'], $row['template_prefix'])));
                 break;
 
             case COLUMN_TYPE_STATE_ABBR:
-                array_push($data, ustr2csv($row['state_abbr'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['state_abbr']));
                 break;
 
             case COLUMN_TYPE_PROJECT:
-                array_push($data, ustr2csv($row['project_name'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['project_name']));
                 break;
 
             case COLUMN_TYPE_SUBJECT:
-                array_push($data, ustr2csv($row['subject'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['subject']));
                 break;
 
             case COLUMN_TYPE_AUTHOR:
-                array_push($data, ustr2csv($row['author_fullname'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['author_fullname']));
                 break;
 
             case COLUMN_TYPE_RESPONSIBLE:
-                array_push($data, ustr2csv($row['responsible_fullname'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['responsible_fullname']));
                 break;
 
             case COLUMN_TYPE_LAST_EVENT:
@@ -123,19 +123,19 @@ while (($row = $list->fetch()))
                 break;
 
             case COLUMN_TYPE_CREATION_DATE:
-                array_push($data, ustr2csv(get_date($row['creation_time']), $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv(get_date($row['creation_time'])));
                 break;
 
             case COLUMN_TYPE_TEMPLATE:
-                array_push($data, ustr2csv($row['template_name'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['template_name']));
                 break;
 
             case COLUMN_TYPE_STATE_NAME:
-                array_push($data, ustr2csv($row['state_name'], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['state_name']));
                 break;
 
             case COLUMN_TYPE_LAST_STATE:
-                array_push($data, ustr2csv(get_record_last_state($row), $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv(get_record_last_state($row)));
                 break;
 
             case COLUMN_TYPE_NUMBER:
@@ -146,7 +146,7 @@ while (($row = $list->fetch()))
             case COLUMN_TYPE_STRING:
             case COLUMN_TYPE_MULTILINED:
             case COLUMN_TYPE_LIST_STRING:
-                array_push($data, ustr2csv($row['value' . $column['column_id']], $_SESSION[VAR_DELIMITER]));
+                array_push($data, ustr2csv($row['value' . $column['column_id']]));
                 break;
 
             case COLUMN_TYPE_CHECKBOX:
@@ -157,7 +157,7 @@ while (($row = $list->fetch()))
                 }
                 else
                 {
-                    array_push($data, ustr2csv(bool2sql($row['value' . $column['column_id']]), $_SESSION[VAR_DELIMITER]));
+                    array_push($data, ustr2csv(bool2sql($row['value' . $column['column_id']])));
                 }
 
                 break;
@@ -170,7 +170,7 @@ while (($row = $list->fetch()))
                 }
                 else
                 {
-                    array_push($data, ustr2csv(record_id($row['value' . $column['column_id']]), $_SESSION[VAR_DELIMITER]));
+                    array_push($data, ustr2csv(record_id($row['value' . $column['column_id']])));
                 }
 
                 break;
@@ -183,7 +183,7 @@ while (($row = $list->fetch()))
                 }
                 else
                 {
-                    array_push($data, ustr2csv(get_date($row['value' . $column['column_id']]), $_SESSION[VAR_DELIMITER]));
+                    array_push($data, ustr2csv(get_date($row['value' . $column['column_id']])));
                 }
 
                 break;
@@ -196,7 +196,7 @@ while (($row = $list->fetch()))
                 }
                 else
                 {
-                    array_push($data, ustr2csv(time2ustr($row['value' . $column['column_id']]), $_SESSION[VAR_DELIMITER]));
+                    array_push($data, ustr2csv(time2ustr($row['value' . $column['column_id']])));
                 }
 
                 break;

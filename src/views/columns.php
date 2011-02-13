@@ -119,8 +119,8 @@ foreach ($columns as $column)
     {
         array_push($custom, sprintf('%u:%s:%s',
                                     $column['column_type'],
-                                    ustr2csv($column['state_name'], ':', '\''),
-                                    ustr2csv($column['field_name'], ':', '\'')));
+                                    ustr2csv($column['state_name'], '\''),
+                                    ustr2csv($column['field_name'], '\'')));
     }
 }
 
@@ -208,8 +208,8 @@ while (($item = $flist->fetch()))
         // add numeric variant of the "list" field
         $value = sprintf('%u:%s:%s',
                          COLUMN_TYPE_LIST_NUMBER,
-                         ustr2csv($item['state_name'], ':', '\''),
-                         ustr2csv($item['field_name'], ':', '\''));
+                         ustr2csv($item['state_name'], '\''),
+                         ustr2csv($item['field_name'], '\''));
 
         if (!in_array($value, $custom))
         {
@@ -224,8 +224,8 @@ while (($item = $flist->fetch()))
         // add string variant of the "list" field
         $value = sprintf('%u:%s:%s',
                          COLUMN_TYPE_LIST_STRING,
-                         ustr2csv($item['state_name'], ':', '\''),
-                         ustr2csv($item['field_name'], ':', '\''));
+                         ustr2csv($item['state_name'], '\''),
+                         ustr2csv($item['field_name'], '\''));
 
         if (!in_array($value, $custom))
         {
@@ -242,8 +242,8 @@ while (($item = $flist->fetch()))
         // add any other field
         $value = sprintf('%u:%s:%s',
                          $fields_to_columns[$item['field_type']],
-                         ustr2csv($item['state_name'], ':', '\''),
-                         ustr2csv($item['field_name'], ':', '\''));
+                         ustr2csv($item['state_name'], '\''),
+                         ustr2csv($item['field_name'], '\''));
 
         if (!in_array($value, $custom))
         {
