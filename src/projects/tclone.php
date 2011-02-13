@@ -33,12 +33,12 @@ require_once('../dbo/projects.php');
 require_once('../dbo/templates.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -50,7 +50,7 @@ $template = template_find($id);
 if (!$template)
 {
     debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -67,7 +67,7 @@ if (try_request('submitted') == 'cloneform')
     if (!$project)
     {
         debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-        header('Location: tview.php?id=' . $id);
+        header('HTTP/1.1 307 tview.php?id=' . $id);
         exit;
     }
 
@@ -91,7 +91,7 @@ if (try_request('submitted') == 'cloneform')
             if ($rs->rows == 0)
             {
                 debug_write_log(DEBUG_WARNING, 'Created template not found.');
-                header('Location: tview.php?id=' . $id);
+                header('HTTP/1.1 307 tview.php?id=' . $id);
             }
             else
             {

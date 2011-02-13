@@ -36,7 +36,7 @@ require_once('../dbo/values.php');
 require_once('../dbo/records.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 $error = NO_ERROR;
 
@@ -61,7 +61,7 @@ if ($id == 0)
     if (!can_record_be_created())
     {
         debug_write_log(DEBUG_NOTICE, 'Record cannot be created.');
-        header('Location: index.php');
+        header('HTTP/1.1 307 index.php');
         exit;
     }
 
@@ -80,7 +80,7 @@ else
     if (!$record)
     {
         debug_write_log(DEBUG_NOTICE, 'Record cannot be found.');
-        header('Location: index.php');
+        header('HTTP/1.1 307 index.php');
         exit;
     }
 
@@ -89,7 +89,7 @@ else
     if (!can_record_be_created())
     {
         debug_write_log(DEBUG_NOTICE, 'Record cannot be cloned.');
-        header('Location: view.php?id=' . $id);
+        header('HTTP/1.1 307 view.php?id=' . $id);
         exit;
     }
 
@@ -110,7 +110,7 @@ else
     if ($rs->rows == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-        header('Location: view.php?id=' . $id);
+        header('HTTP/1.1 307 view.php?id=' . $id);
         exit;
     }
 
@@ -147,7 +147,7 @@ if (try_request('submitted') == 'projectform')
     if ($rs->rows == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-        header('Location: index.php');
+        header('HTTP/1.1 307 index.php');
         exit;
     }
 
@@ -181,7 +181,7 @@ elseif (try_request('submitted') == 'templateform')
     if ($rs->rows == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-        header('Location: index.php');
+        header('HTTP/1.1 307 index.php');
         exit;
     }
 
@@ -220,7 +220,7 @@ elseif (try_request('submitted') == 'mainform')
     if ($rs->rows == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-        header('Location: index.php');
+        header('HTTP/1.1 307 index.php');
         exit;
     }
 
@@ -237,7 +237,7 @@ elseif (try_request('submitted') == 'mainform')
     if ($rs->rows != 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Double click issue is detected.');
-        header('Location: index.php');
+        header('HTTP/1.1 307 index.php');
         exit;
     }
 

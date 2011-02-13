@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/projects.php');
 /**#@-*/
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_TAB, GUEST_IS_ALLOWED);
 
 // check that requested project exists
 
@@ -42,7 +42,6 @@ $project = project_find($id);
 if (!$project)
 {
     debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-    header('Location: index.php');
     exit;
 }
 

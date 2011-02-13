@@ -35,12 +35,11 @@ require_once('../dbo/subscriptions.php');
 require_once('../dbo/events.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (!EMAIL_NOTIFICATIONS_ENABLED)
 {
     debug_write_log(DEBUG_NOTICE, 'Email Notifications functionality is disabled.');
-    header('Location: ../index.php');
     exit;
 }
 
@@ -52,7 +51,6 @@ $subscription = subscription_find($id);
 if (!$subscription)
 {
     debug_write_log(DEBUG_NOTICE, 'Subscription cannot be found.');
-    header('Location: index.php');
     exit;
 }
 
@@ -108,7 +106,6 @@ switch ($subscription['subscribe_type'])
         if (!$project)
         {
             debug_write_log(DEBUG_WARNING, 'Project cannot be found.');
-            header('Location: index.php');
             exit;
         }
 
@@ -124,7 +121,6 @@ switch ($subscription['subscribe_type'])
         if (!$template)
         {
             debug_write_log(DEBUG_WARNING, 'Template cannot be found.');
-            header('Location: index.php');
             exit;
         }
 

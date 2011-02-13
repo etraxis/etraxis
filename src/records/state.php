@@ -37,7 +37,7 @@ require_once('../dbo/records.php');
 require_once('../dbo/events.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 // check that requested record exists
 
@@ -47,7 +47,7 @@ $record = record_find($id);
 if (!$record)
 {
     debug_write_log(DEBUG_NOTICE, 'Record cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -59,7 +59,7 @@ $state    = state_find($state_id);
 if (!$state)
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be found.');
-    header('Location: view.php?id=' . $id);
+    header('HTTP/1.1 307 view.php?id=' . $id);
     exit;
 }
 
@@ -70,7 +70,7 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 if (!can_state_be_changed($record, $permissions))
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be changed.');
-    header('Location: view.php?id=' . $id);
+    header('HTTP/1.1 307 view.php?id=' . $id);
     exit;
 }
 
@@ -83,7 +83,7 @@ if ($state['state_type'] == STATE_TYPE_FINAL)
     if ($rs->rows != 0)
     {
         debug_write_log(DEBUG_NOTICE, 'The record has unclosed dependencies.');
-        header('Location: view.php?id=' . $id);
+        header('HTTP/1.1 307 view.php?id=' . $id);
         exit;
     }
 }
@@ -95,7 +95,7 @@ $rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], '');
 if ($rs->rows == 0)
 {
     debug_write_log(DEBUG_NOTICE, 'No permissions to change to specified state.');
-    header('Location: view.php?id=' . $id);
+    header('HTTP/1.1 307 view.php?id=' . $id);
     exit;
 }
 

@@ -34,14 +34,14 @@ require_once('../dbo/templates.php');
 require_once('../dbo/states.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 $error = NO_ERROR;
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -53,14 +53,14 @@ $template = template_find($id);
 if (!$template)
 {
     debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
 if (!$template['is_locked'])
 {
     debug_write_log(DEBUG_NOTICE, 'Template must be locked.');
-    header('Location: sindex.php?id=' . $id);
+    header('HTTP/1.1 307 sindex.php?id=' . $id);
     exit;
 }
 

@@ -34,12 +34,12 @@ require_once('../dbo/fields.php');
 require_once('../dbo/values.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -51,14 +51,14 @@ $field = field_find($id);
 if (!$field)
 {
     debug_write_log(DEBUG_NOTICE, 'Field cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
 if (!$field['is_locked'])
 {
     debug_write_log(DEBUG_NOTICE, 'Template must be locked.');
-    header('Location: fview.php?id=' . $id);
+    header('HTTP/1.1 307 fview.php?id=' . $id);
     exit;
 }
 

@@ -36,12 +36,11 @@ require_once('../dbo/fields.php');
 
 global $field_type_res;
 
-init_page();
+init_page(LOAD_TAB);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: ../index.php');
     exit;
 }
 
@@ -53,7 +52,6 @@ $state = state_find($id);
 if (!$state)
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be found.');
-    header('Location: index.php');
     exit;
 }
 

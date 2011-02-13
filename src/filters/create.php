@@ -34,7 +34,7 @@ require_once('../dbo/fields.php');
 require_once('../dbo/filters.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 $error       = NO_ERROR;
 $filter_name = NULL;

@@ -36,7 +36,7 @@ require_once('../dbo/records.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_TAB, GUEST_IS_ALLOWED);
 
 // check that requested record exists
 
@@ -46,7 +46,6 @@ $record = record_find($id);
 if (!$record)
 {
     debug_write_log(DEBUG_NOTICE, 'Record cannot be found.');
-    header('Location: index.php');
     exit;
 }
 
@@ -57,7 +56,6 @@ $permissions = record_get_permissions($record['template_id'], $record['creator_i
 if (!can_record_be_displayed($permissions))
 {
     debug_write_log(DEBUG_NOTICE, 'Record cannot be displayed.');
-    header('Location: index.php');
     exit;
 }
 

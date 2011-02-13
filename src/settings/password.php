@@ -32,12 +32,11 @@ require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if ($_SESSION[VAR_LDAPUSER])
 {
     debug_write_log(DEBUG_NOTICE, 'LDAP user cannot change a password.');
-    header('Location: index.php');
     exit;
 }
 

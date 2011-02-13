@@ -36,7 +36,7 @@ global $encodings;
 global $line_endings_names;
 global $line_endings_chars;
 
-init_page();
+init_page(LOAD_TAB);
 
 $error = NO_ERROR;
 

@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/views.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 // check that requested view exists
 
@@ -42,7 +42,7 @@ $view = view_find($id);
 if (!$view)
 {
     debug_write_log(DEBUG_NOTICE, 'View cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 

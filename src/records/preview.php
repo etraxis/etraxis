@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/records.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 // generate preview
 

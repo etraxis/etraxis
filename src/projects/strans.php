@@ -34,12 +34,11 @@ require_once('../dbo/projects.php');
 require_once('../dbo/states.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
     exit;
 }
 
@@ -51,14 +50,12 @@ $state = state_find($id);
 if (!$state)
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be found.');
-    header('Location: index.php');
     exit;
 }
 
 if ($state['state_type'] == STATE_TYPE_FINAL)
 {
     debug_write_log(DEBUG_NOTICE, 'State must be intermediate.');
-    header('Location: sview.php?id=' . $id);
     exit;
 }
 

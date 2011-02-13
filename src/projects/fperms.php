@@ -33,12 +33,11 @@ require_once('../dbo/projects.php');
 require_once('../dbo/fields.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
     exit;
 }
 
@@ -50,7 +49,6 @@ $field = field_find($id);
 if (!$field)
 {
     debug_write_log(DEBUG_NOTICE, 'Field cannot be found.');
-    header('Location: index.php');
     exit;
 }
 

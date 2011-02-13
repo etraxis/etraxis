@@ -34,7 +34,7 @@ require_once('../dbo/views.php');
 
 global $column_type_res;
 
-init_page();
+init_page(LOAD_TAB);
 
 $error = NO_ERROR;
 

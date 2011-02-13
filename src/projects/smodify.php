@@ -33,14 +33,14 @@ require_once('../dbo/projects.php');
 require_once('../dbo/states.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 $error = NO_ERROR;
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
     debug_write_log(DEBUG_NOTICE, 'User must have admin rights to be allowed.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
@@ -52,14 +52,14 @@ $state = state_find($id);
 if (!$state)
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 
 if (!$state['is_locked'])
 {
     debug_write_log(DEBUG_NOTICE, 'Template must be locked.');
-    header('Location: sview.php?id=' . $id);
+    header('HTTP/1.1 307 sview.php?id=' . $id);
     exit;
 }
 

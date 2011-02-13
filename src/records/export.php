@@ -36,7 +36,7 @@ require_once('../dbo/views.php');
 global $column_type_align;
 global $column_type_res;
 
-init_page(GUEST_IS_ALLOWED);
+init_page(LOAD_CONTAINER, GUEST_IS_ALLOWED);
 
 // get list of records
 

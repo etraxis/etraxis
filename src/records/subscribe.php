@@ -33,14 +33,14 @@ require_once('../dbo/accounts.php');
 require_once('../dbo/records.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 $id = ustr2int(try_request('id'));
 
 if (!EMAIL_NOTIFICATIONS_ENABLED)
 {
     debug_write_log(DEBUG_NOTICE, 'Email Notifications functionality is disabled.');
-    header('Location: view.php?id=' . $id);
+    header('HTTP/1.1 307 view.php?id=' . $id);
     exit;
 }
 
@@ -51,7 +51,7 @@ $record = record_find($id);
 if (!$record)
 {
     debug_write_log(DEBUG_NOTICE, 'Record cannot be found.');
-    header('Location: index.php');
+    header('HTTP/1.1 307 index.php');
     exit;
 }
 

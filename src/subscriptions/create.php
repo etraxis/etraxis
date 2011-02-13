@@ -32,12 +32,12 @@ require_once('../engine/engine.php');
 require_once('../dbo/subscriptions.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_INLINE);
 
 if (!EMAIL_NOTIFICATIONS_ENABLED)
 {
     debug_write_log(DEBUG_NOTICE, 'Email Notifications functionality is disabled.');
-    header('Location: ../index.php');
+    header('HTTP/1.1 307 ../index.php');
     exit;
 }
 
@@ -66,7 +66,7 @@ if (try_request('submitted') == 'projectform')
         if ($rs->rows == 0)
         {
             debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-            header('Location: index.php');
+            header('HTTP/1.1 307 index.php');
             exit;
         }
 
@@ -91,7 +91,7 @@ elseif (try_request('submitted') == 'templateform')
         if ($rs->rows == 0)
         {
             debug_write_log(DEBUG_NOTICE, 'Project cannot be found.');
-            header('Location: index.php');
+            header('HTTP/1.1 307 index.php');
             exit;
         }
 
@@ -106,7 +106,7 @@ elseif (try_request('submitted') == 'templateform')
         if ($rs->rows == 0)
         {
             debug_write_log(DEBUG_NOTICE, 'Template cannot be found.');
-            header('Location: index.php');
+            header('HTTP/1.1 307 index.php');
             exit;
         }
 
