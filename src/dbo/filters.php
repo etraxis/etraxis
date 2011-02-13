@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -501,7 +501,7 @@ function filter_fields_set ($filter_id, $template_id)
 
                         debug_write_log(DEBUG_NOTICE, "[filter_fields_set] Field type is checkbox.");
 
-                        $checked = isset($_REQUEST['check_' . $name]);
+                        $checked = try_request('check_' . $name, 0);
 
                         dal_query('filters/ffcreate.sql',
                                   $filter_id,

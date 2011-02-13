@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -531,7 +531,7 @@ if ($form == 'createform')
 
                                 $xml .= '<control name="check_' . $name . '">'
                                       . '<label/>'
-                                      . '<radio value="' . 1 . (try_request('check_' . $name, 0) == 1 ? '" checked="true">' : '">') . get_html_resource(RES_ON_ID)  . '</radio>'
+                                      . '<radio value="' . 1 . (try_request('check_' . $name, 0) != 0 ? '" checked="true">' : '">') . get_html_resource(RES_ON_ID)  . '</radio>'
                                       . '<radio value="' . 0 . (try_request('check_' . $name, 0) == 0 ? '" checked="true">' : '">') . get_html_resource(RES_OFF_ID) . '</radio>'
                                       . '</control>';
 
