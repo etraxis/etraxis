@@ -312,6 +312,10 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
     {
         $html = str_replace('%br;', '<br/>', $html);
 
+        // workaround: some PHP configurations insert CDATA tags which break the output
+        $html = str_replace('<script type="text/javascript"><![CDATA[', '<script type="text/javascript">', $html);
+        $html = str_replace(']]></script>', '</script>', $html);
+
         mb_regex_encoding('UTF-8');
 
         $html = mb_eregi_replace('%([A-Za-z]+);',          '&\1;', $html);
