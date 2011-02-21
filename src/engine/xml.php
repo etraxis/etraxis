@@ -323,12 +323,6 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
         $html = mb_eregi_replace('%(#x[0-9A-Fa-f]{1,4});', '&\1;', $html);
     }
 
-    if (is_null($title))
-    {
-        $html = preg_replace('!\<\?xml(.*)\?\>!isUu',   NULL, $html);
-        $html = preg_replace('!\<\!DOCTYPE(.*)\>!isUu', NULL, $html);
-    }
-
     debug_write_log(DEBUG_PERFORMANCE, 'page size = ' . strlen($html));
 
     return $html;
