@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -313,8 +313,8 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
         $html = str_replace('%br;', '<br/>', $html);
 
         // workaround: some PHP configurations insert CDATA tags which break the output
-        $html = str_replace('<script type="text/javascript"><![CDATA[', '<script type="text/javascript">', $html);
-        $html = str_replace(']]></script>', '</script>', $html);
+        $html = preg_replace('/<!\[cdata\[(.*?)\]\]>/isu',     '$1', $html);
+        $html = preg_replace('/%3C!\[cdata\[(.*?)\]\]%3E/isu', '$1', $html);
 
         mb_regex_encoding('UTF-8');
 
