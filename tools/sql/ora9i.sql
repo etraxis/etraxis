@@ -385,9 +385,9 @@ create table tbl_fields
     responsible_perm number (10) not null,
     add_separator number (10) not null,
     description nvarchar2 (1000) null,
-    regex_check nvarchar2 (1000) null,
-    regex_search nvarchar2 (1000) null,
-    regex_replace nvarchar2 (1000) null,
+    regex_check nvarchar2 (500) null,
+    regex_search nvarchar2 (500) null,
+    regex_replace nvarchar2 (500) null,
     param1 number (10) null,
     param2 number (10) null,
     value_id number (10) null

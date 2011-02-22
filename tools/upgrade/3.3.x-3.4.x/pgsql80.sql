@@ -27,6 +27,12 @@ where var_name = 'FEATURE_LEVEL';
 
 /*------------------------------------------------------------------------------------------------*/
 
+alter table tbl_fields alter column regex_check varchar (500) null;
+alter table tbl_fields alter column regex_search varchar (500) null;
+alter table tbl_fields alter column regex_replace varchar (500) null;
+
+/*------------------------------------------------------------------------------------------------*/
+
 create table tbl_float_values
 (
     value_id serial primary key,

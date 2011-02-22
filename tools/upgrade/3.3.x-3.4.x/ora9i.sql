@@ -31,6 +31,12 @@ where var_name = 'FEATURE_LEVEL';
 
 /*------------------------------------------------------------------------------------------------*/
 
+alter table tbl_fields modify regex_check nvarchar2 (500) null;
+alter table tbl_fields modify regex_search nvarchar2 (500) null;
+alter table tbl_fields modify regex_replace nvarchar2 (500) null;
+
+/*------------------------------------------------------------------------------------------------*/
+
 create table tbl_float_values
 (
     value_id number (10) not null,

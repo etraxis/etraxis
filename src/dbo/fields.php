@@ -57,7 +57,7 @@ define('MAX_FIELD_DATE',        MAXINT);
 define('MIN_FIELD_DURATION',    0);
 define('MAX_FIELD_DURATION',    59999999);
 define('MAX_FIELD_DESCRIPTION', 1000);
-define('MAX_FIELD_REGEX',       1000);
+define('MAX_FIELD_REGEX',       500);
 /**#@-*/
 
 /**
