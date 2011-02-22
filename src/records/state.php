@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -152,6 +152,10 @@ if (try_request('submitted') == 'stateform')
             header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
+        case ERROR_INVALID_FLOAT_VALUE:
+            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
+            break;
+
         case ERROR_INVALID_DATE_VALUE:
             header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
             break;
@@ -161,6 +165,7 @@ if (try_request('submitted') == 'stateform')
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+        case ERROR_FLOAT_VALUE_OUT_OF_RANGE:
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
             header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
@@ -352,6 +357,23 @@ else
 
                 $notes .= '<note>'
                         . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), ustr2html($row['field_name']), $row['param1'], $row['param2'])
+                        . '</note>';
+
+                break;
+
+            case FIELD_TYPE_FLOAT:
+
+                $xml .= '<label>' . ustr2html($row['field_name']) . '</label>';
+
+                $xml .= '<editbox maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">'
+                      . ustr2html(try_request($name, $value))
+                      . '</editbox>';
+
+                $notes .= '<note>'
+                        . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID),
+                                      ustr2html($row['field_name']),
+                                      value_find(FIELD_TYPE_FLOAT, $row['param1']),
+                                      value_find(FIELD_TYPE_FLOAT, $row['param2']))
                         . '</note>';
 
                 break;

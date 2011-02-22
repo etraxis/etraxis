@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2008-2010  Artem Rodygin
+//  Copyright (C) 2008-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -435,6 +435,9 @@ class CImporter
                     case 'number':
                         $field_type = FIELD_TYPE_NUMBER;
                         break;
+                    case 'float':
+                        $field_type = FIELD_TYPE_FLOAT;
+                        break;
                     case 'string':
                         $field_type = FIELD_TYPE_STRING;
                         break;
@@ -512,6 +515,20 @@ class CImporter
                         $default = (array_key_exists('DEFAULT', $attrs) ? (ustrlen($attrs['DEFAULT']) == 0 ? NULL : $attrs['DEFAULT']) : NULL);
 
                         $this->error = field_validate_number($field_name, $param1, $param2, $default);
+
+                        break;
+
+                    case FIELD_TYPE_FLOAT:
+
+                        $param1  = (array_key_exists('MINIMUM', $attrs) ? $attrs['MINIMUM'] : NULL);
+                        $param2  = (array_key_exists('MAXIMUM', $attrs) ? $attrs['MAXIMUM'] : NULL);
+                        $default = (array_key_exists('DEFAULT', $attrs) ? (ustrlen($attrs['DEFAULT']) == 0 ? NULL : $attrs['DEFAULT']) : NULL);
+
+                        $this->error = field_validate_float($field_name, $param1, $param2, $default);
+
+                        $param1  = value_find_float($param1);
+                        $param2  = value_find_float($param2);
+                        $default = (is_null($default) ? NULL : value_find_float($default));
 
                         break;
 

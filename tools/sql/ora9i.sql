@@ -742,6 +742,30 @@ references tbl_fields
     field_id
 );
 
+create table tbl_float_values
+(
+    value_id number (10) not null,
+    float_value number (20,10) not null
+);
+
+alter table tbl_float_values add constraint pk_float_values primary key
+(
+    value_id
+);
+
+alter table tbl_float_values add constraint ix_float_values unique
+(
+    float_value
+);
+
+create sequence seq_float_values;
+
+create or replace trigger tgi_float_values before insert on tbl_float_values for each row
+begin
+    select seq_float_values.nextval into :new.value_id from dual;
+end;
+/
+
 create table tbl_string_values
 (
     value_id number (10) not null,
@@ -1328,7 +1352,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.3');
+values ('FEATURE_LEVEL', '3.4');
 
 insert into tbl_accounts
 (

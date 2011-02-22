@@ -398,7 +398,7 @@ $resource_romanian = array
     'Statiu de stocare',
     'Atributul LDAP',
     'Sabloane',
-    'Informatie sablon',
+    NULL,
     'Nume sablon',
     'New view',
     'Sablon "%1"',

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2006-2010  Artem Rodygin
+//  Copyright (C) 2006-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -80,6 +80,7 @@ define('COLUMN_TYPE_LIST_STRING', 105);
 define('COLUMN_TYPE_RECORD',      106);
 define('COLUMN_TYPE_DATE',        107);
 define('COLUMN_TYPE_DURATION',    108);
+define('COLUMN_TYPE_FLOAT',       109);
 /**#@-*/
 
 // Column type resources.
@@ -101,6 +102,7 @@ $column_type_res = array
 
     // custom
     COLUMN_TYPE_NUMBER        => RES_NUMBER_ID,
+    COLUMN_TYPE_FLOAT         => RES_DECIMAL_ID,
     COLUMN_TYPE_STRING        => RES_STRING_ID,
     COLUMN_TYPE_MULTILINED    => RES_MULTILINED_TEXT_ID,
     COLUMN_TYPE_CHECKBOX      => RES_CHECKBOX_ID,

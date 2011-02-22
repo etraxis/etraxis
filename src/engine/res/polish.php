@@ -398,7 +398,7 @@ $resource_polish = array
     'Magazyn',
     'Arybuty LDAP',
     'Widoki',
-    'Informacje o widoku',
+    NULL,
     'Nazwa widoku',
     'Nowy widok',
     'Widok "%1"',

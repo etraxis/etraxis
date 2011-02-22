@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -80,14 +80,15 @@ define('RES_ALERT_UPLOAD_CANT_WRITE_ID',            235);
 define('RES_ALERT_UPLOAD_EXTENSION_ID',             236);
 define('RES_ALERT_JAVASCRIPT_MUST_BE_ENABLED_ID',   237);
 define('RES_ALERT_DO_NOT_REPLY_ID',                 238);
-define('RES_ALERT_SUCCESSFULLY_SAVED_ID',           239);
-define('RES_ALERT_UNUSED_240_ID',                   240);
+define('RES_ALERT_INVALID_DECIMAL_VALUE_ID',        239);
+define('RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID',   240);
 define('RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS',   241);
 define('RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID',      242);
 define('RES_ALERT_USER_NOT_AUTHORIZED_ID',          243);
 define('RES_ALERT_UNKNOWN_USERNAME_ID',             244);
 define('RES_ALERT_UNKNOWN_ERROR_ID',                245);
 define('RES_ALERT_XML_PARSER_ERROR_ID',             246);
+define('RES_ALERT_SUCCESSFULLY_SAVED_ID',           247);
 
 //------------------------------------------------------------------------------
 //  Confirmations.
@@ -357,7 +358,7 @@ define('RES_DEBUG_MODE_FULL_ID',                    1222);
 define('RES_DEBUG_LOGS_ID',                         1223);
 define('RES_ENABLED2_ID',                           1224);
 define('RES_DISABLED2_ID',                          1225);
-define('RES_CLOSE_ID',                              1226);
+define('RES_DECIMAL_ID',                            1226);
 define('RES_PERMIT_VIEW_RECORDS_ONLY_ID',           1227);
 define('RES_SELECT_ALL_ID',                         1228);
 define('RES_AUTHOR_ID',                             1229);
@@ -395,7 +396,7 @@ define('RES_CARBON_COPY_ID',                        1260);
 define('RES_STORAGE_ID',                            1261);
 define('RES_LDAP_ATTRIBUTE_ID',                     1262);
 define('RES_VIEWS_ID',                              1263);
-define('RES_UNUSED_1264_ID',                        1264);
+define('RES_CLOSE_ID',                              1264);
 define('RES_VIEW_NAME_ID',                          1265);
 define('RES_NEW_VIEW_ID',                           1266);
 define('RES_VIEW_X_ID',                             1267);

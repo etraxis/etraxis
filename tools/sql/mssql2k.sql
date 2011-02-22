@@ -681,6 +681,22 @@ references tbl_fields
     field_id
 );
 
+create table tbl_float_values
+(
+    value_id int identity (1,1) not null,
+    float_value decimal (20,10) not null
+);
+
+alter table tbl_float_values add constraint pk_float_values primary key clustered
+(
+    value_id
+);
+
+alter table tbl_float_values add constraint ix_float_values unique nonclustered
+(
+    float_value
+);
+
 create table tbl_string_values
 (
     value_id int identity (1,1) not null,
@@ -1195,7 +1211,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MSSQL 2000');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.3');
+values ('FEATURE_LEVEL', '3.4');
 
 insert into tbl_accounts
 (

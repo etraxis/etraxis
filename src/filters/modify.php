@@ -526,6 +526,17 @@ if ($template_id != 0)
 
                             break;
 
+                        case FIELD_TYPE_FLOAT:
+
+                            $xml .= '<control name="min_' . $name . '">'
+                                  . '<editbox small="true" maxlen="' . ustrlen(MIN_FIELD_FLOAT) . '">' . try_request('min_' . $name, value_find(FIELD_TYPE_FLOAT, $param1)) . '</editbox>'
+                                  . '</control>'
+                                  . '<control name="max_' . $name . '">'
+                                  . '<editbox small="true" maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">' . try_request('max_' . $name, value_find(FIELD_TYPE_FLOAT, $param2)) . '</editbox>'
+                                  . '</control>';
+
+                            break;
+
                         case FIELD_TYPE_STRING:
                         case FIELD_TYPE_MULTILINED:
 

@@ -398,7 +398,7 @@ $resource_latvian = array
     'Krātuve',
     'LDAP-atribūts',
     'Skati',
-    'Skata informācija',
+    NULL,
     'Skata nosaukums',
     'Jauns skats',
     'Skats "%1"',

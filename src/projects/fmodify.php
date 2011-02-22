@@ -90,6 +90,16 @@ if (try_request('submitted') == 'modifyform')
 
             break;
 
+        case FIELD_TYPE_FLOAT:
+
+            $param1  = $_REQUEST['min_value'];
+            $param2  = $_REQUEST['max_value'];
+            $default = $_REQUEST['def_value'];
+            $default = (ustrlen($default) == 0 ? NULL : $default);
+            $error   = field_validate_float($field_name, $param1, $param2, $default);
+
+            break;
+
         case FIELD_TYPE_STRING:
 
             $param1 = $_REQUEST['max_length'];
@@ -166,7 +176,13 @@ if (try_request('submitted') == 'modifyform')
         $field_param1 = $param1;
         $field_param2 = $param2;
 
-        if ($field['field_type'] == FIELD_TYPE_STRING)
+        if ($field['field_type'] == FIELD_TYPE_FLOAT)
+        {
+            $field_param1 = value_find_float($field_param1);
+            $field_param2 = value_find_float($field_param2);
+            $default      = (ustrlen($default) == 0 ? NULL : value_find_float($default));
+        }
+        elseif ($field['field_type'] == FIELD_TYPE_STRING)
         {
             $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
             $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
@@ -240,11 +256,20 @@ if (try_request('submitted') == 'modifyform')
             header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
+        case ERROR_INVALID_FLOAT_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
+            break;
+
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+        case ERROR_FLOAT_VALUE_OUT_OF_RANGE:
 
             if (try_request('submitted') == 'numberform')
             {
                 header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER));
+            }
+            elseif (try_request('submitted') == 'floatform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT));
             }
             elseif (try_request('submitted') == 'stringform')
             {
@@ -308,7 +333,12 @@ else
     $param2        = $field['param2'];
     $default       = $field['value_id'];
 
-    if ($field['field_type'] == FIELD_TYPE_LIST)
+    if ($field['field_type'] == FIELD_TYPE_FLOAT)
+    {
+        $param1 = value_find(FIELD_TYPE_FLOAT, $param1);
+        $param2 = value_find(FIELD_TYPE_FLOAT, $param2);
+    }
+    elseif ($field['field_type'] == FIELD_TYPE_LIST)
     {
         $list_items = field_pickup_list_items($id);
     }
@@ -322,6 +352,7 @@ else
     {
         switch ($field['field_type'])
         {
+            case FIELD_TYPE_FLOAT:
             case FIELD_TYPE_STRING:
             case FIELD_TYPE_MULTILINED:
                 $default = value_find($field['field_type'], $default);
@@ -402,6 +433,35 @@ if ($field['field_type'] == FIELD_TYPE_NUMBER)
           . '</control>';
 
     $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER) . '</note>'
+            . '<note>' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '</note>';
+}
+
+// generate controls for 'decimal' field
+
+elseif ($field['field_type'] == FIELD_TYPE_FLOAT)
+{
+    $xml .= '<control name="min_value" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+          . '<label>' . get_html_resource(RES_MIN_VALUE_ID) . '</label>'
+          . '<editbox maxlen="' . ustrlen(MIN_FIELD_FLOAT) . '">'
+          . ustr2html($param1)
+          . '</editbox>'
+          . '</control>';
+
+    $xml .= '<control name="max_value" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+          . '<label>' . get_html_resource(RES_MAX_VALUE_ID) . '</label>'
+          . '<editbox maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">'
+          . ustr2html($param2)
+          . '</editbox>'
+          . '</control>';
+
+    $xml .= '<control name="def_value">'
+          . '<label>' . get_html_resource(RES_DEFAULT_VALUE_ID) . '</label>'
+          . '<editbox maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">'
+          . ustr2html($default)
+          . '</editbox>'
+          . '</control>';
+
+    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT) . '</note>'
             . '<note>' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '</note>';
 }
 

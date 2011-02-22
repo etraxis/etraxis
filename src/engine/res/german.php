@@ -398,7 +398,7 @@ $resource_german = array
     'Speicherort',
     'LDAP-Attribut',
     'Ansichten',
-    'Ansichtinformationen',
+    NULL,
     'Ansichtname',
     'Neue Ansicht',
     'Ansicht "%1"',

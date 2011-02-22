@@ -398,7 +398,7 @@ $resource_spanish = array
     'Almacenamiento',
     'Atributo LDAP',
     'Vistas',
-    'Ver información',
+    NULL,
     'Ver nombre',
     'Nueva vista',
     'Vista "%1"',

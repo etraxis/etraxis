@@ -203,6 +203,14 @@ end;
 <xsl:text>null</xsl:text>
 </xsl:if>
 
+<xsl:if test="@type = 'decimal'">
+<xsl:text>number (20,10) </xsl:text>
+<xsl:if test="not(@null = 'yes')">
+<xsl:text>not </xsl:text>
+</xsl:if>
+<xsl:text>null</xsl:text>
+</xsl:if>
+
 <xsl:if test="@type = 'bool'">
 <xsl:text>number (10) </xsl:text>
 <xsl:if test="not(@null = 'yes')">

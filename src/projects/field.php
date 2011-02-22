@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -104,6 +104,14 @@ switch ($field['field_type'])
         $xml .= '<text label="' . get_html_resource(RES_MIN_VALUE_ID)     . '">' . ustr2html($field['param1']) . '</text>'
               . '<text label="' . get_html_resource(RES_MAX_VALUE_ID)     . '">' . ustr2html($field['param2']) . '</text>'
               . '<text label="' . get_html_resource(RES_DEFAULT_VALUE_ID) . '">' . (is_null($field['value_id']) ? get_html_resource(RES_NONE_ID) : $field['value_id']) . '</text>';
+
+        break;
+
+    case FIELD_TYPE_FLOAT:
+
+        $xml .= '<text label="' . get_html_resource(RES_MIN_VALUE_ID)     . '">' . value_find(FIELD_TYPE_FLOAT, $field['param1']) . '</text>'
+              . '<text label="' . get_html_resource(RES_MAX_VALUE_ID)     . '">' . value_find(FIELD_TYPE_FLOAT, $field['param2']) . '</text>'
+              . '<text label="' . get_html_resource(RES_DEFAULT_VALUE_ID) . '">' . (is_null($field['value_id']) ? get_html_resource(RES_NONE_ID) : value_find(FIELD_TYPE_FLOAT, $field['value_id'])) . '</text>';
 
         break;
 

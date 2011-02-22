@@ -636,6 +636,17 @@ references tbl_fields
     field_id
 );
 
+create table tbl_float_values
+(
+    value_id serial primary key,
+    float_value numeric (20,10) not null
+) without oids;
+
+alter table tbl_float_values add constraint ix_float_values unique
+(
+    float_value
+);
+
 create table tbl_string_values
 (
     value_id serial primary key,
@@ -1105,7 +1116,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'PostgreSQL 8.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.3');
+values ('FEATURE_LEVEL', '3.4');
 
 insert into tbl_accounts
 (

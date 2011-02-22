@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2007-2010  Artem Rodygin
+//  Copyright (C) 2007-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -190,6 +190,7 @@ for ($i = COLUMN_TYPE_MINIMUM; $i <= COLUMN_TYPE_MAXIMUM; $i++)
 $fields_to_columns = array
 (
     FIELD_TYPE_NUMBER     => COLUMN_TYPE_NUMBER,
+    FIELD_TYPE_FLOAT      => COLUMN_TYPE_FLOAT,
     FIELD_TYPE_STRING     => COLUMN_TYPE_STRING,
     FIELD_TYPE_MULTILINED => COLUMN_TYPE_MULTILINED,
     FIELD_TYPE_CHECKBOX   => COLUMN_TYPE_CHECKBOX,

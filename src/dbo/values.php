@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2009  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -67,7 +67,22 @@ function value_find ($field_type, $value_id)
                 $value = $value_id;
                 break;
 
-            case NULL:
+            case FIELD_TYPE_FLOAT:
+
+                $rs = dal_query('values/ffndid.sql', $value_id);
+
+                if ($rs->rows == 0)
+                {
+                    debug_write_log(DEBUG_ERROR, '[value_find] Float value cannot be found.');
+                }
+                else
+                {
+                    $value = $rs->fetch('float_value');
+                }
+
+                break;
+
+            case NULL:                  // NULL is used for subject
             case FIELD_TYPE_STRING:
 
                 $rs = dal_query('values/sfndid.sql', $value_id);
@@ -224,6 +239,125 @@ function value_modify_number ($record_id, $event_id, $field_id, $value = NULL)
               $rs->fetch('event_id'),
               $field_id,
               is_null($value) ? NULL : $value);
+
+    return NO_ERROR;
+}
+
+/**
+ * Finds in database specified float value and returns its ID.
+ * If specified value doesn't exist in database, creates it there and returns its ID.
+ *
+ * @param string $value Float value.
+ * @return int ID of float value, NULL on error.
+ */
+function value_find_float ($value)
+{
+    debug_write_log(DEBUG_TRACE, '[value_find_float]');
+    debug_write_log(DEBUG_DUMP,  '[value_find_float] $value = ' . $value);
+
+    $id = NULL;
+
+    if (!is_null($value))
+    {
+        $rs = dal_query('values/ffndk.sql', $value);
+
+        // Value doesn't exist - must be created.
+        if ($rs->rows == 0)
+        {
+            debug_write_log(DEBUG_NOTICE, '[value_find_float] Register float value.');
+
+            dal_query('values/fcreate.sql', $value);
+            $rs = dal_query('values/ffndk.sql', $value);
+        }
+
+        // Value should exist by this moment.
+        if ($rs->rows == 0)
+        {
+            debug_write_log(DEBUG_ERROR, '[value_find_float] Value cannot be found.');
+        }
+        else
+        {
+            $id = $rs->fetch('value_id');
+        }
+    }
+
+    return $id;
+}
+
+/**
+ * Creates in database a float value for specified field per specified event.
+ *
+ * @param int $event_id Event ID.
+ * @param int $field_id Field ID.
+ * @param int $field_type Field type.
+ * @param string $value Float value to be stored in database (could be NULL).
+ * @return int Always {@link NO_ERROR}.
+ */
+function value_create_float ($event_id, $field_id, $field_type = FIELD_TYPE_FLOAT, $value = NULL)
+{
+    debug_write_log(DEBUG_TRACE, '[value_create_float]');
+    debug_write_log(DEBUG_DUMP,  '[value_create_float] $event_id   = ' . $event_id);
+    debug_write_log(DEBUG_DUMP,  '[value_create_float] $field_id   = ' . $field_id);
+    debug_write_log(DEBUG_DUMP,  '[value_create_float] $field_type = ' . $field_type);
+    debug_write_log(DEBUG_DUMP,  '[value_create_float] $value      = ' . $value);
+
+    $id = value_find_float($value);
+
+    dal_query('values/create.sql',
+              $event_id,
+              $field_id,
+              $field_type,
+              is_null($id) ? NULL : $id);
+
+    return NO_ERROR;
+}
+
+/**
+ * Modifies in database current float value of specified field for specified record per specified event.
+ *
+ * @param int $record_id Record ID.
+ * @param int $event_id Event ID.
+ * @param int $field_id Field ID.
+ * @param string $value New float value (could be NULL).
+ * @return int Always {@link NO_ERROR}.
+ */
+function value_modify_float ($record_id, $event_id, $field_id, $value = NULL)
+{
+    debug_write_log(DEBUG_TRACE, '[value_modify_float]');
+    debug_write_log(DEBUG_DUMP,  '[value_modify_float] $record_id = ' . $record_id);
+    debug_write_log(DEBUG_DUMP,  '[value_modify_float] $event_id  = ' . $event_id);
+    debug_write_log(DEBUG_DUMP,  '[value_modify_float] $field_id  = ' . $field_id);
+    debug_write_log(DEBUG_DUMP,  '[value_modify_float] $value     = ' . $value);
+
+    $id = value_find_float($value);
+
+    $rs = dal_query('values/fndk.sql', $record_id, $field_id);
+
+    if ($rs->rows != 0)
+    {
+        $value_id = $rs->fetch('value_id');
+
+        // If current value and new one are different - register changes.
+        if ($value_id != $id)
+        {
+            debug_write_log(DEBUG_NOTICE, '[value_modify_float] Register changes.');
+
+            dal_query('changes/create.sql',
+                      $event_id,
+                      $field_id,
+                      is_null($value_id) ? NULL : $value_id,
+                      is_null($id)       ? NULL : $id);
+        }
+    }
+
+    $rs = dal_query('values/efndid.sql',
+                    $record_id,
+                    $field_id);
+
+    dal_query('values/modify.sql',
+              $rs->fetch('event_id'),
+              $field_id,
+              is_null($id) ? NULL : $id);
 
     return NO_ERROR;
 }

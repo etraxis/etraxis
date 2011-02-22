@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -359,6 +359,7 @@ if ($list->rows != 0)
                     break;
 
                 case COLUMN_TYPE_NUMBER:
+                case COLUMN_TYPE_FLOAT:
                     $value = $row['value' . $column['column_id']];
                     $align = 'right';
                     break;

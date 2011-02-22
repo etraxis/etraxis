@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -72,6 +72,8 @@ define('ERROR_UPLOAD_CANT_WRITE',          27);
 define('ERROR_UPLOAD_EXTENSION',           28);
 define('ERROR_VALUE_FAILS_REGEX_CHECK',    29);
 define('ERROR_XML_PARSER',                 30);
+define('ERROR_INVALID_FLOAT_VALUE',        31);
+define('ERROR_FLOAT_VALUE_OUT_OF_RANGE',   32);
 /**#@-*/
 
 //------------------------------------------------------------------------------

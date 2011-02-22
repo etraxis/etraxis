@@ -642,6 +642,17 @@ references tbl_fields
     field_id
 );
 
+create table tbl_float_values
+(
+    value_id int not null auto_increment primary key,
+    float_value decimal (20,10) not null
+);
+
+alter table tbl_float_values add constraint unique ix_float_values
+(
+    float_value
+);
+
 create table tbl_string_values
 (
     value_id int not null auto_increment primary key,
@@ -1111,7 +1122,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MySQL 5.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.3');
+values ('FEATURE_LEVEL', '3.4');
 
 insert into tbl_accounts
 (
