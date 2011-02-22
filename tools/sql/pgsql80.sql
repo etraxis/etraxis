@@ -318,9 +318,9 @@ create table tbl_fields
     responsible_perm int not null,
     add_separator int not null,
     description varchar (1000) null,
-    regex_check varchar (1000) null,
-    regex_search varchar (1000) null,
-    regex_replace varchar (1000) null,
+    regex_check varchar (500) null,
+    regex_search varchar (500) null,
+    regex_replace varchar (500) null,
     param1 int null,
     param2 int null,
     value_id int null

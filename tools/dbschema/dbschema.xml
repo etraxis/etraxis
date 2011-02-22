@@ -251,9 +251,9 @@
     <column type="int">responsible_perm</column>
     <column type="bool">add_separator</column>
     <column type="nstr" size="1000" null="yes">description</column>
-    <column type="nstr" size="1000" null="yes">regex_check</column>
-    <column type="nstr" size="1000" null="yes">regex_search</column>
-    <column type="nstr" size="1000" null="yes">regex_replace</column>
+    <column type="nstr" size="500" null="yes">regex_check</column>
+    <column type="nstr" size="500" null="yes">regex_search</column>
+    <column type="nstr" size="500" null="yes">regex_replace</column>
     <column type="int" null="yes">param1</column>
     <column type="int" null="yes">param2</column>
     <column type="int" null="yes">value_id</column>
