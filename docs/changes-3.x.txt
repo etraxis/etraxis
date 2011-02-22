@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-4-0 (2011-02-22)
+
+    Issue 184: Support for floating point numbers
+
+Bug fixes integrated in MAIN_3-4-0 (2011-02-22)
+
+    Issue 229: etraxis doesn't work with php's output_handler = ob_gzhandler
+    Issue 230: MSSQL: "tbl_fields" rows exceed maximum allowed size
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-3-1 (2011-02-13)
 
     Issue 206: Oldstyle "add comment" buttons
