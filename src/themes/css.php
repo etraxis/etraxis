@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ $file = get_theme_css_file($name);
 $output = file_get_contents($file);
 
 // Check whether required extensions is available and PHP compression is turned off.
-if (extension_loaded('zlib') && !ini_get('zlib.output_compression'))
+if (extension_loaded('zlib') && !ini_get('zlib.output_compression') && !ini_get('output_handler'))
 {
     // Check whether a client's browser support gzip-compression.
     if (strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE)
