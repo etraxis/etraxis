@@ -398,7 +398,7 @@ $resource_french = array
     'Stockage',
     'Attributs LDAP',
     'Vues',
-    'Information sur la vue',
+    NULL,
     'Nom de la vue',
     'Nouvelle vue',
     'Vue "%1"',

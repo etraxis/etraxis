@@ -398,7 +398,7 @@ $resource_czech = array
     'Úložiště',
     'LDAP atribut',
     'Pohledy',
-    'Informace o pohledu',
+    NULL,
     'Název pohledu',
     'Nový pohled',
     'Pohled "%1"',

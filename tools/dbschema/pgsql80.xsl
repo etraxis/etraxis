@@ -175,6 +175,14 @@ create table </xsl:text>
 <xsl:text>null</xsl:text>
 </xsl:if>
 
+<xsl:if test="@type = 'decimal'">
+<xsl:text>numeric (20,10) </xsl:text>
+<xsl:if test="not(@null = 'yes')">
+<xsl:text>not </xsl:text>
+</xsl:if>
+<xsl:text>null</xsl:text>
+</xsl:if>
+
 <xsl:if test="@type = 'bool'">
 <xsl:text>int </xsl:text>
 <xsl:if test="not(@null = 'yes')">

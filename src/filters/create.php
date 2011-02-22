@@ -518,6 +518,17 @@ if ($form == 'createform')
 
                                 break;
 
+                            case FIELD_TYPE_FLOAT:
+
+                                $xml .= '<control name="min_' . $name . '">'
+                                      . '<editbox small="true" maxlen="' . ustrlen(MIN_FIELD_FLOAT) . '">' . try_request('min_' . $name) . '</editbox>'
+                                      . '</control>'
+                                      . '<control name="max_' . $name . '">'
+                                      . '<editbox small="true" maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">' . try_request('max_' . $name) . '</editbox>'
+                                      . '</control>';
+
+                                break;
+
                             case FIELD_TYPE_STRING:
                             case FIELD_TYPE_MULTILINED:
 

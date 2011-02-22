@@ -46,6 +46,8 @@ require_once('../dbo/values.php');
  */
 define('MAX_FIELD_NAME',        50);
 define('MAX_FIELD_INTEGER',     1000000000);
+define('MIN_FIELD_FLOAT',       '-9999999999.9999999999');
+define('MAX_FIELD_FLOAT',       '+9999999999.9999999999');
 define('MAX_FIELD_STRING',      250);
 define('MAX_FIELD_MULTILINED',  4000);
 define('MAX_FIELD_LIST_ITEMS',  1000);
@@ -76,7 +78,8 @@ define('FIELD_TYPE_LIST',       5);
 define('FIELD_TYPE_RECORD',     6);
 define('FIELD_TYPE_DATE',       7);
 define('FIELD_TYPE_DURATION',   8);
-define('FIELD_TYPE_MAXIMUM',    8);
+define('FIELD_TYPE_FLOAT',      9);
+define('FIELD_TYPE_MAXIMUM',    9);
 /**#@-*/
 
 /**#@+
@@ -100,6 +103,7 @@ define('MIN_FIELD_ROLE', FIELD_ROLE_REGISTERED);
 $field_type_res = array
 (
     FIELD_TYPE_NUMBER     => RES_NUMBER_ID,
+    FIELD_TYPE_FLOAT      => RES_DECIMAL_ID,
     FIELD_TYPE_STRING     => RES_STRING_ID,
     FIELD_TYPE_MULTILINED => RES_MULTILINED_TEXT_ID,
     FIELD_TYPE_CHECKBOX   => RES_CHECKBOX_ID,
@@ -316,6 +320,73 @@ function field_validate_number ($field_name, $min_value, $max_value, $def_value 
         ($def_value < $min_value || $def_value > $max_value))
     {
         debug_write_log(DEBUG_NOTICE, '[field_validate_number] Default value is out of range.');
+        return ERROR_DEFAULT_VALUE_OUT_OF_RANGE;
+    }
+
+    return NO_ERROR;
+}
+
+/**
+ * Validates 'Decimal' field information before creation or modification.
+ *
+ * @param string $field_name Field name.
+ * @param string $min_value Minimum allowed value of the field.
+ * @param string $max_value Maximum allowed value of the field.
+ * @param string $def_value Default allowed value of the field (NULL by default).
+ * @return int Error code:
+ * <ul>
+ * <li>{@link NO_ERROR} - data are valid</li>
+ * <li>{@link ERROR_INCOMPLETE_FORM} - at least one of required field is empty</li>
+ * <li>{@link ERROR_INVALID_FLOAT_VALUE} - at least one of specified float values is invalid</li>
+ * <li>{@link ERROR_FLOAT_VALUE_OUT_OF_RANGE} - at least one of specified float values is out of allowed range</li>
+ * <li>{@link ERROR_MIN_MAX_VALUES} - maximum value is less than minimum one</li>
+ * <li>{@link ERROR_DEFAULT_VALUE_OUT_OF_RANGE} - default value is less than $min_value, or greater than $max_value</li>
+ * </ul>
+ */
+function field_validate_float ($field_name, $min_value, $max_value, $def_value = NULL)
+{
+    debug_write_log(DEBUG_TRACE, '[field_validate_float]');
+    debug_write_log(DEBUG_DUMP,  '[field_validate_float] $field_name = ' . $field_name);
+    debug_write_log(DEBUG_DUMP,  '[field_validate_float] $min_value  = ' . $min_value);
+    debug_write_log(DEBUG_DUMP,  '[field_validate_float] $max_value  = ' . $max_value);
+    debug_write_log(DEBUG_DUMP,  '[field_validate_float] $def_value  = ' . $def_value);
+
+    // Check that field name is not empty.
+    if (ustrlen($field_name) == 0)
+    {
+        debug_write_log(DEBUG_NOTICE, '[field_validate_float] At least one required field is empty.');
+        return ERROR_INCOMPLETE_FORM;
+    }
+
+    // Check that specified values are float.
+    if (!is_floatvalue($min_value) ||
+        !is_floatvalue($max_value) ||
+        (!is_null($def_value) && !is_floatvalue($def_value)))
+    {
+        debug_write_log(DEBUG_NOTICE, '[field_validate_float] Invalid float value.');
+        return ERROR_INVALID_FLOAT_VALUE;
+    }
+
+    // Check that specified values are in the range of valid values.
+    if (bccomp($min_value, MIN_FIELD_FLOAT) < 0 || bccomp($min_value, MAX_FIELD_FLOAT) > 0 ||
+        bccomp($max_value, MIN_FIELD_FLOAT) < 0 || bccomp($max_value, MAX_FIELD_FLOAT) > 0)
+    {
+        debug_write_log(DEBUG_NOTICE, '[field_validate_float] Float value is out of range.');
+        return ERROR_FLOAT_VALUE_OUT_OF_RANGE;
+    }
+
+    // Check that minimum value is less than maximum one.
+    if (bccomp($min_value, $max_value) >= 0)
+    {
+        debug_write_log(DEBUG_NOTICE, '[field_validate_float] Minimum value is greater then maximum one.');
+        return ERROR_MIN_MAX_VALUES;
+    }
+
+    // Check that default value is in the range between minimum and maximum ones.
+    if (!is_null($def_value) &&
+        (bccomp($def_value, $min_value) < 0 || bccomp($def_value, $max_value) > 0))
+    {
+        debug_write_log(DEBUG_NOTICE, '[field_validate_float] Default value is out of range.');
         return ERROR_DEFAULT_VALUE_OUT_OF_RANGE;
     }
 
@@ -1067,6 +1138,7 @@ function field_export ($id, &$groups)
     $types = array
     (
         FIELD_TYPE_NUMBER     => 'number',
+        FIELD_TYPE_FLOAT      => 'float',
         FIELD_TYPE_STRING     => 'string',
         FIELD_TYPE_MULTILINED => 'multi',
         FIELD_TYPE_CHECKBOX   => 'check',
@@ -1103,6 +1175,12 @@ function field_export ($id, &$groups)
                 $xml .= sprintf(' minimum="%d" maximum="%d"', $field['param1'], $field['param2']);
                 break;
 
+            case FIELD_TYPE_FLOAT:
+                $xml .= sprintf(' minimum="%.10f" maximum="%.10f"',
+                                value_find(FIELD_TYPE_FLOAT, $field['param1']),
+                                value_find(FIELD_TYPE_FLOAT, $field['param2']));
+                break;
+
             case FIELD_TYPE_STRING:
             case FIELD_TYPE_MULTILINED:
                 $xml .= sprintf(' length="%u"', $field['param1']);
@@ -1126,6 +1204,10 @@ function field_export ($id, &$groups)
             {
                 case FIELD_TYPE_NUMBER:
                     $xml .= sprintf(' default="%d"', $field['value_id']);
+                    break;
+
+                case FIELD_TYPE_FLOAT:
+                    $xml .= sprintf(' default="%.10f"', value_find(FIELD_TYPE_FLOAT, $field['value_id']));
                     break;
 
                 case FIELD_TYPE_LIST:

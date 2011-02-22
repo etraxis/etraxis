@@ -398,7 +398,7 @@ $resource_indonesian = array
     'Penyimpanan',
     'Atribut LDAP',
     'Tampilan',
-    'Informasi tampilan',
+    NULL,
     'Nama tampilan',
     'Tampilan baru',
     'Tampilan "%1"',

@@ -139,6 +139,7 @@ while (($row = $list->fetch()))
                 break;
 
             case COLUMN_TYPE_NUMBER:
+            case COLUMN_TYPE_FLOAT:
             case COLUMN_TYPE_LIST_NUMBER:
                 array_push($data, $row['value' . $column['column_id']]);
                 break;

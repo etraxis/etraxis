@@ -415,6 +415,18 @@ function is_intvalue ($str)
 }
 
 /**
+ * Finds whether the given UTF-8 encoded string contains valid float value.
+ *
+ * @param string $str The UTF-8 encoded string being evaluated.
+ * @return bool TRUE if <i>str</i> contains valid float value, FALSE otherwise.
+ */
+function is_floatvalue ($str)
+{
+    mb_regex_encoding('UTF-8');
+    return mb_eregi('^(\+|\-)*([0-9]){1,10}(\.([0-9]){1,10})?$', $str);
+}
+
+/**
  * Finds whether the given UTF-8 encoded string contains valid login
  * (only latin characters, digits, and underline are allowed).
  *

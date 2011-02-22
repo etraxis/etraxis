@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -343,6 +343,10 @@ if ($template_id != 0)
                     case FIELD_TYPE_NUMBER:
                     case FIELD_TYPE_DATE:
                         $text .= sprintf('%s - %s', $param1, $param2);
+                        break;
+
+                    case FIELD_TYPE_FLOAT:
+                        $text .= sprintf('%.10f - %.10f', value_find(FIELD_TYPE_FLOAT, $param1), value_find(FIELD_TYPE_FLOAT, $param2));
                         break;
 
                     case FIELD_TYPE_STRING:

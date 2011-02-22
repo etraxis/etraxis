@@ -475,6 +475,44 @@ function filter_fields_set ($filter_id, $template_id)
 
                         break;
 
+                    case FIELD_TYPE_FLOAT:
+
+                        debug_write_log(DEBUG_NOTICE, "[filter_fields_set] Field type is float.");
+
+                        $min_value = ustrcut(try_request('min_' . $name), ustrlen(MIN_FIELD_FLOAT));
+                        $max_value = ustrcut(try_request('max_' . $name), ustrlen(MAX_FIELD_FLOAT));
+
+                        if (ustrlen($min_value) == 0)
+                        {
+                            $min_value = NULL;
+                        }
+
+                        if (ustrlen($max_value) == 0)
+                        {
+                            $max_value = NULL;
+                        }
+
+                        if (!is_null($min_value) && !is_floatvalue($min_value) ||
+                            !is_null($max_value) && !is_floatvalue($max_value))
+                        {
+                            debug_write_log(DEBUG_NOTICE, '[filter_fields_set] At least one of range values is invalid.');
+                        }
+                        else
+                        {
+                            if (!is_null($min_value) && !is_null($max_value) && (bccomp($min_value, $max_value) > 0))
+                            {
+                                swap($min_value, $max_value);
+                            }
+
+                            dal_query('filters/ffcreate.sql',
+                                      $filter_id,
+                                      $row['field_id'],
+                                      is_null($min_value) ? NULL : value_find_float($min_value),
+                                      is_null($max_value) ? NULL : value_find_float($max_value));
+                        }
+
+                        break;
+
                     case FIELD_TYPE_STRING:
                     case FIELD_TYPE_MULTILINED:
 

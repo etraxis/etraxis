@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -82,6 +82,13 @@ if (try_request('submitted') == 'mainform')
     {
         case FIELD_TYPE_NUMBER:
             $form      = 'numberform';
+            $min_value = NULL;
+            $max_value = NULL;
+            $def_value = NULL;
+            break;
+
+        case FIELD_TYPE_FLOAT:
+            $form      = 'floatform';
             $min_value = NULL;
             $max_value = NULL;
             $def_value = NULL;
@@ -178,6 +185,49 @@ elseif (isset($_REQUEST['submitted']))
                                   $min_value,
                                   $max_value,
                                   $def_value);
+        }
+    }
+
+    // 2nd step of new field (decimal) has been submitted
+
+    elseif (try_request('submitted') == 'floatform')
+    {
+        debug_write_log(DEBUG_NOTICE, 'Data for step #2 (decimal) are submitted.');
+
+        $form = 'floatform';
+
+        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type    = FIELD_TYPE_FLOAT;
+        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_FLOAT));
+        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_FLOAT));
+        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_FLOAT));
+        $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
+        $is_required   = isset($_REQUEST['is_required']);
+        $guest_access  = isset($_REQUEST['guest_access']);
+        $add_separator = isset($_REQUEST['add_separator']);
+        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+
+        $error = field_validate_float($field_name, $min_value, $max_value, $def_value);
+
+        if ($error == NO_ERROR)
+        {
+            $error = field_create($id,
+                                  $field_name,
+                                  $field_type,
+                                  $is_required,
+                                  $add_separator,
+                                  $guest_access,
+                                  $description,
+                                  NULL, NULL, NULL,
+                                  value_find_float($min_value),
+                                  value_find_float($max_value),
+                                  is_null($def_value) ? NULL : value_find_float($def_value));
+
+            if ($error == NO_ERROR)
+            {
+                header('Location: findex.php?id=' . $id);
+                exit;
+            }
         }
     }
 
@@ -422,11 +472,20 @@ elseif (isset($_REQUEST['submitted']))
             header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
+        case ERROR_INVALID_FLOAT_VALUE:
+            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
+            break;
+
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+        case ERROR_FLOAT_VALUE_OUT_OF_RANGE:
 
             if (try_request('submitted') == 'numberform')
             {
                 header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER));
+            }
+            elseif (try_request('submitted') == 'floatform')
+            {
+                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT));
             }
             elseif (try_request('submitted') == 'stringform')
             {
@@ -524,12 +583,12 @@ $xml .= '<control name="field_name" required="' . get_html_resource(RES_REQUIRED
 
 if ($form == 'mainform')
 {
-    for ($i = FIELD_TYPE_MINIMUM; $i <= FIELD_TYPE_MAXIMUM; $i++)
+    foreach ($field_type_res as $i => $type_res)
     {
         $xml .= ($field_type == $i
                     ? '<listitem value="' . $i . '" selected="true">'
                     : '<listitem value="' . $i . '">')
-              . get_html_resource($field_type_res[$i])
+              . get_html_resource($type_res)
               . '</listitem>';
     }
 }
@@ -571,6 +630,35 @@ if ($form == 'numberform')
           . '</control>';
 
     $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER) . '</note>'
+            . '<note>' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '</note>';
+}
+
+// generate controls for 'decimal' field
+
+elseif ($form == 'floatform')
+{
+    $xml .= '<control name="min_value" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+          . '<label>' . get_html_resource(RES_MIN_VALUE_ID) . '</label>'
+          . '<editbox maxlen="' . ustrlen(MIN_FIELD_FLOAT) . '">'
+          . ustr2html($min_value)
+          . '</editbox>'
+          . '</control>';
+
+    $xml .= '<control name="max_value" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+          . '<label>' . get_html_resource(RES_MAX_VALUE_ID) . '</label>'
+          . '<editbox maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">'
+          . ustr2html($max_value)
+          . '</editbox>'
+          . '</control>';
+
+    $xml .= '<control name="def_value">'
+          . '<label>' . get_html_resource(RES_DEFAULT_VALUE_ID) . '</label>'
+          . '<editbox maxlen="' . ustrlen(MAX_FIELD_FLOAT) . '">'
+          . ustr2html($def_value)
+          . '</editbox>'
+          . '</control>';
+
+    $notes .= '<note>' . ustrprocess(get_html_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT) . '</note>'
             . '<note>' . get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID) . '</note>';
 }
 

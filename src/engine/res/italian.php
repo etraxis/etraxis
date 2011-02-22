@@ -398,7 +398,7 @@ $resource_italian = array
     'Directory',
     'Attributi LDAP',
     'Viste',
-    'Informazioni sulla vista',
+    NULL,
     'Nome della vista',
     'Nuova vista',
     'Vista "%1"',

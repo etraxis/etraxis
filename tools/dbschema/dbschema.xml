@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.3">
+<database name="etraxis" version="3.4">
 
 <table name="tbl_sys_vars">
 
@@ -438,6 +438,21 @@
 
     <foreign name="fk_changes_event_id" table="tbl_events">event_id</foreign>
     <foreign name="fk_changes_field_id" table="tbl_fields">field_id</foreign>
+
+</table>
+
+<table name="tbl_float_values">
+
+    <column type="primary">value_id</column>
+    <column type="decimal">float_value</column>
+
+    <primary name="pk_float_values">
+        <column>value_id</column>
+    </primary>
+
+    <unique name="ix_float_values">
+        <column>float_value</column>
+    </unique>
 
 </table>
 

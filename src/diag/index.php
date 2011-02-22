@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2009-2010  Artem Rodygin
+//  Copyright (C) 2009-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -223,7 +223,7 @@ if ($php_version == PHP_V5)
 <table class="form">
 <?php
 
-$extensions = array('iconv', 'mbstring', 'xsl');
+$extensions = array('bcmath', 'iconv', 'mbstring', 'xsl');
 
 switch (DATABASE_DRIVER)
 {

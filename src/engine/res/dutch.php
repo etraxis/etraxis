@@ -398,7 +398,7 @@ $resource_dutch = array
     'Opslag',
     'LDAP kenmerken',
     'Weergaven',
-    'Weergaveinformatie',
+    NULL,
     'Weergavenaam',
     'Nieuwe weergave',
     'Weergave "%1"',

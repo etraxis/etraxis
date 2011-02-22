@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -382,6 +382,29 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                 break;
 
+            case COLUMN_TYPE_FLOAT:
+
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
+
+                array_push($clause_join,
+                           "left outer join " .
+                           "(select e.record_id, flv.float_value as value{$column['column_id']} " .
+                           "from tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "left outer join tbl_float_values flv on fv.value_id = flv.value_id " .
+                           "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_FLOAT . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
+                           "on r.record_id = v{$column['column_id']}.record_id");
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
+                }
+
+                break;
+
             case COLUMN_TYPE_STRING:
 
                 array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
@@ -700,6 +723,34 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                             break;
 
+                        case FIELD_TYPE_FLOAT:
+
+                            $range = (is_null($row['param1']) && is_null($row['param2']) ? 'fv.value_id is null and ' : NULL);
+
+                            if (!is_null($row['param1']))
+                            {
+                                $range .= 'fl1.float_value >= fl2.float_value and ';
+                            }
+
+                            if (!is_null($row['param2']))
+                            {
+                                $range .= 'fl1.float_value <= fl3.float_value and ';
+                            }
+
+                            array_push($clause_filter,
+                                       'r.record_id in ' .
+                                       '(select e.record_id ' .
+                                       'from tbl_events e, tbl_field_values fv, tbl_float_values fl1, tbl_float_values fl2, tbl_float_values fl3 ' .
+                                       'where fv.event_id = e.event_id and ' .
+                                       'fv.field_id = '  . $row['field_id'] . ' and ' .
+                                       'fv.value_id = fl1.value_id and ' .
+                                       $range .
+                                       'fl2.value_id = ' . $row['param1'] . ' and ' .
+                                       'fl3.value_id = ' . $row['param2'] . ' and ' .
+                                       'fv.is_latest = 1)');
+
+                            break;
+
                         case FIELD_TYPE_STRING:
 
                             if (is_null($row['param1']))
@@ -809,12 +860,11 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
         array_push($clause_order, 'r.record_id asc');
     }
 
-    $sql =
-        'select '    . implode(', ',    array_unique($clause_select)) .
-        ' from '     . implode(', ',    array_unique($clause_from))   .
-        ', '         . implode(' ',     array_unique($clause_join))   .
-        ' where '    . implode(' and ', array_unique($clause_where))  .
-        ' order by ' . implode(', ',    array_unique($clause_order));
+    $sql = 'select '    . implode(', ',    array_unique($clause_select)) .
+           ' from '     . implode(', ',    array_unique($clause_from))   .
+           ', '         . implode(' ',     array_unique($clause_join))   .
+           ' where '    . implode(' and ', array_unique($clause_where))  .
+           ' order by ' . implode(', ',    array_unique($clause_order));
 
     return new CRecordset($sql);
 }
@@ -958,6 +1008,31 @@ function record_validate ($operation, $subject, $record_id, $state_id, $creator_
                         $_SESSION['MAX_FIELD_INTEGER'] = $row['param2'];
                         debug_write_log(DEBUG_NOTICE, '[record_validate] Integer value is out of range.');
                         return ERROR_INTEGER_VALUE_OUT_OF_RANGE;
+                    }
+                }
+
+                break;
+
+            case FIELD_TYPE_FLOAT:
+
+                if (ustrlen($value) != 0)
+                {
+                    if (!is_floatvalue($value))
+                    {
+                        debug_write_log(DEBUG_NOTICE, '[record_validate] Invalid float value.');
+                        return ERROR_INVALID_FLOAT_VALUE;
+                    }
+
+                    $minFieldFloat = value_find(FIELD_TYPE_FLOAT, $row['param1']);
+                    $maxFieldFloat = value_find(FIELD_TYPE_FLOAT, $row['param2']);
+
+                    if (bccomp($value, $minFieldFloat) < 0 || bccomp($value, $maxFieldFloat) > 0)
+                    {
+                        $_SESSION['FIELD_NAME']        = $row['field_name'];
+                        $_SESSION['MIN_FIELD_INTEGER'] = $minFieldFloat;
+                        $_SESSION['MAX_FIELD_INTEGER'] = $maxFieldFloat;
+                        debug_write_log(DEBUG_NOTICE, '[record_validate] Float value is out of range.');
+                        return ERROR_FLOAT_VALUE_OUT_OF_RANGE;
                     }
                 }
 
@@ -1185,6 +1260,9 @@ function record_create (&$id, $subject, $state_id, $responsible_id = NULL, $clon
             case FIELD_TYPE_RECORD:
                 value_create_number($event['event_id'], $row['field_id'], $row['field_type'], (ustrlen($value) == 0 ? NULL : intval($value)));
                 break;
+            case FIELD_TYPE_FLOAT:
+                value_create_float($event['event_id'], $row['field_id'], $row['field_type'], (ustrlen($value) == 0 ? NULL : ustrcut($value, ustrlen(MAX_FIELD_FLOAT))));
+                break;
             case FIELD_TYPE_STRING:
                 value_create_string($event['event_id'], $row['field_id'], $row['field_type'], (ustrlen($value) == 0 ? NULL : ustrcut($value, $row['param1'])));
                 break;
@@ -1290,6 +1368,9 @@ function record_modify ($id, $subject, $creator_id, $responsible_id)
                 case FIELD_TYPE_LIST:
                 case FIELD_TYPE_RECORD:
                     value_modify_number($id, $event['event_id'], $row['field_id'], (ustrlen($value) == 0 ? NULL : intval($value)));
+                    break;
+                case FIELD_TYPE_FLOAT:
+                    value_modify_float($id, $event['event_id'], $row['field_id'], (ustrlen($value) == 0 ? NULL : ustrcut($value, ustrlen(MAX_FIELD_FLOAT))));
                     break;
                 case FIELD_TYPE_STRING:
                     value_modify_string($id, $event['event_id'], $row['field_id'], (ustrlen($value) == 0 ? NULL : ustrcut($value, $row['param1'])));
@@ -1491,6 +1572,9 @@ function state_change ($id, $state_id, $responsible_id, $close = FALSE)
             case FIELD_TYPE_LIST:
             case FIELD_TYPE_RECORD:
                 value_create_number($event['event_id'], $row['field_id'], $row['field_type'], (ustrlen($value) == 0 ? NULL : intval($value)));
+                break;
+            case FIELD_TYPE_FLOAT:
+                value_create_float($event['event_id'], $row['field_id'], $row['field_type'], (ustrlen($value) == 0 ? NULL : ustrcut($value, ustrlen(MAX_FIELD_FLOAT))));
                 break;
             case FIELD_TYPE_STRING:
                 value_create_string($event['event_id'], $row['field_id'], $row['field_type'], (ustrlen($value) == 0 ? NULL : ustrcut($value, $row['param1'])));

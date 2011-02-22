@@ -398,7 +398,7 @@ $resource_portuguese = array
     'Armazenamento',
     'Atributo LDAP',
     'Visualizações',
-    'Visualizar informação',
+    NULL,
     'View name',
     'Nova visualização',
     'Visualizar "%1"',

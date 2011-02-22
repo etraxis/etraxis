@@ -398,7 +398,7 @@ $resource_turkish = array
     'Bellek',
     'LDAP özniteliği',
     'Görüntülemeler',
-    'Bilgileri görüntüle',
+    NULL,
     'Adı görüntüle',
     'Yeni görüntüleme',
     '"%1" Görünümü',
