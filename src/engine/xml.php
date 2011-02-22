@@ -312,6 +312,12 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
     {
         $html = str_replace('%br;', '<br/>', $html);
 
+        // built-in compressions: check whether required extensions is available and PHP compression is turned off
+        if (!extension_loaded('zlib') || ini_get('zlib.output_compression') || ini_get('output_handler'))
+        {
+            $html = str_replace('scripts/get.php?name=', 'scripts/', $html);
+        }
+
         // workaround: some PHP configurations insert CDATA tags which break the output
         $html = preg_replace('/<!\[cdata\[(.*?)\]\]>/isu',     '$1', $html);
         $html = preg_replace('/%3C!\[cdata\[(.*?)\]\]%3E/isu', '$1', $html);
