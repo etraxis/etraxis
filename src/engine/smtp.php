@@ -104,7 +104,7 @@ function smtp_send_mail ($to, $subject, $message, $headers)
         return FALSE;
     }
 
-    $requests = array('EHLO ' . SMTP_SERVER_NAME);
+    $requests = array('EHLO ' . php_uname('n'));
 
     if (SMTP_USE_TLS)
     {
