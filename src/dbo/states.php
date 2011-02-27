@@ -323,6 +323,7 @@ function state_delete ($id)
     dal_query('states/fdelall.sql',  $id);
     dal_query('states/gtdelall.sql', $id);
     dal_query('states/rtdelall.sql', $id);
+    dal_query('states/sadelall.sql', $id);
     dal_query('states/clrdef.sql',   $id);
     dal_query('states/delete.sql',   $id);
 

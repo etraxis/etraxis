@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -264,7 +264,7 @@ if (EMAIL_NOTIFICATIONS_ENABLED && (get_user_level() != USER_LEVEL_GUEST))
 
 if (can_record_be_reassigned($record, $permissions))
 {
-    $rs = dal_query('records/responsibles.sql', $record['project_id'], $record['state_id'], $record['creator_id']);
+    $rs = dal_query('records/responsibles.sql', $record['state_id'], $record['creator_id']);
 
     if ($rs->rows > 1)
     {

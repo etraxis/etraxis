@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.4">
+<database name="etraxis" version="3.5">
 
 <table name="tbl_sys_vars">
 
@@ -198,6 +198,21 @@
     </unique>
 
     <foreign name="fk_states_template_id" table="tbl_templates">template_id</foreign>
+
+</table>
+
+<table name="tbl_state_assignees">
+
+    <column type="int">state_id</column>
+    <column type="int">group_id</column>
+
+    <primary name="pk_state_assignees">
+        <column>state_id</column>
+        <column>group_id</column>
+    </primary>
+
+    <foreign name="fk_state_assignees_state_id" table="tbl_states">state_id</foreign>
+    <foreign name="fk_state_assignees_group_id" table="tbl_groups">group_id</foreign>
 
 </table>
 

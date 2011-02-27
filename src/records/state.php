@@ -230,7 +230,7 @@ if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
 {
     debug_write_log(DEBUG_NOTICE, 'Record should be assigned.');
 
-    $rs = dal_query('records/responsibles.sql', $record['project_id'], $state_id, $record['creator_id']);
+    $rs = dal_query('records/responsibles.sql', $state_id, $record['creator_id']);
 
     if ($rs->rows != 0)
     {
