@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -74,6 +74,11 @@ $xml = gen_context_menu('tview.php?id=', 'sview.php?id=', 'fview.php?id=', $stat
 if ($state['state_type'] != STATE_TYPE_FINAL)
 {
     $xml .= '<tab url="strans.php?id=' . $id . '">' . get_html_resource(RES_TRANSITIONS_ID) . '</tab>';
+}
+
+if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
+{
+    $xml .= '<tab url="assignees.php?id=' . $id . '">' . get_html_resource(RES_RESPONSIBLE_ID) . '</tab>';
 }
 
 $xml .= '</tabs>';

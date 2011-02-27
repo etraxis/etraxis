@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -332,6 +332,7 @@ function group_delete ($id)
     dal_query('groups/gtdelall.sql',  $id);
     dal_query('groups/gpdelall.sql',  $id);
     dal_query('groups/msdelall.sql',  $id);
+    dal_query('groups/sadelall.sql',  $id);
     dal_query('groups/delete.sql',    $id);
 
     return NO_ERROR;

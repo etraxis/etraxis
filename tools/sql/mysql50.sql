@@ -236,6 +236,36 @@ references tbl_templates
     template_id
 );
 
+create table tbl_state_assignees
+(
+    state_id int not null,
+    group_id int not null
+);
+
+alter table tbl_state_assignees add primary key
+(
+    state_id,
+    group_id
+);
+
+alter table tbl_state_assignees add constraint foreign key fk_state_assignees_state_id
+(
+    state_id
+)
+references tbl_states
+(
+    state_id
+);
+
+alter table tbl_state_assignees add constraint foreign key fk_state_assignees_group_id
+(
+    group_id
+)
+references tbl_groups
+(
+    group_id
+);
+
 create table tbl_group_trans
 (
     state_id_from int not null,
@@ -1122,7 +1152,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MySQL 5.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.4');
+values ('FEATURE_LEVEL', '3.5');
 
 insert into tbl_accounts
 (
