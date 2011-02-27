@@ -31,7 +31,7 @@
 require_once('../engine/engine.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
@@ -40,21 +40,15 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
-// generate breadcrumbs and tabs
+// generate configuration info
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_CONFIGURATION_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="general.php">'     . get_html_resource(RES_GENERAL_INFO_ID)        . '</tab>'
-     . '<tab url="security.php">'    . get_html_resource(RES_SECURITY_ID)            . '</tab>'
-     . '<tab url="database.php">'    . get_html_resource(RES_DATABASE_ID)            . '</tab>'
-     . '<tab url="ldap.php">'        . get_html_resource(RES_ACTIVE_DIRECTORY_ID)    . '</tab>'
-     . '<tab url="attachments.php">' . get_html_resource(RES_ATTACHMENTS_ID)         . '</tab>'
-     . '<tab url="email.php">'       . get_html_resource(RES_EMAIL_NOTIFICATIONS_ID) . '</tab>'
-     . '<tab url="debug.php">'       . get_html_resource(RES_DEBUG_ID)               . '</tab>'
-     . '</tabs>';
+$xml = '<group>'
+     . '<text label="' . get_html_resource(RES_LOCALROOT_ID)        . '">' . ustr2html(LOCALROOT)                           . '</text>'
+     . '<text label="' . get_html_resource(RES_WEBROOT_ID)          . '">' . ustr2html(WEBROOT)                             . '</text>'
+     . '<text label="' . get_html_resource(RES_DEFAULT_LANGUAGE_ID) . '">' . get_html_resource(RES_LOCALE_ID, LANG_DEFAULT) . '</text>'
+     . '<text label="' . get_html_resource(RES_THEME_ID)            . '">' . ustr2html(THEME_DEFAULT)                       . '</text>'
+     . '</group>';
 
-echo(xml2html($xml, get_html_resource(RES_CONFIGURATION_ID)));
+echo(xml2html($xml));
 
 ?>
