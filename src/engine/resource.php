@@ -252,7 +252,7 @@ define('RES_PERMIT_MODIFY_RECORD_ID',               1116);
 define('RES_PERMIT_POSTPONE_RECORD_ID',             1117);
 define('RES_PERMIT_RESUME_RECORD_ID',               1118);
 define('RES_PERMIT_REASSIGN_RECORD_ID',             1119);
-define('RES_PERMIT_CHANGE_STATE_ID',                1120);
+define('RES_UNUSED_1120_ID',                        1120);
 define('RES_PERMIT_ATTACH_FILES_ID',                1121);
 define('RES_PERMIT_REMOVE_FILES_ID',                1122);
 define('RES_LANGUAGE_ID',                           1123);

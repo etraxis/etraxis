@@ -305,7 +305,7 @@ else
 
 // whether current state can be changed
 
-if (can_state_be_changed($record, $permissions))
+if (can_state_be_changed($record))
 {
     $rs = dal_query('depends/listuc.sql', $id);
     $rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], ($rs->rows == 0 ? '' : 'and s.state_type <> 3'));
