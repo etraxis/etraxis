@@ -2,6 +2,13 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-5-0 (2011-02-27)
+
+    Issue 30: State configuration: let user manually assign a group as the source for the responsible list.
+    Issue 236: UI component used for Configuration seems inconsistent against any other controls.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-4-0 (2011-02-22)
 
     Issue 184: Support for floating point numbers
