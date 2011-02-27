@@ -31,7 +31,7 @@
 require_once('../engine/engine.php');
 /**#@-*/
 
-init_page();
+init_page(LOAD_TAB);
 
 if (get_user_level() != USER_LEVEL_ADMIN)
 {
@@ -40,21 +40,18 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
-// generate breadcrumbs and tabs
+// generate configuration info
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_CONFIGURATION_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="general.php">'     . get_html_resource(RES_GENERAL_INFO_ID)        . '</tab>'
-     . '<tab url="security.php">'    . get_html_resource(RES_SECURITY_ID)            . '</tab>'
-     . '<tab url="database.php">'    . get_html_resource(RES_DATABASE_ID)            . '</tab>'
-     . '<tab url="ldap.php">'        . get_html_resource(RES_ACTIVE_DIRECTORY_ID)    . '</tab>'
-     . '<tab url="attachments.php">' . get_html_resource(RES_ATTACHMENTS_ID)         . '</tab>'
-     . '<tab url="email.php">'       . get_html_resource(RES_EMAIL_NOTIFICATIONS_ID) . '</tab>'
-     . '<tab url="debug.php">'       . get_html_resource(RES_DEBUG_ID)               . '</tab>'
-     . '</tabs>';
+$xml = '<group>'
+     . '<text label="' . get_html_resource(RES_STATUS_ID) . '">' . ustrtolower(get_html_resource(EMAIL_NOTIFICATIONS_ENABLED ? RES_ENABLED2_ID : RES_DISABLED2_ID)) . '</text>';
 
-echo(xml2html($xml, get_html_resource(RES_CONFIGURATION_ID)));
+if (EMAIL_NOTIFICATIONS_ENABLED)
+{
+    $xml .= '<text label="' . get_html_resource(RES_MAX_SIZE_ID) . '">' . ustrprocess(get_html_resource(RES_KB_ID), EMAIL_ATTACHMENTS_MAXSIZE) . '</text>';
+}
+
+$xml .= '</group>';
+
+echo(xml2html($xml));
 
 ?>
