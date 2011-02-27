@@ -2207,7 +2207,6 @@ function subrecord_remove ($parent_id, $subrecord_id)
  * <li>{@link PERMIT_POSTPONE_RECORD} - permission to postpone records</li>
  * <li>{@link PERMIT_RESUME_RECORD} - permission to resume records</li>
  * <li>{@link PERMIT_REASSIGN_RECORD} - permission to reassign records, which are already assigned on another person</li>
- * <li>{@link PERMIT_CHANGE_STATE} - permission to change state of records, which are assigned on another person</li>
  * <li>{@link PERMIT_ADD_COMMENTS} - permission to add comments</li>
  * <li>{@link PERMIT_ATTACH_FILES} - permission to add attachments</li>
  * <li>{@link PERMIT_REMOVE_FILES} - permission to remove attachments</li>
@@ -2657,13 +2656,12 @@ function can_record_be_reassigned ($record, $permissions)
 }
 
 /**
- * Checks whether specified permissions allow to change state of specified record.
+ * Checks whether it's allowed to change state of specified record.
  *
  * @param array $record Record information, as it returned by {@link record_find}.
- * @param int $permissions User permissions (see also {@link record_get_permissions}).
  * @return bool TRUE if state of the record can be changed, FALSE otherwise.
  */
-function can_state_be_changed ($record, $permissions)
+function can_state_be_changed ($record)
 {
     debug_write_log(DEBUG_TRACE, '[can_state_be_changed]');
 
@@ -2671,10 +2669,7 @@ function can_state_be_changed ($record, $permissions)
             !$record['is_suspended']             &&
             !$record['is_locked']                &&
             !is_record_postponed($record)        &&
-            is_null($record['closure_time'])     &&
-                (is_null($record['responsible_id']) ||
-                ($record['responsible_id'] == $_SESSION[VAR_USERID]) ||
-                ($permissions & PERMIT_CHANGE_STATE)));
+            is_null($record['closure_time']));
 }
 
 /**

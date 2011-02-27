@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -71,7 +71,7 @@ define('PERMIT_MODIFY_RECORD',         0x0002);
 define('PERMIT_POSTPONE_RECORD',       0x0004);
 define('PERMIT_RESUME_RECORD',         0x0008);
 define('PERMIT_REASSIGN_RECORD',       0x0010);
-define('PERMIT_CHANGE_STATE',          0x0020);
+define('PERMIT_CHANGE_STATE',          0x0020);  // obsolete
 define('PERMIT_ADD_COMMENTS',          0x0040);
 define('PERMIT_ATTACH_FILES',          0x0080);
 define('PERMIT_REMOVE_FILES',          0x0100);

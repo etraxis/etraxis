@@ -872,7 +872,6 @@ class CImporter
                     'postpone'  => PERMIT_POSTPONE_RECORD,
                     'resume'    => PERMIT_RESUME_RECORD,
                     'reassign'  => PERMIT_REASSIGN_RECORD,
-                    'state'     => PERMIT_CHANGE_STATE,
                     'comment'   => PERMIT_ADD_COMMENTS,
                     'attach'    => PERMIT_ATTACH_FILES,
                     'remove'    => PERMIT_REMOVE_FILES,

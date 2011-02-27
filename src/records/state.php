@@ -63,11 +63,9 @@ if (!$state)
     exit;
 }
 
-// get current user's permissions and verify them
+// check whether a state of specified record can be changed
 
-$permissions = record_get_permissions($record['template_id'], $record['creator_id'], $record['responsible_id']);
-
-if (!can_state_be_changed($record, $permissions))
+if (!can_state_be_changed($record))
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be changed.');
     header('HTTP/1.1 307 view.php?id=' . $id);

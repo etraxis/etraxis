@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -79,7 +79,6 @@ $gperms = array
     array('perm_postpone',     PERMIT_POSTPONE_RECORD,       RES_PERMIT_POSTPONE_RECORD_ID),
     array('perm_resume',       PERMIT_RESUME_RECORD,         RES_PERMIT_RESUME_RECORD_ID),
     array('perm_reassign',     PERMIT_REASSIGN_RECORD,       RES_PERMIT_REASSIGN_RECORD_ID),
-    array('perm_state',        PERMIT_CHANGE_STATE,          RES_PERMIT_CHANGE_STATE_ID),
     array('perm_comment',      PERMIT_ADD_COMMENTS,          RES_PERMIT_ADD_COMMENTS_ID),
     array('perm_confidential', PERMIT_CONFIDENTIAL_COMMENTS, RES_PERMIT_CONFIDENTIAL_COMMENTS_ID),
     array('perm_attach',       PERMIT_ATTACH_FILES,          RES_PERMIT_ATTACH_FILES_ID),
@@ -136,7 +135,6 @@ var perm_modify       = new Array();
 var perm_postpone     = new Array();
 var perm_resume       = new Array();
 var perm_reassign     = new Array();
-var perm_state        = new Array();
 var perm_comment      = new Array();
 var perm_confidential = new Array();
 var perm_attach       = new Array();
@@ -181,7 +179,6 @@ function permissionsSuccess ()
     perm_postpone["t"+id]     = $("#perm_postpone").attr("checked");
     perm_resume["t"+id]       = $("#perm_resume").attr("checked");
     perm_reassign["t"+id]     = $("#perm_reassign").attr("checked");
-    perm_state["t"+id]        = $("#perm_state").attr("checked");
     perm_comment["t"+id]      = $("#perm_comment").attr("checked");
     perm_confidential["t"+id] = $("#perm_confidential").attr("checked");
     perm_attach["t"+id]       = $("#perm_attach").attr("checked");
@@ -209,7 +206,6 @@ function updatePerms ()
     $("#perm_postpone").attr("checked",     perm_postpone["t"+id]     ? "checked" : "");
     $("#perm_resume").attr("checked",       perm_resume["t"+id]       ? "checked" : "");
     $("#perm_reassign").attr("checked",     perm_reassign["t"+id]     ? "checked" : "");
-    $("#perm_state").attr("checked",        perm_state["t"+id]        ? "checked" : "");
     $("#perm_comment").attr("checked",      perm_comment["t"+id]      ? "checked" : "");
     $("#perm_confidential").attr("checked", perm_confidential["t"+id] ? "checked" : "");
     $("#perm_attach").attr("checked",       perm_attach["t"+id]       ? "checked" : "");
