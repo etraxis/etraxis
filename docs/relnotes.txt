@@ -4,7 +4,7 @@ RELEASE NOTES
 
 Release tag:  MAIN_3-5-0
 Release date: 2011-02-27
-Release size: 47115
+Release size: 47104
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -38,12 +38,19 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 [M] src/config/index.php
 [A] src/config/ldap.php
 [A] src/config/security.php
+[M] src/dbo/events.php
 [M] src/dbo/groups.php
+[M] src/dbo/importer.php
+[M] src/dbo/records.php
 [M] src/dbo/states.php
+[M] src/dbo/templates.php
+[M] src/engine/resource.php
 [M] src/engine/smtp.php
 [M] src/engine/xml.php
 [A] src/projects/assignees.php
+[M] src/projects/gperms.php
 [M] src/projects/sview.php
+[M] src/projects/tperms.php
 [M] src/records/create.php
 [M] src/records/record.php
 [M] src/records/state.php
