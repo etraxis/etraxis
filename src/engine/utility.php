@@ -498,7 +498,7 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
                                    'From: ' . $sender . ' <' . (EMAIL_NOTIFICATIONS_ENABLED == SMTP_CLIENT_BUILDIN ? SMTP_MAILFROM : $from) . '>',
                                    'Reply-To: ' . $from,
                                    'Return-Path: ' . $from,
-                                   'Message-ID: <' . md5(uniqid(time())) . '@' . $_SERVER['SERVER_NAME'] . '>',
+                                   'Message-ID: <' . md5(uniqid(time())) . '@' . php_uname('n') . '>',
                                    'X-Priority: 3',
                                    'X-Mailer: eTraxis ' . VERSION,
                                    'MIME-Version: 1.0',
