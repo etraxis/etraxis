@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2009  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -83,6 +83,8 @@ class CDebugLog
     {
         if (DEBUG_MODE != DEBUG_MODE_OFF)
         {
+            set_error_handler("debug_error_handler", E_ALL);
+
             $this->handle = fopen(DEBUG_LOGS . session_id() . '.log', 'a');
 
             if ($this->handle !== FALSE)
@@ -157,6 +159,19 @@ class CDebugLog
 //------------------------------------------------------------------------------
 //  Functions.
 //------------------------------------------------------------------------------
+
+/**
+ * Custom handler of PHP errors. Writes Session ID and calls standard handler.
+ *
+ * @param int $errno The level of the error raised.
+ * @param string $errstr The error message.
+ * @return BOOL If the function returns FALSE then the normal error handler continues.
+ */
+function debug_error_handler ($errno, $errstr)
+{
+    error_log(sprintf("*** Session ID: %s (%s) ***", session_id(), $_SERVER['SERVER_NAME']));
+    return FALSE;
+}
 
 /**
  * Writes specified message to debug log.
