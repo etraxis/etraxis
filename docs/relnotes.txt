@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-0
-Release date: 2011-02-27
-Release size: 47104
+Release tag:  MAIN_3-5-1
+Release date: 2011-03-14
+Release size: 47057
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,48 +30,24 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[A] src/config/attachments.php
-[A] src/config/database.php
-[A] src/config/debug.php
-[A] src/config/email.php
-[A] src/config/general.php
-[M] src/config/index.php
-[A] src/config/ldap.php
-[A] src/config/security.php
-[M] src/dbo/events.php
+[M] src/config.php
+[M] src/dbo/accounts.php
 [M] src/dbo/groups.php
-[M] src/dbo/importer.php
-[M] src/dbo/records.php
-[M] src/dbo/states.php
-[M] src/dbo/templates.php
+[M] src/engine/debug.php
+[M] src/engine/res/english.php
+[M] src/engine/res/russian.php
 [M] src/engine/resource.php
-[M] src/engine/smtp.php
+[M] src/engine/sessions.php
+[M] src/engine/utility.php
 [M] src/engine/xml.php
-[A] src/projects/assignees.php
-[M] src/projects/gperms.php
-[M] src/projects/sview.php
-[M] src/projects/tperms.php
-[M] src/records/create.php
-[M] src/records/record.php
 [M] src/records/state.php
-[M] src/scripts/jquery-ui.js
-[A] src/sql/groups/sadelall.sql
-[M] src/sql/records/responsibles.sql
-[A] src/sql/states/saadd.sql
-[A] src/sql/states/saallowed.sql
-[A] src/sql/states/sadelall.sql
-[A] src/sql/states/sadelete.sql
-[A] src/sql/states/saothers.sql
-[M] tools/dbschema/dbschema.xml
-[M] tools/sql/mssql2k.sql
-[M] tools/sql/mysql50.sql
-[M] tools/sql/ora9i.sql
-[M] tools/sql/pgsql80.sql
-[A] tools/upgrade/3.4.x-3.5.x
-[A] tools/upgrade/3.4.x-3.5.x/mssql2k.sql
-[A] tools/upgrade/3.4.x-3.5.x/mysql50.sql
-[A] tools/upgrade/3.4.x-3.5.x/ora9i.sql
-[A] tools/upgrade/3.4.x-3.5.x/pgsql80.sql
+[M] src/settings/password.php
+[M] src/sql/records/tramongs.sql
+[M] src/themes/Azure/css/jquery-ui.css
+[M] src/themes/Emerald/css/jquery-ui.css
+[M] src/themes/Emerald/engine.xsl
+[M] src/themes/Mars/css/jquery-ui.css
+[M] src/themes/Orchid/css/jquery-ui.css
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -159,6 +135,8 @@ Issue 223: Auto Refresh of /records/index.php
 Issue 224: Multi site
 Issue 227: Enhance search capacity
 Issue 234: System-wide or project-wide fields
+Issue 239: When adding too big attachments, record saved without attachment, but no error message
+Issue 240: Global Views
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -166,18 +144,21 @@ KNOWN ISSUES
 
 Issue 94: Values of restricted fields are still accessible via custom view.
 Issue 205: export-import issue
+Issue 238: Error Creating Records in MSSQL Database
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 30: State configuration: let user manually assign a group as the source for the responsible list.
-Issue 236: UI component used for Configuration seems inconsistent against any other controls.
+Issue 237: Redirection after password change
+Issue 243: Replace "Change state" dialog with simple confirmation message in case of no fields in the state.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 241: Permanent redirect to particular page.
+Issue 242: Export of project or template generates PHP errors when no group is involved in the export.
+Issue 244: "Registered" role is ignored in state transitions.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
