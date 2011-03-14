@@ -109,7 +109,7 @@ define('RES_CONFIRM_DELETE_GROUP_ID',               303);
 define('RES_CONFIRM_DELETE_TEMPLATE_ID',            304);
 define('RES_CONFIRM_DELETE_STATE_ID',               305);
 define('RES_CONFIRM_DELETE_FIELD_ID',               306);
-define('RES_CONFIRM_UNUSED_307_ID',                 307);
+define('RES_CONFIRM_CHANGE_STATE_ID',               307);
 define('RES_CONFIRM_RESUME_RECORD_ID',              308);
 define('RES_CONFIRM_ASSIGN_RECORD_ID',              309);
 define('RES_CONFIRM_DELETE_FILTERS_ID',             310);

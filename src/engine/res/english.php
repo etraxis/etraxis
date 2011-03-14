@@ -96,7 +96,7 @@ $resource_english = array
     'Are you sure you want delete this template?',
     'Are you sure you want delete this state?',
     'Are you sure you want delete this field?',
-    NULL,
+    'Are you sure you want to change the state of this record?',
     'Are you sure you want resume this record?',
     'Are you sure you want assign this record?',
     /* 310 */
