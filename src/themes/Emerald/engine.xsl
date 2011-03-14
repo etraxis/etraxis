@@ -555,30 +555,6 @@
     </td>
 </xsl:template>
 
-<!-- Accordion -->
-
-<xsl:template match="accordion_container">
-    <div>
-    <xsl:attribute name="id">
-    <xsl:value-of select="@id"/>
-    </xsl:attribute>
-    <xsl:apply-templates select="accordion_section"/>
-    </div>
-</xsl:template>
-
-<xsl:template match="accordion_section">
-    <h3>
-    <a href="#">
-    <xsl:value-of select="@title"/>
-    </a>
-    </h3>
-    <div>
-    <table class="form">
-    <xsl:apply-templates/>
-    </table>
-    </div>
-</xsl:template>
-
 <!-- Forms & Controls -->
 
 <xsl:template match="dual">
