@@ -795,6 +795,12 @@ function accounts_export ($groups)
 
     // Remove duplicated group IDs.
     $groups = array_unique($groups);
+
+    if (count($groups) == 0)
+    {
+        return NULL;
+    }
+
     // List members of all global and local project groups.
     $rs = dal_query('groups/mamongs2.sql', implode(',', $groups));
 
