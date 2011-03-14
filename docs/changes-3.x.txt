@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-5-1 (2011-03-14)
+
+    Issue 237: Redirection after password change
+    Issue 243: Replace "Change state" dialog with simple confirmation message in case of no fields in the state.
+
+Bug fixes integrated in MAIN_3-5-1 (2011-03-14)
+
+    Issue 241: Permanent redirect to particular page.
+    Issue 242: Export of project or template generates PHP errors when no group is involved in the export.
+    Issue 244: "Registered" role is ignored in state transitions.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-5-0 (2011-02-27)
 
     Issue 30: State configuration: let user manually assign a group as the source for the responsible list.
