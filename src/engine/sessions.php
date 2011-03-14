@@ -489,6 +489,8 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
 
                 exit;
             }
+
+            clear_cookie(COOKIE_URI);
         }
     }
 }
