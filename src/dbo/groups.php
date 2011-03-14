@@ -427,6 +427,11 @@ function groups_export ($groups)
     // List all global and local project groups.
     $rs = dal_query('templates/glist.sql', implode(',', $groups));
 
+    if (count($groups) == 0)
+    {
+        return NULL;
+    }
+
     $xml_g = NULL;
 
     if ($rs->rows != 0)
