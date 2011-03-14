@@ -119,7 +119,7 @@
         </div>
         <xsl:apply-templates select="tabs|content"/>
         <div id="copyright">
-        <a href="http://code.google.com/p/etraxis/" target="_blank">
+        <a href="https://www.etraxis.com/" target="_blank">
         <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2011 by Artem Rodygin &amp;minus; </xsl:text><xsl:value-of select="@version"/>
         </a>
         </div>
