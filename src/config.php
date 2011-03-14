@@ -86,7 +86,7 @@ define('LANG_DEFAULT', 1000);
  * See {@link http://code.google.com/p/etraxis/wiki/Customization online documentation} for details.
  */
 define('COMPANY_LOGO',  'images/logo.png');
-define('COMPANY_SITE',  'http://code.google.com/p/etraxis/');
+define('COMPANY_SITE',  'https://www.etraxis.com/');
 define('THEME_DEFAULT', 'Emerald');
 /**#@-*/
 
