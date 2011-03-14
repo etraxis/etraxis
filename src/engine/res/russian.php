@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -95,7 +95,7 @@ $resource_russian = array
     'Вы уверены, что хотите удалить этот шаблон?',
     'Вы уверены, что хотите удалить это состояние?',
     'Вы уверены, что хотите удалить этот атрибут?',
-    NULL,
+    'Вы уверены, что хотите изменить состояние этой записи?',
     'Вы уверены, что хотите возобновить эту запись?',
     'Вы уверены, что хотите назначить эту запись?',
     /* 310 */

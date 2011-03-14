@@ -219,43 +219,7 @@ JQUERY;
 
 // generate state form
 
-$xml .= '<form name="stateform" action="state.php?id=' . $id . '&amp;state=' . $state_id . '" success="stateSuccess" error="stateError">'
-      . '<group>';
-
-// if state must be assigned, generate list of accounts
-
-if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
-{
-    debug_write_log(DEBUG_NOTICE, 'Record should be assigned.');
-
-    $rs = dal_query('records/responsibles.sql', $state_id, $record['creator_id']);
-
-    if ($rs->rows != 0)
-    {
-        $default_responsible = (is_null($record['responsible_id']) ? $_SESSION[VAR_USERID] : $record['responsible_id']);
-
-        $xml .= '<control name="responsible" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-              . '<label>' . get_html_resource(RES_RESPONSIBLE_ID) . '</label>'
-              . '<combobox>';
-
-        while (($row = $rs->fetch()))
-        {
-            $xml .= ($row['account_id'] == $default_responsible
-                        ? '<listitem value="' . $row['account_id'] . '" selected="true">'
-                        : '<listitem value="' . $row['account_id'] . '">')
-                  . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username'])))
-                  . '</listitem>';
-        }
-
-        $xml .= '</combobox>'
-              . '</control>';
-    }
-}
-
-$flag1  = FALSE;
-$flag2  = FALSE;
-$notes  = NULL;
-$script = NULL;
+$xml .= '<form name="stateform" action="state.php?id=' . $id . '&amp;state=' . $state_id . '" success="stateSuccess" error="stateError">';
 
 // get list of latest values of related fields
 
@@ -268,17 +232,51 @@ if ($rs->rows == 0)
     $rs = dal_query('fields/list.sql', $state_id, 'field_order');
 }
 
-if ($rs->rows == 0)
+if ($rs->rows == 0 && $state['responsible'] != STATE_RESPONSIBLE_ASSIGN)
 {
     debug_write_log(DEBUG_NOTICE, 'No fields for specified state are found.');
 
-    if ($state['responsible'] != STATE_RESPONSIBLE_ASSIGN)
-    {
-        $xml .= '<text>' . get_html_resource(RES_NO_FIELDS_ID) . '</text>';
-    }
+    $xml .= '<div>' . get_html_resource(RES_CONFIRM_CHANGE_STATE_ID) . '</div>';
 }
 else
 {
+    // if state must be assigned, generate list of accounts
+
+    $xml .= '<group>';
+
+    if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
+    {
+        debug_write_log(DEBUG_NOTICE, 'Record should be assigned.');
+
+        $rs = dal_query('records/responsibles.sql', $state_id, $record['creator_id']);
+
+        if ($rs->rows != 0)
+        {
+            $default_responsible = (is_null($record['responsible_id']) ? $_SESSION[VAR_USERID] : $record['responsible_id']);
+
+            $xml .= '<control name="responsible" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+                  . '<label>' . get_html_resource(RES_RESPONSIBLE_ID) . '</label>'
+                  . '<combobox>';
+
+            while (($row = $rs->fetch()))
+            {
+                $xml .= ($row['account_id'] == $default_responsible
+                            ? '<listitem value="' . $row['account_id'] . '" selected="true">'
+                            : '<listitem value="' . $row['account_id'] . '">')
+                      . ustr2html(sprintf('%s (%s)', $row['fullname'], account_get_username($row['username'])))
+                      . '</listitem>';
+            }
+
+            $xml .= '</combobox>'
+                  . '</control>';
+        }
+    }
+
+    $flag1  = FALSE;
+    $flag2  = FALSE;
+    $notes  = NULL;
+    $script = NULL;
+
     // go through the list of fields
 
     debug_write_log(DEBUG_NOTICE, 'Fields of specified state are being enumerated.');
@@ -503,24 +501,23 @@ else
             $xml .= '<hr/>';
         }
     }
+
+    if ($flag1)
+    {
+        $notes = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>' . $notes;
+    }
+
+    if ($flag2)
+    {
+        $notes .= '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>';
+    }
+
+    $xml .= '</group>'
+          . $notes
+          . '<script>' . $script . '</script>';
 }
 
-if ($flag1)
-{
-    $notes = '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>' . $notes;
-}
-
-if ($flag2)
-{
-    $notes .= '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>';
-}
-
-$xml .= '</group>'
-      . $notes
-      . '<script>'
-      . $script
-      . '</script>'
-      . '</form>';
+$xml .= '</form>';
 
 echo(xml2html($xml));
 
