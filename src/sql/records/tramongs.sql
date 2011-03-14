@@ -66,6 +66,26 @@ where
     r.record_id      = %1         and
     r.responsible_id = %2 %3
 
+union
+
+select distinct
+
+    s.state_id,
+    s.state_name
+
+from
+
+    tbl_states     s,
+    tbl_role_trans rt,
+    tbl_records    r
+
+where
+
+    rt.state_id_from = r.state_id and
+    rt.state_id_to   = s.state_id and
+    rt.role          = -3         and
+    r.record_id      = %1 %3
+
 order by
 
     state_name
