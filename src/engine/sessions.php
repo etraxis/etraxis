@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -475,6 +475,8 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
                 (!$_SESSION[VAR_LDAPUSER]                                                 ))
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
+
+                save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
 
                 if ($page_type == LOAD_CONTAINER)
                 {
