@@ -1418,7 +1418,7 @@ function record_delete ($id)
     debug_write_log(DEBUG_TRACE, '[record_delete]');
     debug_write_log(DEBUG_DUMP,  '[record_delete] $id = ' . $id);
 
-    $rs = dal_query('attachs/list.sql', $id);
+    $rs = dal_query('attachs/list.sql', $id, 'attachment_id');
 
     while (($row = $rs->fetch()))
     {
