@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -60,17 +60,42 @@ if (isset($_REQUEST['search']))
 $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
      . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="list.php?search=">' . get_html_resource(RES_RECORDS_ID) . '</tab>';
+     . '<tabs>';
 
-if (ustrlen($_SESSION[VAR_SEARCH_TEXT]) != 0)
+// active tab must be created first
+
+if ($_SESSION[VAR_SEARCH_MODE])
 {
     $xml .= '<tab url="list.php?search=' . urlencode($_SESSION[VAR_SEARCH_TEXT]) . '">'
           . get_html_resource(RES_SEARCH_RESULTS_ID)
           . '</tab>';
 }
+else
+{
+    $xml .= '<tab url="list.php?search=">'
+          . get_html_resource(RES_RECORDS_ID)
+          . '</tab>';
+}
 
 $xml .= '</tabs>';
+
+// add secondary tab run-time
+
+if ($_SESSION[VAR_SEARCH_MODE])
+{
+    $xml .= '<onready>'
+          . sprintf('$("#tabs").tabs("add", "list.php?search=", "%s", 0);', get_html_resource(RES_RECORDS_ID))
+          . '</onready>';
+}
+else
+{
+    if (ustrlen($_SESSION[VAR_SEARCH_TEXT]) != 0)
+    {
+        $xml .= '<onready>'
+              . sprintf('$("#tabs").tabs("add", "list.php?search=%s", "%s");', urlencode($_SESSION[VAR_SEARCH_TEXT]), get_html_resource(RES_SEARCH_RESULTS_ID))
+              . '</onready>';
+    }
+}
 
 echo(xml2html($xml, get_html_resource(RES_RECORDS_ID)));
 
