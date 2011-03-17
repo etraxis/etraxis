@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-1
-Release date: 2011-03-14
-Release size: 47057
+Release tag:  MAIN_3-5-2
+Release date: 2011-03-17
+Release size: 47075
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,24 +30,15 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/config.php
-[M] src/dbo/accounts.php
-[M] src/dbo/groups.php
-[M] src/engine/debug.php
-[M] src/engine/res/english.php
-[M] src/engine/res/russian.php
-[M] src/engine/resource.php
-[M] src/engine/sessions.php
-[M] src/engine/utility.php
+[M] src/dbo/records.php
 [M] src/engine/xml.php
-[M] src/records/state.php
-[M] src/settings/password.php
-[M] src/sql/records/tramongs.sql
-[M] src/themes/Azure/css/jquery-ui.css
-[M] src/themes/Emerald/css/jquery-ui.css
-[M] src/themes/Emerald/engine.xsl
-[M] src/themes/Mars/css/jquery-ui.css
-[M] src/themes/Orchid/css/jquery-ui.css
+[M] src/projects/metrics.php
+[M] src/records/index.php
+[M] src/records/list.php
+[M] src/records/record.php
+[M] src/views/columns.php
+[M] src/views/filters.php
+[M] tools/upgrade/3.3.x-3.4.x/pgsql80.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -137,6 +128,9 @@ Issue 227: Enhance search capacity
 Issue 234: System-wide or project-wide fields
 Issue 239: When adding too big attachments, record saved without attachment, but no error message
 Issue 240: Global Views
+Issue 245: Printing record
+Issue 248: Ability to filter out all records, which were closed last X days only.
+Issue 250: New column "date of last state change"
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -145,20 +139,23 @@ KNOWN ISSUES
 Issue 94: Values of restricted fields are still accessible via custom view.
 Issue 205: export-import issue
 Issue 238: Error Creating Records in MSSQL Database
+Issue 247: LDAP Logins time out or take a long time when user has multiple filters for multiple templates within a views
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 237: Redirection after password change
-Issue 243: Replace "Change state" dialog with simple confirmation message in case of no fields in the state.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 241: Permanent redirect to particular page.
-Issue 242: Export of project or template generates PHP errors when no group is involved in the export.
-Issue 244: "Registered" role is ignored in state transitions.
+Issue 246: PSQL Upgrade 3.3.x -> 3.4.x broken
+Issue 251: Attempt to delete a record generates PHP error.
+Issue 252: In some cases filters cannot be added to a view.
+Issue 253: Error when displaying Metrics Page
+Issue 254: Comments are not added to an Existing Issue when using Comments button at the top of the Issue Screen.
+Issue 255: Standard Search no longer automatically displays Search Results Screen
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

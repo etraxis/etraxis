@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-5-2 (2011-03-17)
+
+    Issue 246: PSQL Upgrade 3.3.x -> 3.4.x broken
+    Issue 251: Attempt to delete a record generates PHP error.
+    Issue 252: In some cases filters cannot be added to a view.
+    Issue 253: Error when displaying Metrics Page
+    Issue 254: Comments are not added to an Existing Issue when using Comments button at the top of the Issue Screen.
+    Issue 255: Standard Search no longer automatically displays Search Results Screen
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-5-1 (2011-03-14)
 
     Issue 237: Redirection after password change
