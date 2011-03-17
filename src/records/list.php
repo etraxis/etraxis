@@ -194,7 +194,7 @@ if ($list->rows != 0)
 
 if ($_SESSION[VAR_SEARCH_MODE] && get_user_level() != USER_LEVEL_GUEST)
 {
-    $xml .= '<button action="reloadTab(\'index.php?use_filters=' . (!$_SESSION[VAR_USE_FILTERS]) . '\')">'
+    $xml .= '<button action="reloadTab(\'list.php?search=' . urlencode($_SESSION[VAR_SEARCH_TEXT]) . '&amp;use_filters=' . (!$_SESSION[VAR_USE_FILTERS]) . '\')">'
           . get_html_resource($_SESSION[VAR_USE_FILTERS] ? RES_DISABLE_FILTERS_ID : RES_ENABLE_FILTERS_ID)
           . '</button>';
 }
