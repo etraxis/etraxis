@@ -159,14 +159,14 @@ function stateChange ()
 
 function addConfidentialComment ()
 {
-    $("#commentform :input[name=submitted]").val("confidentialform");
-    $("#commentform").submit();
-    $("#commentform :input[name=submitted]").val("commentform");
+    $("#rcommentform :input[name=submitted]").val("rconfidentialform");
+    $("#rcommentform").submit();
+    $("#rcommentform :input[name=submitted]").val("rcommentform");
 }
 
 function previewComment ()
 {
-    $("#previewdiv").load("preview.php", $("#commentform").serialize());
+    $("#rpreviewdiv").load("preview.php", $("#rcommentform").serialize());
 }
 
 function commentSuccess (data)
@@ -484,7 +484,7 @@ while (($event = $events->fetch()))
 
 if (can_comment_be_added($record, $permissions))
 {
-    $xml .= '<form name="commentform" action="comments.php?id=' . $id . '" success="commentSuccess">'
+    $xml .= '<form name="rcommentform" action="comments.php?id=' . $id . '" success="commentSuccess">'
           . '<group title="' . get_html_resource(RES_COMMENT_ID) . '">'
           . '<control name="comment">'
           . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
@@ -503,7 +503,7 @@ if (can_comment_be_added($record, $permissions))
 
     $xml .= '</buttonset>'
           . '<button action="previewComment()">' . get_html_resource(RES_PREVIEW_ID) . '</button>'
-          . '<div id="previewdiv"/>'
+          . '<div id="rpreviewdiv"/>'
           . '<note>' . get_html_resource(RES_LINK_TO_ANOTHER_RECORD_ID) . '</note>'
           . '</form>';
 }
