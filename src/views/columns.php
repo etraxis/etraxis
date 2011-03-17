@@ -52,7 +52,7 @@ if (!$view)
 
 // add/remove selected columns
 
-if (try_request('submitted') == 'disabledform')
+if (try_request('submitted') == 'cdisabledform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted (adding new columns).');
 
@@ -81,7 +81,7 @@ if (try_request('submitted') == 'disabledform')
 
     exit;
 }
-elseif (try_request('submitted') == 'enabledform')
+elseif (try_request('submitted') == 'cenabledform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted (removing selected columns).');
 
@@ -168,7 +168,7 @@ JQUERY;
 
 $xml .= '<dual>'
       . '<dualleft>'
-      . '<form name="disabledform" action="columns.php?id=' . $id . '" success="reloadTab" error="onError">'
+      . '<form name="cdisabledform" action="columns.php?id=' . $id . '" success="reloadTab" error="onError">'
       . '<group title="' . get_html_resource(RES_DISABLED2_ID) . '">'
       . '<control name="lcolumns[]">'
       . '<listbox size="10">';
@@ -267,7 +267,7 @@ $xml .= '</listbox>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="enabledform" action="columns.php?id=' . $id . '" success="reloadTab">'
+      . '<form name="cenabledform" action="columns.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_ENABLED2_ID) . '">'
       . '<control name="rcolumns[]">'
       . '<listbox size="10">';
@@ -300,8 +300,8 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="$(\'#disabledform\').submit()">%gt;%gt;</button>'
-      . '<button action="$(\'#enabledform\').submit()">%lt;%lt;</button>'
+$xml .= '<button action="$(\'#cdisabledform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#cenabledform\').submit()">%lt;%lt;</button>'
       . '</dual>';
 
 echo(xml2html($xml));

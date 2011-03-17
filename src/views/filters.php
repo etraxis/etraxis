@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2007-2010  Artem Rodygin
+//  Copyright (C) 2007-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ if (!$view)
 
 // add/remove selected filters
 
-if (try_request('submitted') == 'disabledform')
+if (try_request('submitted') == 'fdisabledform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted (adding new filters).');
 
@@ -66,7 +66,7 @@ if (try_request('submitted') == 'disabledform')
 
     exit;
 }
-elseif (try_request('submitted') == 'enabledform')
+elseif (try_request('submitted') == 'fenabledform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted (removing selected filters).');
 
@@ -93,7 +93,7 @@ else
 
 $xml = '<dual>'
      . '<dualleft>'
-     . '<form name="disabledform" action="filters.php?id=' . $id . '" success="reloadTab">'
+     . '<form name="fdisabledform" action="filters.php?id=' . $id . '" success="reloadTab">'
      . '<group title="' . get_html_resource(RES_DISABLED2_ID) . '">'
      . '<control name="filters[]">'
      . '<listbox size="10">';
@@ -122,7 +122,7 @@ $xml .= '</listbox>'
 // generate right side
 
 $xml .= '<dualright>'
-      . '<form name="enabledform" action="filters.php?id=' . $id . '" success="reloadTab">'
+      . '<form name="fenabledform" action="filters.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_ENABLED2_ID) . '">'
       . '<control name="filters[]">'
       . '<listbox size="10">';
@@ -148,8 +148,8 @@ $xml .= '</listbox>'
 
 // generate buttons
 
-$xml .= '<button action="$(\'#disabledform\').submit()">%gt;%gt;</button>'
-      . '<button action="$(\'#enabledform\').submit()">%lt;%lt;</button>'
+$xml .= '<button action="$(\'#fdisabledform\').submit()">%gt;%gt;</button>'
+      . '<button action="$(\'#fenabledform\').submit()">%lt;%lt;</button>'
       . '</dual>';
 
 echo(xml2html($xml));
