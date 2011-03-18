@@ -201,7 +201,7 @@ function ustrcut ($str, $maxlen, $trim = TRUE)
         $str = trim($str);
     }
 
-    return mb_strcut($str, 0, $maxlen, 'UTF-8');
+    return mb_substr($str, 0, $maxlen, 'UTF-8');
 }
 
 /**
