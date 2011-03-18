@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -60,13 +60,15 @@ if (!can_record_be_displayed($permissions))
 // comment is submitted
 
 if (try_request('submitted') == 'commentform' ||
-    try_request('submitted') == 'confidentialform')
+    try_request('submitted') == 'rcommentform' ||
+    try_request('submitted') == 'confidentialform' ||
+    try_request('submitted') == 'rconfidentialform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
     if (can_comment_be_added($record, $permissions))
     {
-        $is_confidential = (try_request('submitted') == 'confidentialform');
+        $is_confidential = (try_request('submitted') == 'confidentialform' || try_request('submitted') == 'rconfidentialform');
 
         if ($is_confidential && ($permissions & PERMIT_CONFIDENTIAL_COMMENTS) == 0)
         {
