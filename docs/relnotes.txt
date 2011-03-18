@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-2
-Release date: 2011-03-17
-Release size: 47075
+Release tag:  MAIN_3-5-3
+Release date: 2011-03-18
+Release size: 47077
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,15 +30,20 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/records.php
+[M] src/accounts/account.php
+[M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/projects/metrics.php
-[M] src/records/index.php
-[M] src/records/list.php
-[M] src/records/record.php
-[M] src/views/columns.php
-[M] src/views/filters.php
-[M] tools/upgrade/3.3.x-3.4.x/pgsql80.sql
+[M] src/filters/filter.php
+[M] src/groups/group.php
+[M] src/projects/field.php
+[M] src/projects/group.php
+[M] src/projects/project.php
+[M] src/projects/state.php
+[M] src/projects/template.php
+[M] src/records/comments.php
+[M] src/reminders/reminder.php
+[M] src/subscriptions/subscription.php
+[M] src/views/view2.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -131,6 +136,8 @@ Issue 240: Global Views
 Issue 245: Printing record
 Issue 248: Ability to filter out all records, which were closed last X days only.
 Issue 250: New column "date of last state change"
+Issue 256: Possible Metrics Replacement
+Issue 257: Clear Search Field after Search Results are displayed
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -151,11 +158,8 @@ None.
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 246: PSQL Upgrade 3.3.x -> 3.4.x broken
-Issue 251: Attempt to delete a record generates PHP error.
-Issue 252: In some cases filters cannot be added to a view.
-Issue 253: Error when displaying Metrics Page
-Issue 254: Comments are not added to an Existing Issue when using Comments button at the top of the Issue Screen.
-Issue 255: Standard Search no longer automatically displays Search Results Screen
+Issue 258: Fix in Version 3.5.2 to fix top comment button functionalty broke bottom comment box
+Issue 259: & character in Template or Filter Name causes view corruption
+Issue 260: Cyrillic filter names are cut in length.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-5-3 (2011-03-18)
+
+    Issue 258: Fix in Version 3.5.2 to fix top comment button functionalty broke bottom comment box
+    Issue 259: & character in Template or Filter Name causes view corruption
+    Issue 260: Cyrillic filter names are cut in length.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-5-2 (2011-03-17)
 
     Issue 246: PSQL Upgrade 3.3.x -> 3.4.x broken
