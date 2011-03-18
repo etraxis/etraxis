@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ if (!$subscription)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_SUBSCRIPTION_X_ID), ustr2js($subscription['subscribe_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_SUBSCRIPTION_X_ID), ustr2html($subscription['subscribe_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 

@@ -50,7 +50,7 @@ if (!$filter)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_FILTER_X_ID), ustr2js($filter['filter_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_FILTER_X_ID), ustr2html($filter['filter_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 
