@@ -107,6 +107,10 @@ $resOK     = get_js_resource(RES_OK_ID);
 $resNext   = get_js_resource(RES_NEXT_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 
+$resSearch = $_SESSION[VAR_SEARCH_MODE]
+           ? ustr2html($_SESSION[VAR_SEARCH_TEXT])
+           : get_html_resource(RES_SEARCH_ID);
+
 $xml = <<<JQUERY
 <onready>
 
@@ -119,6 +123,8 @@ $("#view{$tab}").change(function() {
         reloadTab();
     });
 });
+
+$(".search").val("{$resSearch}");
 
 </onready>
 <script>

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -85,7 +85,14 @@ $subrecords = $rs->rows;
 
 // generate breadcrumbs and tabs
 
-$xml = '<breadcrumbs>'
+$resSearch = $_SESSION[VAR_SEARCH_MODE]
+           ? ustr2html($_SESSION[VAR_SEARCH_TEXT])
+           : get_html_resource(RES_SEARCH_ID);
+
+$xml = '<onready>'
+     . '$(".search").val("' . $resSearch . '");'
+     . '</onready>'
+     . '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_RECORDS_ID) . '</breadcrumb>'
      . '<breadcrumb url="view.php?id=' . $id . '">' . $title . '</breadcrumb>'
      . '</breadcrumbs>'
