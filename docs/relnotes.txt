@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-3
-Release date: 2011-03-18
-Release size: 47077
+Release tag:  MAIN_3-5-4
+Release date: 2011-03-27
+Release size: 47088
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,20 +30,12 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/accounts/account.php
-[M] src/engine/utility.php
+[M] src/dbo/groups.php
 [M] src/engine/xml.php
-[M] src/filters/filter.php
-[M] src/groups/group.php
-[M] src/projects/field.php
-[M] src/projects/group.php
-[M] src/projects/project.php
-[M] src/projects/state.php
-[M] src/projects/template.php
-[M] src/records/comments.php
-[M] src/reminders/reminder.php
-[M] src/subscriptions/subscription.php
-[M] src/views/view2.php
+[M] src/projects/fcreate.php
+[M] src/records/list.php
+[M] src/records/view.php
+[M] src/themes/Emerald/engine.xsl
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -137,7 +129,7 @@ Issue 245: Printing record
 Issue 248: Ability to filter out all records, which were closed last X days only.
 Issue 250: New column "date of last state change"
 Issue 256: Possible Metrics Replacement
-Issue 257: Clear Search Field after Search Results are displayed
+Issue 264: Link on the ID
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -152,14 +144,13 @@ Issue 247: LDAP Logins time out or take a long time when user has multiple filte
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 257: Clear Search Field after Search Results are displayed
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 258: Fix in Version 3.5.2 to fix top comment button functionalty broke bottom comment box
-Issue 259: & character in Template or Filter Name causes view corruption
-Issue 260: Cyrillic filter names are cut in length.
+Issue 242: Export of project or template generates PHP errors when no group is involved in the export.
+Issue 262: List items not staying when entered
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
