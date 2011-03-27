@@ -71,7 +71,7 @@
                 <form name="searchform" method="get" target="_parent" action="../records/index.php">
                 <input type="text" class="search" name="search" maxlength="100">
                 <xsl:attribute name="value">
-                <xsl:value-of select="@last_search"/>
+                <xsl:value-of select="@search"/>
                 </xsl:attribute>
                 <xsl:attribute name="onfocus">
                 <xsl:text>clear_topline(this, '</xsl:text>

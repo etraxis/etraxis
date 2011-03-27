@@ -168,10 +168,6 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
                 . '}'
                 . '</script>';
 
-        $params['last_search'] = isset($_SESSION[VAR_SEARCH_TEXT])
-                               ? ustr2html($_SESSION[VAR_SEARCH_TEXT])
-                               : get_html_resource(RES_SEARCH_ID);
-
         if (MAINTENANCE_BANNER)
         {
             list($year, $month, $day) = explode('-', MAINTENANCE_START_DATE);
