@@ -360,6 +360,11 @@ elseif (isset($_REQUEST['submitted']))
                               $description,
                               NULL, NULL, NULL, NULL, NULL,
                               $def_value);
+
+        if ($error == NO_ERROR)
+        {
+            field_create_list_items($id, $field_name, $list_items);
+        }
     }
 
     // 2nd step of new field (record) has been submitted
