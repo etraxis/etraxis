@@ -424,13 +424,13 @@ function groups_export ($groups)
 {
     debug_write_log(DEBUG_TRACE, '[groups_export]');
 
-    // List all global and local project groups.
-    $rs = dal_query('templates/glist.sql', implode(',', $groups));
-
     if (count($groups) == 0)
     {
         return NULL;
     }
+
+    // List all global and local project groups.
+    $rs = dal_query('templates/glist.sql', implode(',', $groups));
 
     $xml_g = NULL;
 
