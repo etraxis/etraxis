@@ -248,9 +248,9 @@ else
     {
         debug_write_log(DEBUG_NOTICE, 'Record should be assigned.');
 
-        $rs = dal_query('records/responsibles.sql', $state_id, $record['creator_id']);
+        $rs_res = dal_query('records/responsibles.sql', $state_id, $record['creator_id']);
 
-        if ($rs->rows != 0)
+        if ($rs_res->rows != 0)
         {
             $default_responsible = (is_null($record['responsible_id']) ? $_SESSION[VAR_USERID] : $record['responsible_id']);
 
@@ -258,7 +258,7 @@ else
                   . '<label>' . get_html_resource(RES_RESPONSIBLE_ID) . '</label>'
                   . '<combobox>';
 
-            while (($row = $rs->fetch()))
+            while (($row = $rs_res->fetch()))
             {
                 $xml .= ($row['account_id'] == $default_responsible
                             ? '<listitem value="' . $row['account_id'] . '" selected="true">'
