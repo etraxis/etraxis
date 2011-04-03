@@ -62,6 +62,7 @@
     </script>
     <div id="messagebox"></div>
     <div id="modaldlg"></div>
+    <div id="waiting"></div>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
     <div id="toolbar">
         <div class="toolbarsplitt spacer"></div>
@@ -599,15 +600,32 @@
             $(document).ready(function() {
                 $("#<xsl:value-of select="@name"/>").submit(function ()
                 {
+                    $("#waiting").dialog({
+                        modal: true,
+                        dialogClass: "waiting",
+                        resizable: false,
+                        closeOnEscape: false,
+                        beforeClose: function () { return false; }
+                    });
+
+                    $("#waiting").html("Please wait...");
+                    $(".waiting").hide();
+
                     $.ajax({
                         type: "POST",
                         url: "<xsl:value-of disable-output-escaping="yes" select="@action"/>",
-                        <xsl:if test="boolean(@success)">
-                        success: <xsl:value-of select="@success"/>,
-                        </xsl:if>
-                        <xsl:if test="boolean(@error)">
-                        error: <xsl:value-of select="@error"/>,
-                        </xsl:if>
+                        success: function () {
+                            $("#waiting").dialog("destroy");
+                            <xsl:if test="boolean(@success)">
+                            <xsl:value-of select="@success"/>();
+                            </xsl:if>
+                        },
+                        error: function (XMLHttpRequest) {
+                            $("#waiting").dialog("destroy");
+                            <xsl:if test="boolean(@error)">
+                            <xsl:value-of select="@error"/>(XMLHttpRequest);
+                            </xsl:if>
+                        },
                         data: $("#<xsl:value-of select="@name"/>").serialize()
                     });
 
