@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-4
-Release date: 2011-03-27
-Release size: 47088
+Release tag:  MAIN_3-5-5
+Release date: 2011-04-03
+Release size: 47087
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,11 +30,11 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/groups.php
+[M] src/dbo/fields.php
+[M] src/dbo/records.php
 [M] src/engine/xml.php
-[M] src/projects/fcreate.php
-[M] src/records/list.php
-[M] src/records/view.php
+[M] src/records/attachments.php
+[M] src/records/state.php
 [M] src/themes/Emerald/engine.xsl
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,13 +144,16 @@ Issue 247: LDAP Logins time out or take a long time when user has multiple filte
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 257: Clear Search Field after Search Results are displayed
+Issue 268: AJAX form should be disabled while its submission is being processed.
+Issue 269: The max value of a field type DATE must be upper OR EQUAL than min value.
+Issue 271: User should not be able to delete any attachment (including his owns) without "permission to remove files".
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 242: Export of project or template generates PHP errors when no group is involved in the export.
-Issue 262: List items not staying when entered
+Issue 265: Record State Change does not show the Fields
+Issue 266: Scrolling is absent when modify text boxes in Chrome.
+Issue 267: Selection in text boxes does not work in Chrome.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

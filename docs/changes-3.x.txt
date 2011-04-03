@@ -2,6 +2,20 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-5-5 (2011-04-03)
+
+    Issue 268: AJAX form should be disabled while its submission is being processed.
+    Issue 269: The max value of a field type DATE must be upper OR EQUAL than min value.
+    Issue 271: User should not be able to delete any attachment (including his owns) without "permission to remove files".
+
+Bug fixes integrated in MAIN_3-5-5 (2011-04-03)
+
+    Issue 265: Record State Change does not show the Fields
+    Issue 266: Scrolling is absent when modify text boxes in Chrome.
+    Issue 267: Selection in text boxes does not work in Chrome.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-5-4 (2011-03-27)
 
     Issue 257: Clear Search Field after Search Results are displayed
