@@ -309,7 +309,7 @@ function field_validate_number ($field_name, $min_value, $max_value, $def_value 
     }
 
     // Check that minimum value is less than maximum one.
-    if ($min_value >= $max_value)
+    if ($min_value > $max_value)
     {
         debug_write_log(DEBUG_NOTICE, '[field_validate_number] Minimum value is greater then maximum one.');
         return ERROR_MIN_MAX_VALUES;
@@ -376,7 +376,7 @@ function field_validate_float ($field_name, $min_value, $max_value, $def_value =
     }
 
     // Check that minimum value is less than maximum one.
-    if (bccomp($min_value, $max_value) >= 0)
+    if (bccomp($min_value, $max_value) > 0)
     {
         debug_write_log(DEBUG_NOTICE, '[field_validate_float] Minimum value is greater then maximum one.');
         return ERROR_MIN_MAX_VALUES;
@@ -531,7 +531,7 @@ function field_validate_date ($field_name, $min_value, $max_value, $def_value = 
     }
 
     // Check that minimum value is less than maximum one.
-    if ($min_value >= $max_value)
+    if ($min_value > $max_value)
     {
         debug_write_log(DEBUG_NOTICE, '[field_validate_date] Minimum value is greater then maximum one.');
         return ERROR_MIN_MAX_VALUES;
@@ -603,7 +603,7 @@ function field_validate_duration ($field_name, $min_value, $max_value, $def_valu
         return ERROR_TIME_VALUE_OUT_OF_RANGE;
     }
 
-    if ($min_duration >= $max_duration)
+    if ($min_duration > $max_duration)
     {
         debug_write_log(DEBUG_NOTICE, '[field_validate_duration] Minimum value is greater then maximum one.');
         return ERROR_MIN_MAX_VALUES;
