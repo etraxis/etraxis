@@ -1068,7 +1068,7 @@
     </xsl:if>
     <xsl:if test="boolean(@resizeable = 'true')">
         <xsl:attribute name="style">
-        <xsl:text>overflow-y:hidden</xsl:text>
+        <xsl:text>overflow-y:hidden; resize:none;</xsl:text>
         </xsl:attribute>
     </xsl:if>
     <xsl:attribute name="onchange">
