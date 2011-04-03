@@ -1089,25 +1089,7 @@
         <xsl:value-of select="@rows"/>
         <xsl:text>)</xsl:text>
     </xsl:attribute>
-    <xsl:attribute name="onkeydown">
-        <xsl:text>onTextBox('</xsl:text>
-        <xsl:value-of select="../@name"/>
-        <xsl:text>',</xsl:text>
-        <xsl:value-of select="@maxlen"/>
-        <xsl:text>,</xsl:text>
-        <xsl:choose>
-            <xsl:when test="boolean(@resizeable)">
-                <xsl:value-of select="@resizeable"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:text>false</xsl:text>
-            </xsl:otherwise>
-        </xsl:choose>
-        <xsl:text>,</xsl:text>
-        <xsl:value-of select="@rows"/>
-        <xsl:text>)</xsl:text>
-    </xsl:attribute>
-    <xsl:attribute name="onkeyup">
+    <xsl:attribute name="onkeypress">
         <xsl:text>onTextBox('</xsl:text>
         <xsl:value-of select="../@name"/>
         <xsl:text>',</xsl:text>
