@@ -2012,8 +2012,7 @@ function attachment_remove ($id, $permissions, $attachment_id)
         return ERROR_NOT_FOUND;
     }
 
-    if (($attachment['originator_id'] != $_SESSION[VAR_USERID]) &&
-        (($permissions & PERMIT_REMOVE_FILES) == 0))
+    if (($permissions & PERMIT_REMOVE_FILES) == 0)
     {
         debug_write_log(DEBUG_NOTICE, '[attachment_remove] No permissions to remove this attachment.');
         return ERROR_NOT_FOUND;
