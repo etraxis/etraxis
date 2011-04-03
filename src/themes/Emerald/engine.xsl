@@ -403,10 +403,12 @@
             <input type="checkbox" class="check" value="">
             <xsl:attribute name="onclick">
             <xsl:for-each select="../../row">
-                <xsl:value-of select="@name"/>
-                <xsl:text>.checked=this.checked;</xsl:text>
-                <xsl:value-of select="@name"/>
-                <xsl:text>.onclick();</xsl:text>
+                <xsl:if test="not(boolean(@disabled))">
+                    <xsl:value-of select="@name"/>
+                    <xsl:text>.checked=this.checked;</xsl:text>
+                    <xsl:value-of select="@name"/>
+                    <xsl:text>.onclick();</xsl:text>
+                </xsl:if>
             </xsl:for-each>
             </xsl:attribute>
             </input>
