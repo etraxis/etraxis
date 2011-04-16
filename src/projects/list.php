@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -60,7 +60,10 @@ $from = $to = 0;
 
 // generate buttons
 
-$xml .= '<button action="projectCreate()">' . get_html_resource(RES_CREATE_ID) . '</button>';
+if (get_user_level() == USER_LEVEL_ADMIN)
+{
+    $xml .= '<button action="projectCreate()">' . get_html_resource(RES_CREATE_ID) . '</button>';
+}
 
 // generate list of projects
 
