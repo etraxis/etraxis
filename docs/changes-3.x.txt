@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-5-6 (2011-04-16)
+
+    Issue 272: Template removal causes PHP warnings.
+    Issue 273: Project removal causes PHP warnings.
+    Issue 274: Used fields cannot be removed.
+    Issue 276: PHP Notice: Undefined index: HTTP_ACCEPT_ENCODING
+    sup-008: Problem regarding new Project
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-5-5 (2011-04-03)
 
     Issue 268: AJAX form should be disabled while its submission is being processed.

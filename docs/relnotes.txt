@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-5
-Release date: 2011-04-03
-Release size: 47087
+Release tag:  MAIN_3-5-6
+Release date: 2011-04-16
+Release size: 47160
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,12 +30,28 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/fields.php
-[M] src/dbo/records.php
+[M] src/dbo/projects.php
+[M] src/dbo/templates.php
 [M] src/engine/xml.php
-[M] src/records/attachments.php
-[M] src/records/state.php
-[M] src/themes/Emerald/engine.xsl
+[M] src/projects/field.php
+[M] src/projects/list.php
+[M] src/scripts/get.php
+[A] src/sql/filters/fa2delallp.sql
+[A] src/sql/filters/ffdelallf.sql
+[A] src/sql/filters/ffdelallp.sql
+[A] src/sql/filters/fsdelallp.sql
+[A] src/sql/filters/fsdelalls.sql
+[A] src/sql/filters/fshdelallg.sql
+[A] src/sql/filters/fshdelallp.sql
+[A] src/sql/filters/ftdelallp.sql
+[A] src/sql/filters/ftdelalls.sql
+[A] src/sql/filters/vdelallp.sql
+[A] src/sql/projects/rdelallg.sql
+[A] src/sql/projects/rdelalls.sql
+[A] src/sql/projects/sadelallg.sql
+[A] src/sql/projects/sadelalls.sql
+[M] src/sql/templates/sadelall.sql
+[M] src/themes/css.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -144,16 +160,16 @@ Issue 247: LDAP Logins time out or take a long time when user has multiple filte
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 268: AJAX form should be disabled while its submission is being processed.
-Issue 269: The max value of a field type DATE must be upper OR EQUAL than min value.
-Issue 271: User should not be able to delete any attachment (including his owns) without "permission to remove files".
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 265: Record State Change does not show the Fields
-Issue 266: Scrolling is absent when modify text boxes in Chrome.
-Issue 267: Selection in text boxes does not work in Chrome.
+Issue 272: Template removal causes PHP warnings.
+Issue 273: Project removal causes PHP warnings.
+Issue 274: Used fields cannot be removed.
+Issue 276: PHP Notice: Undefined index: HTTP_ACCEPT_ENCODING
+sup-008: While being on an account who has no rights to create a new project, I still can click/see the button.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
