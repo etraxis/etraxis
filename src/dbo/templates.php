@@ -374,6 +374,7 @@ function template_delete ($id)
     dal_query('templates/fdelall.sql',  $id);
     dal_query('templates/gtdelall.sql', $id);
     dal_query('templates/rtdelall.sql', $id);
+    dal_query('templates/sadelall.sql', $id);
     dal_query('templates/sdelall.sql',  $id);
     dal_query('templates/gpdelall.sql', $id);
     dal_query('templates/delete.sql',   $id);
