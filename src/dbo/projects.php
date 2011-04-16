@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -254,20 +254,34 @@ function project_delete ($id)
 
     dal_query('subscriptions/sdelallp.sql', $id);
 
-    dal_query('filters/fadelallp.sql', $id);
-    dal_query('filters/fdelallp.sql',  $id);
+    dal_query('filters/fshdelallg.sql', $id);
+    dal_query('filters/fshdelallp.sql', $id);
+    dal_query('filters/fa2delallp.sql', $id);
+    dal_query('filters/fadelallp.sql',  $id);
+    dal_query('filters/fsdelalls.sql',  $id);
+    dal_query('filters/fsdelallp.sql',  $id);
+    dal_query('filters/ftdelalls.sql',  $id);
+    dal_query('filters/ftdelallp.sql',  $id);
+    dal_query('filters/ffdelallf.sql',  $id);
+    dal_query('filters/ffdelallp.sql',  $id);
+    dal_query('filters/vdelallp.sql',   $id);
+    dal_query('filters/fdelallp.sql',   $id);
 
-    dal_query('projects/lvdelall.sql', $id);
-    dal_query('projects/fpdelall.sql', $id);
-    dal_query('projects/fdelall.sql',  $id);
-    dal_query('projects/gpdelall.sql', $id);
-    dal_query('projects/gtdelall.sql', $id);
-    dal_query('projects/rtdelall.sql', $id);
-    dal_query('projects/sdelall.sql',  $id);
-    dal_query('projects/tdelall.sql',  $id);
-    dal_query('projects/msdelall.sql', $id);
-    dal_query('projects/gdelall.sql',  $id);
-    dal_query('projects/delete.sql',   $id);
+    dal_query('projects/lvdelall.sql',  $id);
+    dal_query('projects/fpdelall.sql',  $id);
+    dal_query('projects/fdelall.sql',   $id);
+    dal_query('projects/gpdelall.sql',  $id);
+    dal_query('projects/gtdelall.sql',  $id);
+    dal_query('projects/rtdelall.sql',  $id);
+    dal_query('projects/rdelalls.sql',  $id);
+    dal_query('projects/rdelallg.sql',  $id);
+    dal_query('projects/sadelalls.sql', $id);
+    dal_query('projects/sadelallg.sql', $id);
+    dal_query('projects/sdelall.sql',   $id);
+    dal_query('projects/tdelall.sql',   $id);
+    dal_query('projects/msdelall.sql',  $id);
+    dal_query('projects/gdelall.sql',   $id);
+    dal_query('projects/delete.sql',    $id);
 
     return NO_ERROR;
 }
