@@ -83,7 +83,7 @@ $xml .= ($field['is_locked']
       . get_html_resource(RES_MODIFY_ID)
       . '</button>';
 
-$xml .= ($field['is_locked'] && is_field_removable($id)
+$xml .= ($field['is_locked']
             ? '<button url="fdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_FIELD_ID) . '">'
             : '<button disabled="false">')
       . get_html_resource(RES_DELETE_ID)
