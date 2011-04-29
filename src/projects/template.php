@@ -89,7 +89,7 @@ $xml .= '<button url="view.php?id=' . $template['project_id'] . '&amp;tab=3">' .
       . '<buttonset>'
       . '<button action="templateModify()">' . get_html_resource(RES_MODIFY_ID) . '</button>'
       . '<button action="templateClone()">'  . get_html_resource(RES_CLONE_ID)  . '</button>'
-      . (is_template_removable($id)
+      . (is_template_removable($id) && $template['is_locked']
             ? '<button url="tdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_TEMPLATE_ID) . '">'
             : '<button disabled="false">')
       . get_html_resource(RES_DELETE_ID)
