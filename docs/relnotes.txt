@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-6
-Release date: 2011-04-16
-Release size: 47160
+Release tag:  MAIN_3-5-7
+Release date: 2011-05-05
+Release size: 47196
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,28 +30,57 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/projects.php
-[M] src/dbo/templates.php
+[M] src/accounts/create.php
+[M] src/accounts/modify.php
+[M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/projects/field.php
-[M] src/projects/list.php
-[M] src/scripts/get.php
-[A] src/sql/filters/fa2delallp.sql
-[A] src/sql/filters/ffdelallf.sql
-[A] src/sql/filters/ffdelallp.sql
-[A] src/sql/filters/fsdelallp.sql
-[A] src/sql/filters/fsdelalls.sql
-[A] src/sql/filters/fshdelallg.sql
-[A] src/sql/filters/fshdelallp.sql
-[A] src/sql/filters/ftdelallp.sql
-[A] src/sql/filters/ftdelalls.sql
-[A] src/sql/filters/vdelallp.sql
-[A] src/sql/projects/rdelallg.sql
-[A] src/sql/projects/rdelalls.sql
-[A] src/sql/projects/sadelallg.sql
-[A] src/sql/projects/sadelalls.sql
-[M] src/sql/templates/sadelall.sql
-[M] src/themes/css.php
+[M] src/filters/create.php
+[M] src/filters/modify.php
+[M] src/groups/create.php
+[M] src/groups/modify.php
+[M] src/logon/index.php
+[M] src/logon/login.php
+[M] src/logon/logout.php
+[M] src/projects/create.php
+[M] src/projects/fcreate.php
+[M] src/projects/fmodify.php
+[M] src/projects/gcreate.php
+[M] src/projects/gmodify.php
+[M] src/projects/modify.php
+[M] src/projects/screate.php
+[M] src/projects/smodify.php
+[M] src/projects/tclone.php
+[M] src/projects/tcreate.php
+[M] src/projects/template.php
+[M] src/projects/tmodify.php
+[M] src/records/attachments.php
+[M] src/records/create.php
+[M] src/records/modify.php
+[M] src/records/postpone.php
+[M] src/records/state.php
+[M] src/records/subscribe.php
+[M] src/reminders/create.php
+[M] src/reminders/modify.php
+[M] src/scripts/etraxis.js
+[M] src/settings/password.php
+[M] src/sql/reminders/oracle/pfndid.sql
+[M] src/sql/reminders/oracle/plist.sql
+[M] src/sql/reminders/oracle/tfndid.sql
+[M] src/sql/reminders/oracle/tlist.sql
+[M] src/sql/reminders/pfndid.sql
+[M] src/sql/reminders/plist.sql
+[M] src/sql/reminders/tfndid.sql
+[M] src/sql/reminders/tlist.sql
+[M] src/subscriptions/create.php
+[M] src/subscriptions/modify.php
+[M] src/themes/Azure/css/etraxis.css
+[M] src/themes/Emerald/css/etraxis.css
+[M] src/themes/Emerald/engine.xsl
+[M] src/themes/Mars/css/etraxis.css
+[M] src/themes/Orchid/css/etraxis.css
+[M] src/views/columns.php
+[M] src/views/create.php
+[M] src/views/modify.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -146,6 +175,7 @@ Issue 248: Ability to filter out all records, which were closed last X days only
 Issue 250: New column "date of last state change"
 Issue 256: Possible Metrics Replacement
 Issue 264: Link on the ID
+Issue 285: Display timestamps using user's local time zone.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -166,10 +196,11 @@ None.
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 272: Template removal causes PHP warnings.
-Issue 273: Project removal causes PHP warnings.
-Issue 274: Used fields cannot be removed.
-Issue 276: PHP Notice: Undefined index: HTTP_ACCEPT_ENCODING
-sup-008: While being on an account who has no rights to create a new project, I still can click/see the button.
+Issue 279: Troubles with non english encoding of alert windows text in IE
+Issue 280: Counters for tabs are not updated
+Issue 281: Subscribed section of Subscribe Other screen does not update view
+Issue 282: Links to records (rec#) are not highlighted.
+Issue 283: PHP Warning: insert or update on table "tbl_reminders" violates foreign key constraint "fk_reminders_state_id"
+Issue 284: PHP Notice: Permission denied in /logon/login.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

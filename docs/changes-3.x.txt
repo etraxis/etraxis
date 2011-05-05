@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-5-7 (2011-05-05)
+
+    Issue 279: Troubles with non english encoding of alert windows text in IE
+    Issue 280: Counters for tabs are not updated
+    Issue 281: Subscribed section of Subscribe Other screen does not update view
+    Issue 282: Links to records (rec#) are not highlighted.
+    Issue 283: PHP Warning: insert or update on table "tbl_reminders" violates foreign key constraint "fk_reminders_state_id"
+    Issue 284: PHP Notice: Permission denied in /logon/login.php
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-5-6 (2011-04-16)
 
     Issue 272: Template removal causes PHP warnings.
