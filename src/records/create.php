@@ -294,47 +294,47 @@ elseif (try_request('submitted') == 'mainform')
             break;
 
         case ERROR_INCOMPLETE_FORM:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_INVALID_INTEGER_VALUE:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            send_http_error(get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
         case ERROR_INVALID_FLOAT_VALUE:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
+            send_http_error(get_html_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
             break;
 
         case ERROR_INVALID_DATE_VALUE:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            send_http_error(get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
             break;
 
         case ERROR_INVALID_TIME_VALUE:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            send_http_error(get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
         case ERROR_FLOAT_VALUE_OUT_OF_RANGE:
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
+            send_http_error(ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), $_SESSION['FIELD_NAME'], $_SESSION['MIN_FIELD_INTEGER'], $_SESSION['MAX_FIELD_INTEGER']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['MIN_FIELD_INTEGER']);
             unset($_SESSION['MAX_FIELD_INTEGER']);
             break;
 
         case ERROR_RECORD_NOT_FOUND:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
+            send_http_error(get_html_resource(RES_ALERT_RECORD_NOT_FOUND_ID));
             break;
 
         case ERROR_VALUE_FAILS_REGEX_CHECK:
-            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
+            send_http_error(ustrprocess(get_html_resource(RES_ALERT_VALUE_FAILS_REGEX_CHECK_ID), $_SESSION['FIELD_NAME'], $_SESSION['FIELD_VALUE']));
             unset($_SESSION['FIELD_NAME']);
             unset($_SESSION['FIELD_VALUE']);
             break;
 
         default:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
     exit;
@@ -365,7 +365,7 @@ function createSuccess (data)
 
 function createError (XMLHttpRequest)
 {
-    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 </script>

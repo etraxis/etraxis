@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2006-2009  Artem Rodygin
+//  Copyright (C) 2006-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -56,15 +56,15 @@ if (try_request('submitted') == 'createform')
             break;
 
         case ERROR_INCOMPLETE_FORM:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_ALREADY_EXISTS:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_VIEW_ALREADY_EXISTS_ID));
+            send_http_error(get_html_resource(RES_ALERT_VIEW_ALREADY_EXISTS_ID));
             break;
 
         default:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
     exit;
@@ -93,7 +93,7 @@ function createSuccess ()
 
 function createError (XMLHttpRequest)
 {
-    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 </script>

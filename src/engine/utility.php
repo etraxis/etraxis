@@ -611,6 +611,17 @@ function get_http_auth_realm ()
 }
 
 /**
+ * Sends specified message with HTTP Error 500 header.
+ *
+ * @param string $msg
+ */
+function send_http_error ($msg)
+{
+    header('HTTP/1.0 500 Internal Server Error');
+    echo($msg);
+}
+
+/**
  * Gzips specified file, keeping same name.
  *
  * @param string $srcName Name of the input file.
