@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -102,6 +102,8 @@ elseif (try_request('submitted') == 'attachlist')
         debug_write_log(DEBUG_NOTICE, 'Files cannot be removed.');
     }
 
+    $rs = dal_query('attachs/list.sql', $record['record_id'], 'attachment_id');
+    echo(sprintf('%s (%u)', get_html_resource(RES_ATTACHMENTS_ID), $rs->rows));
     exit;
 }
 
@@ -109,6 +111,21 @@ else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 }
+
+// local JS functions
+
+$xml = <<<JQUERY
+<script>
+
+function removeAttachmentsSuccess (data)
+{
+    var index = $("#tabs").tabs("option", "selected") + 1;
+    $("[href=#ui-tabs-" + index + "]").html(data);
+    reloadTab();
+}
+
+</script>
+JQUERY;
 
 // mark the record as read
 
@@ -218,7 +235,7 @@ else
 
     $bookmarks = gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'attachments.php?id=' . $id . '&amp;');
 
-    $xml .= '<form name="attachlist" action="attachments.php?id=' . $id . '" success="reloadTab">'
+    $xml .= '<form name="attachlist" action="attachments.php?id=' . $id . '" success="removeAttachmentsSuccess">'
           . '<list>'
           . '<hrow>'
           . '<hcell checkboxes="true"/>';

@@ -616,10 +616,10 @@
                     $.ajax({
                         type: "POST",
                         url: "<xsl:value-of disable-output-escaping="yes" select="@action"/>",
-                        success: function () {
+                        success: function (data) {
                             $("#waiting").dialog("destroy");
                             <xsl:if test="boolean(@success)">
-                            <xsl:value-of select="@success"/>();
+                            <xsl:value-of select="@success"/>(data);
                             </xsl:if>
                         },
                         error: function (XMLHttpRequest) {
