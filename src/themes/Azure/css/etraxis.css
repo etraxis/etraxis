@@ -16,7 +16,8 @@ body {
   padding: 0px;
 }
 
-a {
+a,
+td.text a {
   color: #00638F;
   text-decoration: none;
 }
