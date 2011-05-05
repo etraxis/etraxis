@@ -31,7 +31,7 @@
 require_once('../engine/engine.php');
 /**#@-*/
 
-session_start();
+@session_start();
 
 clear_cookie(COOKIE_AUTH_USERID);
 clear_cookie(COOKIE_AUTH_TOKEN);

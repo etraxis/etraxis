@@ -32,7 +32,7 @@ require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
-session_start();
+@session_start();
 
 if (get_user_level() != USER_LEVEL_GUEST)
 {
