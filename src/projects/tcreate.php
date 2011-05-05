@@ -92,23 +92,23 @@ if (try_request('submitted') == 'createform')
             break;
 
         case ERROR_INCOMPLETE_FORM:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_ALREADY_EXISTS:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID));
+            send_http_error(get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID));
             break;
 
         case ERROR_INVALID_INTEGER_VALUE:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            send_http_error(get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT));
+            send_http_error(ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT));
             break;
 
         default:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
     exit;
@@ -141,7 +141,7 @@ function createSuccess ()
 
 function createError (XMLHttpRequest)
 {
-    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 </script>

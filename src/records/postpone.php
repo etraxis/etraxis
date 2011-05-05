@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ if (try_request('submitted') == 'postponeform')
     if (ustrlen($value) == 0)
     {
         debug_write_log(DEBUG_NOTICE, 'Date value is not specified.');
-        header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+        send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
     }
     else
     {
@@ -84,12 +84,12 @@ if (try_request('submitted') == 'postponeform')
         if ($duedate == -1)
         {
             debug_write_log(DEBUG_NOTICE, 'Invalid date value.');
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            send_http_error(get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
         }
         elseif ($duedate < ($today + SECS_IN_DAY))
         {
             debug_write_log(DEBUG_NOTICE, 'Date value is out of range.');
-            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)));
+            send_http_error(ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), get_date($today + SECS_IN_DAY), get_date(MAXINT)));
         }
         else
         {
@@ -132,7 +132,7 @@ function postponeSuccess ()
 
 function postponeError (XMLHttpRequest)
 {
-    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 </script>

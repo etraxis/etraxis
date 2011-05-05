@@ -65,19 +65,19 @@ if (try_request('submitted') == 'passwordform')
             break;
 
         case ERROR_INCOMPLETE_FORM:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_PASSWORDS_DO_NOT_MATCH:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID));
+            send_http_error(get_html_resource(RES_ALERT_PASSWORDS_DO_NOT_MATCH_ID));
             break;
 
         case ERROR_PASSWORD_TOO_SHORT:
-            header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH));
+            send_http_error(ustrprocess(get_html_resource(RES_ALERT_PASSWORD_TOO_SHORT_ID), MIN_PASSWORD_LENGTH));
             break;
 
         default:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
     exit;
@@ -112,7 +112,7 @@ function passwordSuccess ()
 
 function passwordError (XMLHttpRequest)
 {
-    jqAlert("{$resError}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resError}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 </script>

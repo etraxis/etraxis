@@ -466,19 +466,19 @@ elseif (isset($_REQUEST['submitted']))
             break;
 
         case ERROR_INCOMPLETE_FORM:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+            send_http_error(get_js_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
             break;
 
         case ERROR_ALREADY_EXISTS:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID));
+            send_http_error(get_js_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID));
             break;
 
         case ERROR_INVALID_INTEGER_VALUE:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
+            send_http_error(get_js_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID));
             break;
 
         case ERROR_INVALID_FLOAT_VALUE:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
+            send_http_error(get_js_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID));
             break;
 
         case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
@@ -486,53 +486,53 @@ elseif (isset($_REQUEST['submitted']))
 
             if (try_request('submitted') == 'numberform')
             {
-                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER));
+                send_http_error(ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER));
             }
             elseif (try_request('submitted') == 'floatform')
             {
-                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT));
+                send_http_error(ustrprocess(get_js_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT));
             }
             elseif (try_request('submitted') == 'stringform')
             {
-                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING));
+                send_http_error(ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING));
             }
             elseif (try_request('submitted') == 'multilinedform')
             {
-                header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED));
+                send_http_error(ustrprocess(get_js_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED));
             }
             else
             {
-                header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+                send_http_error(get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
             }
 
             break;
 
         case ERROR_MIN_MAX_VALUES:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_MIN_MAX_VALUES_ID));
+            send_http_error(get_js_resource(RES_ALERT_MIN_MAX_VALUES_ID));
             break;
 
         case ERROR_INVALID_DATE_VALUE:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
+            send_http_error(get_js_resource(RES_ALERT_INVALID_DATE_VALUE_ID));
             break;
 
         case ERROR_DATE_VALUE_OUT_OF_RANGE:
-            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE));
+            send_http_error(ustrprocess(get_js_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE));
             break;
 
         case ERROR_INVALID_TIME_VALUE:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
+            send_http_error(get_js_resource(RES_ALERT_INVALID_TIME_VALUE_ID));
             break;
 
         case ERROR_TIME_VALUE_OUT_OF_RANGE:
-            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)));
+            send_http_error(ustrprocess(get_js_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION)));
             break;
 
         case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
-            header('HTTP/1.0 500 ' . ustrprocess(get_js_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $min_value, $max_value));
+            send_http_error(ustrprocess(get_js_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $min_value, $max_value));
             break;
 
         default:
-            header('HTTP/1.0 500 ' . get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            send_http_error(get_js_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 
     exit;
@@ -565,7 +565,7 @@ function createSuccess ()
 
 function createError (XMLHttpRequest)
 {
-    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 </script>

@@ -67,11 +67,11 @@ if (try_request('submitted') == 'cdisabledform')
                 break;
 
             case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-                header('HTTP/1.0 500 ' . ustrprocess(get_html_resource(RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS), MAX_VIEW_SIZE));
+                send_http_error(ustrprocess(get_html_resource(RES_ALERT_VIEW_CANNOT_HAVE_MORE_COLUMNS), MAX_VIEW_SIZE));
                 break;
 
             default:
-                header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+                send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
         }
     }
     else
@@ -134,7 +134,7 @@ $xml = <<<JQUERY
 
 function onError (XMLHttpRequest)
 {
-    jqAlert("{$resTitle}", XMLHttpRequest.statusText, "{$resOK}");
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
 function moveUp ()

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -58,7 +58,7 @@ if ($pos !== FALSE)
 if (ustrlen($username) == 0)
 {
     debug_write_log(DEBUG_NOTICE, 'Empty form is submitted.');
-    header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+    send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
 }
 else
 {
@@ -71,19 +71,19 @@ else
             break;
 
         case ERROR_UNKNOWN_USERNAME:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_USERNAME_ID));
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_USERNAME_ID));
             break;
 
         case ERROR_ACCOUNT_DISABLED:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_ACCOUNT_DISABLED_ID));
+            send_http_error(get_html_resource(RES_ALERT_ACCOUNT_DISABLED_ID));
             break;
 
         case ERROR_ACCOUNT_LOCKED:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_ACCOUNT_LOCKED_ID));
+            send_http_error(get_html_resource(RES_ALERT_ACCOUNT_LOCKED_ID));
             break;
 
         default:
-            header('HTTP/1.0 500 ' . get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
 }
 
