@@ -22,12 +22,12 @@ td.text a {
   text-decoration: none;
 }
 
-a.pass {
+td.text a.pass {
   color: #00638F;
   font-weight: bold;
 }
 
-a.fail {
+td.text a.fail {
   color: #C65066;
   font-weight: bold;
 }
