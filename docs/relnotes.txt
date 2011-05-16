@@ -21,7 +21,7 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 THIRD PARTY LIBRARIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-jQuery:             1.4.4   http://jquery.com/
+jQuery:             1.6.1   http://jquery.com/
 jQuery UI:          1.8.8   http://jqueryui.com/
 jqPlot:             0.9.7   http://www.jqplot.com/
 TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
