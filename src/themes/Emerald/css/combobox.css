@@ -1,2 +1,3 @@
 .ui-combobox { margin: 0 7px 0 0; }
-.ui-combobox input.ui-button { padding: .4em; width: 250px; }
+.ui-combobox .ui-autocomplete-input { padding: .4em .4em .5em .4em; width: 20em; }
+.ui-combobox .ui-button { margin: 0 !important; }
