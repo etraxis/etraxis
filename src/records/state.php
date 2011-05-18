@@ -489,7 +489,7 @@ else
 
         if (strlen($row['description']) != 0)
         {
-            $xml .= '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+            $xml .= '<description>'
                   . update_references($row['description'], BBCODE_ALL)
                   . '</description>';
         }

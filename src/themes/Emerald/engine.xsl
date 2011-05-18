@@ -742,11 +742,6 @@
     <xsl:value-of select="../@name"></xsl:value-of>
     <xsl:text>description</xsl:text>
     </xsl:attribute>
-    <xsl:if test="@headline">
-        <div class="fielddescriptionhl">
-        <xsl:value-of select="@headline"></xsl:value-of>
-        </div>
-    </xsl:if>
     <div class="fielddescriptionct">
     <xsl:apply-templates/>
     </div>

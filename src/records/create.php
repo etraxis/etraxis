@@ -466,7 +466,7 @@ else
               . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '" description="true">'
               . '<label>' . get_html_resource(RES_SUBJECT_ID) . '</label>'
               . '<editbox maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
-              . '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+              . '<description>'
               . get_html_resource(RES_ALERT_SPECIFY_SHORT_DESCRIPTION_ID)
               . '</description>'
               . '</control>';
@@ -719,7 +719,7 @@ if ($step == 3)
 
             if (ustrlen($row['description']) != 0)
             {
-                $xml .= '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+                $xml .= '<description>'
                       . update_references($row['description'], BBCODE_ALL)
                       . '</description>';
             }

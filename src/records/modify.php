@@ -170,7 +170,7 @@ $xml .= '<form name="modifyform" action="modify.php?id=' . $id . '" success="mod
       . '<control name="subject" required="' . get_html_resource(RES_REQUIRED3_ID) . '" description="true">'
       . '<label>' . get_html_resource(RES_SUBJECT_ID) . '</label>'
       . '<editbox maxlen="' . MAX_RECORD_SUBJECT . '">' . ustr2html($subject) . '</editbox>'
-      . '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+      . '<description>'
       . get_html_resource(RES_ALERT_SPECIFY_SHORT_DESCRIPTION_ID)
       . '</description>'
       . '</control>'
@@ -365,7 +365,7 @@ while (($state = $states->fetch()))
 
             if (ustrlen($field['description']) != 0)
             {
-                $xml .= '<description headline="' . get_html_resource(RES_DESCRIPTION_ID) . '">'
+                $xml .= '<description>'
                       . update_references($field['description'], BBCODE_ALL)
                       . '</description>';
             }

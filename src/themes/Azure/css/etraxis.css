@@ -569,26 +569,9 @@ select.dropdown {
 
 div.fielddescription {
   border: 1px solid #5D8DB3;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  -moz-border-radius: 3px 3px 0px 0px;
-  -webkit-border-top-left-radius: 3px;
-  -webkit-border-top-right-radius: 3px;
   display: block;
   margin: 5px;
   width: 350px;
-}
-
-div.fielddescriptionhl {
-  background: #669EC8 url('Azure/images/ui-bg_gloss-wave_25_669ec8_500x100.png') 50% 50% repeat-x;
-  color: #e0e0e0;
-  font-weight: normal;
-  height: 23px;
-  line-height: 23px;
-  margin: 0px;
-  padding: 2px 2px 0px 2px;
-  text-align: center;
-  text-transform: uppercase;
 }
 
 div.fielddescriptionct {
