@@ -207,7 +207,8 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
                  . '<css>../themes/css.php?name=jquery.jqplot.css</css>'
                  . '<css>../themes/css.php?name=etraxis.css</css>'
                  . '<css>../themes/css.php?name=list.css</css>'
-                 . '<css>../themes/css.php?name=combobox.css</css>';
+                 . '<css>../themes/css.php?name=combobox.css</css>'
+                 . '<css>../themes/css.php?name=buttons.css</css>';
 
         // generate main menu
 
