@@ -1,0 +1,3 @@
+.ui-state-default .ui-icon {background-image: url(Azure/images/ui-icons_404040_256x240.png); }
+.ui-combobox .ui-button-icon-only, .ui-dialog-buttonpane .ui-button, .ui-widget-content .button { border: 1px solid #d3d3d3; background: #e6e6e6 url(Azure/images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #555555; }
+.ui-widget-content button.ui-state-hover, .ui-widget-content input.ui-state-hover { border: 1px solid #999999; background: #dadada url(Azure/images/ui-bg_glass_75_dadada_1x400.png) 50% 50% repeat-x; font-weight: normal; color: #212121; }
