@@ -180,6 +180,7 @@ $xml .= <<<jqPlot
         },
 
         cursor: {
+            show: true,
             showVerticalLine: true,
             showHorizontalLine: false,
             showCursorLegend: false,
@@ -187,7 +188,10 @@ $xml .= <<<jqPlot
             zoom: false
         },
 
-        highlighter: {sizeAdjust:1},
+        highlighter: {
+            show: true,
+            sizeAdjust: 1
+        },
 
         series: [
             {label:'{$titleOpened}',  showMarker:false},
