@@ -36,8 +36,8 @@
 /**#@+
  * See {@link http://code.google.com/p/etraxis/wiki/Installation#Step_4._Configure_eTraxis online documentation} for details.
  */
-define('LOCALROOT', '/home/artem/Workspace/etraxis/sandbox/trunk/src/');
-define('WEBROOT',   'http://localhost/etraxis/sandbox/trunk/src/');
+define('LOCALROOT', '/usr/local/apache/htdocs/etraxis/');
+define('WEBROOT',   'http://www.example.com/etraxis/');
 /**#@-*/
 
 #-------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ define('DATABASE_PASSWORD', '');
 define('MIN_PASSWORD_LENGTH', 6);
 define('LOCKS_COUNT',         3);
 define('LOCKS_TIMEOUT',       30);
-define('PASSWORD_EXPIRATION', 0);
+define('PASSWORD_EXPIRATION', 90);
 define('SESSION_EXPIRE',      120);
 /**#@-*/
 
@@ -100,7 +100,7 @@ define('THEME_DEFAULT', 'Emerald');
 define('ATTACHMENTS_ENABLED',    1);
 define('ATTACHMENTS_MAXSIZE',    2048);
 define('ATTACHMENTS_COMPRESSED', 1);
-define('ATTACHMENTS_PATH',       '/var/tmp/');
+define('ATTACHMENTS_PATH',       '/usr/local/etraxis/bins/');
 /**#@-*/
 
 #-------------------------------------------------------------------------------
@@ -110,7 +110,7 @@ define('ATTACHMENTS_PATH',       '/var/tmp/');
 /**#@+
  * See {@link http://code.google.com/p/etraxis/wiki/EmailNotifications online documentation} for details.
  */
-define('EMAIL_NOTIFICATIONS_ENABLED', 0);
+define('EMAIL_NOTIFICATIONS_ENABLED', 1);
 define('EMAIL_ATTACHMENTS_MAXSIZE',   0);
 /**#@-*/
 
@@ -172,8 +172,8 @@ define('MAINTENANCE_FINISH_TIME', '00:00');
 /**#@+
  * See {@link http://code.google.com/p/etraxis/wiki/DebugLogging online documentation} for details.
  */
-define('DEBUG_MODE', 2);
-define('DEBUG_LOGS', '/var/tmp/');
+define('DEBUG_MODE', 0);
+define('DEBUG_LOGS', '/usr/local/etraxis/logs/');
 /**#@-*/
 
 #-------------------------------------------------------------------------------

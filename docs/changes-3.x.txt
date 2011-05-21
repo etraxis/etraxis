@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-5-8 (2011-05-22)
+
+    Upgrade JQuery up to version 1.6.1.
+    Upgrade JQuery UI up to version 1.8.13.
+    Upgrade jqPlot up to version 1.0.0b1.
+
+Bug fixes integrated in MAIN_3-5-8 (2011-05-22)
+
+    Cosmetic changes.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-5-7 (2011-05-05)
 
     Issue 279: Troubles with non english encoding of alert windows text in IE

@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-5-7
-Release date: 2011-05-05
-Release size: 47196
+Release tag:  MAIN_3-5-8
+Release date: 2011-05-22
+Release size: 46959
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -22,65 +22,88 @@ THIRD PARTY LIBRARIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 jQuery:             1.6.1   http://jquery.com/
-jQuery UI:          1.8.12  http://jqueryui.com/
-jqPlot:             0.9.7   http://www.jqplot.com/
+jQuery UI:          1.8.13  http://jqueryui.com/
+jqPlot:             1.0.0b1 http://www.jqplot.com/
 TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/accounts/create.php
-[M] src/accounts/modify.php
-[M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/filters/create.php
-[M] src/filters/modify.php
-[M] src/groups/create.php
-[M] src/groups/modify.php
-[M] src/logon/index.php
-[M] src/logon/login.php
-[M] src/logon/logout.php
-[M] src/projects/create.php
-[M] src/projects/fcreate.php
-[M] src/projects/fmodify.php
-[M] src/projects/gcreate.php
-[M] src/projects/gmodify.php
-[M] src/projects/modify.php
-[M] src/projects/screate.php
-[M] src/projects/smodify.php
-[M] src/projects/tclone.php
-[M] src/projects/tcreate.php
-[M] src/projects/template.php
-[M] src/projects/tmodify.php
-[M] src/records/attachments.php
+[M] src/projects/metrics.php
 [M] src/records/create.php
 [M] src/records/modify.php
-[M] src/records/postpone.php
 [M] src/records/state.php
-[M] src/records/subscribe.php
-[M] src/reminders/create.php
-[M] src/reminders/modify.php
-[M] src/scripts/etraxis.js
-[M] src/settings/password.php
-[M] src/sql/reminders/oracle/pfndid.sql
-[M] src/sql/reminders/oracle/plist.sql
-[M] src/sql/reminders/oracle/tfndid.sql
-[M] src/sql/reminders/oracle/tlist.sql
-[M] src/sql/reminders/pfndid.sql
-[M] src/sql/reminders/plist.sql
-[M] src/sql/reminders/tfndid.sql
-[M] src/sql/reminders/tlist.sql
-[M] src/subscriptions/create.php
-[M] src/subscriptions/modify.php
+[M] src/scripts/excanvas.min.js
+[A] src/scripts/jqplot.BezierCurveRenderer.min.js
+[M] src/scripts/jqplot.barRenderer.min.js
+[A] src/scripts/jqplot.blockRenderer.min.js
+[A] src/scripts/jqplot.bubbleRenderer.min.js
+[M] src/scripts/jqplot.canvasAxisLabelRenderer.min.js
+[M] src/scripts/jqplot.canvasAxisTickRenderer.min.js
+[A] src/scripts/jqplot.canvasOverlay.min.js
+[M] src/scripts/jqplot.canvasTextRenderer.min.js
+[M] src/scripts/jqplot.categoryAxisRenderer.min.js
+[A] src/scripts/jqplot.ciParser.min.js
+[M] src/scripts/jqplot.cursor.min.js
+[M] src/scripts/jqplot.dateAxisRenderer.min.js
+[A] src/scripts/jqplot.donutRenderer.min.js
+[M] src/scripts/jqplot.dragable.min.js
+[A] src/scripts/jqplot.enhancedLegendRenderer.min.js
+[A] src/scripts/jqplot.funnelRenderer.min.js
+[M] src/scripts/jqplot.highlighter.min.js
+[A] src/scripts/jqplot.json2.min.js
+[M] src/scripts/jqplot.logAxisRenderer.min.js
+[M] src/scripts/jqplot.mekkoAxisRenderer.min.js
+[M] src/scripts/jqplot.mekkoRenderer.min.js
+[A] src/scripts/jqplot.meterGaugeRenderer.min.js
+[M] src/scripts/jqplot.ohlcRenderer.min.js
+[M] src/scripts/jqplot.pieRenderer.min.js
+[M] src/scripts/jqplot.pointLabels.min.js
+[M] src/scripts/jqplot.trendline.min.js
+[M] src/scripts/jquery-ui.js
+[M] src/scripts/jquery.jqplot.min.js
+[M] src/scripts/jquery.js
 [M] src/themes/Azure/css/etraxis.css
+[M] src/themes/Azure/css/jquery-ui.css
+[M] src/themes/Azure/images/note.png
+[M] src/themes/Azure/images/ui-bg_flat_100_f9f2c8_40x100.png
+[M] src/themes/Azure/images/ui-bg_gloss-wave_25_669ec8_500x100.png
+[M] src/themes/Azure/images/ui-bg_highlight-soft_25_84b7dd_1x100.png
+[M] src/themes/Azure/images/ui-bg_highlight-soft_60_d0d0d0_1x100.png
+[M] src/themes/Azure/images/ui-icons_e0e0e0_256x240.png
+[A] src/themes/Emerald/css/buttons.css
+[M] src/themes/Emerald/css/combobox.css
 [M] src/themes/Emerald/css/etraxis.css
+[M] src/themes/Emerald/css/jquery-ui.css
+[M] src/themes/Emerald/css/jquery.jqplot.css
 [M] src/themes/Emerald/engine.xsl
+[M] src/themes/Emerald/images/note.png
+[M] src/themes/Emerald/images/ui-bg_flat_100_ffd8d8_40x100.png
+[A] src/themes/Emerald/images/ui-bg_glass_75_dadada_1x400.png
+[A] src/themes/Emerald/images/ui-bg_glass_75_e6e6e6_1x400.png
+[M] src/themes/Emerald/images/ui-bg_gloss-wave_25_00605d_500x100.png
+[M] src/themes/Emerald/images/ui-bg_highlight-soft_25_77a69f_1x100.png
+[M] src/themes/Emerald/images/ui-icons_d0d0d0_256x240.png
 [M] src/themes/Mars/css/etraxis.css
+[M] src/themes/Mars/css/jquery-ui.css
+[M] src/themes/Mars/images/note.png
+[M] src/themes/Mars/images/ui-bg_flat_100_f9f2c8_40x100.png
+[M] src/themes/Mars/images/ui-bg_highlight-soft_20_404040_1x100.png
+[M] src/themes/Mars/images/ui-bg_highlight-soft_25_a07070_1x100.png
+[M] src/themes/Mars/images/ui-icons_2e83ff_256x240.png
+[M] src/themes/Mars/images/ui-icons_404040_256x240.png
+[M] src/themes/Mars/images/ui-icons_ff0000_256x240.png
 [M] src/themes/Orchid/css/etraxis.css
-[M] src/views/columns.php
-[M] src/views/create.php
-[M] src/views/modify.php
+[M] src/themes/Orchid/css/jquery-ui.css
+[M] src/themes/Orchid/images/ui-bg_flat_100_f9f2c8_40x100.png
+[M] src/themes/Orchid/images/ui-bg_flat_100_ffd8d8_40x100.png
+[M] src/themes/Orchid/images/ui-bg_gloss-wave_25_cd6ad1_500x100.png
+[M] src/themes/Orchid/images/ui-bg_highlight-soft_60_d0d0d0_1x100.png
+[M] src/themes/Orchid/images/ui-icons_2e83ff_256x240.png
+[M] src/themes/Orchid/images/ui-icons_e0e0e0_256x240.png
+[M] src/themes/Orchid/images/ui-icons_ff0000_256x240.png
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -190,17 +213,14 @@ Issue 247: LDAP Logins time out or take a long time when user has multiple filte
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Upgrade JQuery up to version 1.6.1.
+Upgrade JQuery UI up to version 1.8.13.
+Upgrade jqPlot up to version 1.0.0b1.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 279: Troubles with non english encoding of alert windows text in IE
-Issue 280: Counters for tabs are not updated
-Issue 281: Subscribed section of Subscribe Other screen does not update view
-Issue 282: Links to records (rec#) are not highlighted.
-Issue 283: PHP Warning: insert or update on table "tbl_reminders" violates foreign key constraint "fk_reminders_state_id"
-Issue 284: PHP Notice: Permission denied in /logon/login.php
+Cosmetic changes.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
