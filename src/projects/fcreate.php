@@ -174,7 +174,8 @@ elseif (isset($_REQUEST['submitted']))
 
         if ($error == NO_ERROR)
         {
-            $error = field_create($id,
+            $error = field_create($state['template_id'],
+                                  $id,
                                   $field_name,
                                   $field_type,
                                   $is_required,
@@ -211,7 +212,8 @@ elseif (isset($_REQUEST['submitted']))
 
         if ($error == NO_ERROR)
         {
-            $error = field_create($id,
+            $error = field_create($state['template_id'],
+                                  $id,
                                   $field_name,
                                   $field_type,
                                   $is_required,
@@ -255,7 +257,8 @@ elseif (isset($_REQUEST['submitted']))
             $def_value = ustrcut($_REQUEST['def_value'], $max_length);
             $value_id  = (ustrlen($def_value) == 0 ? NULL : value_find_string($def_value));
 
-            $error = field_create($id,
+            $error = field_create($state['template_id'],
+                                  $id,
                                   $field_name,
                                   $field_type,
                                   $is_required,
@@ -295,7 +298,8 @@ elseif (isset($_REQUEST['submitted']))
             $def_value = ustrcut($_REQUEST['def_value'], $max_length);
             $value_id  = (ustrlen($def_value) == 0 ? NULL : value_find_multilined($def_value));
 
-            $error = field_create($id,
+            $error = field_create($state['template_id'],
+                                  $id,
                                   $field_name,
                                   $field_type,
                                   $is_required,
@@ -324,7 +328,8 @@ elseif (isset($_REQUEST['submitted']))
         $add_separator = isset($_REQUEST['add_separator']);
         $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
-        $error = field_create($id,
+        $error = field_create($state['template_id'],
+                              $id,
                               $field_name,
                               $field_type,
                               FALSE,
@@ -351,7 +356,8 @@ elseif (isset($_REQUEST['submitted']))
         $add_separator = isset($_REQUEST['add_separator']);
         $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
-        $error = field_create($id,
+        $error = field_create($state['template_id'],
+                              $id,
                               $field_name,
                               $field_type,
                               $is_required,
@@ -380,7 +386,8 @@ elseif (isset($_REQUEST['submitted']))
         $add_separator = isset($_REQUEST['add_separator']);
         $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
-        $error = field_create($id,
+        $error = field_create($state['template_id'],
+                              $id,
                               $field_name,
                               $field_type,
                               $is_required,
@@ -410,7 +417,8 @@ elseif (isset($_REQUEST['submitted']))
 
         if ($error == NO_ERROR)
         {
-            $error = field_create($id,
+            $error = field_create($state['template_id'],
+                                  $id,
                                   $field_name,
                                   $field_type,
                                   $is_required,
@@ -445,7 +453,8 @@ elseif (isset($_REQUEST['submitted']))
 
         if ($error == NO_ERROR)
         {
-            $error = field_create($id,
+            $error = field_create($state['template_id'],
+                                  $id,
                                   $field_name,
                                   $field_type,
                                   $is_required,

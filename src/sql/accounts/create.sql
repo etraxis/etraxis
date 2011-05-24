@@ -14,13 +14,15 @@ insert into tbl_accounts
     locks_count,
     lock_time,
     locale,
+    timezone,
     text_rows,
     page_rows,
     page_bkms,
+    auto_refresh,
     csv_delim,
     csv_encoding,
     csv_line_ends,
     view_id,
     theme_name)
 
-values ('%1', '%2', '%3', '%4', '%5', NULL, 0, 0, %6, %7, %8, 0, 0, %9, %10, %11, %12, 44, 1, 1, NULL, '%13')
+values ('%1', '%2', '%3', '%4', '%5', NULL, 0, 0, %6, %7, %8, 0, 0, %9, 0, %10, %11, %12, 0, 44, 1, 1, NULL, '%13')

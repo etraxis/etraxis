@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.5">
+<database name="etraxis" version="3.6">
 
 <table name="tbl_sys_vars">
 
@@ -40,7 +40,7 @@
     <column type="primary">account_id</column>
     <column type="str" size="112">username</column>
     <column type="nstr" size="64">fullname</column>
-    <column type="str" size="50">email</column>
+    <column type="str" size="50" null="yes">email</column>
     <column type="md5">passwd</column>
     <column type="nstr" size="100" null="yes">description</column>
     <column type="md5" null="yes">auth_token</column>
@@ -52,9 +52,11 @@
     <column type="byte">locks_count</column>
     <column type="int">lock_time</column>
     <column type="word">locale</column>
+    <column type="int">timezone</column>
     <column type="byte">text_rows</column>
     <column type="byte">page_rows</column>
     <column type="byte">page_bkms</column>
+    <column type="byte">auto_refresh</column>
     <column type="byte">csv_delim</column>
     <column type="byte">csv_encoding</column>
     <column type="byte">csv_line_ends</column>
@@ -254,7 +256,8 @@
 <table name="tbl_fields">
 
     <column type="primary">field_id</column>
-    <column type="int">state_id</column>
+    <column type="int">template_id</column>
+    <column type="int" null="yes">state_id</column>
     <column type="nstr" size="50">field_name</column>
     <column type="int">removal_time</column>
     <column type="int">field_order</column>
@@ -265,6 +268,7 @@
     <column type="int">author_perm</column>
     <column type="int">responsible_perm</column>
     <column type="bool">add_separator</column>
+    <column type="bool">show_in_emails</column>
     <column type="nstr" size="1000" null="yes">description</column>
     <column type="nstr" size="500" null="yes">regex_check</column>
     <column type="nstr" size="500" null="yes">regex_search</column>
@@ -289,6 +293,7 @@
         <column>removal_time</column>
     </unique>
 
+    <foreign name="fk_fields_template_id" table="tbl_templates">template_id</foreign>
     <foreign name="fk_fields_state_id" table="tbl_states">state_id</foreign>
 
 </table>

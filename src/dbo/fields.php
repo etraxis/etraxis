@@ -731,6 +731,7 @@ function field_pickup_list_items ($field_id)
 /**
  * Creates new field.
  *
+ * @param int $template_id ID of template which new field will belong to.
  * @param int $state_id ID of state which new field will belong to.
  * @param string $field_name Field name.
  * @param int $field_type Field type.
@@ -752,11 +753,12 @@ function field_pickup_list_items ($field_id)
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create field</li>
  * </ul>
  */
-function field_create ($state_id, $field_name, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
+function field_create ($template_id, $state_id, $field_name, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
                        $regex_check = NULL, $regex_search = NULL, $regex_replace = NULL,
                        $param1 = NULL, $param2 = NULL, $value_id = NULL)
 {
     debug_write_log(DEBUG_TRACE, '[field_create]');
+    debug_write_log(DEBUG_DUMP,  '[field_create] $template_id   = ' . $template_id);
     debug_write_log(DEBUG_DUMP,  '[field_create] $state_id      = ' . $state_id);
     debug_write_log(DEBUG_DUMP,  '[field_create] $field_name    = ' . $field_name);
     debug_write_log(DEBUG_DUMP,  '[field_create] $field_type    = ' . $field_type);
@@ -793,6 +795,7 @@ function field_create ($state_id, $field_name, $field_type, $is_required, $add_s
 
     // Create a field.
     dal_query('fields/create.sql',
+              $template_id,
               $state_id,
               $field_name,
               $field_order,

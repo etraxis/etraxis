@@ -38,7 +38,7 @@ create table tbl_accounts
     account_id number (10) not null,
     username varchar2 (112) not null,
     fullname nvarchar2 (64) not null,
-    email varchar2 (50) not null,
+    email varchar2 (50) null,
     passwd char (32) not null,
     description nvarchar2 (100) null,
     auth_token char (32) null,
@@ -50,9 +50,11 @@ create table tbl_accounts
     locks_count number (10) not null,
     lock_time number (10) not null,
     locale number (10) not null,
+    timezone number (10) not null,
     text_rows number (10) not null,
     page_rows number (10) not null,
     page_bkms number (10) not null,
+    auto_refresh number (10) not null,
     csv_delim number (10) not null,
     csv_encoding number (10) not null,
     csv_line_ends number (10) not null,
@@ -403,7 +405,8 @@ references tbl_states
 create table tbl_fields
 (
     field_id number (10) not null,
-    state_id number (10) not null,
+    template_id number (10) not null,
+    state_id number (10) null,
     field_name nvarchar2 (50) not null,
     removal_time number (10) not null,
     field_order number (10) not null,
@@ -414,6 +417,7 @@ create table tbl_fields
     author_perm number (10) not null,
     responsible_perm number (10) not null,
     add_separator number (10) not null,
+    show_in_emails number (10) not null,
     description nvarchar2 (1000) null,
     regex_check nvarchar2 (500) null,
     regex_search nvarchar2 (500) null,
@@ -440,6 +444,15 @@ alter table tbl_fields add constraint ix_fields_order unique
     state_id,
     field_order,
     removal_time
+);
+
+alter table tbl_fields add constraint fk_fields_template_id foreign key
+(
+    template_id
+)
+references tbl_templates
+(
+    template_id
 );
 
 alter table tbl_fields add constraint fk_fields_state_id foreign key
@@ -1382,7 +1395,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.5');
+values ('FEATURE_LEVEL', '3.6');
 
 insert into tbl_accounts
 (

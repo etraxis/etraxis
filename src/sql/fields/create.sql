@@ -1,12 +1,14 @@
 insert into tbl_fields
 
-   (state_id,
+   (template_id,
+    state_id,
     field_name,
     removal_time,
     field_order,
     field_type,
     is_required,
     add_separator,
+    show_in_emails,
     guest_access,
     registered_perm,
     author_perm,
@@ -19,4 +21,4 @@ insert into tbl_fields
     param2,
     value_id)
 
-values (%1, '%2', 0, %3, %4, %5, %6, %7, 0, 0, 0, '%8', '%9', '%10', '%11', %12, %13, %14)
+values (%1, %2, '%3', 0, %4, %5, %6, %7, 0, %8, 0, 0, 0, '%9', '%10', '%11', '%12', %13, %14, %15)

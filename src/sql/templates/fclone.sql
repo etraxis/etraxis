@@ -1,8 +1,9 @@
 insert into tbl_fields
-(state_id, field_name, removal_time, field_order, field_type, is_required, guest_access, registered_perm, author_perm, responsible_perm, add_separator, regex_check, regex_search, regex_replace, param1, param2, value_id)
+(template_id, state_id, field_name, removal_time, field_order, field_type, is_required, guest_access, registered_perm, author_perm, responsible_perm, add_separator, show_in_emails, regex_check, regex_search, regex_replace, param1, param2, value_id)
 
     select distinct
 
+        sd.template_id,
         sd.state_id,
         f.field_name,
         f.removal_time,
@@ -14,6 +15,7 @@ insert into tbl_fields
         f.author_perm,
         f.responsible_perm,
         f.add_separator,
+        f.show_in_emails,
         f.regex_check,
         f.regex_search,
         f.regex_replace,
@@ -33,7 +35,7 @@ insert into tbl_fields
         sd.template_id = %2         and
         f.removal_time = 0          and
         ss.state_id    = f.state_id and
-        ss.state_name = sd.state_name
+        ss.state_name  = sd.state_name
 
     order by
 

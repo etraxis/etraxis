@@ -614,7 +614,8 @@ class CImporter
 
                 if ($this->error == NO_ERROR)
                 {
-                    field_create($this->state_id,
+                    field_create($this->template_id,
+                                 $this->state_id,
                                  $field_name,
                                  $field_type,
                                  $is_required,
