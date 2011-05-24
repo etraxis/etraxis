@@ -41,7 +41,7 @@ create table tbl_accounts
     account_id int identity (1,1) not null,
     username nvarchar (112) not null,
     fullname nvarchar (64) not null,
-    email nvarchar (50) not null,
+    email nvarchar (50) null,
     passwd char (32) not null,
     description nvarchar (100) null,
     auth_token char (32) null,
@@ -53,9 +53,11 @@ create table tbl_accounts
     locks_count int not null,
     lock_time int not null,
     locale int not null,
+    timezone int not null,
     text_rows int not null,
     page_rows int not null,
     page_bkms int not null,
+    auto_refresh int not null,
     csv_delim int not null,
     csv_encoding int not null,
     csv_line_ends int not null,
@@ -366,7 +368,8 @@ references tbl_states
 create table tbl_fields
 (
     field_id int identity (1,1) not null,
-    state_id int not null,
+    template_id int not null,
+    state_id int null,
     field_name nvarchar (50) not null,
     removal_time int not null,
     field_order int not null,
@@ -377,6 +380,7 @@ create table tbl_fields
     author_perm int not null,
     responsible_perm int not null,
     add_separator int not null,
+    show_in_emails int not null,
     description nvarchar (1000) null,
     regex_check nvarchar (500) null,
     regex_search nvarchar (500) null,
@@ -403,6 +407,15 @@ alter table tbl_fields add constraint ix_fields_order unique nonclustered
     state_id,
     field_order,
     removal_time
+);
+
+alter table tbl_fields add constraint fk_fields_template_id foreign key
+(
+    template_id
+)
+references tbl_templates
+(
+    template_id
 );
 
 alter table tbl_fields add constraint fk_fields_state_id foreign key
@@ -1241,7 +1254,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MSSQL 2000');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.5');
+values ('FEATURE_LEVEL', '3.6');
 
 insert into tbl_accounts
 (
