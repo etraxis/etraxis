@@ -418,7 +418,7 @@ $resource_french = array
     /* 1280 */
     'Tous ceux qui me sont affectés',
     'Tous ceux que j\'ai créés',
-    'Tout déselectionner',
+    NULL,
     'm/j/aaaa',
     'Dump',
     'Subrecords',

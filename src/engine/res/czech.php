@@ -418,7 +418,7 @@ $resource_czech = array
     /* 1280 */
     'Všechny přidělené mně',
     'Všechny vytvořené mnou',
-    'Odznačit vše',
+    NULL,
     'd.m.yyyy',
     'Výpis',
     'Podřízené záznamy',

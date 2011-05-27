@@ -305,51 +305,88 @@ function generate_message ($record, $event, $locale = NULL)
     debug_write_log(DEBUG_TRACE, '[generate_message]');
     debug_write_log(DEBUG_DUMP,  '[generate_message] $locale = ' . $locale);
 
-    $message =
-        '<html>' .
-        '<body>' .
-        '<b><font color="red">' . get_html_resource(RES_ALERT_DO_NOT_REPLY_ID, $locale) . '</font></b><br/>' .
-        '<hr/>' .
-        get_html_resource(RES_GENERAL_INFO_ID, $locale) .
-        '<hr/>' .
-        '<table border="0" cellspacing="0" cellpadding="5">' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_ID_ID, $locale) . ':</b></td>' .
-        '<td>'    . record_id($record['record_id'], $record['template_prefix']) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_SUBJECT_ID, $locale) . ':</b></td>' .
-        '<td>'    . update_references($record['subject'], BBCODE_MINIMUM) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_STATE_ID, $locale) . ':</b></td>' .
-        '<td>'    . ustr2html($record['state_name']) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_RESPONSIBLE_ID, $locale) . ':</b></td>' .
-        '<td>'    . (is_null($record['username']) ? get_html_resource(RES_NONE_ID, $locale) : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username'])))) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_AUTHOR_ID, $locale) . ':</b></td>' .
-        '<td>'  . ustr2html(sprintf('%s (%s)', $record['author_fullname'], account_get_username($record['author_username']))) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_AGE_ID, $locale) . ':</b></td>' .
-        '<td>'    . get_record_last_event($record) . '/' . get_record_age($record) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_PROJECT_ID, $locale) . ':</b></td>' .
-        '<td>'    . ustr2html($record['project_name']) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_TEMPLATE_ID, $locale) . ':</b></td>' .
-        '<td>'    . ustr2html($record['template_name']) . '</td>' .
-        '</tr>' .
-        '<tr valign="top">' .
-        '<td><b>' . get_html_resource(RES_EVENT_ID, $locale) . ':</b></td>' .
-        '<td>'    . get_event_string($event['event_id'], $event['event_type'], $event['event_param'], $locale) . '</td>' .
-        '</tr>' .
-        '</table>';
+    // general information
+
+    $fields = array
+    (
+        RES_ID_ID          => record_id($record['record_id'], $record['template_prefix']),
+        RES_SUBJECT_ID     => update_references($record['subject'], BBCODE_MINIMUM),
+        RES_STATE_ID       => ustr2html($record['state_name']),
+        RES_RESPONSIBLE_ID => is_null($record['username']) ? get_html_resource(RES_NONE_ID, $locale)
+                                                           : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username']))),
+        RES_AUTHOR_ID      => ustr2html(sprintf('%s (%s)', $record['author_fullname'], account_get_username($record['author_username']))),
+        RES_AGE_ID         => get_record_last_event($record) . '/' . get_record_age($record),
+        RES_PROJECT_ID     => ustr2html($record['project_name']),
+        RES_TEMPLATE_ID    => ustr2html($record['template_name']),
+        RES_EVENT_ID       => get_event_string($event['event_id'], $event['event_type'], $event['event_param'], $locale),
+    );
+
+    $message = '<html>'
+             . '<body>'
+             . '<b><font color="red">' . get_html_resource(RES_ALERT_DO_NOT_REPLY_ID, $locale) . '</font></b><br/>'
+             . '<br/><hr/>'
+             . '<b>' . get_html_resource(RES_GENERAL_INFO_ID, $locale) . '</b>'
+             . '<hr/>'
+             . '<table border="0" cellspacing="0" cellpadding="5">';
+
+    foreach ($fields as $key => $value)
+    {
+        $message .= '<tr valign="top">'
+                  . '<td><b>' . get_html_resource($key, $locale) . ':</b></td>'
+                  . '<td>' . $value . '</td>'
+                  . '</tr>';
+    }
+
+    $message .= '</table>'
+              . '<br/><hr/>';
+
+    // go through the list of all states and their fields
+
+    $states = dal_query('records/elist.sql', $record['record_id']);
+
+    while (($state = $states->fetch()))
+    {
+        $fields = dal_query('records/flist3.sql', $record['record_id'], $state['state_id']);
+
+        if ($fields->rows != 0)
+        {
+            $message .= '<b>' . ustr2html($state['state_name']) . '</b>'
+                      . '<hr/>'
+                      . '<table border="0" cellspacing="0" cellpadding="5">';
+
+            while (($field = $fields->fetch()))
+            {
+                $value = value_find($field['field_type'], $field['value_id']);
+
+                if ($field['field_type'] == FIELD_TYPE_CHECKBOX)
+                {
+                    $value = get_html_resource($value ? RES_YES_ID : RES_NO_ID);
+                }
+                elseif ($field['field_type'] == FIELD_TYPE_LIST)
+                {
+                    $value = (is_null($value) ? NULL : value_find_listvalue($field['field_id'], $value));
+                }
+                elseif ($field['field_type'] == FIELD_TYPE_RECORD)
+                {
+                    $value = (is_null($value) ? NULL : 'rec#' . $value);
+                }
+
+                $value = is_null($value)
+                       ? get_html_resource(RES_NONE_ID)
+                       : str_replace('%br;', '<br/>', update_references($value, BBCODE_ALL, $field['regex_search'], $field['regex_replace']));
+
+                $message .= '<tr valign="top">'
+                          . '<td><b>' . ustr2html($field['field_name']) . ':</b></td>'
+                          . '<td>' . $value . '</td>'
+                          . '</tr>';
+            }
+
+            $message .= '</table>'
+                      . '<br/><hr/>';
+        }
+    }
+
+    // if it was a comment, add its text
 
     if (!is_null($event) &&
         ($event['event_type'] == EVENT_COMMENT_ADDED || $event['event_type'] == EVENT_CONFIDENTIAL_COMMENT))
@@ -358,18 +395,22 @@ function generate_message ($record, $event, $locale = NULL)
 
         if ($rs->rows != 0)
         {
-            $message .=
-                '<hr/>' .
-                '<br/>' .
-                str_replace('%br;', '<br/>', update_references($rs->fetch('comment_body')));
+            $message .= '<b>' . get_html_resource(RES_COMMENT_ID, $locale) . '</b>'
+                      . '<hr/>'
+                      . '<table border="0" cellspacing="0" cellpadding="5">'
+                      . '<tr><td>'
+                      . str_replace('%br;', '<br/>', update_references($rs->fetch('comment_body')))
+                      . '</td></tr>'
+                      . '</table>'
+                      . '<br/><hr/>';
         }
     }
 
-    $message .=
-        '<hr/>' .
-        '<br/><a href="' . WEBROOT . 'records/view.php?id=' . $record['record_id'] . '">' . get_html_resource(RES_VIEW_RECORD_ID, $locale) . '</a>' .
-        '</body>' .
-        '</html>';
+    // link to the record
+
+    $message .= '<a href="' . WEBROOT . 'records/view.php?id=' . $record['record_id'] . '">' . get_html_resource(RES_VIEW_RECORD_ID, $locale) . '</a>'
+              . '</body>'
+              . '</html>';
 
     return $message;
 }

@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -66,20 +66,20 @@ record_read($id);
 // generate general information
 
 $xml = '<group title="' . get_html_resource(RES_GENERAL_INFO_ID) . '">'
-     . '<text label="' . get_html_resource(RES_PROJECT_ID)  . '">' . ustr2html($record['project_name'])  . '</text>'
-     . '<text label="' . get_html_resource(RES_TEMPLATE_ID) . '">' . ustr2html($record['template_name']) . '</text>'
-     . '<text label="' . get_html_resource(RES_STATE_ID)    . '">' . ustr2html($record['state_name'])    . '</text>';
+     . '<text label="' . get_html_resource(RES_SUBJECT_ID)     . '">' . update_references($record['subject'], BBCODE_MINIMUM) . '</text>'
+     . '<text label="' . get_html_resource(RES_STATE_ID)       . '">' . ustr2html($record['state_name']) . '</text>'
+     . '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">' . (is_null($record['username']) ? get_html_resource(RES_NONE_ID) : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username'])))) . '</text>'
+     . '<text label="' . get_html_resource(RES_AUTHOR_ID)      . '">' . ustr2html(sprintf('%s (%s)', $record['author_fullname'], account_get_username($record['author_username']))) . '</text>'
+     . '<text label="' . get_html_resource(RES_AGE_ID)         . '">' . get_record_last_event($record) . '/' . get_record_age($record) . '</text>'
+     . '<text label="' . get_html_resource(RES_PROJECT_ID)     . '">' . ustr2html($record['project_name']) . '</text>'
+     . '<text label="' . get_html_resource(RES_TEMPLATE_ID)    . '">' . ustr2html($record['template_name']) . '</text>';
 
 if (is_record_postponed($record))
 {
     $xml .= '<text label="' . get_html_resource(RES_POSTPONED_ID) . '">' . get_date($record['postpone_time']) . '</text>';
 }
 
-$xml .= '<text label="' . get_html_resource(RES_AGE_ID)         . '">' . get_record_last_event($record) . '/' . get_record_age($record) . '</text>'
-      . '<text label="' . get_html_resource(RES_AUTHOR_ID)      . '">' . ustr2html(sprintf('%s (%s)', $record['author_fullname'], account_get_username($record['author_username']))) . '</text>'
-      . '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">' . (is_null($record['username']) ? get_html_resource(RES_NONE_ID) : ustr2html(sprintf('%s (%s)', $record['fullname'], account_get_username($record['username'])))) . '</text>'
-      . '<text label="' . get_html_resource(RES_SUBJECT_ID)     . '">' . update_references($record['subject'], BBCODE_MINIMUM) . '</text>'
-      . '</group>';
+$xml .= '</group>';
 
 // go through the list of all states and their fields
 

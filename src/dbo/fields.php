@@ -738,6 +738,7 @@ function field_pickup_list_items ($field_id)
  * @param bool $is_required Whether the field is required.
  * @param bool $add_separator If TRUE, then eTraxis will add separator '<hr>' after the field, when record is being displayed.
  * @param bool $guest_access Ability of guest access to the field values.
+ * @param bool $show_in_emails Whether to show the field in email notifications.
  * @param string $description Optional field description.
  * @param string $regex_check Perl-compatible regular expression, which values of the field must conform to.
  * @param string $regex_search Perl-compatible regular expression to modify values of the field, used to be searched for  (NULL by default).
@@ -753,25 +754,26 @@ function field_pickup_list_items ($field_id)
  * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create field</li>
  * </ul>
  */
-function field_create ($template_id, $state_id, $field_name, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
+function field_create ($template_id, $state_id, $field_name, $field_type, $is_required, $add_separator, $guest_access, $show_in_emails, $description = NULL,
                        $regex_check = NULL, $regex_search = NULL, $regex_replace = NULL,
                        $param1 = NULL, $param2 = NULL, $value_id = NULL)
 {
     debug_write_log(DEBUG_TRACE, '[field_create]');
-    debug_write_log(DEBUG_DUMP,  '[field_create] $template_id   = ' . $template_id);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $state_id      = ' . $state_id);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $field_name    = ' . $field_name);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $field_type    = ' . $field_type);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $is_required   = ' . $is_required);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $add_separator = ' . $add_separator);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $guest_access  = ' . $guest_access);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $description   = ' . $description);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $regex_check   = ' . $regex_check);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $regex_search  = ' . $regex_search);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $regex_replace = ' . $regex_replace);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $param1        = ' . $param1);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $param2        = ' . $param2);
-    debug_write_log(DEBUG_DUMP,  '[field_create] $value_id      = ' . $value_id);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $template_id    = ' . $template_id);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $state_id       = ' . $state_id);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $field_name     = ' . $field_name);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $field_type     = ' . $field_type);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $is_required    = ' . $is_required);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $add_separator  = ' . $add_separator);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $guest_access   = ' . $guest_access);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $show_in_emails = ' . $show_in_emails);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $description    = ' . $description);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $regex_check    = ' . $regex_check);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $regex_search   = ' . $regex_search);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $regex_replace  = ' . $regex_replace);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $param1         = ' . $param1);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $param2         = ' . $param2);
+    debug_write_log(DEBUG_DUMP,  '[field_create] $value_id       = ' . $value_id);
 
     // Check that field name is not empty.
     if (ustrlen($field_name) == 0)
@@ -802,6 +804,7 @@ function field_create ($template_id, $state_id, $field_name, $field_type, $is_re
               $field_type,
               bool2sql($is_required),
               bool2sql($add_separator),
+              bool2sql($show_in_emails),
               bool2sql($guest_access),
               ustrlen($description)   == 0 ? NULL : $description,
               ustrlen($regex_check)   == 0 ? NULL : $regex_check,
@@ -850,6 +853,7 @@ function field_create ($template_id, $state_id, $field_name, $field_type, $is_re
  * @param bool $is_required Whether the field is required.
  * @param bool $add_separator If TRUE, then eTraxis will add separator '<hr>' after the field, when record is being displayed.
  * @param bool $guest_access Ability of guest access to the field values.
+ * @param bool $show_in_emails Whether to show the field in email notifications.
  * @param string $description Optional field description.
  * @param string $regex_check New perl-compatible regular expression, which values of the field must conform to.
  * @param string $regex_search New perl-compatible regular expression to modify values of the field, used to be searched for  (NULL by default).
@@ -864,7 +868,7 @@ function field_create ($template_id, $state_id, $field_name, $field_type, $is_re
  * <li>{@link ERROR_ALREADY_EXISTS} - another field with specified name already exists</li>
  * </ul>
  */
-function field_modify ($id, $state_id, $state_name, $field_old_name, $field_new_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access, $description = NULL,
+function field_modify ($id, $state_id, $state_name, $field_old_name, $field_new_name, $field_old_order, $field_new_order, $field_type, $is_required, $add_separator, $guest_access, $show_in_emails, $description = NULL,
                        $regex_check = NULL, $regex_search = NULL, $regex_replace = NULL,
                        $param1 = NULL, $param2 = NULL, $value_id = NULL)
 {
@@ -880,6 +884,7 @@ function field_modify ($id, $state_id, $state_name, $field_old_name, $field_new_
     debug_write_log(DEBUG_DUMP,  '[field_modify] $is_required     = ' . $is_required);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $add_separator   = ' . $add_separator);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $guest_access    = ' . $guest_access);
+    debug_write_log(DEBUG_DUMP,  '[field_modify] $show_in_emails  = ' . $show_in_emails);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $description     = ' . $description);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $regex_check     = ' . $regex_check);
     debug_write_log(DEBUG_DUMP,  '[field_modify] $regex_search    = ' . $regex_search);
@@ -951,6 +956,7 @@ function field_modify ($id, $state_id, $state_name, $field_old_name, $field_new_
               bool2sql($is_required),
               bool2sql($add_separator),
               bool2sql($guest_access),
+              bool2sql($show_in_emails),
               ustrlen($description)   == 0 ? NULL : $description,
               ustrlen($regex_check)   == 0 ? NULL : $regex_check,
               ustrlen($regex_search)  == 0 ? NULL : $regex_search,

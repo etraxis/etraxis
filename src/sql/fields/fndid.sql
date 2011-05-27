@@ -18,6 +18,7 @@ select
     f.author_perm,
     f.responsible_perm,
     f.description,
+    f.show_in_emails,
     f.regex_check,
     f.regex_search,
     f.regex_replace,

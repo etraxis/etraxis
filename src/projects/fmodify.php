@@ -71,12 +71,13 @@ if (try_request('submitted') == 'modifyform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_order   = ustr2int($_REQUEST['field_order'], 1, $fields);
-    $is_required   = ($field['field_type'] == FIELD_TYPE_CHECKBOX ? FALSE : isset($_REQUEST['is_required']));
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+    $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+    $field_order    = ustr2int($_REQUEST['field_order'], 1, $fields);
+    $is_required    = ($field['field_type'] == FIELD_TYPE_CHECKBOX ? FALSE : isset($_REQUEST['is_required']));
+    $guest_access   = isset($_REQUEST['guest_access']);
+    $add_separator  = isset($_REQUEST['add_separator']);
+    $show_in_emails = isset($_REQUEST['show_in_emails']);
+    $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
     switch ($field['field_type'])
     {
@@ -220,6 +221,7 @@ if (try_request('submitted') == 'modifyform')
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $show_in_emails,
                               $description,
                               $regex_check,
                               $regex_search,
@@ -320,18 +322,19 @@ else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 
-    $field_name    = $field['field_name'];
-    $field_order   = $field['field_order'];
-    $is_required   = $field['is_required'];
-    $add_separator = $field['add_separator'];
-    $guest_access  = $field['guest_access'];
-    $description   = $field['description'];
-    $regex_check   = $field['regex_check'];
-    $regex_search  = $field['regex_search'];
-    $regex_replace = $field['regex_replace'];
-    $param1        = $field['param1'];
-    $param2        = $field['param2'];
-    $default       = $field['value_id'];
+    $field_name     = $field['field_name'];
+    $field_order    = $field['field_order'];
+    $is_required    = $field['is_required'];
+    $add_separator  = $field['add_separator'];
+    $guest_access   = $field['guest_access'];
+    $show_in_emails = $field['show_in_emails'];
+    $description    = $field['description'];
+    $regex_check    = $field['regex_check'];
+    $regex_search   = $field['regex_search'];
+    $regex_replace  = $field['regex_replace'];
+    $param1         = $field['param1'];
+    $param2         = $field['param2'];
+    $default        = $field['value_id'];
 
     if ($field['field_type'] == FIELD_TYPE_FLOAT)
     {
@@ -674,6 +677,15 @@ $xml .= '<control name="add_separator">'
             ? '<checkbox checked="true">'
             : '<checkbox>')
       . ustrtolower(get_html_resource(RES_ADD_SEPARATOR_ID))
+      . '</checkbox>'
+      . '</control>';
+
+$xml .= '<control name="show_in_emails">'
+      . '<label/>'
+      . ($show_in_emails
+            ? '<checkbox checked="true">'
+            : '<checkbox>')
+      . ustrtolower(get_html_resource(RES_SHOW_IN_EMAILS_ID))
       . '</checkbox>'
       . '</control>';
 

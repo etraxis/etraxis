@@ -71,12 +71,13 @@ if (try_request('submitted') == 'mainform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data for step #1 are submitted.');
 
-    $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-    $field_type    = ustr2int($_REQUEST['field_type'], FIELD_TYPE_MINIMUM, FIELD_TYPE_MAXIMUM);
-    $is_required   = FALSE;
-    $guest_access  = isset($_REQUEST['guest_access']);
-    $add_separator = isset($_REQUEST['add_separator']);
-    $description   = NULL;
+    $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+    $field_type     = ustr2int($_REQUEST['field_type'], FIELD_TYPE_MINIMUM, FIELD_TYPE_MAXIMUM);
+    $is_required    = FALSE;
+    $guest_access   = isset($_REQUEST['guest_access']);
+    $add_separator  = isset($_REQUEST['add_separator']);
+    $show_in_emails = isset($_REQUEST['show_in_emails']);
+    $description    = NULL;
 
     switch ($field_type)
     {
@@ -159,16 +160,17 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (number) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_NUMBER;
-        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
-        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
-        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
-        $def_value     = (ustrlen($def_value) == 0 ? NULL : intval($def_value));
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_NUMBER;
+        $min_value      = ustrcut($_REQUEST['min_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
+        $max_value      = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
+        $def_value      = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_INTEGER) + 1);
+        $def_value      = (ustrlen($def_value) == 0 ? NULL : intval($def_value));
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_validate_number($field_name, $min_value, $max_value, $def_value);
 
@@ -181,6 +183,7 @@ elseif (isset($_REQUEST['submitted']))
                                   $is_required,
                                   $add_separator,
                                   $guest_access,
+                                  $show_in_emails,
                                   $description,
                                   NULL, NULL, NULL,
                                   $min_value,
@@ -197,16 +200,17 @@ elseif (isset($_REQUEST['submitted']))
 
         $form = 'floatform';
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_FLOAT;
-        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_FLOAT));
-        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_FLOAT));
-        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_FLOAT));
-        $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_FLOAT;
+        $min_value      = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_FLOAT));
+        $max_value      = ustrcut($_REQUEST['max_value'], ustrlen(MAX_FIELD_FLOAT));
+        $def_value      = ustrcut($_REQUEST['def_value'], ustrlen(MAX_FIELD_FLOAT));
+        $def_value      = (ustrlen($def_value) == 0 ? NULL : $def_value);
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_validate_float($field_name, $min_value, $max_value, $def_value);
 
@@ -219,6 +223,7 @@ elseif (isset($_REQUEST['submitted']))
                                   $is_required,
                                   $add_separator,
                                   $guest_access,
+                                  $show_in_emails,
                                   $description,
                                   NULL, NULL, NULL,
                                   value_find_float($min_value),
@@ -239,16 +244,17 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (string) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_STRING;
-        $max_length    = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_STRING));
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
-        $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
-        $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
-        $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_STRING;
+        $max_length     = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_STRING));
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
+        $regex_check    = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
+        $regex_search   = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
+        $regex_replace  = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
 
         $error = field_validate_string($field_name, $max_length);
 
@@ -264,6 +270,7 @@ elseif (isset($_REQUEST['submitted']))
                                   $is_required,
                                   $add_separator,
                                   $guest_access,
+                                  $show_in_emails,
                                   $description,
                                   $regex_check,
                                   $regex_search,
@@ -280,16 +287,17 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (multilined text) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_MULTILINED;
-        $max_length    = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_MULTILINED));
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
-        $regex_check   = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
-        $regex_search  = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
-        $regex_replace = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_MULTILINED;
+        $max_length     = ustrcut($_REQUEST['max_length'], ustrlen(MAX_FIELD_MULTILINED));
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'],   MAX_FIELD_DESCRIPTION);
+        $regex_check    = ustrcut($_REQUEST['regex_check'],   MAX_FIELD_REGEX);
+        $regex_search   = ustrcut($_REQUEST['regex_search'],  MAX_FIELD_REGEX);
+        $regex_replace  = ustrcut($_REQUEST['regex_replace'], MAX_FIELD_REGEX);
 
         $error = field_validate_multilined($field_name, $max_length);
 
@@ -305,6 +313,7 @@ elseif (isset($_REQUEST['submitted']))
                                   $is_required,
                                   $add_separator,
                                   $guest_access,
+                                  $show_in_emails,
                                   $description,
                                   $regex_check,
                                   $regex_search,
@@ -321,12 +330,13 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (checkbox) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_CHECKBOX;
-        $def_value     = ustr2int(try_request('def_value', 1), 0, 1);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_CHECKBOX;
+        $def_value      = ustr2int(try_request('def_value', 1), 0, 1);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_create($state['template_id'],
                               $id,
@@ -335,6 +345,7 @@ elseif (isset($_REQUEST['submitted']))
                               FALSE,
                               $add_separator,
                               $guest_access,
+                              $show_in_emails,
                               $description,
                               NULL, NULL, NULL, NULL, NULL,
                               $def_value);
@@ -346,15 +357,16 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (list) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_LIST;
-        $list_items    = ustrcut($_REQUEST['list_items'], MAX_FIELD_LIST_ITEMS);
-        $def_value     = try_request('def_value');
-        $def_value     = (ustrlen($def_value) == 0 ? NULL : ustr2int($def_value, 1, MAXINT));
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_LIST;
+        $list_items     = ustrcut($_REQUEST['list_items'], MAX_FIELD_LIST_ITEMS);
+        $def_value      = try_request('def_value');
+        $def_value      = (ustrlen($def_value) == 0 ? NULL : ustr2int($def_value, 1, MAXINT));
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_create($state['template_id'],
                               $id,
@@ -363,6 +375,7 @@ elseif (isset($_REQUEST['submitted']))
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $show_in_emails,
                               $description,
                               NULL, NULL, NULL, NULL, NULL,
                               $def_value);
@@ -379,12 +392,13 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (record) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_RECORD;
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_RECORD;
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_create($state['template_id'],
                               $id,
@@ -393,6 +407,7 @@ elseif (isset($_REQUEST['submitted']))
                               $is_required,
                               $add_separator,
                               $guest_access,
+                              $show_in_emails,
                               $description);
     }
 
@@ -402,16 +417,17 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (date) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_DATE;
-        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_DATE));
-        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(MIN_FIELD_DATE));
-        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(MIN_FIELD_DATE));
-        $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_DATE;
+        $min_value      = ustrcut($_REQUEST['min_value'], ustrlen(MIN_FIELD_DATE));
+        $max_value      = ustrcut($_REQUEST['max_value'], ustrlen(MIN_FIELD_DATE));
+        $def_value      = ustrcut($_REQUEST['def_value'], ustrlen(MIN_FIELD_DATE));
+        $def_value      = (ustrlen($def_value) == 0 ? NULL : $def_value);
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_validate_date($field_name, $min_value, $max_value, $def_value);
 
@@ -424,6 +440,7 @@ elseif (isset($_REQUEST['submitted']))
                                   $is_required,
                                   $add_separator,
                                   $guest_access,
+                                  $show_in_emails,
                                   $description,
                                   NULL, NULL, NULL,
                                   $min_value,
@@ -438,16 +455,17 @@ elseif (isset($_REQUEST['submitted']))
     {
         debug_write_log(DEBUG_NOTICE, 'Data for step #2 (duration) are submitted.');
 
-        $field_name    = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
-        $field_type    = FIELD_TYPE_DURATION;
-        $min_value     = ustrcut($_REQUEST['min_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
-        $max_value     = ustrcut($_REQUEST['max_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
-        $def_value     = ustrcut($_REQUEST['def_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
-        $def_value     = (ustrlen($def_value) == 0 ? NULL : $def_value);
-        $is_required   = isset($_REQUEST['is_required']);
-        $guest_access  = isset($_REQUEST['guest_access']);
-        $add_separator = isset($_REQUEST['add_separator']);
-        $description   = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
+        $field_name     = ustrcut($_REQUEST['field_name'], MAX_FIELD_NAME);
+        $field_type     = FIELD_TYPE_DURATION;
+        $min_value      = ustrcut($_REQUEST['min_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+        $max_value      = ustrcut($_REQUEST['max_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+        $def_value      = ustrcut($_REQUEST['def_value'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+        $def_value      = (ustrlen($def_value) == 0 ? NULL : $def_value);
+        $is_required    = isset($_REQUEST['is_required']);
+        $guest_access   = isset($_REQUEST['guest_access']);
+        $add_separator  = isset($_REQUEST['add_separator']);
+        $show_in_emails = isset($_REQUEST['show_in_emails']);
+        $description    = ustrcut($_REQUEST['description'], MAX_FIELD_DESCRIPTION);
 
         $error = field_validate_duration($field_name, $min_value, $max_value, $def_value);
 
@@ -460,6 +478,7 @@ elseif (isset($_REQUEST['submitted']))
                                   $is_required,
                                   $add_separator,
                                   $guest_access,
+                                  $show_in_emails,
                                   $description,
                                   NULL, NULL, NULL,
                                   ustr2time($min_value),
@@ -550,12 +569,13 @@ else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 
-    $error         = NO_ERROR;
-    $form          = 'mainform';
-    $field_name    = NULL;
-    $field_type    = FIELD_TYPE_MINIMUM;
-    $guest_access  = FALSE;
-    $add_separator = FALSE;
+    $error          = NO_ERROR;
+    $form           = 'mainform';
+    $field_name     = NULL;
+    $field_type     = FIELD_TYPE_MINIMUM;
+    $guest_access   = FALSE;
+    $add_separator  = FALSE;
+    $show_in_emails = FALSE;
 }
 
 // local JS functions
@@ -888,6 +908,15 @@ $xml .= '<control name="add_separator">'
             ? '<checkbox checked="true">'
             : '<checkbox>')
       . ustrtolower(get_html_resource(RES_ADD_SEPARATOR_ID))
+      . '</checkbox>'
+      . '</control>';
+
+$xml .= '<control name="show_in_emails">'
+      . '<label/>'
+      . ($show_in_emails
+            ? '<checkbox checked="true">'
+            : '<checkbox>')
+      . ustrtolower(get_html_resource(RES_SHOW_IN_EMAILS_ID))
       . '</checkbox>'
       . '</control>';
 

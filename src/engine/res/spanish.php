@@ -418,7 +418,7 @@ $resource_spanish = array
     /* 1280 */
     'Todos los asignados a mi',
     'Todos los creados por mi',
-    'Deseleccionar todos',
+    NULL,
     'd/m/yyyy',
     'Descargar',
     'Subregistros',

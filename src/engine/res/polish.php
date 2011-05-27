@@ -418,7 +418,7 @@ $resource_polish = array
     /* 1280 */
     'Wszystkie przydzielone do mnie',
     'Wszystkie utworzone przeze mnie',
-    'Odznacz wsystkie',
+    NULL,
     'yyyy.m.d',
     'Zrzuć',
     'Subrekordy',

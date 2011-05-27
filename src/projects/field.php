@@ -170,8 +170,9 @@ if ($field['field_type'] != FIELD_TYPE_CHECKBOX)
     $xml .= '<text label="' . get_html_resource(RES_REQUIRED_ID) . '">' . get_html_resource($field['is_required'] ? RES_YES_ID : RES_NO_ID) . '</text>';
 }
 
-$xml .= '<text label="' . get_html_resource(RES_GUEST_ACCESS_ID)  . '">' . get_html_resource($field['guest_access']  ? RES_YES_ID : RES_NO_ID) . '</text>'
-      . '<text label="' . get_html_resource(RES_ADD_SEPARATOR_ID) . '">' . get_html_resource($field['add_separator'] ? RES_YES_ID : RES_NO_ID) . '</text>'
+$xml .= '<text label="' . get_html_resource(RES_GUEST_ACCESS_ID)   . '">' . get_html_resource($field['guest_access']   ? RES_YES_ID : RES_NO_ID) . '</text>'
+      . '<text label="' . get_html_resource(RES_ADD_SEPARATOR_ID)  . '">' . get_html_resource($field['add_separator']  ? RES_YES_ID : RES_NO_ID) . '</text>'
+      . '<text label="' . get_html_resource(RES_SHOW_IN_EMAILS_ID) . '">' . get_html_resource($field['show_in_emails'] ? RES_YES_ID : RES_NO_ID) . '</text>'
       . '</group>';
 
 echo(xml2html($xml));

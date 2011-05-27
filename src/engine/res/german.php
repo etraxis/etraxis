@@ -418,7 +418,7 @@ $resource_german = array
     /* 1280 */
     'Alle mir Zugeordneten',
     'Alle von mir Erstellten',
-    'Alle abwählen',
+    NULL,
     'd.m.yyyy',
     'Exportieren',
     'Unteranfrage',
