@@ -530,7 +530,17 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
     debug_write_log(DEBUG_DUMP, "[sendmail] \$headers =\n{$headers}");
     debug_write_log(DEBUG_DUMP, "[sendmail] \$message =\n{$message}");
 
-    $subject = '=?utf-8?b?' . base64_encode($subject) . '?=';
+    // MS Outlook cuts email subjects to 255 chars,
+    // so we have to cut original subject if its base64-version is longer.
+    $trailing = NULL;
+
+    while (strlen(base64_encode($subject . $trailing)) > 243)
+    {
+        $subject  = substr($subject, 0, -1);
+        $trailing = '...';
+    }
+
+    $subject = '=?utf-8?b?' . base64_encode($subject . $trailing) . '?=';
 
     switch (EMAIL_NOTIFICATIONS_ENABLED)
     {
