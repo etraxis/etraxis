@@ -418,7 +418,7 @@ $resource_dutch = array
     /* 1280 */
     'Alles aan mij toegewezen',
     'Alles door mij aangemaakt',
-    'Deselecteer alles',
+    NULL,
     'm/d/yyyy',
     'Dump',
     'Subrecords',

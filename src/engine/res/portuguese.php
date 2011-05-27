@@ -418,7 +418,7 @@ $resource_portuguese = array
     /* 1280 */
     'Todos delegados para mim',
     'Todos criados por mim',
-    'Remover seleção de todos',
+    NULL,
     'd/m/yyyy',
     'Dump',
     'Subregistros',

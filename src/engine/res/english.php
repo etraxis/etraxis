@@ -419,7 +419,7 @@ $resource_english = array
     /* 1280 */
     'All assigned to me',
     'All created by me',
-    'Unselect all',
+    'Show in emails',
     'm/d/yyyy',
     'Dump',
     'Subrecords',

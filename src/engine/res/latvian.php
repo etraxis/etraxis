@@ -418,7 +418,7 @@ $resource_latvian = array
     /* 1280 */
     'Visi, kas adresēti uz mani',
     'Manis izveidotie',
-    'Novākt atlasi',
+    NULL,
     'gggg.mm.dd.',
     'Izmete',
     'Pēcteči',

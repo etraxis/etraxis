@@ -418,7 +418,7 @@ $resource_italian = array
     /* 1280 */
     'Tutti quelli assegnati a me',
     'Tutti quelli creati da me',
-    'Deseleziona tutti',
+    NULL,
     'gg/mm/aaaa',
     'Download',
     'Subrecord',
