@@ -54,7 +54,7 @@
     <script type="text/javascript">
     $(document).ready(function() {
         $("#messagebox").dialog({autoOpen:false,modal:true,resizable:false});
-        $("#tabs").tabs();
+        $("#tabs").tabs({selected:-1});
         $("input.button").button();
         $("span.buttonset").buttonset();
         <xsl:apply-templates select="onready"/>

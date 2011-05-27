@@ -253,7 +253,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
         // select requested tab, if one was specified
 
         $tab = '<onready>'
-             . '$("#tabs").tabs().tabs("select", ' . (try_request('tab', 1) - 1) . ');'
+             . '$("#tabs").tabs("option", "selected", ' . (try_request('tab', 1) - 1) . ');'
              . '</onready>';
 
         // join all pieces together
