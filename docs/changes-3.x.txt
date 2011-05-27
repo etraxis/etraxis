@@ -2,6 +2,17 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-0 (2011-05-27)
+
+    Issue 61: More details in generated notifications
+
+Bug fixes integrated in MAIN_3-6-0 (2011-05-27)
+
+    Issue 288: [JavaScript] Uncaught ReferenceError: tabinit is not defined
+    Issue 289: Notification has broken subject if record's description is quite long.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-5-8 (2011-05-22)
 
     Upgrade JQuery up to version 1.6.1.
