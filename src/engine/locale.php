@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ require_once('../engine/res/latvian.php');
 require_once('../engine/res/russian.php');
 require_once('../engine/res/polish.php');
 require_once('../engine/res/czech.php');
+require_once('../engine/res/hungarian.php');
 require_once('../engine/res/bulgarian.php');
 require_once('../engine/res/romanian.php');
 require_once('../engine/res/japanese.php');
@@ -197,6 +198,7 @@ global $resource_latvian;
 global $resource_russian;
 global $resource_polish;
 global $resource_czech;
+global $resource_hungarian;
 global $resource_bulgarian;
 global $resource_romanian;
 global $resource_japanese;
@@ -368,6 +370,17 @@ $locale_info = array
         LOCALE_CODE        => 'cs',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'j.n.Y',
+        LOCALE_TIME_FORMAT => 'G:i',
+    ),
+
+    // Hungarian
+    LANG_HUNGARIAN => array
+    (
+        LOCALE_RES_TABLE   => $resource_hungarian,
+        LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'hu',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'Y.m.d',
         LOCALE_TIME_FORMAT => 'G:i',
     ),
 
