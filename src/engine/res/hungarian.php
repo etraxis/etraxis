@@ -30,7 +30,7 @@
  * @author Szabolcs Tóth
  */
 
-$resource_english = array
+$resource_hungarian = array
 (
     RES_SECTION_ALERTS =>
     /* 200 */
