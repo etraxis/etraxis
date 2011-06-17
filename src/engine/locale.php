@@ -70,6 +70,7 @@ define('LANG_ENGLISH_US',   1000);
 define('LANG_ENGLISH_UK',   1001);
 define('LANG_ENGLISH_CAN',  1002);
 define('LANG_ENGLISH_AUS',  1003);
+define('LANG_ENGLISH_NZ',   1004);
 define('LANG_FRENCH',       1010);
 define('LANG_GERMAN',       1020);
 define('LANG_ITALIAN',      1030);
@@ -249,6 +250,17 @@ $locale_info = array
         LOCALE_TIME_FORMAT => 'g:i A',
     ),
 
+    // English (New Zealand)
+    LANG_ENGLISH_NZ => array
+    (
+        LOCALE_RES_TABLE   => $resource_english,
+        LOCALE_SUFFIX      => 'New Zealand',
+        LOCALE_CODE        => 'en-nz',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'j/m/Y',
+        LOCALE_TIME_FORMAT => 'g:i a',
+    ),
+
     // French
     LANG_FRENCH => array
     (
@@ -279,7 +291,7 @@ $locale_info = array
         LOCALE_CODE        => 'it',
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'd/m/Y',
-        LOCALE_TIME_FORMAT => 'H:i',
+        LOCALE_TIME_FORMAT => 'G.i',
     ),
 
     // Spanish
@@ -298,9 +310,9 @@ $locale_info = array
     (
         LOCALE_RES_TABLE   => $resource_portuguese,
         LOCALE_SUFFIX      => 'Brasil',
-        LOCALE_CODE        => 'pt',
+        LOCALE_CODE        => 'pt-br',
         LOCALE_DIRECTION   => 'ltr',
-        LOCALE_DATE_FORMAT => 'n/j/Y',
+        LOCALE_DATE_FORMAT => 'j/n/Y',
         LOCALE_TIME_FORMAT => 'H:i',
     ),
 
@@ -344,7 +356,7 @@ $locale_info = array
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'pl',
         LOCALE_DIRECTION   => 'ltr',
-        LOCALE_DATE_FORMAT => 'Y.m.d',
+        LOCALE_DATE_FORMAT => 'Y-m-d',
         LOCALE_TIME_FORMAT => 'H:i',
     ),
 
@@ -355,8 +367,8 @@ $locale_info = array
         LOCALE_SUFFIX      => NULL,
         LOCALE_CODE        => 'cs',
         LOCALE_DIRECTION   => 'ltr',
-        LOCALE_DATE_FORMAT => 'd.m.Y',
-        LOCALE_TIME_FORMAT => 'H:i',
+        LOCALE_DATE_FORMAT => 'j.n.Y',
+        LOCALE_TIME_FORMAT => 'G:i',
     ),
 
     // Bulgarian
