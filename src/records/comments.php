@@ -76,7 +76,7 @@ if (try_request('submitted') == 'commentform' ||
         }
         else
         {
-            $comment = ustrcut($_REQUEST['comment'], MAX_COMMENT_BODY);
+            $comment = ustrcut($_REQUEST['rcomment'], MAX_COMMENT_BODY);
 
             $rs = dal_query('records/efnd2.sql', $id, $_SESSION[VAR_USERID], ($is_confidential ? EVENT_CONFIDENTIAL_COMMENT : EVENT_COMMENT_ADDED), time() - 3);
 
@@ -141,7 +141,7 @@ if (can_comment_be_added($record, $permissions))
 {
     $xml .= '<form name="commentform" action="comments.php?id=' . $id . '" success="commentSuccess">'
           . '<group title="' . get_html_resource(RES_COMMENT_ID) . '">'
-          . '<control name="comment">'
+          . '<control name="rcomment">'
           . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
           . '</textbox>'
           . '</control>'

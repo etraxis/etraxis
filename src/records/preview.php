@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ $title = sprintf('%s - %s (%s)',
 
 $xml = '<group title="' . ustr2html($title) . '">'
      . '<text>'
-     . update_references(try_request('comment'))
+     . update_references(try_request('rcomment'))
      . '</text>'
      . '</group>';
 
