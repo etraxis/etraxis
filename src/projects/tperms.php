@@ -199,58 +199,58 @@ function permissionsSuccess ()
 {
     var id = $("#group").val();
 
-    perm_view["g"+id]         = $("#perm_view").attr("checked");
-    perm_create["g"+id]       = $("#perm_create").attr("checked");
-    perm_modify["g"+id]       = $("#perm_modify").attr("checked");
-    perm_postpone["g"+id]     = $("#perm_postpone").attr("checked");
-    perm_resume["g"+id]       = $("#perm_resume").attr("checked");
-    perm_reassign["g"+id]     = $("#perm_reassign").attr("checked");
-    perm_comment["g"+id]      = $("#perm_comment").attr("checked");
-    perm_confidential["g"+id] = $("#perm_confidential").attr("checked");
-    perm_attach["g"+id]       = $("#perm_attach").attr("checked");
-    perm_remove["g"+id]       = $("#perm_remove").attr("checked");
-    perm_remind["g"+id]       = $("#perm_remind").attr("checked");
-    perm_delete["g"+id]       = $("#perm_delete").attr("checked");
-    perm_addsub["g"+id]       = $("#perm_addsub").attr("checked");
-    perm_remsub["g"+id]       = $("#perm_remsub").attr("checked");
+    perm_view["g"+id]         = $("#perm_view").prop("checked");
+    perm_create["g"+id]       = $("#perm_create").prop("checked");
+    perm_modify["g"+id]       = $("#perm_modify").prop("checked");
+    perm_postpone["g"+id]     = $("#perm_postpone").prop("checked");
+    perm_resume["g"+id]       = $("#perm_resume").prop("checked");
+    perm_reassign["g"+id]     = $("#perm_reassign").prop("checked");
+    perm_comment["g"+id]      = $("#perm_comment").prop("checked");
+    perm_confidential["g"+id] = $("#perm_confidential").prop("checked");
+    perm_attach["g"+id]       = $("#perm_attach").prop("checked");
+    perm_remove["g"+id]       = $("#perm_remove").prop("checked");
+    perm_remind["g"+id]       = $("#perm_remind").prop("checked");
+    perm_delete["g"+id]       = $("#perm_delete").prop("checked");
+    perm_addsub["g"+id]       = $("#perm_addsub").prop("checked");
+    perm_remsub["g"+id]       = $("#perm_remsub").prop("checked");
 
     jqAlert("{$resTitle}", "{$resMessage}", "{$resOK}");
 }
 
 function selectAll ()
 {
-    $("#permsform input:checkbox").attr("checked", "checked");
-    $("#permsform input:checkbox:disabled").attr("checked", "");
+    $("#permsform input:checkbox").prop("checked", true);
+    $("#permsform input:checkbox:disabled").prop("checked", false);
 }
 
 function updatePerms ()
 {
     var id = $("#group").val();
 
-    $("#perm_view").attr("checked",         perm_view["g"+id]         ? "checked" : "");
-    $("#perm_create").attr("checked",       perm_create["g"+id]       ? "checked" : "");
-    $("#perm_modify").attr("checked",       perm_modify["g"+id]       ? "checked" : "");
-    $("#perm_postpone").attr("checked",     perm_postpone["g"+id]     ? "checked" : "");
-    $("#perm_resume").attr("checked",       perm_resume["g"+id]       ? "checked" : "");
-    $("#perm_reassign").attr("checked",     perm_reassign["g"+id]     ? "checked" : "");
-    $("#perm_comment").attr("checked",      perm_comment["g"+id]      ? "checked" : "");
-    $("#perm_confidential").attr("checked", perm_confidential["g"+id] ? "checked" : "");
-    $("#perm_attach").attr("checked",       perm_attach["g"+id]       ? "checked" : "");
-    $("#perm_remove").attr("checked",       perm_remove["g"+id]       ? "checked" : "");
-    $("#perm_remind").attr("checked",       perm_remind["g"+id]       ? "checked" : "");
-    $("#perm_delete").attr("checked",       perm_delete["g"+id]       ? "checked" : "");
-    $("#perm_addsub").attr("checked",       perm_addsub["g"+id]       ? "checked" : "");
-    $("#perm_remsub").attr("checked",       perm_remsub["g"+id]       ? "checked" : "");
+    $("#perm_view").prop("checked",         perm_view["g"+id]);
+    $("#perm_create").prop("checked",       perm_create["g"+id]);
+    $("#perm_modify").prop("checked",       perm_modify["g"+id]);
+    $("#perm_postpone").prop("checked",     perm_postpone["g"+id]);
+    $("#perm_resume").prop("checked",       perm_resume["g"+id]);
+    $("#perm_reassign").prop("checked",     perm_reassign["g"+id]);
+    $("#perm_comment").prop("checked",      perm_comment["g"+id]);
+    $("#perm_confidential").prop("checked", perm_confidential["g"+id]);
+    $("#perm_attach").prop("checked",       perm_attach["g"+id]);
+    $("#perm_remove").prop("checked",       perm_remove["g"+id]);
+    $("#perm_remind").prop("checked",       perm_remind["g"+id]);
+    $("#perm_delete").prop("checked",       perm_delete["g"+id]);
+    $("#perm_addsub").prop("checked",       perm_addsub["g"+id]);
+    $("#perm_remsub").prop("checked",       perm_remsub["g"+id]);
 
     if (id == {$role_author} || id == {$role_responsible})
     {
-        $("#perm_view").attr("disabled", "disabled");
-        $("#perm_create").attr("disabled", "disabled");
+        $("#perm_view").prop("disabled", true);
+        $("#perm_create").prop("disabled", true);
     }
     else
     {
-        $("#perm_view").attr("disabled", "");
-        $("#perm_create").attr("disabled", "");
+        $("#perm_view").prop("disabled", false);
+        $("#perm_create").prop("disabled", false);
     }
 }
 
@@ -303,7 +303,7 @@ $xml .= '</group>'
       . '</form>';
 
 $xml .= '<onready>'
-      . '$("#group :first-child").attr("selected", "selected");'
+      . '$("#group :first-child").prop("selected", true);'
       . 'updatePerms();'
       . '</onready>';
 

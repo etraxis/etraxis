@@ -138,7 +138,7 @@ function updatePerms ()
 {
     var id = $("#group").val();
     var perm = permissions["g"+id];
-    $("input[name=permissions]:radio[value=" + perm + "]").attr("checked", "checked");
+    $("input[name=permissions]:radio[value=" + perm + "]").prop("checked", true);
 }
 
 </script>
@@ -186,7 +186,7 @@ $xml .= '<dualright>'
       . '</form>';
 
 $xml .= '<onready>'
-      . '$("#group :first-child").attr("selected", "selected");'
+      . '$("#group :first-child").prop("selected", true);'
       . 'updatePerms();'
       . '</onready>';
 
