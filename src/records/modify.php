@@ -330,7 +330,7 @@ while (($state = $states->fetch()))
                     $field['param1'] = date_offset($event_time, $field['param1']);
                     $field['param2'] = date_offset($event_time, $field['param2']);
 
-                    $xml .= '<label>' . sprintf('%s (%s)', ustr2html($field['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>';
+                    $xml .= '<label>' . sprintf('%s (%s)', ustr2html($field['field_name']), get_date_format_str()) . '</label>';
 
                     $xml .= '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
                           . ustr2html(try_request($name, $value))

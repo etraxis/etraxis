@@ -454,7 +454,7 @@ else
 
             case FIELD_TYPE_DATE:
 
-                $xml .= '<label>' . sprintf('%s (%s)', ustr2html($row['field_name']), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>';
+                $xml .= '<label>' . sprintf('%s (%s)', ustr2html($row['field_name']), get_date_format_str()) . '</label>';
 
                 $xml .= '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
                       . ustr2html(try_request($name, $value))

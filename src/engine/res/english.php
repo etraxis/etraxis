@@ -420,7 +420,7 @@ $resource_english = array
     'All assigned to me',
     'All created by me',
     'Show in emails',
-    'm/d/yyyy',
+    NULL,
     'Dump',
     'Subrecords',
     'Create subrecord',

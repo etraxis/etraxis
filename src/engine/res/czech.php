@@ -419,7 +419,7 @@ $resource_czech = array
     'Všechny přidělené mně',
     'Všechny vytvořené mnou',
     NULL,
-    'd.m.yyyy',
+    NULL,
     'Výpis',
     'Podřízené záznamy',
     'Vytvořit podřízený záznam',

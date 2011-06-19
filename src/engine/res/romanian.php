@@ -419,7 +419,7 @@ $resource_romanian = array
     'Toate asignate mie',
     'Toate create de mine',
     NULL,
-    'm/d/yyyy',
+    NULL,
     'Export',
     'Inregistrari dependente',
     'Creaza inregistrare dependenta',

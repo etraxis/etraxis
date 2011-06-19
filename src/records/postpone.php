@@ -143,7 +143,7 @@ JQUERY;
 $xml .= '<form name="postponeform" action="postpone.php?id=' . $id . '" success="postponeSuccess" error="postponeError">'
       . '<group>'
       . '<control name="duedate" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-      . '<label>' . sprintf('%s (%s)', get_html_resource(RES_DUEDATE_ID), get_html_resource(RES_YYYY_MM_DD_ID)) . '</label>'
+      . '<label>' . sprintf('%s (%s)', get_html_resource(RES_DUEDATE_ID), get_date_format_str()) . '</label>'
       . '<editbox maxlen="' . ustrlen(get_date(SAMPLE_DATE)) . '">'
       . ustr2html(get_date($duedate))
       . '</editbox>'

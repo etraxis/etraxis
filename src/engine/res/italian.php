@@ -419,7 +419,7 @@ $resource_italian = array
     'Tutti quelli assegnati a me',
     'Tutti quelli creati da me',
     NULL,
-    'gg/mm/aaaa',
+    NULL,
     'Download',
     'Subrecord',
     'Crea subrecord',
