@@ -419,7 +419,7 @@ $resource_german = array
     'Alle mir Zugeordneten',
     'Alle von mir Erstellten',
     NULL,
-    'd.m.yyyy',
+    NULL,
     'Exportieren',
     'Unteranfrage',
     'Unteranfrage erstellen',

@@ -419,7 +419,7 @@ $resource_polish = array
     'Wszystkie przydzielone do mnie',
     'Wszystkie utworzone przeze mnie',
     NULL,
-    'yyyy.m.d',
+    NULL,
     'Zrzuć',
     'Subrekordy',
     'Utwórz subrekord',

@@ -419,7 +419,7 @@ $resource_french = array
     'Tous ceux qui me sont affectés',
     'Tous ceux que j\'ai créés',
     NULL,
-    'm/j/aaaa',
+    NULL,
     'Dump',
     'Subrecords',
     'Créer un subrecord',

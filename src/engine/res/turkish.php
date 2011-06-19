@@ -419,7 +419,7 @@ $resource_turkish = array
     'Bana atananların tümü',
     'Benim tarafımdan oluşturulanların tümü',
     NULL,
-    'm/d/yyyy',
+    NULL,
     'Çöp',
     'Alt kayıtlar',
     'Alt kayıt oluştur',

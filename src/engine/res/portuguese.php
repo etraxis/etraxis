@@ -419,7 +419,7 @@ $resource_portuguese = array
     'Todos delegados para mim',
     'Todos criados por mim',
     NULL,
-    'd/m/yyyy',
+    NULL,
     'Dump',
     'Subregistros',
     'Criar subregistro',

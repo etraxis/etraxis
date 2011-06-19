@@ -590,6 +590,45 @@ function get_datetime ($timestamp, $lang = NULL)
 }
 
 /**
+ * Returns string with human-readable presentation of date format for specified language.
+ *
+ * @param int $lang ID of language. If omitted, then language of current user, or (when user is
+ * not logged in) default language will be used (see {@link LANG_DEFAULT}).
+ * @return string Human-readable date format string.
+ */
+function get_date_format_str ($lang = NULL)
+{
+    debug_write_log(DEBUG_TRACE, '[get_date_format_str]');
+    debug_write_log(DEBUG_DUMP,  '[get_date_format_str] $lang = ' . $lang);
+
+    global $locale_info;
+
+    if (is_null($lang))
+    {
+        $lang = (isset($_SESSION[VAR_LOCALE]) ? $_SESSION[VAR_LOCALE] : LANG_DEFAULT);
+    }
+
+    $format = $locale_info[$lang][LOCALE_DATE_FORMAT];
+
+    $format_chars = array
+    (
+        'Y' => 'YYYY',
+        'y' => 'YY',
+        'm' => 'MM',
+        'n' => 'M',
+        'd' => 'DD',
+        'j' => 'D',
+    );
+
+    foreach ($format_chars as $from => $to)
+    {
+        $format = str_replace($from, $to, $format);
+    }
+
+    return $format;
+}
+
+/**
  * Converts string presentation of date to Unix timestamp (see {@link http://en.wikipedia.org/wiki/Unix_time}).
  *
  * @param string $str String presentation of date. It must consist to date format of specified language.

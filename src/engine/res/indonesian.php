@@ -419,7 +419,7 @@ $resource_indonesian = array
     'Semua yang ditugaskan pada saya',
     'Semua yang dibuat oleh saya',
     NULL,
-    'm/d/yyyy',
+    NULL,
     'Timbunan',
     'Subdata',
     'Buat subdata',

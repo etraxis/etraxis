@@ -419,7 +419,7 @@ $resource_spanish = array
     'Todos los asignados a mi',
     'Todos los creados por mi',
     NULL,
-    'd/m/yyyy',
+    NULL,
     'Descargar',
     'Subregistros',
     'Crear subregistro',

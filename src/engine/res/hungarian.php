@@ -420,7 +420,7 @@ $resource_hungarian = array
     'A hozzám rendelt rekordok',
     'Az általam beküldöt rekordok',
     'Értesítőbe bekerüljön',
-    'm/d/yyyy',
+    NULL,
     'Dump',
     'Alrekordok',
     'Alrekord létrehozása',
