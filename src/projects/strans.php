@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -141,8 +141,8 @@ function transitionsSuccess ()
     var id = $("#group").val();
 
     $("#transform input:checkbox").each(function () {
-        var name = $(this).attr("name");
-        transitions["g"+id][name] = $(this).attr("checked");
+        var name = $(this).prop("name");
+        transitions["g"+id][name] = $(this).prop("checked");
     });
 
     jqAlert("{$resTitle}", "{$resMessage}", "{$resOK}");
@@ -153,8 +153,8 @@ function updateTrans ()
     var id = $("#group").val();
 
     $("#transform input:checkbox").each(function () {
-        var name = $(this).attr("name");
-        $(this).attr("checked", transitions["g"+id][name] ? "checked" : "");
+        var name = $(this).prop("name");
+        $(this).prop("checked", transitions["g"+id][name]);
     });
 }
 
@@ -208,7 +208,7 @@ $xml .= '</group>'
       . '</form>';
 
 $xml .= '<onready>'
-      . '$("#group :first-child").attr("selected", "selected");'
+      . '$("#group :first-child").prop("selected", true);'
       . 'updateTrans();'
       . '</onready>';
 
