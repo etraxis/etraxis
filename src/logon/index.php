@@ -46,7 +46,7 @@ if (get_user_level() != USER_LEVEL_GUEST)
 $resTitle = get_js_resource(RES_ERROR_ID);
 $resOK    = get_js_resource(RES_OK_ID);
 
-$uri = try_cookie(COOKIE_URI, '../records/index.php');
+$uri = ustr2html(try_cookie(COOKIE_URI, '../records/index.php'));
 
 $xml = <<<JQUERY
 <script>
