@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -84,15 +84,35 @@ $resCancel = get_js_resource(RES_CANCEL_ID);
 $xml = <<<JQUERY
 <script>
 
+function createSubrecordForceToStep2 ()
+{
+    var items = $("#projectform #project").children().length;
+
+    if (items == 1)
+    {
+        createSubrecordStep2();
+    }
+}
+
+function createSubrecordForceToStep3 ()
+{
+    var items = $("#templateform #template").children().length;
+
+    if (items == 1)
+    {
+        createSubrecordStep3();
+    }
+}
+
 function createSubrecordStep1 ()
 {
-    jqModal("{$resTitle}", "create.php?parent={$id}", "{$resNext}", "{$resCancel}", "createSubrecordStep2()");
+    jqModal("{$resTitle}", "create.php?parent={$id}", "{$resNext}", "{$resCancel}", "createSubrecordStep2()", null, "createSubrecordForceToStep2()");
 }
 
 function createSubrecordStep2 ()
 {
     closeModal();
-    jqModal("{$resTitle}", "create.php?parent={$id}&amp;" + $("#projectform").serialize(), "{$resNext}", "{$resCancel}", "createSubrecordStep3()");
+    jqModal("{$resTitle}", "create.php?parent={$id}&amp;" + $("#projectform").serialize(), "{$resNext}", "{$resCancel}", "createSubrecordStep3()", null, "createSubrecordForceToStep3()");
 }
 
 function createSubrecordStep3 ()
