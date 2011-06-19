@@ -301,30 +301,34 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
     $html = $xslt->transformToXML($page);
 
-    if (!$html)
+    if (extension_loaded('libxml'))
     {
-        debug_write_log(DEBUG_DUMP, '[xml2html] $xml = ' . $xml);
-    }
-    else
-    {
-        $html = str_replace('%br;', '<br/>', $html);
+        $error = libxml_get_last_error();
 
-        // built-in compressions: check whether required extensions is available and PHP compression is turned off
-        if (!extension_loaded('zlib') || ini_get('zlib.output_compression') || ini_get('output_handler'))
+        if ($error)
         {
-            $html = str_replace('scripts/get.php?name=', 'scripts/', $html);
+            debug_write_log(DEBUG_ERROR, '[xml2html] XML Error = ' . $error->message);
+            debug_write_log(DEBUG_DUMP,  '[xml2html] $xml = ' . $xml);
         }
-
-        // workaround: some PHP configurations insert CDATA tags which break the output
-        $html = preg_replace('/<!\[cdata\[(.*?)\]\]>/isu',     '$1', $html);
-        $html = preg_replace('/%3C!\[cdata\[(.*?)\]\]%3E/isu', '$1', $html);
-
-        mb_regex_encoding('UTF-8');
-
-        $html = mb_eregi_replace('%([A-Za-z]+);',          '&\1;', $html);
-        $html = mb_eregi_replace('%(#[0-9]{1,4});',        '&\1;', $html);
-        $html = mb_eregi_replace('%(#x[0-9A-Fa-f]{1,4});', '&\1;', $html);
     }
+
+    $html = str_replace('%br;', '<br/>', $html);
+
+    // built-in compressions: check whether required extensions is available and PHP compression is turned off
+    if (!extension_loaded('zlib') || ini_get('zlib.output_compression') || ini_get('output_handler'))
+    {
+        $html = str_replace('scripts/get.php?name=', 'scripts/', $html);
+    }
+
+    // workaround: some PHP configurations insert CDATA tags which break the output
+    $html = preg_replace('/<!\[cdata\[(.*?)\]\]>/isu',     '$1', $html);
+    $html = preg_replace('/%3C!\[cdata\[(.*?)\]\]%3E/isu', '$1', $html);
+
+    mb_regex_encoding('UTF-8');
+
+    $html = mb_eregi_replace('%([A-Za-z]+);',          '&\1;', $html);
+    $html = mb_eregi_replace('%(#[0-9]{1,4});',        '&\1;', $html);
+    $html = mb_eregi_replace('%(#x[0-9A-Fa-f]{1,4});', '&\1;', $html);
 
     debug_write_log(DEBUG_PERFORMANCE, 'page size = ' . strlen($html));
 
