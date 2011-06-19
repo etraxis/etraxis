@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-1 (2011-06-19)
+
+    Issue 292: Template permissions are not saved.
+    Issue 293: PHP Warning: DOMDocument::loadXML(): EntityRef: expecting ';'
+    Issue 294: Dates are typed in wrong format in Australian English locale.
+    Issue 301: Single project/single template are not ignored on subrecord creation.
+    Issue 308: Comment box in the "Postpone" dialog doesn't get focus.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-6-0 (2011-05-27)
 
     Issue 61: More details in generated notifications

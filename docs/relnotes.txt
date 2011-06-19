@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-0
-Release date: 2011-05-27
-Release size: 47236
+Release tag:  MAIN_3-6-1
+Release date: 2011-06-19
+Release size: 47741
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -30,17 +30,17 @@ TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/events.php
-[M] src/dbo/fields.php
-[M] src/dbo/importer.php
+[M] src/engine/locale.php
 [M] src/engine/res/bulgarian.php
 [M] src/engine/res/czech.php
 [M] src/engine/res/dutch.php
 [M] src/engine/res/english.php
 [M] src/engine/res/french.php
 [M] src/engine/res/german.php
+[A] src/engine/res/hungarian.php
 [M] src/engine/res/indonesian.php
 [M] src/engine/res/italian.php
+[M] src/engine/res/japanese.php
 [M] src/engine/res/latvian.php
 [M] src/engine/res/polish.php
 [M] src/engine/res/portuguese.php
@@ -49,33 +49,22 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 [M] src/engine/res/spanish.php
 [M] src/engine/res/turkish.php
 [M] src/engine/resource.php
-[M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/projects/fcreate.php
-[M] src/projects/field.php
-[M] src/projects/fmodify.php
-[M] src/records/fields.php
-[M] src/sql/accounts/create.sql
-[M] src/sql/fields/create.sql
-[M] src/sql/fields/fndid.sql
-[M] src/sql/fields/modify.sql
-[A] src/sql/records/flist3.sql
-[M] src/sql/templates/fclone.sql
-[M] src/themes/Azure/css/etraxis.css
-[M] src/themes/Emerald/css/buttons.css
-[M] src/themes/Emerald/css/etraxis.css
-[M] src/themes/Emerald/engine.xsl
-[M] src/themes/Mars/css/etraxis.css
-[M] src/themes/Orchid/css/etraxis.css
-[M] tools/dbschema/dbschema.xml
-[M] tools/sql/mssql2k.sql
-[M] tools/sql/mysql50.sql
-[M] tools/sql/ora9i.sql
-[M] tools/sql/pgsql80.sql
-[A] tools/upgrade/3.5.x-3.6.x/mssql2k.sql
-[A] tools/upgrade/3.5.x-3.6.x/mysql50.sql
-[A] tools/upgrade/3.5.x-3.6.x/ora9i.sql
-[A] tools/upgrade/3.5.x-3.6.x/pgsql80.sql
+[M] src/logon/index.php
+[M] src/projects/fperms.php
+[M] src/projects/gperms.php
+[M] src/projects/strans.php
+[M] src/projects/tperms.php
+[M] src/records/comments.php
+[M] src/records/create.php
+[M] src/records/modify.php
+[M] src/records/postpone.php
+[M] src/records/preview.php
+[M] src/records/record.php
+[M] src/records/state.php
+[M] src/records/subrecords.php
+[M] src/scripts/jquery-ui.dp.res.js
+[M] src/settings/password.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -87,6 +76,7 @@ Dutch
 English
 French
 German
+Hungarian
 Indonesian
 Italian
 Japanese
@@ -170,6 +160,15 @@ Issue 250: New column "date of last state change"
 Issue 256: Possible Metrics Replacement
 Issue 264: Link on the ID
 Issue 285: Display timestamps using user's local time zone.
+Issue 295: Restriction failure regarding filter and subscription	 
+Issue 296: Predefined built-in filters for list of records	 
+Issue 297: Add support for database transactions where possible	 
+Issue 298: Implement restriction for total attachments size.	 
+Issue 300: Files upload should work via AJAX too.	 
+Issue 302: Add "clock" animation when data are submitted and eTraxis UI is temporarily disabled while processing.	 
+Issue 303: Add dedicated column for "enabled/disabled" status to lists of filters, views, etc.	 
+Issue 304: Additional default filters	 
+Issue 309: Make default "root" user unremovable.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -178,18 +177,25 @@ KNOWN ISSUES
 Issue 94: Values of restricted fields are still accessible via custom view.
 Issue 205: export-import issue
 Issue 247: LDAP Logins time out or take a long time when user has multiple filters for multiple templates within a views
+Issue 290: Export-import issues	 
+Issue 291: Default value in recordtemplate incomplete after Import when german special chars are used (ä,ö,ü...)	 
+Issue 305: Restrictions on amount of templates and accounts are ignored on import.	 
+Issue 306: Huge delays on filter modification when total amount of users is several hundreds.	 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 61: More details in generated notifications
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 288: [JavaScript] Uncaught ReferenceError: tabinit is not defined
-Issue 289: Notification has broken subject if record's description is quite long.
+Issue 292: Template permissions are not saved.
+Issue 293: PHP Warning: DOMDocument::loadXML(): EntityRef: expecting ';'
+Issue 294: Dates are typed in wrong format in Australian English locale.
+Issue 301: Single project/single template are not ignored on subrecord creation.
+Issue 308: Comment box in the "Postpone" dialog doesn't get focus.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
