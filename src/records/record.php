@@ -486,7 +486,7 @@ if (can_comment_be_added($record, $permissions))
 {
     $xml .= '<form name="rcommentform" action="comments.php?id=' . $id . '" success="commentSuccess">'
           . '<group title="' . get_html_resource(RES_COMMENT_ID) . '">'
-          . '<control name="comment">'
+          . '<control name="rcomment">'
           . '<textbox rows="' . $_SESSION[VAR_TEXTROWS] . '" resizeable="true" maxlen="' . MAX_COMMENT_BODY . '">'
           . '</textbox>'
           . '</control>'
