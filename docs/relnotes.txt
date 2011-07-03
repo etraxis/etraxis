@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-1
-Release date: 2011-06-19
-Release size: 47741
+Release tag:  MAIN_3-6-2
+Release date: 2011-07-03
+Release size: 47839
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -21,7 +21,7 @@ Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
 THIRD PARTY LIBRARIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-jQuery:             1.6.1   http://jquery.com/
+jQuery:             1.6.2   http://jquery.com/
 jQuery UI:          1.8.14  http://jqueryui.com/
 jqPlot:             1.0.0b2 http://www.jqplot.com/
 TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
@@ -31,41 +31,69 @@ BlockUI Plugin:     2.39    http://jquery.malsup.com/block/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/locale.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/czech.php
-[M] src/engine/res/dutch.php
+[M] src/dbo/records.php
 [M] src/engine/res/english.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
-[A] src/engine/res/hungarian.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
 [M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
 [M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
 [M] src/engine/resource.php
 [M] src/engine/xml.php
-[M] src/logon/index.php
-[M] src/projects/fperms.php
-[M] src/projects/gperms.php
-[M] src/projects/strans.php
-[M] src/projects/tperms.php
-[M] src/records/comments.php
-[M] src/records/create.php
-[M] src/records/modify.php
-[M] src/records/postpone.php
-[M] src/records/preview.php
-[M] src/records/record.php
-[M] src/records/state.php
-[M] src/records/subrecords.php
-[M] src/scripts/jquery-ui.dp.res.js
-[M] src/settings/password.php
+[M] src/filters/list.php
+[M] src/scripts/excanvas.min.js
+[M] src/scripts/jqplot.BezierCurveRenderer.min.js
+[M] src/scripts/jqplot.barRenderer.min.js
+[M] src/scripts/jqplot.blockRenderer.min.js
+[M] src/scripts/jqplot.bubbleRenderer.min.js
+[M] src/scripts/jqplot.canvasAxisLabelRenderer.min.js
+[M] src/scripts/jqplot.canvasAxisTickRenderer.min.js
+[M] src/scripts/jqplot.canvasOverlay.min.js
+[M] src/scripts/jqplot.canvasTextRenderer.min.js
+[M] src/scripts/jqplot.categoryAxisRenderer.min.js
+[M] src/scripts/jqplot.ciParser.min.js
+[M] src/scripts/jqplot.cursor.min.js
+[M] src/scripts/jqplot.dateAxisRenderer.min.js
+[M] src/scripts/jqplot.donutRenderer.min.js
+[M] src/scripts/jqplot.dragable.min.js
+[M] src/scripts/jqplot.enhancedLegendRenderer.min.js
+[M] src/scripts/jqplot.funnelRenderer.min.js
+[M] src/scripts/jqplot.highlighter.min.js
+[M] src/scripts/jqplot.json2.min.js
+[M] src/scripts/jqplot.logAxisRenderer.min.js
+[M] src/scripts/jqplot.mekkoAxisRenderer.min.js
+[M] src/scripts/jqplot.mekkoRenderer.min.js
+[M] src/scripts/jqplot.meterGaugeRenderer.min.js
+[M] src/scripts/jqplot.ohlcRenderer.min.js
+[M] src/scripts/jqplot.pieRenderer.min.js
+[M] src/scripts/jqplot.pointLabels.min.js
+[M] src/scripts/jqplot.trendline.min.js
+[M] src/scripts/jquery-ui.js
+[A] src/scripts/jquery.blockUI.js
+[M] src/scripts/jquery.jqplot.min.js
+[M] src/scripts/jquery.js
+[M] src/sql/filters/membersx2.sql
+[M] src/subscriptions/list.php
+[M] src/themes/Azure/css/etraxis.css
+[M] src/themes/Azure/css/jquery-ui.css
+[M] src/themes/Azure/images/ui-bg_flat_100_ffd8d8_40x100.png
+[M] src/themes/Azure/images/ui-bg_highlight-soft_60_d0d0d0_1x100.png
+[M] src/themes/Azure/images/ui-icons_e0e0e0_256x240.png
+[M] src/themes/Emerald/css/etraxis.css
+[M] src/themes/Emerald/css/jquery-ui.css
+[M] src/themes/Emerald/engine.xsl
+[M] src/themes/Emerald/images/ui-bg_flat_100_f9f2c8_40x100.png
+[M] src/themes/Emerald/images/ui-bg_gloss-wave_25_00605d_500x100.png
+[M] src/themes/Emerald/images/ui-bg_highlight-soft_25_77a69f_1x100.png
+[M] src/themes/Emerald/images/ui-icons_d0d0d0_256x240.png
+[M] src/themes/Emerald/images/ui-icons_ff0000_256x240.png
+[M] src/themes/Mars/css/etraxis.css
+[M] src/themes/Mars/css/jquery-ui.css
+[M] src/themes/Mars/images/ui-bg_flat_100_ffd8d8_40x100.png
+[M] src/themes/Mars/images/ui-bg_gloss-wave_25_502020_500x100.png
+[M] src/themes/Mars/images/ui-icons_2e83ff_256x240.png
+[M] src/themes/Orchid/css/etraxis.css
+[M] src/themes/Orchid/css/jquery-ui.css
+[M] src/themes/Orchid/images/ui-bg_flat_100_f9f2c8_40x100.png
+[M] src/themes/Orchid/images/ui-bg_gloss-wave_25_cd6ad1_500x100.png
+[M] src/themes/Orchid/images/ui-bg_highlight-soft_25_d58ad8_1x100.png
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -153,7 +181,6 @@ Issue 223: Auto Refresh of /records/index.php
 Issue 224: Multi site
 Issue 227: Enhance search capacity
 Issue 234: System-wide or project-wide fields
-Issue 239: When adding too big attachments, record saved without attachment, but no error message
 Issue 240: Global Views
 Issue 245: Printing record
 Issue 248: Ability to filter out all records, which were closed last X days only.
@@ -166,8 +193,6 @@ Issue 296: Predefined built-in filters for list of records
 Issue 297: Add support for database transactions where possible	 
 Issue 298: Implement restriction for total attachments size.	 
 Issue 300: Files upload should work via AJAX too.	 
-Issue 302: Add "clock" animation when data are submitted and eTraxis UI is temporarily disabled while processing.	 
-Issue 303: Add dedicated column for "enabled/disabled" status to lists of filters, views, etc.	 
 Issue 304: Additional default filters	 
 Issue 309: Make default "root" user unremovable.
 
@@ -175,28 +200,25 @@ Issue 309: Make default "root" user unremovable.
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 94: Values of restricted fields are still accessible via custom view.
 Issue 205: export-import issue
+Issue 239: When adding too big attachments, record saved without attachment, but no error message
 Issue 247: LDAP Logins time out or take a long time when user has multiple filters for multiple templates within a views
 Issue 290: Export-import issues	 
 Issue 291: Default value in recordtemplate incomplete after Import when german special chars are used (ä,ö,ü...)	 
 Issue 305: Restrictions on amount of templates and accounts are ignored on import.	 
-Issue 306: Huge delays on filter modification when total amount of users is several hundreds.	 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 302: Add "clock" animation when data are submitted and eTraxis UI is temporarily disabled while processing.	 
+Issue 303: Add dedicated column for "enabled/disabled" status to lists of filters, views, etc.	 
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 292: Template permissions are not saved.
-Issue 293: PHP Warning: DOMDocument::loadXML(): EntityRef: expecting ';'
-Issue 294: Dates are typed in wrong format in Australian English locale.
-Issue 301: Single project/single template are not ignored on subrecord creation.
-Issue 308: Comment box in the "Postpone" dialog doesn't get focus.
+Issue 94: Values of restricted fields are still accessible via custom view.
+Issue 306: Huge delays on filter modification when total amount of users is several hundreds.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

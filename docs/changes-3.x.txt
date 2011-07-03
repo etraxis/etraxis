@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-2 (2011-07-03)
+
+    Issue 302: Add "clock" animation when data are submitted and eTraxis UI is temporarily disabled while processing.
+    Issue 303: Add dedicated column for "enabled/disabled" status to lists of filters and subscriptions.
+
+Bug fixes integrated in MAIN_3-6-2 (2011-07-03)
+
+    Issue 94: Values of restricted fields are still accessible via custom view.
+    Issue 306: Huge delays on filter modification when total amount of users is several hundreds.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-1 (2011-06-19)
 
     Issue 292: Template permissions are not saved.
