@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -131,6 +131,7 @@ if ($list->rows != 0)
     $columns = array
     (
         RES_FILTER_NAME_ID,
+        RES_STATUS_ID,
         RES_OWNER_ID,
     );
 
@@ -175,6 +176,7 @@ if ($list->rows != 0)
                     ? "<row name=\"filter{$row['filter_id']}\" color=\"{$color}\">"
                     : "<row name=\"filter{$row['filter_id']}\" url=\"view.php?id={$row['filter_id']}\" color=\"{$color}\">")
               . '<cell>' . ustr2html($row['filter_name']) . '</cell>'
+              . '<cell>' . get_html_resource($row['active'] ? RES_ACTIVE_ID : RES_DISABLED_ID) . '</cell>'
               . '<cell>' . ustr2html(sprintf('%s (%s)', $row['fullname'], $row['username'])) . '</cell>'
               . '</row>';
     }
