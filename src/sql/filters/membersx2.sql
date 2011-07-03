@@ -9,7 +9,6 @@ select distinct
 from
 
     tbl_accounts    a,
-    tbl_templates   t,
     tbl_group_perms gp,
     tbl_membership  ms
 
@@ -57,7 +56,6 @@ select distinct
 from
 
     tbl_accounts    a,
-    tbl_templates   t,
     tbl_group_perms gp,
     tbl_membership  ms
 
