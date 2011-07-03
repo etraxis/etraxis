@@ -415,7 +415,7 @@ define('RES_BANNER_ID',                             1279);
 define('RES_ALL_ASSIGNED_TO_ME_ID',                 1280);
 define('RES_ALL_CREATED_BY_ME_ID',                  1281);
 define('RES_SHOW_IN_EMAILS_ID',                     1282);
-define('RES_UNUSED_1283_ID',                        1283);
+define('RES_PLEASE_WAIT_ID',                        1283);
 define('RES_DUMP_ID',                               1284);
 define('RES_SUBRECORDS_ID',                         1285);
 define('RES_CREATE_SUBRECORD_ID',                   1286);
