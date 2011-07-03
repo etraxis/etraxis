@@ -48,6 +48,7 @@
     <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.dp.res.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery.TextareaLineCount.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery.blockUI.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=combobox.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=etraxis.js"></script>
     <xsl:apply-templates select="script"/>
@@ -62,7 +63,6 @@
     </script>
     <div id="messagebox"></div>
     <div id="modaldlg"></div>
-    <div id="waiting"></div>
     <div id="mainmenu"><xsl:apply-templates select="mainmenu"/></div>
     <div id="toolbar">
         <div class="toolbarsplitt spacer"></div>
@@ -602,28 +602,34 @@
             $(document).ready(function() {
                 $("#<xsl:value-of select="@name"/>").submit(function ()
                 {
-                    $("#waiting").dialog({
-                        modal: true,
-                        dialogClass: "waiting",
-                        resizable: false,
-                        closeOnEscape: false,
-                        beforeClose: function () { return false; }
-                    });
-
-                    $("#waiting").html("Please wait...");
-                    $(".waiting").hide();
-
                     $.ajax({
                         type: "POST",
                         url: "<xsl:value-of disable-output-escaping="yes" select="@action"/>",
+                        beforeSend: function () {
+                            $.blockUI({
+                                css: {
+                                    backgroundColor: "black",
+                                    color: "white",
+                                    opacity: .5,
+                                    padding: "25px",
+                                    border: "none",
+                                    "font-size": "2em",
+                                    "font-weight": "bold",
+                                    "-moz-border-radius": "8px",
+                                    "-webkit-border-radius": "8px",
+                                    "border-radius": "8px"
+                                }
+                            });
+                        },
+                        complete: function () {
+                            $.unblockUI();
+                        },
                         success: function (data) {
-                            $("#waiting").dialog("destroy");
                             <xsl:if test="boolean(@success)">
                             <xsl:value-of select="@success"/>(data);
                             </xsl:if>
                         },
                         error: function (XMLHttpRequest) {
-                            $("#waiting").dialog("destroy");
                             <xsl:if test="boolean(@error)">
                             <xsl:value-of select="@error"/>(XMLHttpRequest);
                             </xsl:if>

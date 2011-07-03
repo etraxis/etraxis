@@ -254,6 +254,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         $tab = '<onready>'
              . '$("#tabs").tabs("option", "selected", ' . (try_request('tab', 1) - 1) . ');'
+             . '$.blockUI.defaults.message = "' . get_html_resource(RES_PLEASE_WAIT_ID) . '";'
              . '</onready>';
 
         // join all pieces together
