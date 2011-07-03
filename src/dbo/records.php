@@ -159,6 +159,8 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
     save_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW], $sort);
     save_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW], $page);
 
+    // Add default access conditions for guests and registered users.
+
     if (get_user_level() == USER_LEVEL_GUEST)
     {
         array_push($clause_select, '0 as read_time');
@@ -187,6 +189,40 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
         array_push($clause_select, 'rd.read_time');
         array_push($clause_join,   'left outer join tbl_reads rd on rd.record_id = r.record_id and rd.account_id = ' . $_SESSION[VAR_USERID]);
     }
+
+    // SQL condition to check that current user is allowed to read the field.
+
+    $sql_field_perms = <<<SQL
+
+        f.field_id in (select f.field_id
+                       from
+                           tbl_group_perms  gp,
+                           tbl_membership   ms,
+                           tbl_field_perms  fp,
+                           tbl_fields f
+                       where
+                           fp.field_id   = f.field_id  and
+                           fp.group_id   = gp.group_id and
+                           ms.group_id   = gp.group_id and
+                           ms.account_id = {$_SESSION[VAR_USERID]} and
+                           fp.perms      = 1)
+
+        or r.creator_id = {$_SESSION[VAR_USERID]} and
+           f.field_id in (select f.field_id
+                          from tbl_fields f
+                          where f.author_perm >= 1)
+
+        or r.responsible_id = {$_SESSION[VAR_USERID]} and
+           f.field_id in (select f.field_id
+                          from tbl_fields f
+                          where f.responsible_perm >= 1)
+
+        or f.field_id in (select f.field_id
+                          from tbl_fields f
+                          where f.registered_perm >= 1 or f.guest_access = 1)
+SQL;
+
+    // Generate columns of the current view.
 
     foreach ($columns as $i => $column)
     {
@@ -388,10 +424,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                 array_push($clause_join,
                            "left outer join " .
-                           "(select e.record_id, flv.float_value as value{$column['column_id']} " .
-                           "from tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "(select r.record_id, flv.float_value as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
                            "left outer join tbl_float_values flv on fv.value_id = flv.value_id " .
-                           "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_FLOAT . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_FLOAT . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
                 if ($i == $sort)
@@ -411,10 +447,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                 array_push($clause_join,
                            "left outer join " .
-                           "(select e.record_id, sv.string_value as value{$column['column_id']} " .
-                           "from tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "(select r.record_id, sv.string_value as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
                            "left outer join tbl_string_values sv on fv.value_id = sv.value_id " .
-                           "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_STRING . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_STRING . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
                 if ($i == $sort)
@@ -443,10 +479,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                 array_push($clause_join,
                            "left outer join " .
-                           "(select e.record_id, {$txtval} as value{$column['column_id']} " .
-                           "from tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "(select r.record_id, {$txtval} as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
                            "left outer join tbl_text_values tv on fv.value_id = tv.value_id " .
-                           "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_MULTILINED . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_MULTILINED . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
                 if ($i == $sort)
@@ -470,10 +506,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                 array_push($clause_join,
                            "left outer join " .
-                           "(select e.record_id, lv.str_value as value{$column['column_id']} " .
-                           "from tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "(select r.record_id, lv.str_value as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
                            "left outer join tbl_list_values lv on fv.field_id = lv.field_id and fv.value_id = lv.int_value " .
-                           "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_LIST . " and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_LIST . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
                 if ($i == $sort)
@@ -508,9 +544,9 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
                 array_push($clause_join,
                            "left outer join " .
-                           "(select e.record_id, fv.value_id as value{$column['column_id']} " .
-                           "from tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
-                           "where s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = {$types[$column['column_type']]} and e.event_id = fv.event_id and fv.is_latest = 1) v{$column['column_id']} " .
+                           "(select r.record_id, fv.value_id as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = {$types[$column['column_type']]} and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
                            "on r.record_id = v{$column['column_id']}.record_id");
 
                 if ($i == $sort)
@@ -528,6 +564,8 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
                 debug_write_log(DEBUG_WARNING, '[records_list] Unknown column type = ' . $column['column_type']);
         }
     }
+
+    // Add search conditions if search is activated.
 
     if ($search_mode)
     {
@@ -568,9 +606,11 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
         array_push($clause_where, 'r.record_id in (' . implode(' union ', $search) . ')');
     }
 
+    // Add filters, if it's not a search or if it's a filtered search.
+
     if (!$search_mode || $_SESSION[VAR_USE_FILTERS])
     {
-        debug_write_log(DEBUG_NOTICE, '[records_list] Search mode is turned off.');
+        debug_write_log(DEBUG_NOTICE, '[records_list] Filters are in use.');
 
         $filters = array();
 
@@ -851,6 +891,8 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
         }
     }
 
+    // Add default sorting.
+
     if ($sort < 0)
     {
         array_push($clause_order, 'r.record_id desc');
@@ -859,6 +901,8 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
     {
         array_push($clause_order, 'r.record_id asc');
     }
+
+    // Bring it all together.
 
     $sql = 'select '    . implode(', ',    array_unique($clause_select)) .
            ' from '     . implode(', ',    array_unique($clause_from))   .
