@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -523,7 +523,7 @@ function dal_query ($query)
 {
     debug_write_log(DEBUG_TRACE, '[dal_query] ' . $query);
 
-    $sql = file_get_contents(LOCALROOT . 'sql/' . $query);
+    $sql = file_get_contents(LOCALROOT . '/sql/' . $query);
     $sql = str_replace("\n", ' ', $sql);
     $sql = preg_replace('([ ]+)', ' ', $sql);
 

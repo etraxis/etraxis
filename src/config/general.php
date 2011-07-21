@@ -43,7 +43,6 @@ if (get_user_level() != USER_LEVEL_ADMIN)
 // generate configuration info
 
 $xml = '<group>'
-     . '<text label="' . get_html_resource(RES_LOCALROOT_ID)        . '">' . ustr2html(LOCALROOT)                           . '</text>'
      . '<text label="' . get_html_resource(RES_WEBROOT_ID)          . '">' . ustr2html(WEBROOT)                             . '</text>'
      . '<text label="' . get_html_resource(RES_DEFAULT_LANGUAGE_ID) . '">' . get_html_resource(RES_LOCALE_ID, LANG_DEFAULT) . '</text>'
      . '<text label="' . get_html_resource(RES_THEME_ID)            . '">' . ustr2html(THEME_DEFAULT)                       . '</text>'

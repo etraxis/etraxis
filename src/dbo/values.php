@@ -510,7 +510,7 @@ function value_find_multilined ($value)
             if (DATABASE_DRIVER == DRIVER_ORACLE9)
             {
                 $handle = CDatabase::connect();
-                $sql = file_get_contents(LOCALROOT . 'sql/values/oracle/tcreate.sql');
+                $sql = file_get_contents(LOCALROOT . '/sql/values/oracle/tcreate.sql');
 
                 $stid = ociparse($handle, $sql);
                 $clob = ocinewdescriptor($handle, OCI_D_LOB);

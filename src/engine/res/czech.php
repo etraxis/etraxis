@@ -324,7 +324,7 @@ $resource_czech = array
     'globální',
     'místní',
     'Konfigurace',
-    'Místní cesta',
+    NULL,
     'URL',
     'Zabezpečení',
     /* 1200 */

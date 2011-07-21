@@ -324,7 +324,7 @@ $resource_indonesian = array
     'global',
     'lokal',
     'Konfigurasi',
-    'Alur akar lokal',
+    NULL,
     'Alur akar web',
     'Keamanan',
     /* 1200 */

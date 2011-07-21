@@ -324,7 +324,7 @@ $resource_dutch = array
     'globaal',
     'lokaal',
     'Configuratie',
-    'Lokaal hoofdpad',
+    NULL,
     'Web hoofdpad',
     'Beveiliging',
     /* 1200 */

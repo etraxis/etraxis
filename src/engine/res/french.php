@@ -324,7 +324,7 @@ $resource_french = array
     'global',
     'local',
     'Configuration',
-    'Chemin racine local',
+    NULL,
     'Chemin racine Web',
     'Securité',
     /* 1200 */

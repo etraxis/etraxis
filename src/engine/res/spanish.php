@@ -324,7 +324,7 @@ $resource_spanish = array
     'global',
     'local',
     'Configuración',
-    'Ruta local',
+    NULL,
     'Ruta web',
     'Seguridad',
     /* 1200 */

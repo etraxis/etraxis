@@ -3,7 +3,7 @@
 #-------------------------------------------------------------------------------
 #
 #  eTraxis - Records tracking web-based system
-#  Copyright (C) 2003-2010  Artem Rodygin
+#  Copyright (C) 2003-2011  Artem Rodygin
 #
 #  This program is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -36,8 +36,7 @@
 /**#@+
  * See {@link http://code.google.com/p/etraxis/wiki/Installation#Step_4._Configure_eTraxis online documentation} for details.
  */
-define('LOCALROOT', '/usr/local/apache/htdocs/etraxis/');
-define('WEBROOT',   'http://www.example.com/etraxis/');
+define('WEBROOT', 'http://www.example.com/etraxis/');
 /**#@-*/
 
 #-------------------------------------------------------------------------------

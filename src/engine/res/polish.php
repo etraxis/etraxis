@@ -324,7 +324,7 @@ $resource_polish = array
     'globalna',
     'lokalna',
     'Konfiguracja',
-    'Lokalna ścierzka',
+    NULL,
     'Adres URL strony web',
     'Bezpieczeństwo',
     /* 1200 */

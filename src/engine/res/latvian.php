@@ -324,7 +324,7 @@ $resource_latvian = array
     'globālā',
     'lokālā',
     'Konfigurācija',
-    'Lokālais pamatceļš',
+    NULL,
     'PamatURL',
     'Drošība',
     /* 1200 */

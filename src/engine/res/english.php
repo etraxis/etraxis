@@ -325,7 +325,7 @@ $resource_english = array
     'global',
     'local',
     'Configuration',
-    'Local root path',
+    NULL,
     'Web root path',
     'Security',
     /* 1200 */
