@@ -64,22 +64,72 @@ if (try_request('submitted') == 'attachform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
-    debug_write_log(DEBUG_DUMP, 'REQUEST = ' . print_r($_REQUEST, true));
-
     if (can_file_be_attached($record, $permissions))
     {
         $attachname = ustrcut($_REQUEST['attachname'], MAX_ATTACHMENT_NAME);
 
-        $_SESSION[VAR_ERROR] = attachment_add($id, $attachname, $_FILES['attachfile']);
+        $error = attachment_add($id, $attachname, $_FILES['attachfile']);
+
+        switch ($error)
+        {
+            case NO_ERROR:
+                /**
+                 * jQuery Form Plugin uses "success" callback function in both cases - success and failure
+                 * (see https://github.com/malsup/form/issues/107 for details).
+                 * It makes impossible to distinguish successful response from error messages.
+                 * To make the difference a successful response is prefixed with "OK ".
+                 * For the same reasons a workaround function "attachmentSuccess2" is appeared (see its code below).
+                 */
+                header('HTTP/1.0 200 OK');
+                $rs = dal_query('attachs/list.sql', $record['record_id'], 'attachment_id');
+                echo(sprintf('OK %s (%u)', get_html_resource(RES_ATTACHMENTS_ID), $rs->rows));
+                break;
+
+            case ERROR_INCOMPLETE_FORM:
+                send_http_error(get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID));
+                break;
+
+            case ERROR_ALREADY_EXISTS:
+                send_http_error(get_html_resource(RES_ALERT_ATTACHMENT_ALREADY_EXISTS_ID));
+                break;
+
+            case ERROR_UPLOAD_INI_SIZE:
+                send_http_error(get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID));
+                break;
+
+            case ERROR_UPLOAD_FORM_SIZE:
+                send_http_error(ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE));
+                break;
+
+            case ERROR_UPLOAD_PARTIAL:
+                send_http_error(get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID));
+                break;
+
+            case ERROR_UPLOAD_NO_FILE:
+                send_http_error(get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID));
+                break;
+
+            case ERROR_UPLOAD_NO_TMP_DIR:
+                send_http_error(get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID));
+                break;
+
+            case ERROR_UPLOAD_CANT_WRITE:
+                send_http_error(get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID));
+                break;
+
+            case ERROR_UPLOAD_EXTENSION:
+                send_http_error(get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID));
+                break;
+
+            default:
+                send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+        }
     }
     else
     {
         debug_write_log(DEBUG_NOTICE, 'No permissions to attach file.');
     }
 
-    debug_write_log(DEBUG_DUMP, 'VAR_ERROR = ' . $_SESSION[VAR_ERROR]);
-
-    header('Location: view.php?id=' . $id . '&tab=6');
     exit;
 }
 
@@ -87,6 +137,8 @@ if (try_request('submitted') == 'attachform')
 
 elseif (try_request('submitted') == 'attachlist')
 {
+    debug_write_log(DEBUG_NOTICE, 'Attachments are removed.');
+
     if (can_file_be_removed($record))
     {
         foreach ($_REQUEST as $request)
@@ -114,14 +166,36 @@ else
 
 // local JS functions
 
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
 $xml = <<<JQUERY
 <script>
 
-function removeAttachmentsSuccess (data)
+function attachmentSuccess (data)
 {
     var index = $("#tabs").tabs("option", "selected") + 1;
     $("[href=#ui-tabs-" + index + "]").html(data);
     reloadTab();
+}
+
+function attachmentError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
+}
+
+function attachmentSuccess2 (data)
+{
+    if (data.substr(0,3) == "OK ")  // success
+    {
+        var index = $("#tabs").tabs("option", "selected") + 1;
+        $("[href=#ui-tabs-" + index + "]").html(data.substr(3));
+        reloadTab();
+    }
+    else    // error
+    {
+        jqAlert("{$resTitle}", data, "{$resOK}");
+    }
 }
 
 </script>
@@ -131,64 +205,11 @@ JQUERY;
 
 record_read($id);
 
-// display error, if any
-
-if ($_SESSION[VAR_ERROR] != NO_ERROR)
-{
-    switch ($_SESSION[VAR_ERROR])
-    {
-        case ERROR_INCOMPLETE_FORM:
-            $message = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
-            break;
-
-        case ERROR_ALREADY_EXISTS:
-            $message = get_html_resource(RES_ALERT_ATTACHMENT_ALREADY_EXISTS_ID);
-            break;
-
-        case ERROR_UPLOAD_INI_SIZE:
-            $message = get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID);
-            break;
-
-        case ERROR_UPLOAD_FORM_SIZE:
-            $message = ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE);
-            break;
-
-        case ERROR_UPLOAD_PARTIAL:
-            $message = get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID);
-            break;
-
-        case ERROR_UPLOAD_NO_FILE:
-            $message = get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID);
-            break;
-
-        case ERROR_UPLOAD_NO_TMP_DIR:
-            $message = get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID);
-            break;
-
-        case ERROR_UPLOAD_CANT_WRITE:
-            $message = get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID);
-            break;
-
-        case ERROR_UPLOAD_EXTENSION:
-            $message = get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID);
-            break;
-
-        default: ;  // nop
-            $message = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
-    }
-
-    $xml = '<onready>'
-         . sprintf('jqAlert("%s", "%s", "%s");', get_html_resource(RES_ERROR_ID), $message, get_html_resource(RES_OK_ID))
-         . '</onready>';
-
-    $_SESSION[VAR_ERROR] = NO_ERROR;
-}
-
 // whether user is allowed to add new attachment
 
 if (can_file_be_attached($record, $permissions))
 {
-    $xml .= '<form name="attachform" action="attachments.php?id=' . $id . '" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">'
+    $xml .= '<form name="attachform" action="attachments.php?id=' . $id . '" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '" success="attachmentSuccess2" error="attachmentError">'
           . '<group title="' . get_html_resource(RES_ATTACHMENT_ID) . '">'
           . '<control name="attachname">'
           . '<label>' . get_html_resource(RES_ATTACHMENT_NAME_ID) . '</label>'
@@ -235,7 +256,7 @@ else
 
     $bookmarks = gen_xml_bookmarks($page, $list->rows, $rec_from, $rec_to, 'attachments.php?id=' . $id . '&amp;');
 
-    $xml .= '<form name="attachlist" action="attachments.php?id=' . $id . '" success="removeAttachmentsSuccess">'
+    $xml .= '<form name="attachlist" action="attachments.php?id=' . $id . '" success="attachmentSuccess">'
           . '<list>'
           . '<hrow>'
           . '<hcell checkboxes="true"/>';

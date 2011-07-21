@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2008-2010  Artem Rodygin
+//  Copyright (C) 2008-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -52,100 +52,110 @@ if (try_request('submitted') == 'mainform')
            ? template_import($_FILES['xmlfile'], $id)
            : ERROR_UPLOAD_NO_FILE;
 
-    if ($error == NO_ERROR)
+    switch ($error)
     {
-        header('Location: tview.php?id='. $id);
-        exit;
+        case NO_ERROR:
+            /**
+             * jQuery Form Plugin uses "success" callback function in both cases - success and failure
+             * (see https://github.com/malsup/form/issues/107 for details).
+             * This is why a workaround function "importError2" is appeared (see its code below).
+             */
+            header('Location: tview.php?id='. $id);
+            break;
+
+        case ERROR_UPLOAD_INI_SIZE:
+            send_http_error(get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID));
+            break;
+
+        case ERROR_UPLOAD_FORM_SIZE:
+            send_http_error(ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE));
+            break;
+
+        case ERROR_UPLOAD_PARTIAL:
+            send_http_error(get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID));
+            break;
+
+        case ERROR_UPLOAD_NO_FILE:
+            send_http_error(get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID));
+            break;
+
+        case ERROR_UPLOAD_NO_TMP_DIR:
+            send_http_error(get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID));
+            break;
+
+        case ERROR_UPLOAD_CANT_WRITE:
+            send_http_error(get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID));
+            break;
+
+        case ERROR_UPLOAD_EXTENSION:
+            send_http_error(get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID));
+            break;
+
+        case ERROR_DATE_VALUE_OUT_OF_RANGE:
+        case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+        case ERROR_INCOMPLETE_FORM:
+        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+        case ERROR_INVALID_DATE_VALUE:
+        case ERROR_INVALID_EMAIL:
+        case ERROR_INVALID_INTEGER_VALUE:
+        case ERROR_INVALID_TIME_VALUE:
+        case ERROR_INVALID_USERNAME:
+        case ERROR_MIN_MAX_VALUES:
+        case ERROR_NOT_FOUND:
+        case ERROR_TIME_VALUE_OUT_OF_RANGE:
+        case ERROR_UNKNOWN:
+        case ERROR_XML_PARSER:
+            send_http_error(get_html_resource(RES_ALERT_XML_PARSER_ERROR_ID));
+            break;
+
+        default:
+            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
     }
+
+    exit;
 }
 else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
-
-    $error = NO_ERROR;
 }
+
+// local JS functions
+
+$resTitle = get_js_resource(RES_ERROR_ID);
+$resOK    = get_js_resource(RES_OK_ID);
+
+$xml = <<<JQUERY
+<script>
+
+function importError (XMLHttpRequest)
+{
+    jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
+}
+
+function importError2 (data)
+{
+    if (data.length != 0)
+    {
+        jqAlert("{$resTitle}", data, "{$resOK}");
+    }
+}
+
+</script>
+JQUERY;
 
 // generate page
 
-$xml = '<form name="mainform" action="import.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '">'
-     . '<group>'
-     . '<control name="xmlfile" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
-     . '<label>' . get_html_resource(RES_TEMPLATE_ID) . '</label>'
-     . '<filebox/>'
-     . '</control>'
-     . '</group>'
-     . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
-     . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
-     . '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>'
-     . '</form>';
-
-// if some error was specified to display, force an alert
-
-switch ($error)
-{
-    case ERROR_UPLOAD_INI_SIZE:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_UPLOAD_FORM_SIZE:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_UPLOAD_PARTIAL:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_UPLOAD_NO_FILE:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_UPLOAD_NO_TMP_DIR:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_UPLOAD_CANT_WRITE:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_UPLOAD_EXTENSION:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    case ERROR_DATE_VALUE_OUT_OF_RANGE:
-    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
-    case ERROR_INCOMPLETE_FORM:
-    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-    case ERROR_INVALID_DATE_VALUE:
-    case ERROR_INVALID_EMAIL:
-    case ERROR_INVALID_INTEGER_VALUE:
-    case ERROR_INVALID_TIME_VALUE:
-    case ERROR_INVALID_USERNAME:
-    case ERROR_MIN_MAX_VALUES:
-    case ERROR_NOT_FOUND:
-    case ERROR_TIME_VALUE_OUT_OF_RANGE:
-    case ERROR_UNKNOWN:
-    case ERROR_XML_PARSER:
-        $xml .= '<onready>'
-              . 'jqAlert("' . get_html_resource(RES_ERROR_ID) . '","' . get_html_resource(RES_ALERT_XML_PARSER_ERROR_ID) . '","' . get_html_resource(RES_OK_ID) . '");'
-              . '</onready>';
-        break;
-
-    default: ;  // nop
-}
+$xml .= '<form name="mainform" action="import.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '" success="importError2" error="importError">'
+      . '<group>'
+      . '<control name="xmlfile" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_TEMPLATE_ID) . '</label>'
+      . '<filebox/>'
+      . '</control>'
+      . '</group>'
+      . '<button default="true">' . get_html_resource(RES_OK_ID) . '</button>'
+      . '<note>' . get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID) . '</note>'
+      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE) . '</note>'
+      . '</form>';
 
 echo(xml2html($xml));
 

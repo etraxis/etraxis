@@ -49,6 +49,7 @@
     <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.dp.res.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery.TextareaLineCount.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery.blockUI.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=jquery.form.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=combobox.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=etraxis.js"></script>
     <xsl:apply-templates select="script"/>
@@ -584,86 +585,70 @@
 </xsl:template>
 
 <xsl:template match="form">
-    <!-- new AJAX form -->
-    <xsl:if test="not(boolean(@upload))">
-        <form>
-        <xsl:attribute name="name">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <input type="hidden" name="submitted">
-        <xsl:attribute name="value">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        </input>
-        <xsl:apply-templates/>
-        </form>
-        <xsl:if test="boolean(@action)">
-            <script type="text/javascript">
-            $(document).ready(function() {
-                $("#<xsl:value-of select="@name"/>").submit(function ()
-                {
-                    $.ajax({
-                        type: "POST",
-                        url: "<xsl:value-of disable-output-escaping="yes" select="@action"/>",
-                        beforeSend: function () {
-                            $.blockUI({
-                                css: {
-                                    backgroundColor: "black",
-                                    color: "white",
-                                    opacity: .5,
-                                    padding: "25px",
-                                    border: "none",
-                                    "font-size": "2em",
-                                    "font-weight": "bold",
-                                    "-moz-border-radius": "8px",
-                                    "-webkit-border-radius": "8px",
-                                    "border-radius": "8px"
-                                }
-                            });
-                        },
-                        complete: function () {
-                            $.unblockUI();
-                        },
-                        success: function (data) {
-                            <xsl:if test="boolean(@success)">
-                            <xsl:value-of select="@success"/>(data);
-                            </xsl:if>
-                        },
-                        error: function (XMLHttpRequest) {
-                            <xsl:if test="boolean(@error)">
-                            <xsl:value-of select="@error"/>(XMLHttpRequest);
-                            </xsl:if>
-                        },
-                        data: $("#<xsl:value-of select="@name"/>").serialize()
-                    });
-
-                    return false;
-                });
-            });
-            </script>
-        </xsl:if>
-    </xsl:if>
-    <!-- old fashion form for files upload - should be removed when attachments are remastered via AJAX -->
+    <form method="post" target="_parent">
+    <xsl:attribute name="name">
+    <xsl:value-of select="@name"/>
+    </xsl:attribute>
+    <xsl:attribute name="action">
+    <xsl:value-of select="@action"/>
+    </xsl:attribute>
     <xsl:if test="boolean(@upload)">
-        <form method="post" target="_parent" enctype="multipart/form-data">
-        <xsl:attribute name="name">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        <xsl:attribute name="action">
-        <xsl:value-of select="@action"/>
+        <xsl:attribute name="enctype">
+        <xsl:text>multipart/form-data</xsl:text>
         </xsl:attribute>
         <input type="hidden" name="MAX_FILE_SIZE">
         <xsl:attribute name="value">
         <xsl:value-of select="@upload"/>
         </xsl:attribute>
         </input>
-        <input type="hidden" name="submitted">
-        <xsl:attribute name="value">
-        <xsl:value-of select="@name"/>
-        </xsl:attribute>
-        </input>
-        <xsl:apply-templates/>
-        </form>
+    </xsl:if>
+    <input type="hidden" name="submitted">
+    <xsl:attribute name="value">
+    <xsl:value-of select="@name"/>
+    </xsl:attribute>
+    </input>
+    <xsl:apply-templates/>
+    </form>
+    <xsl:if test="boolean(@action)">
+        <script type="text/javascript">
+        $(document).ready(function() {
+            $("#<xsl:value-of select="@name"/>").ajaxForm({
+
+                beforeSend: function() {
+                    $.blockUI({
+                        css: {
+                            backgroundColor: "black",
+                            color: "white",
+                            opacity: .5,
+                            padding: "25px",
+                            border: "none",
+                            "font-size": "2em",
+                            "font-weight": "bold",
+                            "-moz-border-radius": "8px",
+                            "-webkit-border-radius": "8px",
+                            "border-radius": "8px"
+                        }
+                    });
+                },
+
+                complete: function() {
+                    $.unblockUI();
+                },
+
+                success: function(data) {
+                    <xsl:if test="boolean(@success)">
+                    <xsl:value-of select="@success"/>(data);
+                    </xsl:if>
+                },
+
+                error: function(XMLHttpRequest) {
+                    <xsl:if test="boolean(@error)">
+                    <xsl:value-of select="@error"/>(XMLHttpRequest);
+                    </xsl:if>
+                }
+            });
+        });
+        </script>
     </xsl:if>
 </xsl:template>
 
