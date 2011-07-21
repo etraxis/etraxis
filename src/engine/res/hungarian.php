@@ -325,7 +325,7 @@ $resource_hungarian = array
     'globális',
     'helyi',
     'Konfiguráció',
-    'Helyi elérési út',
+    NULL,
     'Webes elérési út',
     'Biztonság',
     /* 1200 */

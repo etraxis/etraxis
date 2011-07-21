@@ -324,7 +324,7 @@ $resource_turkish = array
     'global',
     'yerel',
     'Yapılandırma',
-    'Yerel kök yolu',
+    NULL,
     'Web kök yolu',
     'Güvenlik',
     /* 1200 */

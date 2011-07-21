@@ -76,6 +76,11 @@ define('ERROR_INVALID_FLOAT_VALUE',        31);
 define('ERROR_FLOAT_VALUE_OUT_OF_RANGE',   32);
 /**#@-*/
 
+/**
+ * Autodetect a path to filesystem root of eTraxis.
+ */
+define('LOCALROOT', dirname(dirname(__FILE__)));
+
 //------------------------------------------------------------------------------
 //  Engine modules.
 //------------------------------------------------------------------------------

@@ -47,7 +47,7 @@ if (!mb_eregi('^([_0-9a-z\.\-])+$', $name))
 
 // Check the script file for existance.
 
-$file = LOCALROOT . 'scripts/' . $name;
+$file = LOCALROOT . '/scripts/' . $name;
 
 if (!is_file($file))
 {

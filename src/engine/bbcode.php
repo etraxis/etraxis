@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2007-2010  Artem Rodygin
+//  Copyright (C) 2007-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -353,7 +353,7 @@ function bbcode2xml ($bbcode, $mode = BBCODE_ALL, $search = NULL)
     $page = new DOMDocument();
     $xslt = new XSLTProcessor();
 
-    $page->load(LOCALROOT . 'engine/' . $bbcode_xsl[$mode]);
+    $page->load(LOCALROOT . '/engine/' . $bbcode_xsl[$mode]);
     $xslt->importStyleSheet($page);
     $page->loadXML("<bbcode>{$bbcode}</bbcode>");
 

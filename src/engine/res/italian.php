@@ -324,7 +324,7 @@ $resource_italian = array
     'globale',
     'locale',
     'Configurazione',
-    'Percorso della root locale',
+    NULL,
     'Percorso della web root',
     'Sicurezza',
     /* 1200 */

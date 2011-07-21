@@ -283,38 +283,6 @@ foreach ($extensions as $extension)
 <table class="form"><tr>
 <?php
 
-$localroot = $_SERVER['SCRIPT_FILENAME'];
-
-$windows = (strtolower(substr(PHP_OS, 0, 3)) == 'win');
-
-if ($windows)
-{
-    $localroot = str_replace('\\', '/', $localroot);
-}
-
-$substr = 'diag/index.php';
-$str = substr($localroot, - strlen($substr));
-
-if (0 != ($windows ? strcasecmp(substr($localroot, - strlen($substr)), $substr)
-                   : strcmp    (substr($localroot, - strlen($substr)), $substr)))
-{
-    $message = '<a class="fail">FAIL</a> <i>(can\'t determine valid "LOCALROOT")</i>';
-}
-elseif (0 != ($windows ? strcasecmp(LOCALROOT, ($localroot = substr($localroot, 0, - strlen($substr))))
-                       : strcmp    (LOCALROOT, ($localroot = substr($localroot, 0, - strlen($substr))))))
-{
-    $message = '<a class="fail">FAIL</a> <i>("LOCALROOT" is probably wrong and should be "' . $localroot . '")</i>';
-}
-else
-{
-    $message = '<a class="pass">PASS</a> <i>("' . LOCALROOT . '")</i>';
-}
-
-?>
-<td class="label">Local root path:</td>
-<td class="text"><?php echo($message); ?></td>
-<?php
-
 if (ATTACHMENTS_ENABLED)
 {
     if (!file_exists(ATTACHMENTS_PATH))
@@ -344,7 +312,6 @@ else
 }
 
 ?>
-</tr><tr>
 <td class="label">Attachments:</td>
 <td class="text"><?php echo($message); ?></td>
 <?php

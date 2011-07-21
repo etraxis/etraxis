@@ -324,7 +324,7 @@ $resource_romanian = array
     'global',
     'local',
     'Configurare',
-    'Calea locala',
+    NULL,
     'Calea web',
     'Securitate',
     /* 1200 */

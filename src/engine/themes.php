@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -92,20 +92,20 @@ function get_theme_css_file ($cssfile)
 {
     if (isset($_SESSION[VAR_THEME_NAME]))
     {
-        if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile))
+        if (is_file(LOCALROOT . '/themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile))
         {
-            return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile;
+            return LOCALROOT . '/themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/css/' . $cssfile;
         }
     }
 
-    if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile))
+    if (is_file(LOCALROOT . '/themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile))
     {
-        return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile;
+        return LOCALROOT . '/themes/' . ustr2html(THEME_DEFAULT) . '/css/' . $cssfile;
     }
 
-    if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile))
+    if (is_file(LOCALROOT . '/themes/' . DEF_THEME_NAME . '/css/' . $cssfile))
     {
-        return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/css/' . $cssfile;
+        return LOCALROOT . '/themes/' . DEF_THEME_NAME . '/css/' . $cssfile;
     }
 
     return NULL;
@@ -124,25 +124,25 @@ function get_theme_xsl_file ($xslfile)
     {
         debug_write_log(DEBUG_DUMP,  '[get_theme_xsl_file] $_SESSION[VAR_THEME_NAME] = ' . $_SESSION[VAR_THEME_NAME]);
 
-        if (is_file(LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile))
+        if (is_file(LOCALROOT . '/themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile))
         {
-            return LOCALROOT . 'themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile;
+            return LOCALROOT . '/themes/' . ustr2html($_SESSION[VAR_THEME_NAME]) . '/' . $xslfile;
         }
     }
 
-    if (is_file(LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile))
+    if (is_file(LOCALROOT . '/themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile))
     {
-        return LOCALROOT . 'themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile;
+        return LOCALROOT . '/themes/' . ustr2html(THEME_DEFAULT) . '/' . $xslfile;
     }
 
-    if (is_file(LOCALROOT . 'themes/' . DEF_THEME_NAME . '/' . $xslfile))
+    if (is_file(LOCALROOT . '/themes/' . DEF_THEME_NAME . '/' . $xslfile))
     {
-        return LOCALROOT . 'themes/' . DEF_THEME_NAME . '/' . $xslfile;
+        return LOCALROOT . '/themes/' . DEF_THEME_NAME . '/' . $xslfile;
     }
 
     debug_write_log(DEBUG_WARNING, '[get_theme_xsl_file] Valid filepath for xsl file "' . $xslfile . '" is not found.');
 
-    return LOCALROOT . 'engine/' . $xslfile;
+    return LOCALROOT . '/engine/' . $xslfile;
 }
 
 ?>

@@ -324,7 +324,7 @@ $resource_german = array
     'global',
     'lokal',
     'Konfiguration',
-    'Lokaler Pfad',
+    NULL,
     'Basis-URL',
     'Sicherheit',
     /* 1200 */
