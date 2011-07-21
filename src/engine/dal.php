@@ -55,24 +55,38 @@ $res_driver = array
 );
 
 //------------------------------------------------------------------------------
-//  DAL recordset.
+//  DAL database connection.
 //------------------------------------------------------------------------------
 
 /**
  * Database connection, implemented via Singleton pattern.
+ *
  * @package Engine
  * @subpackage DAL
- * @ignore
  */
 class CDatabase
 {
-    // Static object of itself.
+    /**
+     * Static object of itself.
+     * @var CDatabase
+     */
     private static $object = NULL;
 
-    // Link of opened connection.
+    /**
+     * Link of opened connection.
+     * @var resource
+     */
     private $link = FALSE;
 
-    // Establishes connection to eTraxis database.
+    /**
+     * TRUE if a transaction is currently under progress, FALSE otherwise.
+     * @var bool
+     */
+    private $is_transaction = FALSE;
+
+    /**
+     * Establishes connection to eTraxis database.
+     */
     private function __construct ()
     {
         debug_write_log(DEBUG_TRACE, '[CDatabase::__construct]');
@@ -134,7 +148,9 @@ class CDatabase
         }
     }
 
-    // Closes connection to eTraxis database.
+    /**
+     * Closes connection to eTraxis database.
+     */
     public function __destruct()
     {
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
@@ -155,8 +171,23 @@ class CDatabase
         }
     }
 
-    // Tries to connect to database.
-    // Return resource for connection to eTraxis database on success, FALSE otherwise.
+    /**
+     * @ignore
+     */
+    public function __get ($name)
+    {
+        switch ($name)
+        {
+            case 'link': return $this->link;
+            default:     return NULL;
+        }
+    }
+
+    /**
+     * Connects to database.
+     *
+     * @return CDatabase Database singleton object.
+     */
     public static function connect ()
     {
         if (is_null(self::$object))
@@ -164,9 +195,130 @@ class CDatabase
             self::$object = new CDatabase();
         }
 
-        return self::$object->link;
+        return self::$object;
+    }
+
+    /**
+     * Starts transaction.
+     *
+     * @return bool TRUE if transaction is started successfully, FALSE otherwise.
+     */
+    public function transaction ()
+    {
+        if ($this->is_transaction)
+        {
+            debug_write_log(DEBUG_WARNING, '[CDatabase::transaction] Transaction is under progress.');
+            return FALSE;
+        }
+
+        if (DATABASE_DRIVER == DRIVER_MYSQL50)
+        {
+            mysql_query('start transaction', $this->link);
+        }
+        elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
+        {
+            sqlsrv_begin_transaction($this->link);
+        }
+        elseif (DATABASE_DRIVER == DRIVER_ORACLE9)
+        {
+            dbx_query($this->link, 'set transaction');
+        }
+        elseif (DATABASE_DRIVER == DRIVER_PGSQL80)
+        {
+            pg_query($this->link, 'start transaction');
+        }
+        else
+        {
+            debug_write_log(DEBUG_WARNING, '[CDatabase::transaction] Unknown database driver.');
+            return FALSE;
+        }
+
+        $this->is_transaction = TRUE;
+        return TRUE;
+    }
+
+    /**
+     * Commits current transaction.
+     *
+     * @return bool TRUE if transaction is committed successfully, FALSE otherwise.
+     */
+    public function commit ()
+    {
+        if (!$this->is_transaction)
+        {
+            debug_write_log(DEBUG_WARNING, '[CDatabase::commit] No active transactions.');
+            return FALSE;
+        }
+
+        if (DATABASE_DRIVER == DRIVER_MYSQL50)
+        {
+            mysql_query('commit', $this->link);
+        }
+        elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
+        {
+            sqlsrv_commit($this->link);
+        }
+        elseif (DATABASE_DRIVER == DRIVER_ORACLE9)
+        {
+            dbx_query($this->link, 'commit');
+        }
+        elseif (DATABASE_DRIVER == DRIVER_PGSQL80)
+        {
+            pg_query($this->link, 'commit');
+        }
+        else
+        {
+            debug_write_log(DEBUG_WARNING, '[CDatabase::commit] Unknown database driver.');
+            return FALSE;
+        }
+
+        $this->is_transaction = FALSE;
+        return TRUE;
+    }
+
+    /**
+     * Rolls back current transaction.
+     *
+     * @return bool TRUE if transaction is rolled back successfully, FALSE otherwise.
+     */
+    public function rollback ()
+    {
+        if (!$this->is_transaction)
+        {
+            debug_write_log(DEBUG_WARNING, '[CDatabase::rollback] No active transactions.');
+            return FALSE;
+        }
+
+        if (DATABASE_DRIVER == DRIVER_MYSQL50)
+        {
+            mysql_query('rollback', $this->link);
+        }
+        elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
+        {
+            sqlsrv_rollback($this->link);
+        }
+        elseif (DATABASE_DRIVER == DRIVER_ORACLE9)
+        {
+            dbx_query($this->link, 'rollback');
+        }
+        elseif (DATABASE_DRIVER == DRIVER_PGSQL80)
+        {
+            pg_query($this->link, 'rollback');
+        }
+        else
+        {
+            debug_write_log(DEBUG_WARNING, '[CDatabase::rollback] Unknown database driver.');
+            return FALSE;
+        }
+
+        $this->is_transaction = FALSE;
+        return TRUE;
     }
 }
+
+//------------------------------------------------------------------------------
+//  DAL recordset.
+//------------------------------------------------------------------------------
 
 /**
  * DAL recordset.
@@ -180,8 +332,7 @@ class CDatabase
 class CRecordset
 {
     /**#@+
-     * For internal use only.
-     * @ignore
+     * @ignore For internal use only.
      */
     private $handle;  // [resource] connection
     private $result;  // [resource] query result
@@ -207,7 +358,7 @@ class CRecordset
      */
     public function __construct ($sql)
     {
-        $this->handle = CDatabase::connect();
+        $this->handle = CDatabase::connect()->link;
         $this->result = FALSE;
         $this->resptr = 0;
         $this->rows   = 0;
@@ -568,6 +719,32 @@ function dal_query ($query)
     }
 
     return new CRecordset($sql);
+}
+
+/**
+ * Starts transaction.
+ *
+ * @return bool TRUE if transaction is started successfully, FALSE otherwise.
+ */
+function dal_transaction_start ()
+{
+    debug_write_log(DEBUG_TRACE, '[dal_transaction_start]');
+
+    return CDatabase::connect()->transaction();
+}
+
+/**
+ * Commits or rolls back current transaction.
+ *
+ * @param bool $commit TRUE if transaction must be committed, FALSE - rolled back.
+ * @return bool TRUE if transaction is stopped successfully, FALSE otherwise.
+ */
+function dal_transaction_stop ($commit)
+{
+    debug_write_log(DEBUG_TRACE, '[dal_transaction_stop] ' . $commit);
+
+    return ($commit ? CDatabase::connect()->commit()
+                    : CDatabase::connect()->rollback());
 }
 
 ?>
