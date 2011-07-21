@@ -648,6 +648,9 @@ function is_account_removable ($id)
     debug_write_log(DEBUG_TRACE, '[is_account_removable]');
     debug_write_log(DEBUG_DUMP,  '[is_account_removable] $id = ' . $id);
 
+    // default "root" account must not be deleted
+    if ($id == 1) return FALSE;
+
     $rs = dal_query('accounts/efndc.sql', $id);
 
     return ($rs->fetch(0) == 0);
