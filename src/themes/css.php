@@ -78,6 +78,7 @@ if (isset($_SERVER['HTTP_ACCEPT_ENCODING']))
 
 header('Content-Type: text/css');
 header('Content-Length: ' . strlen($output));
+header(sprintf('Content-Range: bytes 0-%d/%d', strlen($output) - 1, strlen($output)));
 header('Pragma: cache');
 header('Cache-Control: public');
 header('Last-Modified: ' . date(DATE_RFC822, filectime($file)));
