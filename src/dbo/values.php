@@ -509,7 +509,7 @@ function value_find_multilined ($value)
             // Oracle BLOB needs specific processing.
             if (DATABASE_DRIVER == DRIVER_ORACLE9)
             {
-                $handle = CDatabase::connect();
+                $handle = CDatabase::connect()->link;
                 $sql = file_get_contents(LOCALROOT . '/sql/values/oracle/tcreate.sql');
 
                 $stid = ociparse($handle, $sql);
