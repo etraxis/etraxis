@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-3 (2011-07-21)
+
+    Issue 297: Add support for database transactions where possible
+    Issue 300: Files upload should work via AJAX too.
+    Issue 309: Make default "root" user unremovable.
+
+Bug fixes integrated in MAIN_3-6-3 (2011-07-21)
+
+    Issue 311: Can't login using Chrome
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-6-2 (2011-07-03)
 
     Issue 302: Add "clock" animation when data are submitted and eTraxis UI is temporarily disabled while processing.
