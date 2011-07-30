@@ -47,7 +47,7 @@ if (!$view)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_VIEW_X_ID), ustr2html($view['view_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_VIEW_X_ID), ustr2js($view['view_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 

@@ -57,7 +57,7 @@ if (!$field)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_FIELD_X_ID), ustr2html($field['field_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_FIELD_X_ID), ustr2js($field['field_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 

@@ -54,7 +54,7 @@ if (!$template)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_TEMPLATE_X_ID), ustr2html($template['template_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_TEMPLATE_X_ID), ustr2js($template['template_name']));
 $resClone  = get_js_resource(RES_CLONE_ID);
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);

@@ -60,7 +60,7 @@ if (!$reminder)
 
 // local JS functions
 
-$resTitle1  = ustrprocess(get_js_resource(RES_REMINDER_X_ID), ustr2html($reminder['reminder_name']));
+$resTitle1  = ustrprocess(get_js_resource(RES_REMINDER_X_ID), ustr2js($reminder['reminder_name']));
 $resTitle2  = get_js_resource(RES_REMINDERS_ID);
 $resMessage = get_js_resource(RES_ALERT_REMINDER_IS_SENT_ID);
 $resOK      = get_js_resource(RES_OK_ID);

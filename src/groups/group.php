@@ -59,7 +59,7 @@ if (!$group['is_global'])
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_GROUP_X_ID), ustr2html($group['group_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_GROUP_X_ID), ustr2js($group['group_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 

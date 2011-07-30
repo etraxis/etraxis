@@ -47,7 +47,7 @@ if (!$project)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_PROJECT_X_ID), ustr2html($project['project_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_PROJECT_X_ID), ustr2js($project['project_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 
