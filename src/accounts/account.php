@@ -59,7 +59,7 @@ if ($account['is_ldapuser'])
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_ACCOUNT_X_ID), ustr2html(account_get_username($account['username'], FALSE)));
+$resTitle  = ustrprocess(get_js_resource(RES_ACCOUNT_X_ID), ustr2js(account_get_username($account['username'], FALSE)));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 

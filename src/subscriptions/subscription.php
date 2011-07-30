@@ -56,7 +56,7 @@ if (!$subscription)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_SUBSCRIPTION_X_ID), ustr2html($subscription['subscribe_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_SUBSCRIPTION_X_ID), ustr2js($subscription['subscribe_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 

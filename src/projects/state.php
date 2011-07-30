@@ -56,7 +56,7 @@ if (!$state)
 
 // local JS functions
 
-$resTitle  = ustrprocess(get_js_resource(RES_STATE_X_ID), ustr2html($state['state_name']));
+$resTitle  = ustrprocess(get_js_resource(RES_STATE_X_ID), ustr2js($state['state_name']));
 $resOK     = get_js_resource(RES_OK_ID);
 $resCancel = get_js_resource(RES_CANCEL_ID);
 
