@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-3
-Release date: 2011-07-21
-Release size: 48037
+Release tag:  MAIN_3-6-4
+Release date: 2011-07-31
+Release size: 48071
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,42 +32,35 @@ Form Plugin:        2.83    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/config.php
-[M] src/config/general.php
-[M] src/dbo/accounts.php
-[M] src/dbo/records.php
-[M] src/dbo/values.php
+[M] src/accounts/account.php
+[M] src/dbo/fields.php
+[M] src/dbo/groups.php
+[D] src/dbo/importer.php
+[M] src/dbo/projects.php
+[M] src/dbo/states.php
+[M] src/dbo/templates.php
 [M] src/diag/index.php
-[M] src/engine/bbcode.php
-[M] src/engine/dal.php
-[M] src/engine/engine.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/czech.php
-[M] src/engine/res/dutch.php
 [M] src/engine/res/english.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
-[M] src/engine/res/hungarian.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
-[M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
 [M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
 [M] src/engine/resource.php
-[M] src/engine/themes.php
 [M] src/engine/xml.php
+[M] src/filters/filter.php
+[M] src/groups/group.php
+[M] src/projects/field.php
+[M] src/projects/group.php
 [M] src/projects/import.php
+[M] src/projects/tclone.php
+[M] src/projects/project.php
+[M] src/projects/state.php
+[M] src/projects/template.php
+[M] src/projects/tview.php
 [M] src/records/attachments.php
-[M] src/records/record.php
-[M] src/scripts/get.php
-[A] src/scripts/jquery.form.js
-[M] src/themes/Emerald/engine.xsl
-[M] src/themes/css.php
+[M] src/reminders/reminder.php
+[M] src/sql/fields/list.sql
+[A] src/sql/states/fndk2.sql
+[A] src/sql/templates/fndk2.sql
+[M] src/subscriptions/subscription.php
+[M] src/views/view2.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -173,24 +166,23 @@ Issue 304: Additional default filters
 KNOWN ISSUES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 205: export-import issue
-Issue 239: When adding too big attachments, record saved without attachment, but no error message
-Issue 290: Export-import issues
-Issue 291: Default value in recordtemplate incomplete after Import when german special chars are used (ä,ö,ü...)
-Issue 305: Restrictions on amount of templates and accounts are ignored on import.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 297: Add support for database transactions where possible
-Issue 300: Files upload should work via AJAX too.
-Issue 309: Make default "root" user unremovable.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 311: Can't login using Chrome
+Issue 205: export-import issue
+Issue 290: Export-import issues
+Issue 291: Default value in recordtemplate incomplete after Import when german special chars are used (ä,ö,ü...)
+Issue 305: Restrictions on amount of templates and accounts are ignored on import.
+Issue 312: After import of template, multilined textfield length property gets filled into pcre field
+Issue 313: JavaScript error on project view page: Uncaught SyntaxError: Unexpected token ILLEGAL
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
