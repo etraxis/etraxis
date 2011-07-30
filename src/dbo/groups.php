@@ -34,6 +34,7 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
+require_once('../dbo/accounts.php');
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -415,7 +416,7 @@ function group_set_permissions ($gid, $tid, $perm)
 }
 
 /**
- * Exports groups of specified group IDs to XML code (see also {@link template_import}).
+ * Exports groups of specified group IDs to XML code (see also {@link project_import}).
  *
  * @param array Array with Group IDs.
  * @return string Generated XML code for specified group IDs.
@@ -432,20 +433,18 @@ function groups_export ($groups)
     // List all global and local project groups.
     $rs = dal_query('templates/glist.sql', implode(',', $groups));
 
-    $xml_g = NULL;
+    $xml = NULL;
 
     if ($rs->rows != 0)
     {
-        $xml_g = "  <groups>\n";
-
         // Add XML code for all enumerated groups.
         while (($group = $rs->fetch()))
         {
             // Add XML code for general group information.
-            $xml_g .= sprintf("    <group name=\"%s\" type=\"%s\" description=\"%s\">\n",
-                              ustr2html($group['group_name']),
-                              (is_null($group['project_id']) ? 'global' : 'local'),
-                              ustr2html($group['description']));
+            $xml .= sprintf("  <group name=\"%s\" type=\"%s\" description=\"%s\">\n",
+                            ustr2html($group['group_name']),
+                            (is_null($group['project_id']) ? 'global' : 'local'),
+                            ustr2html($group['description']));
 
             // List all members of this group.
             $rsm = dal_query('groups/mamongs.sql', $group['group_id']);
@@ -453,18 +452,87 @@ function groups_export ($groups)
             // Add XML code for name and type of each account.
             while (($account = $rsm->fetch()))
             {
-                $xml_g .= sprintf("      <account type=\"%s\">%s</account>\n",
-                                  ($account['is_ldapuser'] ? 'ldap' : 'local'),
-                                  account_get_username($account['username'], FALSE));
+                $xml .= sprintf("    <account type=\"%s\">%s</account>\n",
+                                ($account['is_ldapuser'] ? 'ldap' : 'local'),
+                                account_get_username($account['username'], FALSE));
             }
 
-            $xml_g .= "    </group>\n";
+            $xml .= "  </group>\n";
         }
-
-        $xml_g .= "  </groups>\n";
     }
 
-    return $xml_g;
+    return $xml;
+}
+
+/**
+ * Imports groups described as XML code into the specified project.
+ *
+ * @param int $project_id ID of destination project.
+ * @param string $xml Valid XML code.
+ * @param string &$error In case of failure - the error message (used as output only).
+ * @return bool Whether the import was successful.
+ */
+function groups_import ($project_id, $xml, &$error)
+{
+    debug_write_log(DEBUG_TRACE, '[groups_import]');
+    debug_write_log(DEBUG_DUMP,  '[groups_import] $project_id = ' . $project_id);
+
+    // Enumerate groups.
+    $groups = $xml->xpath('/project/group');
+
+    if ($groups !== FALSE)
+    {
+        foreach ($groups as $group)
+        {
+            $group['name']        = ustrcut($group['name'],        MAX_GROUP_NAME);
+            $group['description'] = ustrcut($group['description'], MAX_GROUP_DESCRIPTION);
+
+            // Validate group.
+            switch (group_validate($group['name']))
+            {
+                case NO_ERROR:
+                    break;  // nop
+                case ERROR_INCOMPLETE_FORM:
+                    $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                    return FALSE;
+                default:
+                    debug_write_log(DEBUG_WARNING, '[groups_import] Group validation failure.');
+                    $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                    return FALSE;
+            }
+
+            // Create group.
+            group_create($group['type'] == 'global' ? NULL : $project_id,
+                         $group['name'],
+                         $group['description']);
+
+            $rs = dal_query('groups/fndk.sql',
+                            $group['type'] == 'global' ? 'is null' : '=' . $project_id,
+                            ustrtolower($group['name']));
+
+            if ($rs->rows != 0)
+            {
+                $group_id = $rs->fetch('group_id');
+
+                // Add members.
+                if (isset($group->account))
+                {
+                    foreach ($group->account as $account)
+                    {
+                        $username     = ustrcut(strval($account), MAX_ACCOUNT_USERNAME);
+                        $account_info = account_find_username($account['type'] == 'local' ? $username . ACCOUNT_SUFFIX : $username);
+
+                        if ($account_info !== FALSE)
+                        {
+                            group_membership_add($group_id, $account_info['account_id']);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return TRUE;
 }
 
 ?>

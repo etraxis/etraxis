@@ -329,7 +329,7 @@ define('RES_GROUP_TYPE_ID',                         1193);
 define('RES_GLOBAL_ID',                             1194);
 define('RES_LOCAL_ID',                              1195);
 define('RES_CONFIGURATION_ID',                      1196);
-define('RES_UNUSED_1197_ID',                        1197);
+define('RES_LINE_ID',                               1197);
 define('RES_WEBROOT_ID',                            1198);
 define('RES_SECURITY_ID',                           1199);
 define('RES_MIN_PASSWORD_LENGTH_ID',                1200);
