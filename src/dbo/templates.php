@@ -38,7 +38,6 @@ require_once('../dbo/accounts.php');
 require_once('../dbo/groups.php');
 require_once('../dbo/states.php');
 require_once('../dbo/events.php');
-require_once('../dbo/importer.php');
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -469,7 +468,7 @@ function template_registered_perm_set ($id, $perm)
 }
 
 /**
- * Exports specified template to XML code (see also {@link template_import}).
+ * Exports specified template to XML code (see also {@link project_export}).
  *
  * @param int $id ID of template to be exported.
  * @param bool $just_the_node Whether the function should return the XML code of the template node alone instead of a complete XML schema.
@@ -511,52 +510,53 @@ function template_export ($id, $just_the_node = FALSE)
     $groups = array();
 
     // Generate XML code for general template information.
-    $xml_t = sprintf("  <template name=\"%s\" prefix=\"%s\" description=\"%s\" critical_age=\"%s\" frozen_time=\"%s\">\n",
-                     ustr2html($template['template_name']),
-                     ustr2html($template['template_prefix']),
-                     ustr2html($template['description']),
-                     $template['critical_age'],
-                     $template['frozen_time']);
+    $xml = sprintf("  <template name=\"%s\" prefix=\"%s\" description=\"%s\" critical_age=\"%s\" frozen_time=\"%s\" guest_access=\"%s\">\n",
+                   ustr2html($template['template_name']),
+                   ustr2html($template['template_prefix']),
+                   ustr2html($template['description']),
+                   $template['critical_age'],
+                   $template['frozen_time'],
+                   ($template['guest_access'] ? 'yes' : 'no'));
 
-    $xml_t .= "    <permissions>\n";
+    $xml .= "    <permissions>\n";
 
     // Add XML code for template "author" permissions.
     if ($template['author_perm'] != 0)
     {
-        $xml_t .= "      <author>\n";
+        $xml .= "      <author>\n";
 
         foreach ($permissions as $flag => $permit)
         {
-            $xml_t .= (($template['author_perm'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
+            $xml .= (($template['author_perm'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
         }
 
-        $xml_t .= "      </author>\n";
+        $xml .= "      </author>\n";
     }
 
     // Add XML code for template "responsible" permissions.
     if ($template['responsible_perm'] != 0)
     {
-        $xml_t .= "      <responsible>\n";
+        $xml .= "      <responsible>\n";
 
         foreach ($permissions as $flag => $permit)
         {
-            $xml_t .= (($template['responsible_perm'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
+            $xml .= (($template['responsible_perm'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
         }
 
-        $xml_t .= "      </responsible>\n";
+        $xml .= "      </responsible>\n";
     }
 
     // Add XML code for template "registered" permissions.
     if ($template['registered_perm'] != 0)
     {
-        $xml_t .= "      <registered>\n";
+        $xml .= "      <registered>\n";
 
         foreach ($permissions as $flag => $permit)
         {
-            $xml_t .= (($template['registered_perm'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
+            $xml .= (($template['registered_perm'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
         }
 
-        $xml_t .= "      </registered>\n";
+        $xml .= "      </registered>\n";
     }
 
     // Enumerate local groups of the same project and all global groups.
@@ -571,139 +571,255 @@ function template_export ($id, $just_the_node = FALSE)
             array_push($groups, $group['group_id']);
 
             // Add XML code for group name and type.
-            $xml_t .= sprintf("      <group name=\"%s\" type=\"%s\">\n",
+            $xml .= sprintf("      <group name=\"%s\" type=\"%s\">\n",
                               ustr2html($group['group_name']),
                               (is_null($group['project_id']) ? 'global' : 'local'));
 
             // Add XML code for permissions information.
             foreach ($permissions as $flag => $permit)
             {
-                $xml_t .= (($group['perms'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
+                $xml .= (($group['perms'] & $flag) == 0 ? NULL : "        <permit>{$permit}</permit>\n");
             }
 
-            $xml_t .= "      </group>\n";
+            $xml .= "      </group>\n";
         }
     }
 
-    $xml_t .= "    </permissions>\n";
+    $xml .= "    </permissions>\n";
 
     // Export all existing states of the template.
-    $xml_t .= state_export($id, $groups);
-    $xml_t .= "  </template>\n";
+    $xml .= state_export($id, $groups);
+    $xml .= "  </template>\n";
 
     if ($just_the_node)
     {
-        return $xml_t;
+        return $xml;
     }
 
-    $xml_a = $xml_g = NULL;
-
-    $xml_a = accounts_export($groups);
-    $xml_g = groups_export($groups);
-
-    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-    // Merge accounts XML code, groups XML code, and template XML code.
-    $xml .= sprintf("<project name=\"%s\" description=\"%s\">\n{$xml_a}{$xml_g}{$xml_t}</project>\n",
-                    ustr2html($template['project_name']),
-                    ustr2html($template['p_description']));
+    // Merge project, groups, and template.
+    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+         . sprintf("<project name=\"%s\" description=\"%s\">\n",
+                   ustr2html($template['project_name']),
+                   ustr2html($template['p_description']))
+         . groups_export($groups)
+         . $xml
+         . "</project>\n";
 
     return $xml;
 }
 
 /**
- * Imports template specified as XML code (see also {@link template_export}).
+ * Imports templates described as XML code into the specified project.
  *
- * @param string $xmlfile File with XML code uploaded as described {@link http://www.php.net/features.file-upload here}.
- * @param int &$id ID of newly imported template (used as output only).
- * @return int Error code:
- * <ul>
- * <li>{@link NO_ERROR} - template is successfully imported</li>
- * <li>{@link ERROR_UPLOAD_INI_SIZE} - the uploaded file exceeds the upload_max_filesize directive in 'php.ini'</li>
- * <li>{@link ERROR_UPLOAD_FORM_SIZE} - the uploaded file exceeds the {@link ATTACHMENTS_MAXSIZE} constant in 'config.php'</li>
- * <li>{@link ERROR_UPLOAD_PARTIAL} - the uploaded file was only partially uploaded</li>
- * <li>{@link ERROR_UPLOAD_NO_FILE} - no file was uploaded</li>
- * <li>{@link ERROR_UPLOAD_NO_TMP_DIR} - missing a temporary folder</li>
- * <li>{@link ERROR_UPLOAD_CANT_WRITE} - failed to write file to disk</li>
- * <li>{@link ERROR_UPLOAD_EXTENSION} - file upload stopped by extension</li>
- * <li>{@link ERROR_XML_PARSER} - syntax error in XML code</li>
- * <li>{@link ERROR_NOT_FOUND} - failure on attempt to create new project, group, template, state, or field</li>
- * <li>any error which could be raised by {@link account_validate}</li>
- * <li>any error which could be raised by {@link group_validate}</li>
- * <li>any error which could be raised by {@link project_validate}</li>
- * <li>any error which could be raised by {@link template_validate}</li>
- * <li>any error which could be raised by {@link state_validate}</li>
- * <li>any error which could be raised by {@link field_validate}</li>
- * <li>any error which could be raised by {@link field_validate_number}</li>
- * <li>any error which could be raised by {@link field_validate_string}</li>
- * <li>any error which could be raised by {@link field_validate_multilined}</li>
- * <li>any error which could be raised by {@link field_validate_date}</li>
- * <li>any error which could be raised by {@link field_validate_duration}</li>
- * <li>{@link ERROR_UNKNOWN} - unknown error</li>
- * </ul>
+ * @param int $project_id ID of destination project.
+ * @param string $xml Valid XML code.
+ * @param string &$error In case of failure - the error message (used as output only).
+ * @return bool Whether the import was successful.
  */
-function template_import ($xmlfile, &$id)
+function templates_import ($project_id, $xml, &$error)
 {
-    debug_write_log(DEBUG_TRACE, '[template_import]');
-    debug_write_log(DEBUG_DUMP,  '[template_import] $xmlfile["name"]     = ' . $xmlfile['name']);
-    debug_write_log(DEBUG_DUMP,  '[template_import] $xmlfile["type"]     = ' . $xmlfile['type']);
-    debug_write_log(DEBUG_DUMP,  '[template_import] $xmlfile["size"]     = ' . $xmlfile['size']);
-    debug_write_log(DEBUG_DUMP,  '[template_import] $xmlfile["tmp_name"] = ' . $xmlfile['tmp_name']);
-    debug_write_log(DEBUG_DUMP,  '[template_import] $xmlfile["error"]    = ' . $xmlfile['error']);
+    debug_write_log(DEBUG_TRACE, '[templates_import]');
+    debug_write_log(DEBUG_DUMP,  '[templates_import] $project_id = ' . $project_id);
 
-    // Check for possible upload errors, provided by PHP.
-    switch ($xmlfile['error'])
+    // Allocation of XML code to permissions.
+    $permissions = array
+    (
+        'create'    => PERMIT_CREATE_RECORD,
+        'modify'    => PERMIT_MODIFY_RECORD,
+        'postpone'  => PERMIT_POSTPONE_RECORD,
+        'resume'    => PERMIT_RESUME_RECORD,
+        'reassign'  => PERMIT_REASSIGN_RECORD,
+        'comment'   => PERMIT_ADD_COMMENTS,
+        'attach'    => PERMIT_ATTACH_FILES,
+        'remove'    => PERMIT_REMOVE_FILES,
+        'secret'    => PERMIT_CONFIDENTIAL_COMMENTS,
+        'remind'    => PERMIT_SEND_REMINDERS,
+        'delete'    => PERMIT_DELETE_RECORD,
+        'addsubrec' => PERMIT_ADD_SUBRECORDS,
+        'remsubrec' => PERMIT_REMOVE_SUBRECORDS,
+        'view'      => PERMIT_VIEW_RECORD,
+    );
+
+    // Enumerate templates.
+    $templates = $xml->xpath('/project/template');
+
+    if ($templates !== FALSE)
     {
-        case UPLOAD_ERR_OK:
-            break;  // nop
-        case UPLOAD_ERR_INI_SIZE:
-            return ERROR_UPLOAD_INI_SIZE;
-        case UPLOAD_ERR_FORM_SIZE:
-            return ERROR_UPLOAD_FORM_SIZE;
-        case UPLOAD_ERR_PARTIAL:
-            return ERROR_UPLOAD_PARTIAL;
-        case UPLOAD_ERR_NO_FILE:
-            return ERROR_UPLOAD_NO_FILE;
-        case UPLOAD_ERR_NO_TMP_DIR:
-            return ERROR_UPLOAD_NO_TMP_DIR;
-        case UPLOAD_ERR_CANT_WRITE:
-            return ERROR_UPLOAD_CANT_WRITE;
-        case UPLOAD_ERR_EXTENSION:
-            return ERROR_UPLOAD_EXTENSION;
-        default:
-            return ERROR_UNKNOWN;
+        foreach ($templates as $template)
+        {
+            $rs = dal_query('templates/count.sql');
+
+            if (MAX_TEMPLATES_NUMBER != 0 && $rs->fetch(0) >= MAX_TEMPLATES_NUMBER)
+            {
+                debug_write_log(DEBUG_NOTICE, 'Maximum amount of templates is already reached.');
+                return TRUE;
+            }
+
+            $template['name']         = ustrcut($template['name'],         MAX_TEMPLATE_NAME);
+            $template['prefix']       = ustrcut($template['prefix'],       MAX_TEMPLATE_PREFIX);
+            $template['critical_age'] = ustrcut($template['critical_age'], ustrlen(MAX_TEMPLATE_DAYS_COUNT));
+            $template['frozen_time']  = ustrcut($template['frozen_time'],  ustrlen(MAX_TEMPLATE_DAYS_COUNT));
+            $template['description']  = ustrcut($template['description'],  MAX_TEMPLATE_DESCRIPTION);
+
+            $guest_access = ($template['guest_access'] == 'yes');
+
+            // Validate template.
+            switch (template_validate($template['name'], $template['prefix'], $template['critical_age'], $template['frozen_time']))
+            {
+                case NO_ERROR:
+                    break;  // nop
+                case ERROR_INCOMPLETE_FORM:
+                    $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                    return FALSE;
+                case ERROR_INVALID_INTEGER_VALUE:
+                    $error = get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID);
+                    return FALSE;
+                case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+                    $error = ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), MIN_TEMPLATE_DAYS_COUNT, MAX_TEMPLATE_DAYS_COUNT);
+                    return FALSE;
+                default:
+                    debug_write_log(DEBUG_WARNING, '[templates_import] Template validation failure.');
+                    $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                    return FALSE;
+            }
+
+            // Create template.
+            switch (template_create($project_id,
+                                    $template['name'],
+                                    $template['prefix'],
+                                    $template['critical_age'],
+                                    $template['frozen_time'],
+                                    $template['description'],
+                                    $guest_access))
+            {
+                case NO_ERROR:
+                    break;
+                case ERROR_ALREADY_EXISTS:
+                    $error = get_html_resource(RES_ALERT_TEMPLATE_ALREADY_EXISTS_ID);
+                    return FALSE;
+                default:
+                    debug_write_log(DEBUG_WARNING, '[templates_import] Template creation failure.');
+                    $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                    return FALSE;
+            }
+
+            $rs = dal_query('templates/fndk2.sql', $project_id, ustrtolower($template['name']));
+
+            if ($rs->rows == 0)
+            {
+                debug_write_log(DEBUG_WARNING, '[templates_import] Created template not found.');
+                $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                return FALSE;
+            }
+
+            $template_id = $rs->fetch('template_id');
+
+            // Set author permissions.
+            $permits = $template->xpath('./permissions/author/permit');
+
+            if ($permits !== FALSE)
+            {
+                $perms = 0;
+
+                foreach ($permits as $permit)
+                {
+                    $permit = strval($permit);
+
+                    if (array_key_exists($permit, $permissions))
+                    {
+                        $perms |= $permissions[$permit];
+                    }
+                }
+
+                template_author_perm_set($template_id, $perms);
+            }
+
+            // Set responsible permissions.
+            $permits = $template->xpath('./permissions/responsible/permit');
+
+            if ($permits !== FALSE)
+            {
+                $perms = 0;
+
+                foreach ($permits as $permit)
+                {
+                    $permit = strval($permit);
+
+                    if (array_key_exists($permit, $permissions))
+                    {
+                        $perms |= $permissions[$permit];
+                    }
+                }
+
+                template_responsible_perm_set($template_id, $perms);
+            }
+
+            // Set registered permissions.
+            $permits = $template->xpath('./permissions/registered/permit');
+
+            if ($permits !== FALSE)
+            {
+                $perms = 0;
+
+                foreach ($permits as $permit)
+                {
+                    $permit = strval($permit);
+
+                    if (array_key_exists($permit, $permissions))
+                    {
+                        $perms |= $permissions[$permit];
+                    }
+                }
+
+                template_registered_perm_set($template_id, $perms);
+            }
+
+            // Enumerate groups permissions.
+            $groups = $template->xpath('./permissions/group');
+
+            if ($groups !== FALSE)
+            {
+                foreach ($groups as $group)
+                {
+                    if (isset($group->permit))
+                    {
+                        // Find the group.
+                        $rs = dal_query('groups/fndk.sql',
+                                        $group['type'] == 'global' ? 'is null' : '=' . $project_id,
+                                        ustrtolower(ustrcut($group['name'], MAX_GROUP_NAME)));
+
+                        if ($rs->rows != 0)
+                        {
+                            $group_id = $rs->fetch('group_id');
+
+                            // Set group permissions.
+                            $perms = 0;
+
+                            foreach ($group->permit as $permit)
+                            {
+                                $permit = strval($permit);
+
+                                if (array_key_exists($permit, $permissions))
+                                {
+                                    $perms |= $permissions[$permit];
+                                }
+                            }
+
+                            group_set_permissions($group_id, $template_id, $perms);
+                        }
+                    }
+                }
+            }
+
+            // Import states.
+            if (!states_import($template_id, $template, $error))
+            {
+                return FALSE;
+            }
+        }
     }
 
-    // Check for file size.
-    if ($xmlfile['size'] > ATTACHMENTS_MAXSIZE * 1024)
-    {
-        debug_write_log(DEBUG_WARNING, '[template_import] File is too large.');
-        return ERROR_UPLOAD_FORM_SIZE;
-    }
-
-    // Check whether the file was uploaded via HTTP POST (security issue).
-    if (!is_uploaded_file($xmlfile['tmp_name']))
-    {
-        debug_write_log(DEBUG_WARNING, '[template_import] Function "is_uploaded_file" warns that file named by "' . $xmlfile['tmp_name'] . '" was not uploaded via HTTP POST.');
-        return NO_ERROR;
-    }
-
-    // Read and parse XML code from uploaded file.
-    $data = file_get_contents($xmlfile['tmp_name']);
-
-    if (!$data)
-    {
-        debug_write_log(DEBUG_ERROR, '[template_import] File cannot be read.');
-        return ERROR_UNKNOWN;
-    }
-
-    $importer = new CImporter();
-    $importer->import($data);
-    $id = $importer->template_id;
-
-    debug_write_log(DEBUG_NOTICE, '[template_import] $importer->error = ' . $importer->error);
-
-    return $importer->error;
+    return TRUE;
 }
 
 ?>

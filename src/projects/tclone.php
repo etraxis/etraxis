@@ -54,6 +54,17 @@ if (!$template)
     exit;
 }
 
+// check that templates restriction will not be violated
+
+$rs = dal_query('templates/count.sql');
+
+if (MAX_TEMPLATES_NUMBER != 0 && $rs->fetch(0) >= MAX_TEMPLATES_NUMBER)
+{
+    debug_write_log(DEBUG_NOTICE, 'Maximum amount of templates is already reached.');
+    header('HTTP/1.1 307 tview.php?id=' . $id);
+    exit;
+}
+
 // cloned template has been submitted
 
 if (try_request('submitted') == 'cloneform')

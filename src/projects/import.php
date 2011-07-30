@@ -29,7 +29,7 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/templates.php');
+require_once('../dbo/projects.php');
 /**#@-*/
 
 init_page(LOAD_TAB);
@@ -46,70 +46,27 @@ if (try_request('submitted') == 'mainform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
-    $id = NULL;
+    $error = NULL;
 
-    $error = isset($_FILES['xmlfile'])
-           ? template_import($_FILES['xmlfile'], $id)
-           : ERROR_UPLOAD_NO_FILE;
+    $id = isset($_FILES['xmlfile'])
+        ? project_import($_FILES['xmlfile'], $error)
+        : 0;
 
-    switch ($error)
+    if ($id == 0 && ustrlen($error) != 0)
     {
-        case NO_ERROR:
-            /**
-             * jQuery Form Plugin uses "success" callback function in both cases - success and failure
-             * (see https://github.com/malsup/form/issues/107 for details).
-             * This is why a workaround function "importError2" is appeared (see its code below).
-             */
-            header('Location: tview.php?id='. $id);
-            break;
-
-        case ERROR_UPLOAD_INI_SIZE:
-            send_http_error(get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID));
-            break;
-
-        case ERROR_UPLOAD_FORM_SIZE:
-            send_http_error(ustrprocess(get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID), ATTACHMENTS_MAXSIZE));
-            break;
-
-        case ERROR_UPLOAD_PARTIAL:
-            send_http_error(get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID));
-            break;
-
-        case ERROR_UPLOAD_NO_FILE:
-            send_http_error(get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID));
-            break;
-
-        case ERROR_UPLOAD_NO_TMP_DIR:
-            send_http_error(get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID));
-            break;
-
-        case ERROR_UPLOAD_CANT_WRITE:
-            send_http_error(get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID));
-            break;
-
-        case ERROR_UPLOAD_EXTENSION:
-            send_http_error(get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID));
-            break;
-
-        case ERROR_DATE_VALUE_OUT_OF_RANGE:
-        case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
-        case ERROR_INCOMPLETE_FORM:
-        case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
-        case ERROR_INVALID_DATE_VALUE:
-        case ERROR_INVALID_EMAIL:
-        case ERROR_INVALID_INTEGER_VALUE:
-        case ERROR_INVALID_TIME_VALUE:
-        case ERROR_INVALID_USERNAME:
-        case ERROR_MIN_MAX_VALUES:
-        case ERROR_NOT_FOUND:
-        case ERROR_TIME_VALUE_OUT_OF_RANGE:
-        case ERROR_UNKNOWN:
-        case ERROR_XML_PARSER:
-            send_http_error(get_html_resource(RES_ALERT_XML_PARSER_ERROR_ID));
-            break;
-
-        default:
-            send_http_error(get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID));
+        send_http_error($error);
+    }
+    else
+    {
+        /**
+         * jQuery Form Plugin uses "success" callback function in both cases - success and failure
+         * (see https://github.com/malsup/form/issues/107 for details).
+         * It makes impossible to distinguish successful response from error messages.
+         * To make the difference a successful response is prefixed with "OK ".
+         * For the same reasons a workaround function "importSuccess2" is appeared (see its code below).
+         */
+        header('HTTP/1.0 200 OK');
+        echo('OK ' . $id);
     }
 
     exit;
@@ -127,14 +84,23 @@ $resOK    = get_js_resource(RES_OK_ID);
 $xml = <<<JQUERY
 <script>
 
+function importSuccess (data)
+{
+    window.open("view.php?id=" + data, "_parent");
+}
+
 function importError (XMLHttpRequest)
 {
     jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
-function importError2 (data)
+function importSuccess2 (data)
 {
-    if (data.length != 0)
+    if (data.substr(0,3) == "OK ")  // success
+    {
+        importSuccess(data.substr(3));
+    }
+    else    // error
     {
         jqAlert("{$resTitle}", data, "{$resOK}");
     }
@@ -145,7 +111,7 @@ JQUERY;
 
 // generate page
 
-$xml .= '<form name="mainform" action="import.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '" success="importError2" error="importError">'
+$xml .= '<form name="mainform" action="import.php" upload="' . (ATTACHMENTS_MAXSIZE * 1024) . '" success="importSuccess2" error="importError">'
       . '<group>'
       . '<control name="xmlfile" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
       . '<label>' . get_html_resource(RES_TEMPLATE_ID) . '</label>'

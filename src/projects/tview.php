@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
+require_once('../dbo/projects.php');
 require_once('../dbo/templates.php');
 /**#@-*/
 

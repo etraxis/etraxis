@@ -188,9 +188,7 @@ function attachmentSuccess2 (data)
 {
     if (data.substr(0,3) == "OK ")  // success
     {
-        var index = $("#tabs").tabs("option", "selected") + 1;
-        $("[href=#ui-tabs-" + index + "]").html(data.substr(3));
-        reloadTab();
+        attachmentSuccess(data.substr(3));
     }
     else    // error
     {

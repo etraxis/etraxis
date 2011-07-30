@@ -621,7 +621,7 @@ function field_validate_duration ($field_name, $min_value, $max_value, $def_valu
 }
 
 /**
- * @ignore Going to be obsolete soon due to 'new-555'.
+ * @ignore List items related UI must be remastered via jQueryUI.
  */
 function field_create_list_items ($state_id, $field_name, $list_items)
 {
@@ -709,7 +709,7 @@ function field_create_list_items ($state_id, $field_name, $list_items)
 }
 
 /**
- * @ignore Going to be obsolete soon due to 'new-555'.
+ * @ignore List items related UI must be remastered via jQueryUI.
  */
 function field_pickup_list_items ($field_id)
 {
@@ -1132,7 +1132,7 @@ function field_permission_remove ($fid, $gid)
 }
 
 /**
- * Exports all fields of the specified state to XML code (see also {@link template_export}).
+ * Exports all fields of the specified state to XML code (see also {@link state_export}).
  *
  * @param int $id ID of state, which fields should be exported.
  * @param array &$groups Array of IDs of groups, affected by this template (used for output only).
@@ -1171,11 +1171,13 @@ function field_export ($id, &$groups)
     while (($field = $rs->fetch()))
     {
         // Add XML code for general field information.
-        $xml .= sprintf("          <field name=\"%s\" type=\"%s\" required=\"%s\" separator=\"%s\"",
+        $xml .= sprintf("          <field name=\"%s\" type=\"%s\" required=\"%s\" guest_access=\"%s\" separator=\"%s\" show_in_emails=\"%s\"",
                         ustr2html($field['field_name']),
                         $types[$field['field_type']],
-                        ($field['is_required'] ? 'yes' : 'no'),
-                        ($field['add_separator'] ? 'add' : 'none'));
+                        ($field['is_required']    ? 'yes' : 'no'),
+                        ($field['guest_access']   ? 'yes' : 'no'),
+                        ($field['add_separator']  ? 'yes' : 'no'),
+                        ($field['show_in_emails'] ? 'yes' : 'no'));
 
         // Add XML code for information, specific to type of the field.
         switch ($field['field_type'])
@@ -1278,6 +1280,14 @@ function field_export ($id, &$groups)
             }
         }
 
+        // Description of field is processed in a specific way (must be out in dedicated XML tags).
+        if (strlen($field['description']) != 0)
+        {
+            $xml .= "            <description>\n";
+            $xml .= ustr2html($field['description']) . "\n";
+            $xml .= "            </description>\n";
+        }
+
         // If field type is 'list', enumerate all its items.
         if ($field['field_type'] == FIELD_TYPE_LIST)
         {
@@ -1299,9 +1309,39 @@ function field_export ($id, &$groups)
         // Enumerate permissions of all groups for this field.
         $rsp = dal_query('fields/fplist.sql', $field['field_id']);
 
-        if ($rsp->rows != 0)
+        if ($field['author_perm']      != 0 ||
+            $field['responsible_perm'] != 0 ||
+            $field['registered_perm']  != 0 ||
+            $rsp->rows                 != 0)
         {
             $xml .= "            <permissions>\n";
+
+            if     ($field['author_perm'] == 1)
+            {
+                $xml .= "              <author>read</author>\n";
+            }
+            elseif ($field['author_perm'] == 2)
+            {
+                $xml .= "              <author>write</author>\n";
+            }
+
+            if     ($field['responsible_perm'] == 1)
+            {
+                $xml .= "              <responsible>read</responsible>\n";
+            }
+            elseif ($field['responsible_perm'] == 2)
+            {
+                $xml .= "              <responsible>write</responsible>\n";
+            }
+
+            if     ($field['registered_perm'] == 1)
+            {
+                $xml .= "              <registered>read</registered>\n";
+            }
+            elseif ($field['registered_perm'] == 2)
+            {
+                $xml .= "              <registered>write</registered>\n";
+            }
 
             while (($group = $rsp->fetch()))
             {
@@ -1318,20 +1358,439 @@ function field_export ($id, &$groups)
             $xml .= "            </permissions>\n";
         }
 
-        // Description of field is processed in a specific way (must be out in dedicated XML tags).
-        if (strlen($field['description']) != 0)
-        {
-            $xml .= "            <description>\n";
-            $xml .= ustr2html($field['description']) . "\n";
-            $xml .= "            </description>\n";
-        }
-
         $xml .= "          </field>\n";
     }
 
     $xml .= "        </fields>\n";
 
     return $xml;
+}
+
+/**
+ * Imports fields described as XML code into the specified state.
+ *
+ * @param int $template_id ID of destination template.
+ * @param int $state_id ID of destination state.
+ * @param string $xml Valid XML code.
+ * @param string &$error In case of failure - the error message (used as output only).
+ * @return bool Whether the import was successful.
+ */
+function fields_import ($template_id, $state_id, $xml, &$error)
+{
+    debug_write_log(DEBUG_TRACE, '[fields_import]');
+    debug_write_log(DEBUG_DUMP,  '[fields_import] $template_id = ' . $template_id);
+    debug_write_log(DEBUG_DUMP,  '[fields_import] $state_id    = ' . $state_id);
+
+    // Allocation of XML code to field types.
+    $types = array
+    (
+        'number'   => FIELD_TYPE_NUMBER,
+        'float'    => FIELD_TYPE_FLOAT,
+        'string'   => FIELD_TYPE_STRING,
+        'multi'    => FIELD_TYPE_MULTILINED,
+        'check'    => FIELD_TYPE_CHECKBOX,
+        'list'     => FIELD_TYPE_LIST,
+        'record'   => FIELD_TYPE_RECORD,
+        'date'     => FIELD_TYPE_DATE,
+        'duration' => FIELD_TYPE_DURATION,
+    );
+
+    // Enumerate fields.
+    $fields = $xml->xpath('./fields/field');
+
+    if ($fields !== FALSE)
+    {
+        foreach ($fields as $field)
+        {
+            $field_type = strval($field['type']);
+
+            if (!array_key_exists($field_type, $types))
+            {
+                continue;
+            }
+
+            $field_name     = ustrcut($field['name'], MAX_FIELD_NAME);
+            $field_type     = $types[$field_type];
+
+            $is_required    = ($field['required']       == 'yes');
+            $add_separator  = ($field['separator']      == 'yes');
+            $guest_access   = ($field['guest_access']   == 'yes');
+            $show_in_emails = ($field['show_in_emails'] == 'yes');
+
+            $description    = isset($field->description)
+                            ? ustrcut($field->description, MAX_FIELD_DESCRIPTION)
+                            : NULL;
+
+            $regex_check    = NULL;
+            $regex_search   = NULL;
+            $regex_replace  = NULL;
+            $param1         = NULL;
+            $param2         = NULL;
+            $default        = NULL;
+
+            // Validate field (number).
+            if ($field_type == FIELD_TYPE_NUMBER)
+            {
+                $param1  = ustrcut($field['minimum'], ustrlen(MAX_FIELD_INTEGER) + 1);
+                $param2  = ustrcut($field['maximum'], ustrlen(MAX_FIELD_INTEGER) + 1);
+                $default = ustrcut($field['default'], ustrlen(MAX_FIELD_INTEGER) + 1);
+
+                $default = (ustrlen($default) == 0) ? NULL : intval($default);
+
+                switch (field_validate_number($field_name, $param1, $param2, $default))
+                {
+                    case NO_ERROR:
+                        break;  // nop
+                    case ERROR_INCOMPLETE_FORM:
+                        $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                        return FALSE;
+                    case ERROR_INVALID_INTEGER_VALUE:
+                        $error = get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID);
+                        return FALSE;
+                    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), -MAX_FIELD_INTEGER, +MAX_FIELD_INTEGER);
+                        return FALSE;
+                    case ERROR_MIN_MAX_VALUES:
+                        $error = get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID);
+                        return FALSE;
+                    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2);
+                        return FALSE;
+                    default:
+                        debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure (number).');
+                        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                        return FALSE;
+                }
+            }
+
+            // Validate field (float).
+            elseif ($field_type == FIELD_TYPE_FLOAT)
+            {
+                $param1  = ustrcut($field['minimum'], ustrlen(MIN_FIELD_FLOAT));
+                $param2  = ustrcut($field['maximum'], ustrlen(MAX_FIELD_FLOAT));
+                $default = ustrcut($field['default'], ustrlen(MAX_FIELD_FLOAT));
+
+                $default = (ustrlen($default) == 0) ? NULL : $default;
+
+                switch (field_validate_float($field_name, $param1, $param2, $default))
+                {
+                    case NO_ERROR:
+                        $param1  = value_find_float($param1);
+                        $param2  = value_find_float($param2);
+                        $default = is_null($default) ? NULL : value_find_float($default);
+                        break;  // nop
+                    case ERROR_INCOMPLETE_FORM:
+                        $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                        return FALSE;
+                    case ERROR_INVALID_FLOAT_VALUE:
+                        $error = get_html_resource(RES_ALERT_INVALID_DECIMAL_VALUE_ID);
+                        return FALSE;
+                    case ERROR_FLOAT_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_DECIMAL_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_FLOAT, MAX_FIELD_FLOAT);
+                        return FALSE;
+                    case ERROR_MIN_MAX_VALUES:
+                        $error = get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID);
+                        return FALSE;
+                    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2);
+                        return FALSE;
+                    default:
+                        debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure (float).');
+                        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                        return FALSE;
+                }
+            }
+
+            // Validate field (string).
+            elseif ($field_type == FIELD_TYPE_STRING)
+            {
+                $regex_check   = ustrcut($field['regex_check'],   MAX_FIELD_REGEX);
+                $regex_search  = ustrcut($field['regex_search'],  MAX_FIELD_REGEX);
+                $regex_replace = ustrcut($field['regex_replace'], MAX_FIELD_REGEX);
+                $param1        = ustrcut($field['length'],        ustrlen(MAX_FIELD_STRING));
+
+                switch (field_validate_string($field_name, $param1))
+                {
+                    case NO_ERROR:
+                        $default = ustrcut($field['default'], $param1);
+                        $default = (ustrlen($default) == 0) ? NULL : value_find_string($default);
+                        break;  // nop
+                    case ERROR_INCOMPLETE_FORM:
+                        $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                        return FALSE;
+                    case ERROR_INVALID_INTEGER_VALUE:
+                        $error = get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID);
+                        return FALSE;
+                    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_STRING);
+                        return FALSE;
+                    default:
+                        debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure (string).');
+                        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                        return FALSE;
+                }
+            }
+
+            // Validate field (multilined).
+            elseif ($field_type == FIELD_TYPE_MULTILINED)
+            {
+                $regex_check   = ustrcut($field['regex_check'],   MAX_FIELD_REGEX);
+                $regex_search  = ustrcut($field['regex_search'],  MAX_FIELD_REGEX);
+                $regex_replace = ustrcut($field['regex_replace'], MAX_FIELD_REGEX);
+                $param1        = ustrcut($field['length'],        ustrlen(MAX_FIELD_MULTILINED));
+
+                switch (field_validate_multilined($field_name, $param1))
+                {
+                    case NO_ERROR:
+                        if (isset($field->default))
+                        {
+                            $default = ustrcut($field->default, $param1);
+                            $default = (ustrlen($default) == 0) ? NULL : value_find_multilined($default);
+                        }
+                        break;  // nop
+                    case ERROR_INCOMPLETE_FORM:
+                        $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                        return FALSE;
+                    case ERROR_INVALID_INTEGER_VALUE:
+                        $error = get_html_resource(RES_ALERT_INVALID_INTEGER_VALUE_ID);
+                        return FALSE;
+                    case ERROR_INTEGER_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_INTEGER_VALUE_OUT_OF_RANGE_ID), 1, MAX_FIELD_MULTILINED);
+                        return FALSE;
+                    default:
+                        debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure (multilined).');
+                        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                        return FALSE;
+                }
+            }
+
+            // Validate field (check).
+            elseif ($field_type == FIELD_TYPE_CHECKBOX)
+            {
+                $default = ($field['default'] == 'on') ? 1 : 0;
+            }
+
+            // Validate field (list).
+            elseif ($field_type == FIELD_TYPE_LIST)
+            {
+                $default = (ustrlen($field['default']) == 0)
+                         ? NULL
+                         : ustr2int($field['default'], 1, MAXINT);
+            }
+
+            // Validate field (record).
+            elseif ($field_type == FIELD_TYPE_RECORD)
+            {
+                // nop
+            }
+
+            // Validate field (date).
+            elseif ($field_type == FIELD_TYPE_DATE)
+            {
+                $param1  = ustrcut($field['minimum'], ustrlen(MIN_FIELD_DATE));
+                $param2  = ustrcut($field['maximum'], ustrlen(MIN_FIELD_DATE));
+                $default = ustrcut($field['default'], ustrlen(MIN_FIELD_DATE));
+
+                $default = (ustrlen($default) == 0) ? NULL : $default;
+
+                switch (field_validate_date($field_name, $param1, $param2, $default))
+                {
+                    case NO_ERROR:
+                        $default = is_null($default) ? NULL : ustr2int($default, MIN_FIELD_DATE, MAX_FIELD_DATE);
+                        break;  // nop
+                    case ERROR_INCOMPLETE_FORM:
+                        $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                        return FALSE;
+                    case ERROR_INVALID_DATE_VALUE:
+                        $error = get_html_resource(RES_ALERT_INVALID_DATE_VALUE_ID);
+                        return FALSE;
+                    case ERROR_DATE_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_DATE_VALUE_OUT_OF_RANGE_ID), MIN_FIELD_DATE, MAX_FIELD_DATE);
+                        return FALSE;
+                    case ERROR_MIN_MAX_VALUES:
+                        $error = get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID);
+                        return FALSE;
+                    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2);
+                        return FALSE;
+                    default:
+                        debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure (date).');
+                        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                        return FALSE;
+                }
+            }
+
+            // Validate field (duration).
+            elseif ($field_type == FIELD_TYPE_DURATION)
+            {
+                $param1  = ustrcut($field['minimum'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+                $param2  = ustrcut($field['maximum'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+                $default = ustrcut($field['default'], ustrlen(time2ustr(MAX_FIELD_DURATION)));
+
+                $default = (ustrlen($default) == 0) ? NULL : $default;
+
+                switch (field_validate_duration($field_name, $param1, $param2, $default))
+                {
+                    case NO_ERROR:
+                        $param1  = ustr2time($param1);
+                        $param2  = ustr2time($param2);
+                        $default = is_null($default) ? NULL : ustr2time($default);
+                        break;  // nop
+                    case ERROR_INCOMPLETE_FORM:
+                        $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                        return FALSE;
+                    case ERROR_INVALID_TIME_VALUE:
+                        $error = get_html_resource(RES_ALERT_INVALID_TIME_VALUE_ID);
+                        return FALSE;
+                    case ERROR_TIME_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_TIME_VALUE_OUT_OF_RANGE_ID), time2ustr(MIN_FIELD_DURATION), time2ustr(MAX_FIELD_DURATION));
+                        return FALSE;
+                    case ERROR_MIN_MAX_VALUES:
+                        $error = get_html_resource(RES_ALERT_MIN_MAX_VALUES_ID);
+                        return FALSE;
+                    case ERROR_DEFAULT_VALUE_OUT_OF_RANGE:
+                        $error = ustrprocess(get_html_resource(RES_ALERT_DEFAULT_VALUE_OUT_OF_RANGE_ID), $param1, $param2);
+                        return FALSE;
+                    default:
+                        debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure (duration).');
+                        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                        return FALSE;
+                }
+            }
+
+            // Create field.
+            switch (field_create($template_id,
+                                 $state_id,
+                                 $field_name,
+                                 $field_type,
+                                 $is_required,
+                                 $add_separator,
+                                 $guest_access,
+                                 $show_in_emails,
+                                 $description,
+                                 $regex_check,
+                                 $regex_search,
+                                 $regex_replace,
+                                 $param1,
+                                 $param2,
+                                 $default))
+            {
+                case NO_ERROR:
+                    break;  // nop
+                case ERROR_INCOMPLETE_FORM:
+                    $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                    return FALSE;
+                case ERROR_ALREADY_EXISTS:
+                    $error = get_html_resource(RES_ALERT_FIELD_ALREADY_EXISTS_ID);
+                    return FALSE;
+                default:
+                    debug_write_log(DEBUG_WARNING, '[fields_import] Field validation failure.');
+                    $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                    return FALSE;
+            }
+
+            $rs = dal_query('fields/fndk.sql', $state_id, ustrtolower($field_name));
+
+            if ($rs->rows == 0)
+            {
+                debug_write_log(DEBUG_WARNING, '[fields_import] Created field not found.');
+                $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                return FALSE;
+            }
+
+            $row        = $rs->fetch();
+            $project_id = $row['project_id'];
+            $field_id   = $row['field_id'];
+
+            // Create list items fpr list field.
+            if ($field_type == FIELD_TYPE_LIST)
+            {
+                $list = $field->xpath('./list/item');
+
+                if ($list !== FALSE)
+                {
+                    $list_items = NULL;
+
+                    foreach ($list as $item)
+                    {
+                        $list_items .= sprintf("%s %s\n", $item['value'], $item);
+                    }
+
+                    field_create_list_items($state_id, $field_name, $list_items);
+                }
+            }
+
+            // Set author permissions.
+            if (isset($field->permissions->author))
+            {
+                if ($field->permissions->author == 'read')
+                {
+                    field_author_permission_set($field_id, FIELD_ALLOW_TO_READ);
+                }
+                elseif ($field->permissions->author == 'write')
+                {
+                    field_author_permission_set($field_id, FIELD_ALLOW_TO_WRITE);
+                }
+            }
+
+            // Set responsible permissions.
+            if (isset($field->permissions->responsible))
+            {
+                if ($field->permissions->responsible == 'read')
+                {
+                    field_responsible_permission_set($field_id, FIELD_ALLOW_TO_READ);
+                }
+                elseif ($field->permissions->responsible == 'write')
+                {
+                    field_responsible_permission_set($field_id, FIELD_ALLOW_TO_WRITE);
+                }
+            }
+
+            // Set registered permissions.
+            if (isset($field->permissions->registered))
+            {
+                if ($field->permissions->registered == 'read')
+                {
+                    field_registered_permission_set($field_id, FIELD_ALLOW_TO_READ);
+                }
+                elseif ($field->permissions->registered == 'write')
+                {
+                    field_registered_permission_set($field_id, FIELD_ALLOW_TO_WRITE);
+                }
+            }
+
+            // Enumerate groups permissions.
+            $groups = $field->xpath('./permissions/group');
+
+            if ($groups !== FALSE)
+            {
+                foreach ($groups as $group)
+                {
+                    $rs = dal_query('groups/fndk.sql',
+                                    $group['type'] == 'global' ? 'is null' : '=' . $project_id,
+                                    ustrtolower(ustrcut($group['name'], MAX_GROUP_NAME)));
+
+                    if ($rs->rows != 0)
+                    {
+                        $group_id = $rs->fetch('group_id');
+
+                        // Set group permissions.
+                        if (strval($group) == 'read')
+                        {
+                            field_permission_add($field_id, $group_id, FIELD_ALLOW_TO_READ);
+                        }
+                        elseif (strval($group) == 'write')
+                        {
+                            field_permission_add($field_id, $group_id, FIELD_ALLOW_TO_READ);
+                            field_permission_add($field_id, $group_id, FIELD_ALLOW_TO_WRITE);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    return TRUE;
 }
 
 ?>

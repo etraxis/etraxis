@@ -83,12 +83,17 @@ function templateLock ()
 JQUERY;
 
 // generate buttons
+$rs = dal_query('templates/count.sql');
 
 $xml .= '<button url="view.php?id=' . $template['project_id'] . '&amp;tab=3">' . get_html_resource(RES_BACK_ID) . '</button>'
       . '<button url="texport.php?id=' . $id . '">' . get_html_resource(RES_EXPORT_ID) . '</button>'
       . '<buttonset>'
       . '<button action="templateModify()">' . get_html_resource(RES_MODIFY_ID) . '</button>'
-      . '<button action="templateClone()">'  . get_html_resource(RES_CLONE_ID)  . '</button>'
+      . (MAX_TEMPLATES_NUMBER == 0 || $rs->fetch(0) < MAX_TEMPLATES_NUMBER
+            ? '<button action="templateClone()">'
+            : '<button disabled="true">')
+      . get_html_resource(RES_CLONE_ID)
+      . '</button>'
       . (is_template_removable($id) && $template['is_locked']
             ? '<button url="tdelete.php?id=' . $id . '" prompt="' . get_html_resource(RES_CONFIRM_DELETE_TEMPLATE_ID) . '">'
             : '<button disabled="false">')

@@ -395,6 +395,26 @@ function state_export ($id, &$groups)
         // Add XML code for "next state by default", if such information is specified for the state.
         $xml .= (is_null($state['next_state']) ? ">\n" : " next=\"" . ustr2html($state['next_state']) . "\">\n");
 
+        // If state must be assigned, enumerate groups of allowed responsibles.
+        if ($state['responsible'] == STATE_RESPONSIBLE_ASSIGN)
+        {
+            $rsr = dal_query('states/saallowed.sql', $state['state_id']);
+
+            if ($rsr->rows != 0)
+            {
+                $xml .= "        <responsibles>\n";
+
+                while (($row = $rsr->fetch()))
+                {
+                    $xml .= sprintf("          <group type=\"%s\">%s</group>\n",
+                                    ($row['is_global'] ? 'global' : 'local'),
+                                    ustr2html($row['group_name']));
+                }
+
+                $xml .= "        </responsibles>\n";
+            }
+        }
+
         // If state is not final, enumerate all possible transition from this state.
         if ($state['state_type'] != STATE_TYPE_FINAL)
         {
@@ -484,6 +504,235 @@ function state_export ($id, &$groups)
     $xml .= "    </states>\n";
 
     return $xml;
+}
+
+/**
+ * Imports states described as XML code into the specified template.
+ *
+ * @param int $template_id ID of destination template.
+ * @param string $xml Valid XML code.
+ * @param string &$error In case of failure - the error message (used as output only).
+ * @return bool Whether the import was successful.
+ */
+function states_import ($template_id, $xml, &$error)
+{
+    debug_write_log(DEBUG_TRACE, '[states_import]');
+    debug_write_log(DEBUG_DUMP,  '[states_import] $template_id = ' . $template_id);
+
+    // Allocation of XML code to state types.
+    $state_type = array
+    (
+        'initial'  => STATE_TYPE_INITIAL,
+        'intermed' => STATE_TYPE_INTERMEDIATE,
+        'final'    => STATE_TYPE_FINAL,
+    );
+
+    // Allocation of XML code to state responsibility.
+    $state_resp = array
+    (
+        'remain' => STATE_RESPONSIBLE_REMAIN,
+        'assign' => STATE_RESPONSIBLE_ASSIGN,
+        'remove' => STATE_RESPONSIBLE_REMOVE,
+    );
+
+    // Enumerate states.
+    $states = $xml->xpath('./states/state');
+
+    if ($states !== FALSE)
+    {
+        // Create all states before setting transitions btw them.
+        foreach ($states as $state)
+        {
+            $state['name'] = ustrcut($state['name'], MAX_STATE_NAME);
+            $state['abbr'] = ustrcut($state['abbr'], MAX_STATE_ABBR);
+
+            // Validate state.
+            switch (state_validate($state['name'], $state['abbr']))
+            {
+                case NO_ERROR:
+                    break;  // nop
+                case ERROR_INCOMPLETE_FORM:
+                    $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+                    return FALSE;
+                default:
+                    debug_write_log(DEBUG_WARNING, '[states_import] State validation failure.');
+                    $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                    return FALSE;
+            }
+
+            $type        = strval($state['type']);
+            $responsible = strval($state['responsible']);
+
+            if (!array_key_exists($type, $state_type))
+            {
+                $type = 'intermed';
+            }
+
+            if (!array_key_exists($responsible, $state_resp))
+            {
+                $responsible = 'remain';
+            }
+
+            // Create state.
+            switch (state_create($template_id,
+                                 $state['name'],
+                                 $state['abbr'],
+                                 $state_type[$type],
+                                 NULL,
+                                 $state_resp[$responsible]))
+            {
+                case NO_ERROR:
+                    break;  // nop
+                case ERROR_ALREADY_EXISTS:
+                    $error = get_html_resource(RES_ALERT_STATE_ALREADY_EXISTS_ID);
+                    return FALSE;
+                default:
+                    debug_write_log(DEBUG_WARNING, '[states_import] State creation failure.');
+                    $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                    return FALSE;
+            }
+        }
+
+        // Set up rest of the stuff on already created states.
+        foreach ($states as $state)
+        {
+            $state['name'] = ustrcut($state['name'], MAX_STATE_NAME);
+
+            // Find the state.
+            $rs = dal_query('states/fndk2.sql', $template_id, ustrtolower($state['name']));
+
+            if ($rs->rows == 0)
+            {
+                debug_write_log(DEBUG_WARNING, '[states_import] Created state not found.');
+                $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+                return FALSE;
+            }
+
+            $row        = $rs->fetch();
+            $project_id = $row['project_id'];
+            $state_id   = $row['state_id'];
+
+            // Set author transitions.
+            $transitions = $state->xpath('./transitions/author/state');
+
+            if ($transitions !== FALSE)
+            {
+                foreach ($transitions as $transit)
+                {
+                    $rs = dal_query('states/fndk2.sql', $template_id, ustrtolower(ustrcut($transit, MAX_STATE_NAME)));
+
+                    if ($rs->rows != 0)
+                    {
+                        dal_query('states/rtadd.sql', $state_id, $rs->fetch('state_id'), STATE_ROLE_AUTHOR);
+                    }
+                }
+            }
+
+            // Set responsible transitions.
+            $transitions = $state->xpath('./transitions/responsible/state');
+
+            if ($transitions !== FALSE)
+            {
+                foreach ($transitions as $transit)
+                {
+                    $rs = dal_query('states/fndk2.sql', $template_id, ustrtolower(ustrcut($transit, MAX_STATE_NAME)));
+
+                    if ($rs->rows != 0)
+                    {
+                        dal_query('states/rtadd.sql', $state_id, $rs->fetch('state_id'), STATE_ROLE_RESPONSIBLE);
+                    }
+                }
+            }
+
+            // Set registered transitions.
+            $transitions = $state->xpath('./transitions/registered/state');
+
+            if ($transitions !== FALSE)
+            {
+                foreach ($transitions as $transit)
+                {
+                    $rs = dal_query('states/fndk2.sql', $template_id, ustrtolower(ustrcut($transit, MAX_STATE_NAME)));
+
+                    if ($rs->rows != 0)
+                    {
+                        dal_query('states/rtadd.sql', $state_id, $rs->fetch('state_id'), STATE_ROLE_REGISTERED);
+                    }
+                }
+            }
+
+            // Enumerate groups transitions.
+            $groups = $state->xpath('./transitions/group');
+
+            if ($groups !== FALSE)
+            {
+                foreach ($groups as $group)
+                {
+                    // Set group transitions.
+                    if (isset($group->state))
+                    {
+                        $rs = dal_query('groups/fndk.sql',
+                                        $group['type'] == 'global' ? 'is null' : '=' . $project_id,
+                                        ustrtolower(ustrcut($group['name'], MAX_GROUP_NAME)));
+
+                        if ($rs->rows != 0)
+                        {
+                            $group_id = $rs->fetch('group_id');
+
+                            foreach ($group->state as $transit)
+                            {
+                                $rs = dal_query('states/fndk2.sql', $template_id, ustrtolower(ustrcut($transit, MAX_STATE_NAME)));
+
+                                if ($rs->rows != 0)
+                                {
+                                    dal_query('states/gtadd.sql', $state_id, $rs->fetch('state_id'), $group_id);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Set groups of allowed responsibles.
+            if (strval($state['responsible']) == 'assign')
+            {
+                $groups = $state->xpath('./responsibles/group');
+
+                if ($groups !== FALSE)
+                {
+                    foreach ($groups as $group)
+                    {
+                        $rs = dal_query('groups/fndk.sql',
+                                        $group['type'] == 'global' ? 'is null' : '=' . $project_id,
+                                        ustrtolower(ustrcut($group, MAX_GROUP_NAME)));
+
+                        if ($rs->rows != 0)
+                        {
+                            dal_query('states/saadd.sql', $state_id, $rs->fetch('group_id'));
+                        }
+                    }
+                }
+            }
+
+            // Set "Next by default" where it's specified.
+            if (isset($state['next']))
+            {
+                $rs = dal_query('states/fndk2.sql', $template_id, ustrtolower(ustrcut($state['next'], MAX_STATE_NAME)));
+
+                if ($rs->rows != 0)
+                {
+                    dal_query('states/setnext.sql', $state_id, $rs->fetch('state_id'));
+                }
+            }
+
+            // Import fields.
+            if (!fields_import($template_id, $state_id, $state, $error))
+            {
+                return FALSE;
+            }
+        }
+    }
+
+    return TRUE;
 }
 
 ?>

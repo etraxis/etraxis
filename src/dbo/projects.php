@@ -34,9 +34,9 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
-require_once('../dbo/templates.php');
 require_once('../dbo/accounts.php');
 require_once('../dbo/groups.php');
+require_once('../dbo/templates.php');
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -287,7 +287,7 @@ function project_delete ($id)
 }
 
 /**
- * Exports specified project to XML code (see also {@link template_import}).
+ * Exports specified project to XML code (see also {@link project_import}).
  *
  * @param int $id Project ID of project to be exported.
  * @return string Generated XML code for specified project.
@@ -307,34 +307,155 @@ function project_export ($id)
 
     // Generate XML code for groups.
     $sort = $page = NULL;
-    $rs_g = groups_list($id, $sort, $page);
+    $rs = groups_list($id, $sort, $page);
     $groups = array();
 
-    while (($group = $rs_g->fetch()))
+    while (($group = $rs->fetch()))
     {
         array_push($groups, $group['group_id']);
     }
 
-    $xml_a = accounts_export($groups);
-    $xml_g = groups_export($groups);
+    $xml = groups_export($groups);
 
     // Generate XML code for templates.
-    $rs_t = templates_list($id, $sort, $page);
-    $xml_t = NULL;
+    $rs = templates_list($id, $sort, $page);
 
-    while (($template = $rs_t->fetch()))
+    while (($template = $rs->fetch()))
     {
-        $xml_t .= template_export($template["template_id"], true);
+        $xml .= template_export($template["template_id"], TRUE);
     }
 
-    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-    // Merge accounts XML code, groups XML code, and template XML code.
-    $xml .= sprintf("<project name=\"%s\" description=\"%s\">\n{$xml_a}{$xml_g}{$xml_t}</project>\n",
-                    ustr2html($project['project_name']),
-                    ustr2html($project['description']));
+    // Merge project, groups, and templates.
+    $xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+         . sprintf("<project name=\"%s\" description=\"%s\">\n",
+                   ustr2html($project['project_name']),
+                   ustr2html($project['description']))
+         . $xml
+         . "</project>\n";
 
     return $xml;
+}
+
+/**
+ * Imports project specified as XML code (see also {@link project_export}).
+ *
+ * @param string $xmlfile File with XML code uploaded as described {@link http://www.php.net/features.file-upload here}.
+ * @param string &$error In case of failure - the error message (used as output only).
+ * @return int ID of newly imported project (used as output only), or 0 on failure.
+ */
+function project_import ($xmlfile, &$error)
+{
+    debug_write_log(DEBUG_TRACE, '[project_import]');
+    debug_write_log(DEBUG_DUMP,  '[project_import] $xmlfile["name"]     = ' . $xmlfile['name']);
+    debug_write_log(DEBUG_DUMP,  '[project_import] $xmlfile["type"]     = ' . $xmlfile['type']);
+    debug_write_log(DEBUG_DUMP,  '[project_import] $xmlfile["size"]     = ' . $xmlfile['size']);
+    debug_write_log(DEBUG_DUMP,  '[project_import] $xmlfile["tmp_name"] = ' . $xmlfile['tmp_name']);
+    debug_write_log(DEBUG_DUMP,  '[project_import] $xmlfile["error"]    = ' . $xmlfile['error']);
+
+    // Check for possible upload errors, provided by PHP.
+    switch ($xmlfile['error'])
+    {
+        case UPLOAD_ERR_OK:
+            $error = NULL;
+            break;  // nop
+        case UPLOAD_ERR_INI_SIZE:
+            $error = get_html_resource(RES_ALERT_UPLOAD_INI_SIZE_ID);
+            return 0;
+        case UPLOAD_ERR_FORM_SIZE:
+            $error = get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID);
+            return 0;
+        case UPLOAD_ERR_PARTIAL:
+            $error = get_html_resource(RES_ALERT_UPLOAD_PARTIAL_ID);
+            return 0;
+        case UPLOAD_ERR_NO_FILE:
+            $error = get_html_resource(RES_ALERT_UPLOAD_NO_FILE_ID);
+            return 0;
+        case UPLOAD_ERR_NO_TMP_DIR:
+            $error = get_html_resource(RES_ALERT_UPLOAD_NO_TMP_DIR_ID);
+            return 0;
+        case UPLOAD_ERR_CANT_WRITE:
+            $error = get_html_resource(RES_ALERT_UPLOAD_CANT_WRITE_ID);
+            return 0;
+        case UPLOAD_ERR_EXTENSION:
+            $error = get_html_resource(RES_ALERT_UPLOAD_EXTENSION_ID);
+            return 0;
+        default:
+            $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+            return 0;
+    }
+
+    // Check for file size.
+    if ($xmlfile['size'] > ATTACHMENTS_MAXSIZE * 1024)
+    {
+        debug_write_log(DEBUG_WARNING, '[project_import] File is too large.');
+        $error = get_html_resource(RES_ALERT_UPLOAD_FORM_SIZE_ID);
+        return 0;
+    }
+
+    // Check whether the file was uploaded via HTTP POST (security issue).
+    if (!is_uploaded_file($xmlfile['tmp_name']))
+    {
+        debug_write_log(DEBUG_WARNING, '[project_import] Function "is_uploaded_file" warns that file named by "' . $xmlfile['tmp_name'] . '" was not uploaded via HTTP POST.');
+        return 0;
+    }
+
+    // Load XML file and check for parser errors.
+    libxml_use_internal_errors(TRUE);
+
+    $xml = simplexml_load_file($xmlfile['tmp_name']);
+
+    if ($xml === FALSE)
+    {
+        $xmlerrs = libxml_get_errors();
+
+        debug_write_log(DEBUG_WARNING, "[project_import] Line {$xmlerrs[0]->line}: {$xmlerrs[0]->message}");
+
+        $error = sprintf('<b>%s %d:</b> %s',
+                         get_html_resource(RES_LINE_ID),
+                         $xmlerrs[0]->line,
+                         ustr2html($xmlerrs[0]->message));
+
+        return 0;
+    }
+
+    // Validate project.
+    $xml['name']        = ustrcut($xml['name'],        MAX_PROJECT_NAME);
+    $xml['description'] = ustrcut($xml['description'], MAX_PROJECT_DESCRIPTION);
+
+    switch (project_validate($xml['name']))
+    {
+        case NO_ERROR:
+            break;  // nop
+        case ERROR_INCOMPLETE_FORM:
+            $error = get_html_resource(RES_ALERT_REQUIRED_ARE_EMPTY_ID);
+            return 0;
+        default:
+            $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+            return 0;
+    }
+
+    dal_transaction_start();
+
+    // Create project.
+    project_create($xml['name'], $xml['description']);
+
+    $rs = dal_query('projects/fndk.sql', ustrtolower($xml['name']));
+
+    if ($rs->rows == 0)
+    {
+        debug_write_log(DEBUG_WARNING, '[parse_project_xml] Created project not found.');
+        $error = get_html_resource(RES_ALERT_UNKNOWN_ERROR_ID);
+        return 0;
+    }
+
+    $project = $rs->fetch('project_id');
+
+    if     ( !groups_import   ($project, $xml, $error) ) { $project = 0; }
+    elseif ( !templates_import($project, $xml, $error) ) { $project = 0; }
+
+    dal_transaction_stop($project != 0);
+
+    return $project;
 }
 
 /**
