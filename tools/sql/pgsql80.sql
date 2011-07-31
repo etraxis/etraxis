@@ -1177,9 +1177,11 @@ insert into tbl_accounts
     locks_count,
     lock_time,
     locale,
+    timezone,
     text_rows,
     page_rows,
     page_bkms,
+    auto_refresh,
     csv_delim,
     csv_encoding,
     csv_line_ends,
@@ -1193,5 +1195,5 @@ values
     'root@example.com',
     'd41d8cd98f00b204e9800998ecf8427e',
     'Built-in administrator',
-    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 8, 20, 10, 44, 1, 1, NULL, 'Emerald'
+    NULL, 0, 0, 1, 0, 0, 0, 0, 1000, 0, 8, 20, 10, 0, 44, 1, 1, NULL, 'Emerald'
 );
