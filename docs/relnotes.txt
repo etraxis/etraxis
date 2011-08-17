@@ -22,7 +22,7 @@ THIRD PARTY LIBRARIES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 jQuery:             1.6.2   http://jquery.com/
-jQuery UI:          1.8.14  http://jqueryui.com/
+jQuery UI:          1.8.15  http://jqueryui.com/
 jqPlot:             1.0.0b2 http://www.jqplot.com/
 TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 BlockUI Plugin:     2.39    http://jquery.malsup.com/block/
