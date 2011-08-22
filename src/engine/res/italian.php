@@ -425,7 +425,7 @@ $resource_italian = array
     'Crea subrecord',
     'Collega subrecord',
     'Rimuovi subrecord',
-    'ID del subrecord',
+    NULL,
     /* 1290 */
     'Il subrecord "%1" è stato aggiunto.',
     'Il subrecord "%1" è stato rimosso.',

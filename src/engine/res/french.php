@@ -425,7 +425,7 @@ $resource_french = array
     'Créer un subrecord',
     'Joindre un subrecord',
     'Enlever un subrecord',
-    'ID du subrecord',
+    NULL,
     /* 1290 */
     'Subrecord "%1" ajoute.',
     'Subrecord "%1" enleve.',

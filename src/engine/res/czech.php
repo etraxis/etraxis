@@ -425,7 +425,7 @@ $resource_czech = array
     'Vytvořit podřízený záznam',
     'Připojit podřízený záznam',
     'Odstranit podřízený záznam',
-    'Čislo podřízeného záznamu',
+    NULL,
     /* 1290 */
     'Podřízený záznam "%1" byl přidán.',
     'Podřízený záznam "%1" byl odstraněn.',

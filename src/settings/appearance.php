@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -41,10 +41,11 @@ if (try_request('submitted') == 'appearanceform')
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
     $locale       = ustr2int($_REQUEST['locale']);
-    $text_rows    = ustr2int($_REQUEST['text_rows'], HTML_TEXTBOX_MIN_HEIGHT, HTML_TEXTBOX_MAX_HEIGHT);
-    $page_rows    = ustr2int($_REQUEST['page_rows'], MIN_PAGE_SIZE, MAX_PAGE_SIZE);
-    $page_bkms    = ustr2int($_REQUEST['page_bkms'], MIN_PAGE_SIZE, MAX_PAGE_SIZE);
-    $theme_name   = ustrcut($_REQUEST['theme_name'], MAX_THEME_NAME);
+    $text_rows    = ustr2int($_REQUEST['text_rows'],    HTML_TEXTBOX_MIN_HEIGHT, HTML_TEXTBOX_MAX_HEIGHT);
+    $page_rows    = ustr2int($_REQUEST['page_rows'],    MIN_PAGE_SIZE, MAX_PAGE_SIZE);
+    $page_bkms    = ustr2int($_REQUEST['page_bkms'],    MIN_PAGE_SIZE, MAX_PAGE_SIZE);
+    $auto_refresh = ustr2int($_REQUEST['auto_refresh'], MIN_AUTO_REFRESH, MAX_AUTO_REFRESH);
+    $theme_name   = ustrcut($_REQUEST['theme_name'],    MAX_THEME_NAME);
 
     locale_change($_SESSION[VAR_USERID], $locale);
 
@@ -53,6 +54,7 @@ if (try_request('submitted') == 'appearanceform')
               $text_rows,
               $page_rows,
               $page_bkms,
+              $auto_refresh,
               $theme_name);
 
     exit;
@@ -61,11 +63,12 @@ else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 
-    $locale     = $_SESSION[VAR_LOCALE];
-    $text_rows  = $_SESSION[VAR_TEXTROWS];
-    $page_rows  = $_SESSION[VAR_PAGEROWS];
-    $page_bkms  = $_SESSION[VAR_PAGEBKMS];
-    $theme_name = $_SESSION[VAR_THEME_NAME];
+    $locale       = $_SESSION[VAR_LOCALE];
+    $text_rows    = $_SESSION[VAR_TEXTROWS];
+    $page_rows    = $_SESSION[VAR_PAGEROWS];
+    $page_bkms    = $_SESSION[VAR_PAGEBKMS];
+    $auto_refresh = $_SESSION[VAR_AUTO_REFRESH];
+    $theme_name   = $_SESSION[VAR_THEME_NAME];
 }
 
 // local JS functions
@@ -130,6 +133,10 @@ $xml .= '</combobox>'
       . '<label>' . get_html_resource(RES_BOOKMARKS_PER_PAGE_ID) . '</label>'
       . '<editbox maxlen="' . ustrlen(MAX_PAGE_SIZE) . '">' . ustr2html($page_bkms) . '</editbox>'
       . '</control>'
+      . '<control name="auto_refresh" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
+      . '<label>' . get_html_resource(RES_AUTO_REFRESH_ID) . '</label>'
+      . '<editbox maxlen="' . ustrlen(MAX_AUTO_REFRESH) . '">' . ustr2html($auto_refresh) . '</editbox>'
+      . '</control>'
       . '<control name="theme_name">'
       . '<label>' . get_html_resource(RES_THEME_ID) . '</label>'
       . '<combobox>';
@@ -155,6 +162,7 @@ $xml .= '</combobox>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_ROWS_MULTILINED_TEXT_ID), HTML_TEXTBOX_MIN_HEIGHT, HTML_TEXTBOX_MAX_HEIGHT) . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_ROWS_PER_PAGE_ID), MIN_PAGE_SIZE, MAX_PAGE_SIZE) . '</note>'
       . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_BOOKMARKS_PER_PAGE_ID), MIN_PAGE_SIZE, MAX_PAGE_SIZE) . '</note>'
+      . '<note>' . ustrprocess(get_html_resource(RES_ALERT_FIELD_VALUE_OUT_OF_RANGE_ID), get_html_resource(RES_AUTO_REFRESH_ID), MIN_AUTO_REFRESH, MAX_AUTO_REFRESH) . '</note>'
       . '</form>';
 
 echo(xml2html($xml));

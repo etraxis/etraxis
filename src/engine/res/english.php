@@ -426,7 +426,7 @@ $resource_english = array
     'Create subrecord',
     'Attach subrecord',
     'Remove subrecord',
-    'Subrecord ID',
+    'Auto refresh interval',
     /* 1290 */
     'Subrecord "%1" is added.',
     'Subrecord "%1" is removed.',

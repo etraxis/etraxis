@@ -57,6 +57,7 @@ define('VAR_LDAPUSER',              'eTraxis_LdapUser');
 define('VAR_TEXTROWS',              'eTraxis_TextRows');
 define('VAR_PAGEROWS',              'eTraxis_PageRows');
 define('VAR_PAGEBKMS',              'eTraxis_PageBkms');
+define('VAR_AUTO_REFRESH',          'eTraxis_AutoRefresh');
 define('VAR_DELIMITER',             'eTraxis_Delimiter');
 define('VAR_ENCODING',              'eTraxis_Encoding');
 define('VAR_LINE_ENDINGS',          'eTraxis_LineEndings');
@@ -138,6 +139,7 @@ $line_endings_chars = array
  */
 define('DEFAULT_PAGE_ROWS',    20);
 define('DEFAULT_PAGE_BKMS',    10);
+define('DEFAULT_AUTO_REFRESH', 0);
 define('DEFAULT_DELIMITER',    0x2C);
 define('DEFAULT_ENCODING',     1);
 define('DEFAULT_LINE_ENDINGS', 1);
@@ -148,6 +150,13 @@ define('DEFAULT_LINE_ENDINGS', 1);
  */
 define('MIN_PAGE_SIZE', 10);
 define('MAX_PAGE_SIZE', 100);
+/**#@-*/
+
+/**#@+
+ * Autorefresh interval restriction (in seconds).
+ */
+define('MIN_AUTO_REFRESH', 0);
+define('MAX_AUTO_REFRESH', 1440);
 /**#@-*/
 
 //------------------------------------------------------------------------------
@@ -203,6 +212,7 @@ function open_session ($userid)
     $_SESSION[VAR_TEXTROWS]         = HTML_TEXTBOX_DEFAULT_HEIGHT;
     $_SESSION[VAR_PAGEROWS]         = DEFAULT_PAGE_ROWS;
     $_SESSION[VAR_PAGEBKMS]         = DEFAULT_PAGE_BKMS;
+    $_SESSION[VAR_AUTO_REFRESH]     = DEFAULT_AUTO_REFRESH;
     $_SESSION[VAR_DELIMITER]        = chr(DEFAULT_DELIMITER);
     $_SESSION[VAR_ENCODING]         = $encodings[DEFAULT_ENCODING];
     $_SESSION[VAR_LINE_ENDINGS]     = $line_endings_chars[DEFAULT_LINE_ENDINGS];
@@ -232,6 +242,7 @@ function close_session ()
     unset($_SESSION[VAR_TEXTROWS]);
     unset($_SESSION[VAR_PAGEROWS]);
     unset($_SESSION[VAR_PAGEBKMS]);
+    unset($_SESSION[VAR_AUTO_REFRESH]);
     unset($_SESSION[VAR_DELIMITER]);
     unset($_SESSION[VAR_ENCODING]);
     unset($_SESSION[VAR_LINE_ENDINGS]);
@@ -468,6 +479,7 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
             $_SESSION[VAR_TEXTROWS]      = $account['text_rows'];
             $_SESSION[VAR_PAGEROWS]      = $account['page_rows'];
             $_SESSION[VAR_PAGEBKMS]      = $account['page_bkms'];
+            $_SESSION[VAR_AUTO_REFRESH]  = ustr2int($account['auto_refresh'], MIN_AUTO_REFRESH, MAX_AUTO_REFRESH);
             $_SESSION[VAR_DELIMITER]     = chr($account['csv_delim']);
             $_SESSION[VAR_ENCODING]      = $encodings[$account['csv_encoding']];
             $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];

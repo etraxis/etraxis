@@ -421,7 +421,7 @@ define('RES_SUBRECORDS_ID',                         1285);
 define('RES_CREATE_SUBRECORD_ID',                   1286);
 define('RES_ATTACH_SUBRECORD_ID',                   1287);
 define('RES_REMOVE_SUBRECORD_ID',                   1288);
-define('RES_UNUSED_1289_ID',                        1289);
+define('RES_AUTO_REFRESH_ID',                       1289);
 define('RES_EVENT_SUBRECORD_ADDED_ID',              1290);
 define('RES_EVENT_SUBRECORD_REMOVED_ID',            1291);
 define('RES_PERMIT_ADD_SUBRECORDS_ID',              1292);

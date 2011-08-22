@@ -425,7 +425,7 @@ $resource_spanish = array
     'Crear subregistro',
     'Adjuntar subregistro',
     'Eliminar subregistro',
-    'ID Subregistro',
+    NULL,
     /* 1290 */
     'El subregistro "%1" fue añadido.',
     'El subregistro "%1" fue eliminado.',

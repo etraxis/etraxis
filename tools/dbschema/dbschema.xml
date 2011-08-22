@@ -56,7 +56,7 @@
     <column type="byte">text_rows</column>
     <column type="byte">page_rows</column>
     <column type="byte">page_bkms</column>
-    <column type="byte">auto_refresh</column>
+    <column type="word">auto_refresh</column>
     <column type="byte">csv_delim</column>
     <column type="byte">csv_encoding</column>
     <column type="byte">csv_line_ends</column>

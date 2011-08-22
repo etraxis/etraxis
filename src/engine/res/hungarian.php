@@ -426,7 +426,7 @@ $resource_hungarian = array
     'Alrekord létrehozása',
     'Alrekord csatolása',
     'Alrekord törlése',
-    'Alrekord ID',
+    NULL,
     /* 1290 */
     'A(z) "%1" alrekord létrehozva.',
     'A(z) "%1" alrekord törölve.',
