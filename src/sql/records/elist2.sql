@@ -50,7 +50,7 @@ where
 
     a.account_id  = e.originator_id and
     e.record_id   = %1              and
-    (e.event_type = 2 or e.event_type = 7 or e.event_type = 8 or e.event_type = 13)
+    (e.event_type <> 1 and e.event_type <> 4)
 
 order by
 
