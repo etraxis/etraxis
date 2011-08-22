@@ -87,6 +87,7 @@ define('GUEST_USER_ID', 0);
 define('LOAD_CONTAINER', 1);
 define('LOAD_TAB',       2);
 define('LOAD_INLINE',    3);
+define('LOAD_RSS',       4);
 /**#@-*/
 
 /**
@@ -430,6 +431,12 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
             elseif ($page_type == LOAD_INLINE)
             {
                 header('HTTP/1.1 307 ' . WEBROOT . 'logon/index.php');
+            }
+            elseif ($page_type == LOAD_RSS)
+            {
+                debug_write_log(DEBUG_NOTICE, '[init_page] Request for HTTP Basic Auth.');
+                header('WWW-Authenticate: Basic realm="eTraxis RSS"');
+                header('HTTP/1.0 401 Unauthorized');
             }
 
             exit;
