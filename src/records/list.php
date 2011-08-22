@@ -127,6 +127,17 @@ $("#view{$tab}").change(function() {
 $(".search").val("{$resSearch}");
 
 </onready>
+JQUERY;
+
+if ($_SESSION[VAR_AUTO_REFRESH] != 0)
+{
+    $xml .= sprintf('<onready>' .
+                    'setTimeout("reloadTab()", %d);' .
+                    '</onready>',
+                    $_SESSION[VAR_AUTO_REFRESH] * MSECS_IN_MINUTE);
+}
+
+$xml .= <<<JQUERY
 <script>
 
 function recordCreateForceToStep2 ()

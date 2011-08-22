@@ -425,7 +425,7 @@ $resource_turkish = array
     'Alt kayıt oluştur',
     'Alt kayıt ekle',
     'Alt kaydı kaldır',
-    'Alt kayıt kimlik no (ID)',
+    NULL,
     /* 1290 */
     '"%1" alt kaydı eklendi.',
     '"%1" alt kaydı kaldırıldı.',

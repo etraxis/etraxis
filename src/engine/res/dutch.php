@@ -425,7 +425,7 @@ $resource_dutch = array
     'Aanmaken subrecord',
     'Vastmaken subrecord',
     'Verwijder subrecord',
-    'Subrecord ID',
+    NULL,
     /* 1290 */
     'Subrecord "%1" is toegevoegd.',
     'Subrecord "%1" is verwijderd.',

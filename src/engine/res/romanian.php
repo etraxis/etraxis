@@ -425,7 +425,7 @@ $resource_romanian = array
     'Creaza inregistrare dependenta',
     'Ataseaza inregistrare dependenta',
     'Sterge inregistrare dependenta',
-    'ID Inregistrare dependenta',
+    NULL,
     /* 1290 */
     'Inregistrarea fiu "%1" este adaugata.',
     'Inregistrarea fiu "%1" este stearsa.',

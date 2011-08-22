@@ -425,7 +425,7 @@ $resource_indonesian = array
     'Buat subdata',
     'Lampirkan subdata',
     'Hapus subdata',
-    'ID subdata',
+    NULL,
     /* 1290 */
     'Subdata "%1" ditambahkan.',
     'Subdata "%1" dihapus.',

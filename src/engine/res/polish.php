@@ -425,7 +425,7 @@ $resource_polish = array
     'Utwórz subrekord',
     'Dołącz subrekord',
     'Usuń subrekord',
-    'Subrekord ID',
+    NULL,
     /* 1290 */
     'Subrekord "%1" został dodany.',
     'Subrekord "%1" został usunięty.',

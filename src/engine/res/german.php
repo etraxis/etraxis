@@ -425,7 +425,7 @@ $resource_german = array
     'Unteranfrage erstellen',
     'Unteranfrage hinzufügen',
     'Unteranfrage entfernen',
-    'Unteranfrage-ID',
+    NULL,
     /* 1290 */
     'Unteranfrage wird "%1" hinzugefügt.',
     'Unteranfrage wird von "%1" entfernt.',

@@ -425,7 +425,7 @@ $resource_latvian = array
     'Izveidot pēcteci',
     'Pievienot pēcteci',
     'Novākt pēcteci',
-    'Pēcteča ID',
+    NULL,
     /* 1290 */
     'Pievienots "%1" pēctecis.',
     'Novākts „%1” pēctecis.',

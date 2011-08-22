@@ -9,6 +9,7 @@ select
     text_rows,
     page_rows,
     page_bkms,
+    auto_refresh,
     csv_delim,
     csv_encoding,
     csv_line_ends,
