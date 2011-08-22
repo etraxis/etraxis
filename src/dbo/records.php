@@ -1991,6 +1991,17 @@ function attachment_add ($id, $name, $attachfile)
         return NO_ERROR;
     }
 
+    if (ATTACHMENTS_TOTALSIZE != 0)
+    {
+        $rs = dal_query('attachs/total.sql');
+        $total_size = $rs->fetch(0);
+
+        if ($total_size + $attachfile['size'] > ATTACHMENTS_TOTALSIZE * 1048576)
+        {
+            return ERROR_UPLOAD_CANT_WRITE;
+        }
+    }
+
     $event = event_create($id, EVENT_FILE_ATTACHED, time());
 
     if (!$event)

@@ -98,6 +98,7 @@ define('THEME_DEFAULT', 'Emerald');
  */
 define('ATTACHMENTS_ENABLED',    1);
 define('ATTACHMENTS_MAXSIZE',    2048);
+define('ATTACHMENTS_TOTALSIZE',  0);
 define('ATTACHMENTS_COMPRESSED', 1);
 define('ATTACHMENTS_PATH',       '/usr/local/etraxis/bins/');
 /**#@-*/
