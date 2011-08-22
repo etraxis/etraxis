@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-5 (2011-08-22)
+
+    Issue 97: RSS feeds for record changes.
+    Issue 223: Auto Refresh of /records/index.php
+    Issue 298: Implement restriction for total attachments size.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-4 (2011-07-31)
 
     Issue 205: export-import issue
