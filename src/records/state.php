@@ -248,7 +248,7 @@ else
     {
         debug_write_log(DEBUG_NOTICE, 'Record should be assigned.');
 
-        $rs_res = dal_query('records/responsibles.sql', $state_id, $record['creator_id']);
+        $rs_res = dal_query('records/responsibles.sql', $state_id, $_SESSION[VAR_USERID]);
 
         if ($rs_res->rows != 0)
         {
