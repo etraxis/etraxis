@@ -495,7 +495,7 @@ function sendmail ($sender, $from, $to, $subject, $message, $attachment_id = NUL
     $is_attachment = ($attachment_size <= EMAIL_ATTACHMENTS_MAXSIZE * 1024 && !is_null($attachment_id));
     $boundary      = 'eTraxis-boundary:' . md5(uniqid(time()));
 
-    $headers = implode($eol, array('Date: ' . date('r'),
+    $headers = implode($eol, array('Date: ' . date(DATE_RFC2822),
                                    'From: ' . $sender . ' <' . (EMAIL_NOTIFICATIONS_ENABLED == SMTP_CLIENT_BUILDIN ? SMTP_MAILFROM : $from) . '>',
                                    'Reply-To: ' . $from,
                                    'Return-Path: ' . $from,

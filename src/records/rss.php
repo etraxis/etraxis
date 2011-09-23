@@ -314,7 +314,7 @@ while (($event = $events->fetch()))
     }
 
     $guid  = md5($event['event_id']);
-    $date  = date('r', $event['event_time']);
+    $date  = date(DATE_RFC2822, $event['event_time']);
     $title = get_event_string($event['event_id'], $event['event_type'], $event['event_param']);
 
     $content = '<table border="0" cellspacing="0" cellpadding="5">';
