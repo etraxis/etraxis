@@ -75,6 +75,8 @@ if (!can_record_be_displayed($permissions))
 
 // generate RSS feed
 
+global $locale_info;
+
 $feed_link   = WEBROOT . 'records/view.php?id=' . $id;
 $language    = $locale_info[$_SESSION[VAR_LOCALE]][LOCALE_CODE];
 $record_id   = record_id($record['record_id'], $record['template_prefix']);
