@@ -81,8 +81,8 @@ header('Content-Length: ' . strlen($output));
 header(sprintf('Content-Range: bytes 0-%d/%d', strlen($output) - 1, strlen($output)));
 header('Pragma: cache');
 header('Cache-Control: public');
-header('Last-Modified: ' . date(DATE_RFC822, filectime($file)));
-header('Expires: ' . date(DATE_RFC822, time() + 86400));
+header('Last-Modified: ' . date(DATE_RFC2822, filectime($file)));
+header('Expires: ' . date(DATE_RFC2822, time() + 86400));
 header('ETag: "' . md5(sprintf('%s/%s', VERSION, $file)) . '"');
 
 echo($output);
