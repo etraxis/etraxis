@@ -264,7 +264,7 @@ if (EMAIL_NOTIFICATIONS_ENABLED && (get_user_level() != USER_LEVEL_GUEST))
 
 if (can_record_be_reassigned($record, $permissions))
 {
-    $rs = dal_query('records/responsibles.sql', $record['state_id'], $record['creator_id']);
+    $rs = dal_query('records/responsibles.sql', $record['state_id'], $_SESSION[VAR_USERID]);
 
     if ($rs->rows > 1)
     {
