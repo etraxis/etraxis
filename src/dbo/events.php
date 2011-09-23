@@ -466,17 +466,8 @@ function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $at
 
     $record = $rs->fetch();
 
-    $responsibles = array();    // IDs of everyone, who was assignee of the record at least once
-    $subscribes   = array();    // IDs of everyone, who is subscribed to the record
-    $allowed      = array();    // email addresses of everyone, who is permitted to see this event
-
-    // Enumerate IDs of everyone, who was assignee of the record at least once.
-    $rs = dal_query('events/fnd.sql', $record['record_id'], EVENT_RECORD_ASSIGNED);
-
-    while (($row = $rs->fetch()))
-    {
-        array_push($responsibles, $row[0]);
-    }
+    $subscribes = array();  // IDs of everyone, who is subscribed to the record
+    $allowed    = array();  // email addresses of everyone, who is permitted to see this event
 
     // Enumerate IDs of everyone, who is subscribed to the record.
     $rs = dal_query('records/subscribes.sql', $record['record_id']);
@@ -546,12 +537,6 @@ function event_mail ($event, $attachment_id = NULL, $attachment_name = NULL, $at
             elseif ($row['account_id'] == $record['responsible_id'])
             {
                 debug_write_log(DEBUG_TRACE, '[event_mail] User is responsible of record.');
-                array_push($to, $row['email']);
-            }
-            // Ex assignee of the record should receive notification of each record's event.
-            elseif (in_array($row['account_id'], $responsibles))
-            {
-                debug_write_log(DEBUG_TRACE, '[event_mail] User was responsible of record.');
                 array_push($to, $row['email']);
             }
             // Subscribed to the record should receive notification of each record's event.
