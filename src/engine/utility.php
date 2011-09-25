@@ -47,6 +47,7 @@ define('MAXINT', 0x7FFFFFFF);
 /**#@+
  * Number of seconds.
  */
+define('SECS_IN_HOUR',    3600);    // 60 * 60
 define('SECS_IN_DAY',     86400);   // 60 * 60 * 24
 define('SECS_IN_WEEK',    604800);  // 60 * 60 * 24 * 7
 define('MSECS_IN_MINUTE', 60000);   // 60 * 1000

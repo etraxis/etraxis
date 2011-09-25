@@ -115,13 +115,12 @@ function save_cookie ($cookie, $value)
     debug_write_log(DEBUG_DUMP,  '[save_cookie] $cookie = ' . $cookie);
     debug_write_log(DEBUG_DUMP,  '[save_cookie] $value  = ' . $value);
 
-    $expire = time() + (SECS_IN_DAY * 365);
     $cookie = md5(WEBROOT . $cookie);
 
     if (USE_CLIENT_COOKIES)
     {
         debug_write_log(DEBUG_NOTICE, '[save_cookie] Client site cookie is created.');
-        $res = setcookie($cookie, $value, $expire, '/');
+        $res = setcookie($cookie, $value, 0, '/', $_SERVER['HTTP_HOST']);
     }
     else
     {
@@ -143,13 +142,12 @@ function clear_cookie ($cookie)
     debug_write_log(DEBUG_TRACE, '[clear_cookie]');
     debug_write_log(DEBUG_DUMP,  '[clear_cookie] $cookie = ' . $cookie);
 
-    $expire = time() - (SECS_IN_DAY * 365);
     $cookie = md5(WEBROOT . $cookie);
 
     if (USE_CLIENT_COOKIES)
     {
         debug_write_log(DEBUG_NOTICE, '[clear_cookie] Client site cookie is destroyed.');
-        setcookie($cookie, NULL, $expire, '/');
+        setcookie($cookie, NULL, time() - SECS_IN_HOUR, '/', $_SERVER['HTTP_HOST']);
     }
     else
     {
