@@ -2,6 +2,7 @@ select
 
     username,
     fullname,
+    auth_token,
     passwd_expire,
     is_admin,
     is_ldapuser,
