@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2010  Artem Rodygin
+//  Copyright (C) 2004-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -116,11 +116,12 @@ function save_cookie ($cookie, $value)
     debug_write_log(DEBUG_DUMP,  '[save_cookie] $value  = ' . $value);
 
     $cookie = md5(WEBROOT . $cookie);
+    $expire = time() + SESSION_EXPIRE * 60;
 
     if (USE_CLIENT_COOKIES)
     {
         debug_write_log(DEBUG_NOTICE, '[save_cookie] Client site cookie is created.');
-        $res = setcookie($cookie, $value, 0, '/', $_SERVER['HTTP_HOST']);
+        $res = setcookie($cookie, $value, $expire, '/');
     }
     else
     {
@@ -143,11 +144,12 @@ function clear_cookie ($cookie)
     debug_write_log(DEBUG_DUMP,  '[clear_cookie] $cookie = ' . $cookie);
 
     $cookie = md5(WEBROOT . $cookie);
+    $expire = time() - SECS_IN_HOUR;
 
     if (USE_CLIENT_COOKIES)
     {
         debug_write_log(DEBUG_NOTICE, '[clear_cookie] Client site cookie is destroyed.');
-        setcookie($cookie, NULL, time() - SECS_IN_HOUR, '/', $_SERVER['HTTP_HOST']);
+        setcookie($cookie, NULL, $expire, '/');
     }
     else
     {

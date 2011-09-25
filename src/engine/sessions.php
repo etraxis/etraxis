@@ -486,6 +486,9 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
             $_SESSION[VAR_VIEW]          = $account['view_id'];
             $_SESSION[VAR_THEME_NAME]    = $account['theme_name'];
 
+            save_cookie(COOKIE_AUTH_USERID, $_SESSION[VAR_USERID]);
+            save_cookie(COOKIE_AUTH_TOKEN,  $account['auth_token']);
+
             dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
 
             if ((strpos($_SERVER['PHP_SELF'], '/settings/') === FALSE                     ) &&
