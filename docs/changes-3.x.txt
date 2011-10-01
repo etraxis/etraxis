@@ -2,6 +2,15 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-6 (2011-10-01)
+
+    Issue 314: Global variable $locale_info was used before it was defined.
+    Issue 315: Ex assignee of a record should not receive notification of each record's event.
+    Issue 316: Current user should be default assignee when no assignee group is defined in the template.
+    Issue 317: Sometimes user cannot log in at all, until he clears cookies in his browser.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-6-5 (2011-08-22)
 
     Issue 97: RSS feeds for record changes.
