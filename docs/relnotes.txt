@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-5
-Release date: 2011-08-22
-Release size: 48449
+Release tag:  MAIN_3-6-6
+Release date: 2011-10-01
+Release size: 48444
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,68 +32,19 @@ Form Plugin:        2.85    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/config.php
-[M] src/dbo/records.php
-[M] src/engine/debug.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/czech.php
-[M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
-[M] src/engine/res/hungarian.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
-[M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
-[M] src/engine/res/russian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
-[M] src/engine/resource.php
+[M] src/dbo/events.php
+[M] src/engine/cookies.php
 [M] src/engine/sessions.php
 [M] src/engine/utility.php
 [M] src/engine/xml.php
-[M] src/records/list.php
-[A] src/records/rss.php
+[M] src/records/record.php
+[M] src/records/rss.php
+[M] src/records/state.php
+[M] src/scripts/get.php
+[M] src/scripts/jquery.js
 [M] src/scripts/jquery.form.js
-[M] src/scripts/jquery-ui.js
-[M] src/settings/appearance.php
 [M] src/sql/accounts/fndid2.sql
-[M] src/sql/accounts/settings.sql
-[A] src/sql/attachs/total.sql
-[A] src/sql/changes/list2.sql
-[M] src/sql/records/elist2.sql
-[M] src/themes/Azure/css/jquery-ui.css
-[M] src/themes/Azure/images/ui-bg_flat_100_f9f2c8_40x100.png
-[M] src/themes/Azure/images/ui-bg_flat_100_ffd8d8_40x100.png
-[M] src/themes/Azure/images/ui-bg_gloss-wave_25_669ec8_500x100.png
-[M] src/themes/Azure/images/ui-icons_404040_256x240.png
-[M] src/themes/Azure/images/ui-icons_e0e0e0_256x240.png
-[M] src/themes/Azure/images/ui-icons_ff0000_256x240.png
-[M] src/themes/Emerald/css/jquery-ui.css
-[M] src/themes/Emerald/images/ui-bg_flat_100_f9f2c8_40x100.png
-[M] src/themes/Emerald/images/ui-bg_gloss-wave_25_00605d_500x100.png
-[M] src/themes/Emerald/images/ui-bg_highlight-soft_20_404040_1x100.png
-[M] src/themes/Emerald/images/ui-bg_highlight-soft_25_77a69f_1x100.png
-[M] src/themes/Emerald/images/ui-icons_ff0000_256x240.png
-[M] src/themes/Mars/css/jquery-ui.css
-[M] src/themes/Mars/images/ui-bg_flat_100_f9f2c8_40x100.png
-[M] src/themes/Mars/images/ui-bg_flat_100_ffd8d8_40x100.png
-[M] src/themes/Mars/images/ui-bg_gloss-wave_25_502020_500x100.png
-[M] src/themes/Orchid/css/jquery-ui.css
-[M] src/themes/Orchid/images/ui-bg_flat_100_f9f2c8_40x100.png
-[M] tools/dbschema/dbschema.xml
-[M] tools/dbschema/mssql2k.xsl
-[M] tools/dbschema/mysql50.xsl
-[M] tools/dbschema/ora9i.xsl
-[M] tools/dbschema/pgsql80.xsl
-[M] tools/sql/mssql2k.sql
-[M] tools/sql/mysql50.sql
-[M] tools/sql/ora9i.sql
-[M] tools/sql/pgsql80.sql
+[M] src/themes/css.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -126,23 +77,17 @@ Issue 15: Add short name to the field
 Issue 18: New field type - project
 Issue 29: Greater flexibility with emails.
 Issue 32: Support for subversion
-Issue 36: Email should not be mandatory.
 Issue 47: Add "Created" field to the filter constructor
 Issue 49: Value submitter as system role.
-Issue 60: Better info about parent records and subrecords
 Issue 63: Custom tags for records.
 Issue 64: Fields relationships between parent and its subrecords
-Issue 65: Symbolic dependence on some field value
 Issue 66: Custom metrics and statistics.
 Issue 71: Multiple columns sorting
-Issue 72: Notifications about project status
 Issue 73: Localization of templates
 Issue 74: Enhanced associations
 Issue 75: Reporting
 Issue 76: Improve linking parent records with subrecords
 Issue 77: Default sort with filter
-Issue 80: Reaction time vs. Solution time
-Issue 81: Automatic status change
 Issue 84: List of connected records
 Issue 85: Template attributes
 Issue 88: Select records changed in a time period
@@ -155,7 +100,6 @@ Issue 99: Support for Active Directory groups.
 Issue 101: NTLM authentication support.
 Issue 113: Shared views
 Issue 114: Reminders as project feature
-Issue 116: Rearrange contents of notification emails
 Issue 121: Welcome page
 Issue 123: Filter - unread records
 Issue 131: Critical age of any state
@@ -169,14 +113,10 @@ Issue 183: Built-in scheduler
 Issue 188: Stateless fields
 Issue 191: localization of project
 Issue 192: Float and granularity
-Issue 195: Quotes in comments
-Issue 200: Automatically email notification and assign issue to group or individual based on rules
 Issue 207: Search issues by user names (author / responsible)
 Issue 210: Attaching subrecords - usability issue
-Issue 213: Default user for a state
 Issue 214: Attribute reminder
 Issue 216: Show attachment preview (for images)
-Issue 224: Multi site
 Issue 227: Enhance search capacity
 Issue 234: System-wide or project-wide fields
 Issue 240: Global Views
@@ -184,7 +124,6 @@ Issue 245: Printing record
 Issue 248: Ability to filter out all records, which were closed last X days only.
 Issue 249: Default sort on Records Page
 Issue 250: New column "date of last state change"
-Issue 256: Possible Metrics Replacement
 Issue 264: Link on the ID
 Issue 277: GUI enhancement
 Issue 285: Display timestamps using user's local time zone.
@@ -202,14 +141,15 @@ None.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 97: RSS feeds for record changes.
-Issue 223: Auto Refresh of /records/index.php
-Issue 298: Implement restriction for total attachments size.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 314: Global variable $locale_info was used before it was defined.
+Issue 315: Ex assignee of a record should not receive notification of each record's event.
+Issue 316: Current user should be default assignee when no assignee group is defined in the template.
+Issue 317: Sometimes user cannot log in at all, until he clears cookies in his browser.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
