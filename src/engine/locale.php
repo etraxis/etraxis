@@ -48,6 +48,7 @@ require_once('../engine/res/italian.php');
 require_once('../engine/res/spanish.php');
 require_once('../engine/res/portuguese.php');
 require_once('../engine/res/dutch.php');
+require_once('../engine/res/swedish.php');
 require_once('../engine/res/latvian.php');
 require_once('../engine/res/russian.php');
 require_once('../engine/res/polish.php');
@@ -194,6 +195,7 @@ global $resource_italian;
 global $resource_spanish;
 global $resource_portuguese;
 global $resource_dutch;
+global $resource_swedish;
 global $resource_latvian;
 global $resource_russian;
 global $resource_polish;
@@ -327,6 +329,17 @@ $locale_info = array
         LOCALE_DIRECTION   => 'ltr',
         LOCALE_DATE_FORMAT => 'j-n-Y',
         LOCALE_TIME_FORMAT => 'G:i',
+    ),
+
+    // Swedish
+    LANG_SWEDISH => array
+    (
+        LOCALE_RES_TABLE   => $resource_swedish,
+        LOCALE_SUFFIX      => NULL,
+        LOCALE_CODE        => 'sv',
+        LOCALE_DIRECTION   => 'ltr',
+        LOCALE_DATE_FORMAT => 'Y-m-d',
+        LOCALE_TIME_FORMAT => 'H:i',
     ),
 
     // Latvian
