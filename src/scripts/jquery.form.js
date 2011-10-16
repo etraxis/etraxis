@@ -1,6 +1,6 @@
 /*!
  * jQuery Form Plugin
- * version: 2.85 (23-SEP-2011)
+ * version: 2.86 (08-OCT-2011)
  * @requires jQuery v1.3.2 or later
  *
  * Examples and documentation at: http://malsup.com/jquery/form/
@@ -13,11 +13,12 @@ var method,action,url,$form=this;if(typeof options=='function'){options={success
 method=this.attr('method');action=this.attr('action');url=(typeof action==='string')?$.trim(action):'';url=url||window.location.href||'';if(url){url=(url.match(/^([^#]+)/)||[])[1];}
 options=$.extend(true,{url:url,success:$.ajaxSettings.success,type:method||'GET',iframeSrc:/^https/i.test(window.location.href||'')?'javascript:false':'about:blank'},options);var veto={};this.trigger('form-pre-serialize',[this,options,veto]);if(veto.veto){log('ajaxSubmit: submit vetoed via form-pre-serialize trigger');return this;}
 if(options.beforeSerialize&&options.beforeSerialize(this,options)===false){log('ajaxSubmit: submit aborted via beforeSerialize callback');return this;}
-var n,v,a=this.formToArray(options.semantic);if(options.data){options.extraData=options.data;for(n in options.data){if($.isArray(options.data[n])){for(var k in options.data[n]){a.push({name:n,value:options.data[n][k]});}}
-else{v=options.data[n];v=$.isFunction(v)?v():v;a.push({name:n,value:v});}}}
+var traditional=options.traditional;if(traditional===undefined){traditional=$.ajaxSettings.traditional;}
+var qx,n,v,a=this.formToArray(options.semantic);if(options.data){options.extraData=options.data;qx=$.param(options.data,traditional);}
 if(options.beforeSubmit&&options.beforeSubmit(a,this,options)===false){log('ajaxSubmit: submit aborted via beforeSubmit callback');return this;}
 this.trigger('form-submit-validate',[a,this,options,veto]);if(veto.veto){log('ajaxSubmit: submit vetoed via form-submit-validate trigger');return this;}
-var q=$.param(a);if(options.type.toUpperCase()=='GET'){options.url+=(options.url.indexOf('?')>=0?'&':'?')+q;options.data=null;}
+var q=$.param(a,traditional);if(qx)
+q=(q?(q+'&'+qx):qx);if(options.type.toUpperCase()=='GET'){options.url+=(options.url.indexOf('?')>=0?'&':'?')+q;options.data=null;}
 else{options.data=q;}
 var callbacks=[];if(options.resetForm){callbacks.push(function(){$form.resetForm();});}
 if(options.clearForm){callbacks.push(function(){$form.clearForm();});}
