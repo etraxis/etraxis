@@ -89,6 +89,7 @@ define('LOCALROOT', dirname(dirname(__FILE__)));
  * Engine module.
  */
 require_once('../engine/debug.php');
+require_once('../engine/timezone.php');
 require_once('../engine/smtp.php');
 require_once('../engine/utility.php');
 require_once('../engine/locale.php');

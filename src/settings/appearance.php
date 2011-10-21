@@ -32,6 +32,8 @@ require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
 /**#@-*/
 
+global $timezones;
+
 init_page(LOAD_TAB);
 
 // settings form is submitted
@@ -41,6 +43,7 @@ if (try_request('submitted') == 'appearanceform')
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
     $locale       = ustr2int($_REQUEST['locale']);
+    $timezone     = ustr2int($_REQUEST['timezone'],     0, count($timezones));
     $text_rows    = ustr2int($_REQUEST['text_rows'],    HTML_TEXTBOX_MIN_HEIGHT, HTML_TEXTBOX_MAX_HEIGHT);
     $page_rows    = ustr2int($_REQUEST['page_rows'],    MIN_PAGE_SIZE, MAX_PAGE_SIZE);
     $page_bkms    = ustr2int($_REQUEST['page_bkms'],    MIN_PAGE_SIZE, MAX_PAGE_SIZE);
@@ -51,6 +54,7 @@ if (try_request('submitted') == 'appearanceform')
 
     dal_query('accounts/settings.sql',
               $_SESSION[VAR_USERID],
+              $timezone,
               $text_rows,
               $page_rows,
               $page_bkms,
@@ -63,7 +67,10 @@ else
 {
     debug_write_log(DEBUG_NOTICE, 'Data are being requested.');
 
+    $rs = dal_query('accounts/fndid.sql', $_SESSION[VAR_USERID]);
+
     $locale       = $_SESSION[VAR_LOCALE];
+    $timezone     = $rs->fetch('timezone');
     $text_rows    = $_SESSION[VAR_TEXTROWS];
     $page_rows    = $_SESSION[VAR_PAGEROWS];
     $page_bkms    = $_SESSION[VAR_PAGEBKMS];
@@ -116,6 +123,26 @@ foreach ($supported_locales as $locale_id => $locale_name)
                 ? '<listitem value="' . $locale_id . '" selected="true">'
                 : '<listitem value="' . $locale_id . '">')
           . ustr2html($locale_name)
+          . '</listitem>';
+}
+
+$xml .= '</combobox>'
+      . '</control>'
+      . '<control name="timezone">'
+      . '<label>' . get_html_resource(RES_TIMEZONE_ID) . '</label>'
+      . '<combobox>'
+      . ($timezone == 0
+            ? '<listitem value="0" selected="true">'
+            : '<listitem value="0">')
+      . get_html_resource(RES_DEFAULT_ID)
+      . '</listitem>';
+
+foreach ($timezones as $timezone_id => $timezone_name)
+{
+    $xml .= ($timezone == $timezone_id
+                ? '<listitem value="' . $timezone_id . '" selected="true">'
+                : '<listitem value="' . $timezone_id . '">')
+          . ustr2html($timezone_name)
           . '</listitem>';
 }
 

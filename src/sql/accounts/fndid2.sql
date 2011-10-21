@@ -7,6 +7,7 @@ select
     is_admin,
     is_ldapuser,
     locale,
+    timezone,
     text_rows,
     page_rows,
     page_bkms,
