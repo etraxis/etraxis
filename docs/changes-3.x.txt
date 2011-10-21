@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-7 (2011-10-21)
+
+    Issue 285: Display timestamps using user's local time zone.
+
+Bug fixes integrated in MAIN_3-6-7 (2011-10-21)
+
+    Issue 319: After a theme has been changed, pages are still displayed using the previous one.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-6 (2011-10-01)
 
     Issue 314: Global variable $locale_info was used before it was defined.

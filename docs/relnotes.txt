@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-6
-Release date: 2011-10-01
-Release size: 48444
+Release tag:  MAIN_3-6-7
+Release date: 2011-10-21
+Release size: 49382
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,18 +32,53 @@ Form Plugin:        2.87    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/events.php
-[M] src/engine/cookies.php
+[M] src/engine/res/english.php
+[M] src/engine/res/russian.php
+[A] src/engine/res/swedish.php
+[M] src/engine/engine.php
+[M] src/engine/locale.php
+[M] src/engine/resource.php
 [M] src/engine/sessions.php
-[M] src/engine/utility.php
+[A] src/engine/timezone.php
 [M] src/engine/xml.php
-[M] src/records/record.php
-[M] src/records/rss.php
-[M] src/records/state.php
-[M] src/scripts/get.php
-[M] src/scripts/jquery.js
+[M] src/scripts/excanvas.min.js
+[M] src/scripts/jqplot.BezierCurveRenderer.min.js
+[M] src/scripts/jqplot.barRenderer.min.js
+[M] src/scripts/jqplot.blockRenderer.min.js
+[M] src/scripts/jqplot.bubbleRenderer.min.js
+[M] src/scripts/jqplot.canvasAxisLabelRenderer.min.js
+[M] src/scripts/jqplot.canvasAxisTickRenderer.min.js
+[M] src/scripts/jqplot.canvasOverlay.min.js
+[M] src/scripts/jqplot.canvasTextRenderer.min.js
+[M] src/scripts/jqplot.categoryAxisRenderer.min.js
+[M] src/scripts/jqplot.ciParser.min.js
+[M] src/scripts/jqplot.cursor.min.js
+[M] src/scripts/jqplot.dateAxisRenderer.min.js
+[M] src/scripts/jqplot.donutRenderer.min.js
+[M] src/scripts/jqplot.dragable.min.js
+[M] src/scripts/jqplot.enhancedLegendRenderer.min.js
+[M] src/scripts/jqplot.funnelRenderer.min.js
+[M] src/scripts/jqplot.highlighter.min.js
+[M] src/scripts/jqplot.json2.min.js
+[M] src/scripts/jqplot.logAxisRenderer.min.js
+[M] src/scripts/jqplot.mekkoAxisRenderer.min.js
+[M] src/scripts/jqplot.mekkoRenderer.min.js
+[M] src/scripts/jqplot.meterGaugeRenderer.min.js
+[M] src/scripts/jqplot.ohlcRenderer.min.js
+[M] src/scripts/jqplot.pieRenderer.min.js
+[M] src/scripts/jqplot.pointLabels.min.js
+[A] src/scripts/jqplot.pyramidAxisRenderer.min.js
+[A] src/scripts/jqplot.pyramidGridRenderer.min.js
+[A] src/scripts/jqplot.pyramidRenderer.min.js
+[M] src/scripts/jqplot.trendline.min.js
 [M] src/scripts/jquery.form.js
+[M] src/scripts/jquery.jqplot.min.js
+[M] src/scripts/jquery-ui.dp.res.js
+[M] src/settings/appearance.php
+[M] src/sql/accounts/fndid.sql
 [M] src/sql/accounts/fndid2.sql
+[M] src/sql/accounts/settings.sql
+[M] src/themes/Emerald/css/jquery.jqplot.css
 [M] src/themes/css.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -127,10 +162,10 @@ Issue 249: Default sort on Records Page
 Issue 250: New column "date of last state change"
 Issue 264: Link on the ID
 Issue 277: GUI enhancement
-Issue 285: Display timestamps using user's local time zone.
 Issue 295: Restriction failure regarding filter and subscription
 Issue 296: Predefined built-in filters for list of records
 Issue 304: Additional default filters
+Issue 320: View Columns Restriction based on Filters
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -142,15 +177,12 @@ None.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 285: Display timestamps using user's local time zone.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 314: Global variable $locale_info was used before it was defined.
-Issue 315: Ex assignee of a record should not receive notification of each record's event.
-Issue 316: Current user should be default assignee when no assignee group is defined in the template.
-Issue 317: Sometimes user cannot log in at all, until he clears cookies in his browser.
+Issue 319: After a theme has been changed, pages are still displayed using the previous one.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
