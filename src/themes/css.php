@@ -35,11 +35,15 @@ require_once('../engine/themes.php');
 
 @session_start();
 
-// Check the requested name for validness.
-
 $name = isset($_REQUEST['name'])
       ? $_REQUEST['name']
       : NULL;
+
+// Remove theme name from the specified path.
+
+list($theme, $name) = explode('/', $name);
+
+// Check the requested name for validness.
 
 mb_regex_encoding('UTF-8');
 
