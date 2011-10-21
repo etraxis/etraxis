@@ -33,6 +33,7 @@
  * Dependency.
  */
 require_once('../engine/debug.php');
+require_once('../engine/timezone.php');
 require_once('../engine/locale.php');
 require_once('../engine/cookies.php');
 require_once('../engine/dal.php');
@@ -54,6 +55,7 @@ define('VAR_FULLNAME',              'eTraxis_FullName');
 define('VAR_PASSWD_EXPIRE',         'eTraxis_PasswdExpire');
 define('VAR_ISADMIN',               'eTraxis_IsAdmin');
 define('VAR_LDAPUSER',              'eTraxis_LdapUser');
+define('VAR_TIMEZONE',              'eTraxis_Timezone');
 define('VAR_TEXTROWS',              'eTraxis_TextRows');
 define('VAR_PAGEROWS',              'eTraxis_PageRows');
 define('VAR_PAGEBKMS',              'eTraxis_PageBkms');
@@ -209,6 +211,7 @@ function open_session ($userid)
     $_SESSION[VAR_ISADMIN]          = FALSE;
     $_SESSION[VAR_LDAPUSER]         = FALSE;
     $_SESSION[VAR_LOCALE]           = get_browser_locale();
+    $_SESSION[VAR_TIMEZONE]         = intval(date('Z'));
     $_SESSION[VAR_TEXTROWS]         = HTML_TEXTBOX_DEFAULT_HEIGHT;
     $_SESSION[VAR_PAGEROWS]         = DEFAULT_PAGE_ROWS;
     $_SESSION[VAR_PAGEBKMS]         = DEFAULT_PAGE_BKMS;
@@ -239,6 +242,7 @@ function close_session ()
     unset($_SESSION[VAR_ISADMIN]);
     unset($_SESSION[VAR_LDAPUSER]);
     unset($_SESSION[VAR_LOCALE]);
+    unset($_SESSION[VAR_TIMEZONE]);
     unset($_SESSION[VAR_TEXTROWS]);
     unset($_SESSION[VAR_PAGEROWS]);
     unset($_SESSION[VAR_PAGEBKMS]);
@@ -391,6 +395,7 @@ function get_user_level ()
  */
 function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
 {
+    global $timezones;
     global $encodings;
     global $line_endings_chars;
 
@@ -476,6 +481,7 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
             $_SESSION[VAR_ISADMIN]       = $account['is_admin'];
             $_SESSION[VAR_LDAPUSER]      = $account['is_ldapuser'];
             $_SESSION[VAR_LOCALE]        = $account['locale'];
+            $_SESSION[VAR_TIMEZONE]      = intval(date('Z'));
             $_SESSION[VAR_TEXTROWS]      = $account['text_rows'];
             $_SESSION[VAR_PAGEROWS]      = $account['page_rows'];
             $_SESSION[VAR_PAGEBKMS]      = $account['page_bkms'];
@@ -485,6 +491,12 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
             $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];
             $_SESSION[VAR_VIEW]          = $account['view_id'];
             $_SESSION[VAR_THEME_NAME]    = $account['theme_name'];
+
+            if ($account['timezone'] > 0 &&
+                $account['timezone'] <= count($timezones))
+            {
+                $_SESSION[VAR_TIMEZONE] = timezone_offset_get(timezone_open($timezones[$account['timezone']]), date_create());
+            }
 
             save_cookie(COOKIE_AUTH_USERID, $_SESSION[VAR_USERID]);
             save_cookie(COOKIE_AUTH_TOKEN,  $account['auth_token']);

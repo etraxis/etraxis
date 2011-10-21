@@ -443,7 +443,7 @@ $resource_english = array
     'Confidential comment is added.',
     'Parent ID',
     'dependency',
-    NULL,
+    'Timezone',
     'Add separator',
     'CSV delimiter',
     'CSV encoding',

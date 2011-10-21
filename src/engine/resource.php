@@ -436,7 +436,7 @@ define('RES_PERMIT_CONFIDENTIAL_COMMENTS_ID',       1300);
 define('RES_EVENT_CONFIDENTIAL_COMMENT_ADDED_ID',   1301);
 define('RES_PARENT_ID_ID',                          1302);
 define('RES_DEPENDENCY_ID',                         1303);
-define('RES_UNUSED_1304_ID',                        1304);
+define('RES_TIMEZONE_ID',                           1304);
 define('RES_ADD_SEPARATOR_ID',                      1305);
 define('RES_CSV_DELIMITER_ID',                      1306);
 define('RES_CSV_ENCODING_ID',                       1307);

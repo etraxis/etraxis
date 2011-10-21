@@ -10,7 +10,8 @@ select
     is_ldapuser,
     locks_count,
     lock_time,
-    locale
+    locale,
+    timezone
 
 from tbl_accounts
 where account_id = %1

@@ -554,8 +554,9 @@ function get_date ($timestamp, $lang = NULL)
     }
 
     $format = $locale_info[$lang][LOCALE_DATE_FORMAT];
+    $offset = $_SESSION[VAR_TIMEZONE] - intval(date('Z'));
 
-    return date($format, $timestamp);
+    return date($format, $timestamp + $offset);
 }
 
 /**
@@ -576,8 +577,9 @@ function get_time ($timestamp, $lang = NULL)
     }
 
     $format = $locale_info[$lang][LOCALE_TIME_FORMAT];
+    $offset = $_SESSION[VAR_TIMEZONE] - intval(date('Z'));
 
-    return date($format, $timestamp);
+    return date($format, $timestamp + $offset);
 }
 
 /**
@@ -598,8 +600,9 @@ function get_datetime ($timestamp, $lang = NULL)
     }
 
     $format = $locale_info[$lang][LOCALE_DATE_FORMAT] . ' ' . $locale_info[$lang][LOCALE_TIME_FORMAT];
+    $offset = $_SESSION[VAR_TIMEZONE] - intval(date('Z'));
 
-    return date($format, $timestamp);
+    return date($format, $timestamp + $offset);
 }
 
 /**
@@ -703,7 +706,8 @@ function ustr2date ($str, $lang = NULL)
 
         if (checkdate($regs[$date[0]], $regs[$date[1]], $regs[$date[2]]))
         {
-            return @mktime(0, 0, 0, $regs[$date[0]], $regs[$date[1]], $regs[$date[2]]);
+            $offset = $_SESSION[VAR_TIMEZONE] - intval(date('Z'));
+            return @mktime(0, 0, 0, $regs[$date[0]], $regs[$date[1]], $regs[$date[2]]) - $offset;
         }
         else
         {

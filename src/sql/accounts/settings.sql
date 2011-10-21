@@ -1,9 +1,10 @@
 update tbl_accounts
 
-set text_rows     = %2,
-    page_rows     = %3,
-    page_bkms     = %4,
-    auto_refresh  = %5,
-    theme_name    = '%6'
+set timezone      = %2,
+    text_rows     = %3,
+    page_rows     = %4,
+    page_bkms     = %5,
+    auto_refresh  = %6,
+    theme_name    = '%7'
 
 where account_id = %1
