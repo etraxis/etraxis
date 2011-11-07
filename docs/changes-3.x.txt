@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-8 (2011-11-07)
+
+    Issue 182: Reopening of closed record.
+    Issue 210: Attaching subrecords - usability issue
+    Issue 322: Change password storing mechanism from MD5 to SHA1
+
+Bug fixes integrated in MAIN_3-6-8 (2011-11-07)
+
+    Issue 321: PHP Notice: Undefined index: eTraxis_ThemeName
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-6-7 (2011-10-21)
 
     Issue 285: Display timestamps using user's local time zone.
