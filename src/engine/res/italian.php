@@ -240,7 +240,7 @@ $resource_italian = array
     'abilitazione a riprendere dei record',
     'abilitazione a riassegnare record già assegnati',
     /* 1120 */
-    'abilitazione a cambiare lo stato di record assegnati',
+    NULL,
     'abilitazione ad allegare file',
     'abilitazione a rimuovere allegati',
     'Lingua',

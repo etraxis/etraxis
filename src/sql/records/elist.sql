@@ -13,7 +13,7 @@ from
 where
 
     s.state_id = e.event_param and
-    (e.event_type = 1 or e.event_type = 4) and
+    (e.event_type = 1 or e.event_type = 4 or e.event_type = 14) and
     e.record_id = %1
 
 group by

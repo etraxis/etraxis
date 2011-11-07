@@ -1585,21 +1585,26 @@ function record_unread ($id)
  * <li>0, if current assignment should be remained as is</li>
  * </ul>
  * @param bool $close TRUE if new state is final; FALSE otherwise.
+ * @param bool $reopen TRUE if the record is closed and being reopened; FALSE otherwise.
  * @return int Always {@link NO_ERROR}.
  */
-function state_change ($id, $state_id, $responsible_id, $close = FALSE)
+function state_change ($id, $state_id, $responsible_id, $close = FALSE, $reopen = FALSE)
 {
     debug_write_log(DEBUG_TRACE, '[state_change]');
     debug_write_log(DEBUG_DUMP,  '[state_change] $id             = ' . $id);
     debug_write_log(DEBUG_DUMP,  '[state_change] $state_id       = ' . $state_id);
     debug_write_log(DEBUG_DUMP,  '[state_change] $responsible_id = ' . $responsible_id);
     debug_write_log(DEBUG_DUMP,  '[state_change] $close          = ' . $close);
+    debug_write_log(DEBUG_DUMP,  '[state_change] $reopen         = ' . $reopen);
 
     dal_query('records/state.sql',
               $id,
               $state_id);
 
-    $event = event_create($id, EVENT_RECORD_STATE_CHANGED, time(), $state_id);
+    $event = event_create($id,
+                          $reopen ? EVENT_RECORD_REOPENED : EVENT_RECORD_STATE_CHANGED,
+                          time(),
+                          $state_id);
 
     $rs = dal_query('fields/list.sql', $state_id, 'field_order');
 
@@ -1649,6 +1654,12 @@ function state_change ($id, $state_id, $responsible_id, $close = FALSE)
     }
     else
     {
+        if ($reopen)
+        {
+            debug_write_log(DEBUG_NOTICE, '[state_change] Reopen record.');
+            dal_query('records/open.sql', $id);
+        }
+
         if (is_null($responsible_id))
         {
             debug_write_log(DEBUG_NOTICE, '[state_change] Remove responsible.');
@@ -2261,6 +2272,7 @@ function subrecord_remove ($parent_id, $subrecord_id)
  * <li>{@link PERMIT_POSTPONE_RECORD} - permission to postpone records</li>
  * <li>{@link PERMIT_RESUME_RECORD} - permission to resume records</li>
  * <li>{@link PERMIT_REASSIGN_RECORD} - permission to reassign records, which are already assigned on another person</li>
+ * <li>{@link PERMIT_REOPEN_RECORD} - permission to reopen records</li>
  * <li>{@link PERMIT_ADD_COMMENTS} - permission to add comments</li>
  * <li>{@link PERMIT_ATTACH_FILES} - permission to add attachments</li>
  * <li>{@link PERMIT_REMOVE_FILES} - permission to remove attachments</li>
@@ -2707,6 +2719,24 @@ function can_record_be_reassigned ($record, $permissions)
             is_null($record['closure_time'])     &&
             !is_null($record['responsible_id'])  &&
             ($permissions & PERMIT_REASSIGN_RECORD));
+}
+
+/**
+ * Checks whether specified permissions allow to reopen specified record.
+ *
+ * @param array $record Record information, as it returned by {@link record_find}.
+ * @param int $permissions User permissions (see also {@link record_get_permissions}).
+ * @return bool TRUE if record can be reopened, FALSE otherwise.
+ */
+function can_record_be_reopened ($record, $permissions)
+{
+    debug_write_log(DEBUG_TRACE, '[can_record_be_reopened]');
+
+    return (get_user_level() != USER_LEVEL_GUEST &&
+            !$record['is_suspended']             &&
+            !$record['is_locked']                &&
+            !is_null($record['closure_time'])    &&
+            ($permissions & PERMIT_REOPEN_RECORD));
 }
 
 /**

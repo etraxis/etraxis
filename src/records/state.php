@@ -63,19 +63,25 @@ if (!$state)
     exit;
 }
 
+// get current user's permissions
+
+$permissions = record_get_permissions($record['template_id'], $record['creator_id'], $record['responsible_id']);
+
 // check whether a state of specified record can be changed
 
-if (!can_state_be_changed($record))
+if (!can_state_be_changed($record) &&
+    !can_record_be_reopened($record, $permissions))
 {
     debug_write_log(DEBUG_NOTICE, 'State cannot be changed.');
     header('HTTP/1.1 307 view.php?id=' . $id);
     exit;
 }
 
-// if state is final, check whether there are no unclosed dependencies
+// if state is final...
 
 if ($state['state_type'] == STATE_TYPE_FINAL)
 {
+    // ... check whether there are no unclosed dependencies
     $rs = dal_query('depends/listuc.sql', $id);
 
     if ($rs->rows != 0)
@@ -84,17 +90,38 @@ if ($state['state_type'] == STATE_TYPE_FINAL)
         header('HTTP/1.1 307 view.php?id=' . $id);
         exit;
     }
+
+    // ... check we are not reopening closed record
+    if (is_record_closed($record))
+    {
+        debug_write_log(DEBUG_NOTICE, 'The record cannot be reopened in a final state.');
+        header('HTTP/1.1 307 view.php?id=' . $id);
+        exit;
+    }
 }
-
-// check whether the record can be moved to specified state from current one
-
-$rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], '');
-
-if ($rs->rows == 0)
+else
 {
-    debug_write_log(DEBUG_NOTICE, 'No permissions to change to specified state.');
-    header('HTTP/1.1 307 view.php?id=' . $id);
-    exit;
+    // ... otherwise, check whether the record can be moved to specified state from current one
+    if (is_record_closed($record))
+    {
+        if ($state['template_id'] != $record['template_id'])
+        {
+            debug_write_log(DEBUG_NOTICE, 'No permissions to reopen in specified state.');
+            header('HTTP/1.1 307 view.php?id=' . $id);
+            exit;
+        }
+    }
+    else
+    {
+        $rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], '');
+
+        if ($rs->rows == 0)
+        {
+            debug_write_log(DEBUG_NOTICE, 'No permissions to change to specified state.');
+            header('HTTP/1.1 307 view.php?id=' . $id);
+            exit;
+        }
+    }
 }
 
 // state form is submitted
@@ -103,7 +130,11 @@ if (try_request('submitted') == 'stateform')
 {
     debug_write_log(DEBUG_NOTICE, 'Data are submitted.');
 
-    $rs = dal_query('records/efnd.sql', $_SESSION[VAR_USERID], EVENT_RECORD_STATE_CHANGED, time() - 3, $state_id);
+    $rs = dal_query('records/efnd.sql',
+                    $_SESSION[VAR_USERID],
+                    is_record_closed($record) ? EVENT_RECORD_REOPENED : EVENT_RECORD_STATE_CHANGED,
+                    time() - 3,
+                    $state_id);
 
     if ($rs->rows != 0)
     {
@@ -133,7 +164,8 @@ if (try_request('submitted') == 'stateform')
         $error = state_change($id,
                               $state_id,
                               $responsible_id,
-                              ($state['state_type'] == STATE_TYPE_FINAL));
+                              ($state['state_type'] == STATE_TYPE_FINAL),
+                              is_record_closed($record));
     }
 
     switch ($error)

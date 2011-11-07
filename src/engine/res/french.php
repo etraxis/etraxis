@@ -240,7 +240,7 @@ $resource_french = array
     'permission de reprendre des enregistrements',
     'permission d\'affecter des enregistrements',
     /* 1120 */
-    'permission de changer l\'état d\'enregistrements affectes',
+    NULL,
     'permission de joindre des fichiers',
     'permission d\'enlever des fichiers',
     'Langue',

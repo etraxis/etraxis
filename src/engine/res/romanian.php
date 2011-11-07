@@ -240,7 +240,7 @@ $resource_romanian = array
     'permisiune de reluare inregistrari',
     'permisiune de reasignare inregistrari asignate',
     /* 1120 */
-    'permisiune de a schimba statusul unor inregistrari asignate',
+    NULL,
     'permisiune de atasare fisiere',
     'permisiune de stergere fisiere',
     'Limba',

@@ -240,7 +240,7 @@ $resource_portuguese = array
     'permissão para retomar registros',
     'permissão para redelegar registros delegados',
     /* 1120 */
-    'permissão para alterar estados de registros delegados',
+    NULL,
     'permissão para anexar arquivos',
     'permissão para remover arquivos',
     'Língua',

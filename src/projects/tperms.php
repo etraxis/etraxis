@@ -68,6 +68,7 @@ $gperms = array
     array('perm_postpone',     PERMIT_POSTPONE_RECORD,       RES_PERMIT_POSTPONE_RECORD_ID),
     array('perm_resume',       PERMIT_RESUME_RECORD,         RES_PERMIT_RESUME_RECORD_ID),
     array('perm_reassign',     PERMIT_REASSIGN_RECORD,       RES_PERMIT_REASSIGN_RECORD_ID),
+    array('perm_reopen',       PERMIT_REOPEN_RECORD,         RES_PERMIT_REOPEN_RECORD_ID),
     array('perm_comment',      PERMIT_ADD_COMMENTS,          RES_PERMIT_ADD_COMMENTS_ID),
     array('perm_confidential', PERMIT_CONFIDENTIAL_COMMENTS, RES_PERMIT_CONFIDENTIAL_COMMENTS_ID),
     array('perm_attach',       PERMIT_ATTACH_FILES,          RES_PERMIT_ATTACH_FILES_ID),
@@ -134,6 +135,7 @@ var perm_modify       = new Array();
 var perm_postpone     = new Array();
 var perm_resume       = new Array();
 var perm_reassign     = new Array();
+var perm_reopen       = new Array();
 var perm_comment      = new Array();
 var perm_confidential = new Array();
 var perm_attach       = new Array();
@@ -205,6 +207,7 @@ function permissionsSuccess ()
     perm_postpone["g"+id]     = $("#perm_postpone").prop("checked");
     perm_resume["g"+id]       = $("#perm_resume").prop("checked");
     perm_reassign["g"+id]     = $("#perm_reassign").prop("checked");
+    perm_reopen["g"+id]       = $("#perm_reopen").prop("checked");
     perm_comment["g"+id]      = $("#perm_comment").prop("checked");
     perm_confidential["g"+id] = $("#perm_confidential").prop("checked");
     perm_attach["g"+id]       = $("#perm_attach").prop("checked");
@@ -233,6 +236,7 @@ function updatePerms ()
     $("#perm_postpone").prop("checked",     perm_postpone["g"+id]);
     $("#perm_resume").prop("checked",       perm_resume["g"+id]);
     $("#perm_reassign").prop("checked",     perm_reassign["g"+id]);
+    $("#perm_reopen").prop("checked",       perm_reopen["g"+id]);
     $("#perm_comment").prop("checked",      perm_comment["g"+id]);
     $("#perm_confidential").prop("checked", perm_confidential["g"+id]);
     $("#perm_attach").prop("checked",       perm_attach["g"+id]);

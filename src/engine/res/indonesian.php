@@ -240,7 +240,7 @@ $resource_indonesian = array
     'izin untuk melanjutkan data',
     'izin untuk menugaskan kembali data yang ditugaskan',
     /* 1120 */
-    'izin untuk mengubah status dari data yang ditugaskan',
+    NULL,
     'izin untuk melampirkan berkas',
     'izin untuk menghapus berkas',
     'Bahasa',

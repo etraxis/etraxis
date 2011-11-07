@@ -308,7 +308,7 @@ else
 if (can_state_be_changed($record))
 {
     $rs = dal_query('depends/listuc.sql', $id);
-    $rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], ($rs->rows == 0 ? '' : 'and s.state_type <> 3'));
+    $rs = dal_query('records/tramongs.sql', $id, $_SESSION[VAR_USERID], ($rs->rows == 0 ? '' : 'and s.state_type <> ' . STATE_TYPE_FINAL));
 
     if ($rs->rows != 0)
     {
@@ -326,6 +326,37 @@ if (can_state_be_changed($record))
 
         $xml .= '</dropdown>'
               . '<button action="stateChange()">' . get_html_resource(RES_CHANGE_STATE_ID) . '</button>'
+              . '</form>'
+              . '<onready>'
+              . '$("#state").combobox();'
+              . '</onready>';
+    }
+}
+elseif (can_record_be_reopened($record, $permissions))
+{
+    $rs = dal_query('states/list3.sql', $record['template_id']);
+
+    if ($rs->rows != 0)
+    {
+        $xml .= '<form>'
+              . '<dropdown name="state">';
+
+        while (($row = $rs->fetch()))
+        {
+            if ($row['state_type'] == STATE_TYPE_FINAL)
+            {
+                continue;
+            }
+
+            $xml .= ($row['state_type'] == STATE_TYPE_INITIAL
+                        ? '<listitem value="' . $row['state_id'] . '" selected="true">'
+                        : '<listitem value="' . $row['state_id'] . '">')
+                  . ustr2html($row['state_name'])
+                  . '</listitem>';
+        }
+
+        $xml .= '</dropdown>'
+              . '<button action="stateChange()">' . get_html_resource(RES_REOPEN_ID) . '</button>'
               . '</form>'
               . '<onready>'
               . '$("#state").combobox();'
@@ -369,7 +400,8 @@ while (($event = $events->fetch()))
         $responsible = account_find($event['event_param']);
         $group_title = 'Reassigned';
     }
-    elseif ($event['event_type'] == EVENT_RECORD_CREATED ||
+    elseif ($event['event_type'] == EVENT_RECORD_CREATED  ||
+            $event['event_type'] == EVENT_RECORD_REOPENED ||
             $event['event_type'] == EVENT_RECORD_STATE_CHANGED)
     {
         if ($event['responsible'] == STATE_RESPONSIBLE_REMOVE)
@@ -402,7 +434,8 @@ while (($event = $events->fetch()))
 
     $xml .= '<group title="' . $group_title . '">';
 
-    if ($event['event_type'] == EVENT_RECORD_CREATED ||
+    if ($event['event_type'] == EVENT_RECORD_CREATED  ||
+        $event['event_type'] == EVENT_RECORD_REOPENED ||
         $event['event_type'] == EVENT_RECORD_STATE_CHANGED)
     {
         $xml .= '<text label="' . get_html_resource(RES_RESPONSIBLE_ID) . '">'

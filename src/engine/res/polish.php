@@ -240,7 +240,7 @@ $resource_polish = array
     'pozwolenie na wznowienie rekordów',
     'pozwolenie na ponowne otwarcie rekordów',
     /* 1120 */
-    'pozwolenie na zmiane statusu rekordu',
+    NULL,
     'pozwolenie na dołączanie plików',
     'pozwolenie na usuwanie plików',
     'Języki',

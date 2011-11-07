@@ -240,7 +240,7 @@ $resource_czech = array
     'oprávnění obnovit záznam',
     'oprávnění přidělit již přidělený záznam',
     /* 1120 */
-    'oprávnění změnit stav přiděleného záznamu',
+    NULL,
     'oprávnění připojit soubor',
     'oprávnění odstranit soubor',
     'Jazyk',
