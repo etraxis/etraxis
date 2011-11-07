@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-7
-Release date: 2011-10-21
-Release size: 49382
+Release tag:  MAIN_3-6-8
+Release date: 2011-11-07
+Release size: 49512
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,54 +32,45 @@ Form Plugin:        2.87    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[M] src/accounts/modify.php
+[M] src/dbo/accounts.php
+[M] src/dbo/events.php
+[M] src/dbo/records.php
+[M] src/dbo/subscriptions.php
+[M] src/dbo/templates.php
+[M] src/engine/res/bulgarian.php
+[M] src/engine/res/czech.php
+[M] src/engine/res/dutch.php
 [M] src/engine/res/english.php
+[M] src/engine/res/french.php
+[M] src/engine/res/german.php
+[M] src/engine/res/hungarian.php
+[M] src/engine/res/indonesian.php
+[M] src/engine/res/italian.php
+[M] src/engine/res/japanese.php
+[M] src/engine/res/latvian.php
+[M] src/engine/res/polish.php
+[M] src/engine/res/portuguese.php
+[M] src/engine/res/romanian.php
 [M] src/engine/res/russian.php
-[A] src/engine/res/swedish.php
-[M] src/engine/engine.php
-[M] src/engine/locale.php
+[M] src/engine/res/spanish.php
+[M] src/engine/res/turkish.php
 [M] src/engine/resource.php
 [M] src/engine/sessions.php
-[A] src/engine/timezone.php
 [M] src/engine/xml.php
-[M] src/scripts/excanvas.min.js
-[M] src/scripts/jqplot.BezierCurveRenderer.min.js
-[M] src/scripts/jqplot.barRenderer.min.js
-[M] src/scripts/jqplot.blockRenderer.min.js
-[M] src/scripts/jqplot.bubbleRenderer.min.js
-[M] src/scripts/jqplot.canvasAxisLabelRenderer.min.js
-[M] src/scripts/jqplot.canvasAxisTickRenderer.min.js
-[M] src/scripts/jqplot.canvasOverlay.min.js
-[M] src/scripts/jqplot.canvasTextRenderer.min.js
-[M] src/scripts/jqplot.categoryAxisRenderer.min.js
-[M] src/scripts/jqplot.ciParser.min.js
-[M] src/scripts/jqplot.cursor.min.js
-[M] src/scripts/jqplot.dateAxisRenderer.min.js
-[M] src/scripts/jqplot.donutRenderer.min.js
-[M] src/scripts/jqplot.dragable.min.js
-[M] src/scripts/jqplot.enhancedLegendRenderer.min.js
-[M] src/scripts/jqplot.funnelRenderer.min.js
-[M] src/scripts/jqplot.highlighter.min.js
-[M] src/scripts/jqplot.json2.min.js
-[M] src/scripts/jqplot.logAxisRenderer.min.js
-[M] src/scripts/jqplot.mekkoAxisRenderer.min.js
-[M] src/scripts/jqplot.mekkoRenderer.min.js
-[M] src/scripts/jqplot.meterGaugeRenderer.min.js
-[M] src/scripts/jqplot.ohlcRenderer.min.js
-[M] src/scripts/jqplot.pieRenderer.min.js
-[M] src/scripts/jqplot.pointLabels.min.js
-[A] src/scripts/jqplot.pyramidAxisRenderer.min.js
-[A] src/scripts/jqplot.pyramidGridRenderer.min.js
-[A] src/scripts/jqplot.pyramidRenderer.min.js
-[M] src/scripts/jqplot.trendline.min.js
-[M] src/scripts/jquery.form.js
-[M] src/scripts/jquery.jqplot.min.js
-[M] src/scripts/jquery-ui.dp.res.js
-[M] src/settings/appearance.php
-[M] src/sql/accounts/fndid.sql
+[M] src/projects/gperms.php
+[M] src/projects/tperms.php
+[M] src/records/record.php
+[M] src/records/rss.php
+[M] src/records/state.php
 [M] src/sql/accounts/fndid2.sql
-[M] src/sql/accounts/settings.sql
-[M] src/themes/Emerald/css/jquery.jqplot.css
-[M] src/themes/css.php
+[M] src/sql/accounts/fndk.sql
+[M] src/sql/records/elist.sql
+[M] src/sql/records/elist2.sql
+[A] src/sql/records/open.sql
+[M] src/sql/states/efndc.sql
+[A] src/sql/states/list3.sql
+[M] src/records/addsubrec.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -144,13 +135,11 @@ Issue 169: Timed Subscriptions based on filters
 Issue 170: Clone View
 Issue 171: temporary "excel filtering"
 Issue 181: Support for git
-Issue 182: Reopening of closed record.
 Issue 183: Built-in scheduler
 Issue 188: Stateless fields
 Issue 191: localization of project
 Issue 192: Float and granularity
 Issue 207: Search issues by user names (author / responsible)
-Issue 210: Attaching subrecords - usability issue
 Issue 214: Attribute reminder
 Issue 216: Show attachment preview (for images)
 Issue 227: Enhance search capacity
@@ -177,12 +166,14 @@ None.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 285: Display timestamps using user's local time zone.
+Issue 182: Reopening of closed record.
+Issue 210: Attaching subrecords - usability issue
+Issue 322: Change password storing mechanism from MD5 to SHA1
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 319: After a theme has been changed, pages are still displayed using the previous one.
+Issue 321: PHP Notice: Undefined index: eTraxis_ThemeName
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
