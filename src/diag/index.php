@@ -71,7 +71,7 @@ if (!ini_get('safe_mode'))
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="author" content="Artem Rodygin"/>
 <meta name="copyright" content="Copyright (C) 2003-2010 by Artem Rodygin"/>
-<link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico"/>
+<link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
 <link rel="stylesheet" type="text/css" href="../themes/Emerald/css/etraxis.css"/>
 <title>eTraxis</title>
 <body style="margin:10px">

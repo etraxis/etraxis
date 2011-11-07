@@ -241,10 +241,13 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
             if (get_user_level() == USER_LEVEL_ADMIN)
             {
-
                 $menu .= '<menuitem url="../accounts/index.php">' . get_html_resource(RES_ACCOUNTS_ID)      . '</menuitem>'
-                       . '<menuitem url="../groups/index.php">'   . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</menuitem>'
-                       . '<menuitem url="../config/index.php">'   . get_html_resource(RES_CONFIGURATION_ID) . '</menuitem>';
+                       . '<menuitem url="../groups/index.php">'   . get_html_resource(RES_GLOBAL_GROUPS_ID) . '</menuitem>';
+
+                if (file_exists('../config/index.php'))
+                {
+                    $menu .= '<menuitem url="../config/index.php">' . get_html_resource(RES_CONFIGURATION_ID) . '</menuitem>';
+                }
             }
 
             $menu .= '<menuitem url="../settings/index.php">' . get_html_resource(RES_SETTINGS_ID) . '</menuitem>';
