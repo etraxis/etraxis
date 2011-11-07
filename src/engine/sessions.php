@@ -339,7 +339,8 @@ function login_user ($username, $passwd)
             debug_write_log(DEBUG_NOTICE, 'Account is locked out.');
             $error = ERROR_ACCOUNT_LOCKED;
         }
-        elseif ($account['passwd'] != md5($passwd))
+        elseif ($account['passwd'] != base64_encode(sha1($passwd, TRUE)) &&
+                $account['passwd'] != md5($passwd))
         {
             debug_write_log(DEBUG_NOTICE, 'Bad password.');
             account_lock($account['account_id']);
@@ -347,6 +348,18 @@ function login_user ($username, $passwd)
         }
         else
         {
+            // Up to version 3.6.7 passwords were stored as MD5 hashes which took 32 chars.
+            // As of 3.6.8 passwords are stored as base64-encoded SHA1 hashes which take 28 chars.
+            // For backward compatibility we let user authenticate if his password is stored as MD5-hash,
+            // but we replace the password with its SHA1-hash.
+            if (strlen($account['passwd']) == 32)
+            {
+                dal_query('accounts/passwd.sql',
+                          $account['account_id'],
+                          base64_encode(sha1($passwd, TRUE)),
+                          $account['passwd_expire']);
+            }
+
             account_unlock($account['account_id']);
             account_set_token($account['account_id']);
             open_session($account['account_id']);
@@ -475,56 +488,69 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
         {
             $account = $rs->fetch();
 
-            $_SESSION[VAR_USERNAME]      = account_get_username($account['username']);
-            $_SESSION[VAR_FULLNAME]      = $account['fullname'];
-            $_SESSION[VAR_PASSWD_EXPIRE] = $account['passwd_expire'];
-            $_SESSION[VAR_ISADMIN]       = $account['is_admin'];
-            $_SESSION[VAR_LDAPUSER]      = $account['is_ldapuser'];
-            $_SESSION[VAR_LOCALE]        = $account['locale'];
-            $_SESSION[VAR_TIMEZONE]      = intval(date('Z'));
-            $_SESSION[VAR_TEXTROWS]      = $account['text_rows'];
-            $_SESSION[VAR_PAGEROWS]      = $account['page_rows'];
-            $_SESSION[VAR_PAGEBKMS]      = $account['page_bkms'];
-            $_SESSION[VAR_AUTO_REFRESH]  = ustr2int($account['auto_refresh'], MIN_AUTO_REFRESH, MAX_AUTO_REFRESH);
-            $_SESSION[VAR_DELIMITER]     = chr($account['csv_delim']);
-            $_SESSION[VAR_ENCODING]      = $encodings[$account['csv_encoding']];
-            $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];
-            $_SESSION[VAR_VIEW]          = $account['view_id'];
-            $_SESSION[VAR_THEME_NAME]    = $account['theme_name'];
-
-            if ($account['timezone'] > 0 &&
-                $account['timezone'] <= count($timezones))
+            // Up to version 3.6.7 passwords were stored as MD5 hashes which took 32 chars.
+            // As of 3.6.8 passwords are stored as base64-encoded SHA1 hashes which take 28 chars.
+            // For backward compatibility we let user authenticate if his password is stored as MD5-hash,
+            // but we have to replace the password with its SHA1-hash.
+            // To make user enter his password as soon as possible we are forcing him to log out.
+            if (strlen($account['passwd']) == 32)
             {
-                $_SESSION[VAR_TIMEZONE] = timezone_offset_get(timezone_open($timezones[$account['timezone']]), date_create());
+                debug_write_log(DEBUG_NOTICE, '[init_page] The password is stored as MD5 hash and must be updated.');
+                open_session(GUEST_USER_ID);
             }
-
-            save_cookie(COOKIE_AUTH_USERID, $_SESSION[VAR_USERID]);
-            save_cookie(COOKIE_AUTH_TOKEN,  $account['auth_token']);
-
-            dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
-
-            if ((strpos($_SERVER['PHP_SELF'], '/settings/') === FALSE                     ) &&
-                (PASSWORD_EXPIRATION != 0                                                 ) &&
-                ($_SESSION[VAR_PASSWD_EXPIRE] + PASSWORD_EXPIRATION * SECS_IN_DAY < time()) &&
-                (!$_SESSION[VAR_LDAPUSER]                                                 ))
+            else
             {
-                debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
+                $_SESSION[VAR_USERNAME]      = account_get_username($account['username']);
+                $_SESSION[VAR_FULLNAME]      = $account['fullname'];
+                $_SESSION[VAR_PASSWD_EXPIRE] = $account['passwd_expire'];
+                $_SESSION[VAR_ISADMIN]       = $account['is_admin'];
+                $_SESSION[VAR_LDAPUSER]      = $account['is_ldapuser'];
+                $_SESSION[VAR_LOCALE]        = $account['locale'];
+                $_SESSION[VAR_TIMEZONE]      = intval(date('Z'));
+                $_SESSION[VAR_TEXTROWS]      = $account['text_rows'];
+                $_SESSION[VAR_PAGEROWS]      = $account['page_rows'];
+                $_SESSION[VAR_PAGEBKMS]      = $account['page_bkms'];
+                $_SESSION[VAR_AUTO_REFRESH]  = ustr2int($account['auto_refresh'], MIN_AUTO_REFRESH, MAX_AUTO_REFRESH);
+                $_SESSION[VAR_DELIMITER]     = chr($account['csv_delim']);
+                $_SESSION[VAR_ENCODING]      = $encodings[$account['csv_encoding']];
+                $_SESSION[VAR_LINE_ENDINGS]  = $line_endings_chars[$account['csv_line_ends']];
+                $_SESSION[VAR_VIEW]          = $account['view_id'];
+                $_SESSION[VAR_THEME_NAME]    = $account['theme_name'];
 
-                save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
-
-                if ($page_type == LOAD_CONTAINER)
+                if ($account['timezone'] > 0 &&
+                    $account['timezone'] <= count($timezones))
                 {
-                    header('Location: ' . WEBROOT . 'settings/index.php?tab=3');
-                }
-                elseif ($page_type == LOAD_INLINE)
-                {
-                    header('HTTP/1.1 307 ' . WEBROOT . 'settings/index.php?tab=3');
+                    $_SESSION[VAR_TIMEZONE] = timezone_offset_get(timezone_open($timezones[$account['timezone']]), date_create());
                 }
 
-                exit;
-            }
+                save_cookie(COOKIE_AUTH_USERID, $_SESSION[VAR_USERID]);
+                save_cookie(COOKIE_AUTH_TOKEN,  $account['auth_token']);
 
-            clear_cookie(COOKIE_URI);
+                dal_query('accounts/settoken2.sql', $_SESSION[VAR_USERID], time() + SESSION_EXPIRE * 60);
+
+                if ((strpos($_SERVER['PHP_SELF'], '/settings/') === FALSE                     ) &&
+                    (PASSWORD_EXPIRATION != 0                                                 ) &&
+                    ($_SESSION[VAR_PASSWD_EXPIRE] + PASSWORD_EXPIRATION * SECS_IN_DAY < time()) &&
+                    (!$_SESSION[VAR_LDAPUSER]                                                 ))
+                {
+                    debug_write_log(DEBUG_NOTICE, '[init_page] Password is expired.');
+
+                    save_cookie(COOKIE_URI, $_SERVER['REQUEST_URI']);
+
+                    if ($page_type == LOAD_CONTAINER)
+                    {
+                        header('Location: ' . WEBROOT . 'settings/index.php?tab=3');
+                    }
+                    elseif ($page_type == LOAD_INLINE)
+                    {
+                        header('HTTP/1.1 307 ' . WEBROOT . 'settings/index.php?tab=3');
+                    }
+
+                    exit;
+                }
+
+                clear_cookie(COOKIE_URI);
+            }
         }
     }
 }

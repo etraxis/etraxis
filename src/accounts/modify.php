@@ -100,7 +100,7 @@ if (try_request('submitted') == 'modifyform')
         {
             if ($passwd1 != str_repeat('*', MAX_ACCOUNT_PASSWORD))
             {
-                dal_query('accounts/passwd.sql', $id, md5($passwd1), 0);
+                dal_query('accounts/passwd.sql', $id, base64_encode(sha1($passwd1, TRUE)), 0);
             }
 
             if ($locale != $account['locale'])

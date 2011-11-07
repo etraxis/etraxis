@@ -394,7 +394,7 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
               $username . ($is_ldapuser ? NULL : ACCOUNT_SUFFIX),
               $fullname,
               $email,
-              md5($passwd),
+              base64_encode(sha1($passwd, TRUE)),
               ustrlen($description) == 0 ? NULL : $description,
               bool2sql($is_admin),
               bool2sql($is_disabled),
@@ -741,7 +741,7 @@ function password_change ($id, $passwd)
 
     dal_query('accounts/passwd.sql',
               $id,
-              md5($passwd),
+              base64_encode(sha1($passwd, TRUE)),
               time());
 
     return NO_ERROR;

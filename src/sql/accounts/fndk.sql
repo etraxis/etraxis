@@ -4,6 +4,7 @@ select
     username,
     fullname,
     passwd,
+    passwd_expire,
     is_disabled,
     locks_count,
     lock_time,
