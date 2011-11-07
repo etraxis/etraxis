@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2010  Artem Rodygin
+//  Copyright (C) 2010-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -77,13 +77,26 @@ if (try_request('submitted') == 'addsubrecform')
 
     foreach ($subrecords as $subrecord)
     {
+        $pos = strrpos($subrecord, '-');
+
+        if ($pos !== FALSE)
+        {
+            $prefix    = substr($subrecord, 0, $pos);
+            $subrecord = substr($subrecord, $pos + 1);
+            debug_write_log(DEBUG_DUMP, "prefix = {$subrecord}");
+        }
+
         if (is_intvalue($subrecord))
         {
             $subrecord = ustr2int($subrecord);
+            $srec      = record_find($subrecord);
 
-            if (record_find($subrecord))
+            if ($srec)
             {
-                subrecord_add($id, $subrecord, $is_dependency);
+                if (!isset($prefix) || $srec['template_prefix'] == $prefix)
+                {
+                    subrecord_add($id, $subrecord, $is_dependency);
+                }
             }
         }
     }
