@@ -68,6 +68,7 @@ $notifications = array
     array('notify_state',    NOTIFY_RECORD_STATE_CHANGED, RES_NOTIFY_RECORD_STATE_CHANGED_ID),
     array('notify_postpone', NOTIFY_RECORD_POSTPONED,     RES_NOTIFY_RECORD_POSTPONED_ID),
     array('notify_resume',   NOTIFY_RECORD_RESUMED,       RES_NOTIFY_RECORD_RESUMED_ID),
+    array('notify_reopen',   NOTIFY_RECORD_REOPENED,      RES_NOTIFY_RECORD_REOPENED_ID),
     array('notify_comment',  NOTIFY_COMMENT_ADDED,        RES_NOTIFY_COMMENT_ADDED_ID),
     array('notify_attach',   NOTIFY_FILE_ATTACHED,        RES_NOTIFY_FILE_ATTACHED_ID),
     array('notify_remove',   NOTIFY_FILE_REMOVED,         RES_NOTIFY_FILE_REMOVED_ID),

@@ -241,7 +241,7 @@ $resource_english = array
     'permission to resume records',
     'permission to reassign assigned records',
     /* 1120 */
-    'permission to change state of assigned records',
+    'permission to reopen records',
     'permission to attach files',
     'permission to remove files',
     'Language',
@@ -448,7 +448,7 @@ $resource_english = array
     'CSV delimiter',
     'CSV encoding',
     'CSV line endings',
-    NULL,
+    'notify when record is reopened',
     /* 1310 */
     'Enable filters',
     'Disable filters',
@@ -462,7 +462,7 @@ $resource_english = array
     'Expand all',
     /* 1320 */
     'Collapse all',
-    NULL,
+    'Record is reopened in state "%1".',
     'L/E',
     'PCRE to check field values',
     'Search PCRE to transform field values',
@@ -473,7 +473,7 @@ $resource_english = array
     'show active only',
     /* 1330 */
     'Event',
-    NULL,
+    'Reopen',
     'Guest access',
     'None.',
     'Global groups',

@@ -23,7 +23,7 @@ where
     a.account_id  = e.originator_id and
     s.state_id    = e.event_param   and
     e.record_id   = %1              and
-    (e.event_type = 1 or e.event_type = 4)
+    (e.event_type = 1 or e.event_type = 4 or e.event_type = 14)
 
 union
 
@@ -50,7 +50,7 @@ where
 
     a.account_id  = e.originator_id and
     e.record_id   = %1              and
-    (e.event_type <> 1 and e.event_type <> 4)
+    (e.event_type <> 1 and e.event_type <> 4 and e.event_type <> 14)
 
 order by
 

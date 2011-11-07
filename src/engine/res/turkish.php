@@ -240,7 +240,7 @@ $resource_turkish = array
     'kayıtları devam ettirme izni',
     'atanmış kayıtları yeniden atama izni',
     /* 1120 */
-    'atanmış kayıtların durumunu değiştirme izni',
+    NULL,
     'dosyalar ekleme izni',
     'dosyaları kaldırma izni',
     'Dil',

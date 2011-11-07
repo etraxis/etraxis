@@ -241,7 +241,7 @@ $resource_hungarian = array
     'engedély a rekordok folytatásához',
     'engedély új felelős kiválasztására a már kiadott feladatoknál',
     /* 1120 */
-    'engedély a kiadott feladatok állapotának módosításához',
+    NULL,
     'engedély fájlok beküldéséhez',
     'engedély fájlok eltávolításához',
     'Nyelv',

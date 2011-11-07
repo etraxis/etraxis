@@ -240,7 +240,7 @@ $resource_spanish = array
     'permiso para reanudar registros',
     'permiso para reasignar registros asignados',
     /* 1120 */
-    'permiso para cambiar el estado de registros asignados',
+    NULL,
     'permiso para adjuntar archivos',
     'permiso para eliminar archivos',
     'Idioma',

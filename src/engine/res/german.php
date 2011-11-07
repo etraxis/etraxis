@@ -240,7 +240,7 @@ $resource_german = array
     'Berechtigt, um Anfragen wiederaufzunehmen',
     'Berechtigt, um bereits zugeordnete Anfragen neu zuzuordnen',
     /* 1120 */
-    'Berechtigt zum Ändern des Status von zugeordneten Anfragen',
+    NULL,
     'Berechtigt, um Dateien anzuhängen',
     'Berechtigt, um Dateien zu entfernen',
     'Sprache',

@@ -240,7 +240,7 @@ $resource_dutch = array
     'toestemming om records te hervatten',
     'toestemming om toegewezen records opnieuw te wijzen',
     /* 1120 */
-    'toestemming om de status van toegewezen records te wijzigen',
+    NULL,
     'toestemming om bestanden bij te voegen',
     'toestemming om bestanden te verwijderen',
     'Taal',

@@ -142,6 +142,7 @@ while (($event = $events->fetch()))
     {
         case EVENT_RECORD_CREATED:
         case EVENT_RECORD_STATE_CHANGED:
+        case EVENT_RECORD_REOPENED:
 
             $fields = dal_query('records/flist2.sql',
                                 $id,

@@ -59,6 +59,7 @@ define('EVENT_RECORD_CLONED',        10);
 define('EVENT_SUBRECORD_ADDED',      11);
 define('EVENT_SUBRECORD_REMOVED',    12);
 define('EVENT_CONFIDENTIAL_COMMENT', 13);
+define('EVENT_RECORD_REOPENED',      14);
 define('EVENT_RECORD_SUBSCRIBED',    100);
 define('EVENT_RECORD_UNSUBSCRIBED',  101);
 /**#@-*/
@@ -71,7 +72,7 @@ define('PERMIT_MODIFY_RECORD',         0x0002);
 define('PERMIT_POSTPONE_RECORD',       0x0004);
 define('PERMIT_RESUME_RECORD',         0x0008);
 define('PERMIT_REASSIGN_RECORD',       0x0010);
-define('PERMIT_CHANGE_STATE',          0x0020);  // obsolete
+define('PERMIT_REOPEN_RECORD',         0x0020);
 define('PERMIT_ADD_COMMENTS',          0x0040);
 define('PERMIT_ATTACH_FILES',          0x0080);
 define('PERMIT_REMOVE_FILES',          0x0100);
@@ -98,6 +99,7 @@ define('NOTIFY_FILE_REMOVED',         0x0100);
 define('NOTIFY_RECORD_CLONED',        0x0200);
 define('NOTIFY_SUBRECORD_ADDED',      0x0400);
 define('NOTIFY_SUBRECORD_REMOVED',    0x0800);
+define('NOTIFY_RECORD_REOPENED',      0x1000);
 /**#@-*/
 
 // Correspondence between event types
@@ -110,6 +112,7 @@ $notifications_filter = array
     EVENT_RECORD_STATE_CHANGED => NOTIFY_RECORD_STATE_CHANGED,
     EVENT_RECORD_POSTPONED     => NOTIFY_RECORD_POSTPONED,
     EVENT_RECORD_RESUMED       => NOTIFY_RECORD_RESUMED,
+    EVENT_RECORD_REOPENED      => NOTIFY_RECORD_REOPENED,
     EVENT_COMMENT_ADDED        => NOTIFY_COMMENT_ADDED,
     EVENT_FILE_ATTACHED        => NOTIFY_FILE_ATTACHED,
     EVENT_FILE_REMOVED         => NOTIFY_FILE_REMOVED,
@@ -243,6 +246,11 @@ function get_event_string ($event_id, $event_type, $event_param, $locale = NULL)
 
         case EVENT_RECORD_RESUMED:
             $res = get_html_resource(RES_EVENT_RECORD_RESUMED_ID, $locale);
+            break;
+
+        case EVENT_RECORD_REOPENED:
+            $state = state_find($event_param);
+            $res = ustrprocess(get_html_resource(RES_EVENT_RECORD_REOPENED_ID, $locale), ustr2html($state['state_name']));
             break;
 
         case EVENT_COMMENT_ADDED:
