@@ -203,12 +203,14 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         $header .= '>';
 
-        $header .= '<css>../themes/css.php?name=' . $_SESSION[VAR_THEME_NAME] . '/jquery-ui.css</css>'
-                 . '<css>../themes/css.php?name=' . $_SESSION[VAR_THEME_NAME] . '/jquery.jqplot.css</css>'
-                 . '<css>../themes/css.php?name=' . $_SESSION[VAR_THEME_NAME] . '/etraxis.css</css>'
-                 . '<css>../themes/css.php?name=' . $_SESSION[VAR_THEME_NAME] . '/list.css</css>'
-                 . '<css>../themes/css.php?name=' . $_SESSION[VAR_THEME_NAME] . '/combobox.css</css>'
-                 . '<css>../themes/css.php?name=' . $_SESSION[VAR_THEME_NAME] . '/buttons.css</css>';
+        $theme = isset($_SESSION[VAR_THEME_NAME]) ? $_SESSION[VAR_THEME_NAME] : DEF_THEME_NAME;
+
+        $header .= '<css>../themes/css.php?name=' . $theme . '/jquery-ui.css</css>'
+                 . '<css>../themes/css.php?name=' . $theme . '/jquery.jqplot.css</css>'
+                 . '<css>../themes/css.php?name=' . $theme . '/etraxis.css</css>'
+                 . '<css>../themes/css.php?name=' . $theme . '/list.css</css>'
+                 . '<css>../themes/css.php?name=' . $theme . '/combobox.css</css>'
+                 . '<css>../themes/css.php?name=' . $theme . '/buttons.css</css>';
 
         // generate main menu
 
