@@ -240,7 +240,7 @@ $resource_latvian = array
     'tiesības atsākt ierakstus',
     'tiesības pāradresēt adresētos ierakstus',
     /* 1120 */
-    'Atļauja',
+    'tiesības atvērt ierakstus no jauna',
     'tiesības pievienot failus',
     'tiesības dzēst failus',
     'Valoda',
