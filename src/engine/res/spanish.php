@@ -76,7 +76,7 @@ $resource_spanish = array
     'Se detuvo la carga del archivo por la extensión.',
     'Debe tener habilitado JavaScript.',
     'Este es un mensaje automático, por favor no lo responda.',
-    'Valo decimal inválido.',
+    'Valor decimal inválido.',
     /* 240 */
     'El valor decimal debe estar comprendido entre %1 y %2.',
     'La vista no puede tener mas de %1 columnas.',
