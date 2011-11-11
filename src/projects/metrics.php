@@ -135,10 +135,10 @@ if (stripos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== FALSE)
     $xml .= '<script type="text/javascript" src="../scripts/get.php?name=excanvas.min.js"></script>';
 }
 
-$xml .= '<script type="text/javascript" src="../scripts/get.php?name=jquery.jqplot.min.js"></script>'
-      . '<script type="text/javascript" src="../scripts/get.php?name=jqplot.cursor.min.js"></script>'
-      . '<script type="text/javascript" src="../scripts/get.php?name=jqplot.dateAxisRenderer.min.js"></script>'
-      . '<script type="text/javascript" src="../scripts/get.php?name=jqplot.highlighter.min.js"></script>'
+$xml .= '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jquery.jqplot.min.js"></script>'
+      . '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jqplot.cursor.min.js"></script>'
+      . '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jqplot.dateAxisRenderer.min.js"></script>'
+      . '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jqplot.highlighter.min.js"></script>'
       . '<script>'
       . 'dataOpened  = [];'
       . 'dataCreated = [];'
