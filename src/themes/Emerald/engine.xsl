@@ -47,9 +47,9 @@
     <script type="text/javascript" src="../scripts/get.php?name=jquery.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=jquery-ui.dp.res.js"></script>
-    <script type="text/javascript" src="../scripts/get.php?name=jquery.TextareaLineCount.js"></script>
-    <script type="text/javascript" src="../scripts/get.php?name=jquery.blockUI.js"></script>
-    <script type="text/javascript" src="../scripts/get.php?name=jquery.form.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=plugins/jquery.TextareaLineCount.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=plugins/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="../scripts/get.php?name=plugins/jquery.form.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=combobox.js"></script>
     <script type="text/javascript" src="../scripts/get.php?name=etraxis.js"></script>
     <xsl:apply-templates select="script"/>

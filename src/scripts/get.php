@@ -40,7 +40,9 @@ $name = isset($_REQUEST['name'])
 
 mb_regex_encoding('UTF-8');
 
-if (!mb_eregi('^([_0-9a-z\.\-])+$', $name))
+if (!mb_eregi('^([_0-9a-z\.\-])+$',         $name) &&
+    !mb_eregi('^plugins/([_0-9a-z\.\-])+$', $name) &&
+    !mb_eregi('^jqplot/([_0-9a-z\.\-])+$',  $name))
 {
     exit;
 }
