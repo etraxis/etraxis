@@ -71,20 +71,21 @@ $resource_german = array
     'Eine Erinnerung mit diesem Namen existiert bereits.',
     'Die Erinnerung ist erfolgreich zugestellt worden.',
     'Eine Ansicht mit diesem Namen existiert bereits.',
-    NULL,
+    'Geben sie bitte eine kurze Beschreibung der Anfrage an.',
     'Datei konnte nicht geschrieben werden.',
     'Das Hochladen wurde von einer Erweiterung beendet.',
     'JavaScript muss aktiviert sein.',
     'Bitte antworten Sie nicht auf diese automatisch generierte Nachricht.',
-    NULL,
+    'Ungültige Dezimalzahlangabe.',
     /* 240 */
-    NULL,
+    'Die Dezimalzahl muss zwischen $1 und %2 liegen.',
     'Maximal %1 Spalten pro Ansicht erlaubt.',
     'Regulärer Ausdruck in "%1" ist ungültig.',
     'Benutzer ist nicht autorisiert.',
     'Unbekannter Benutzername oder falsches Passwort.',
     'Unbekannter Fehler.',
     'XML-Parser fehlerhaft.',
+    'Ihre Änderungen wurden erfolgreich gespeichert.',
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
@@ -95,7 +96,7 @@ $resource_german = array
     'Möchten Sie diese Anfrageart wirklich löschen?',
     'Möchten Sie diesen Status wirklich löschen?',
     'Möchten Sie diesen Zusatz wirklich löschen?',
-    NULL,
+    'Möchten Sie den Status dieser Anfrage wirklich ändern?',
     'Möchten Sie diese Anfrage wirklich wiederaufnehmen?',
     'Möchten Sie diese Anfrage wirklich jemandem zuordnen?',
     /* 310 */
@@ -240,7 +241,7 @@ $resource_german = array
     'Berechtigt, um Anfragen wiederaufzunehmen',
     'Berechtigt, um bereits zugeordnete Anfragen neu zuzuordnen',
     /* 1120 */
-    NULL,
+    'Berechtigt, um Anfragen wiederzueröffnen',
     'Berechtigt, um Dateien anzuhängen',
     'Berechtigt, um Dateien zu entfernen',
     'Sprache',
@@ -324,7 +325,7 @@ $resource_german = array
     'global',
     'lokal',
     'Konfiguration',
-    NULL,
+    'Zeile',
     'Basis-URL',
     'Sicherheit',
     /* 1200 */
@@ -356,7 +357,7 @@ $resource_german = array
     'Debug-Log',
     'Aktiviert',
     'Deaktiviert',
-    NULL,
+    'Dezimal',
     'Berechtigt, um Anfragen nur anzuzeigen',
     'Alles auswählen',
     'Verfasser(in)',
@@ -384,7 +385,7 @@ $resource_german = array
     'Neues Abonnement',
     /* 1250 */
     'Abonnement "%1"',
-    NULL,
+    'Anzahl Zeilen in Mehrzeiligen Feldern',
     'Man kann Verweise zu anderen Anfragen einfügen, indem man "rec#" und die entsprechende Nummer (z.B. "rec#305") angibt.',
     'Nur Anfragen anzeigen, die gewechselt sind nach Status ...',
     'Gemeinsam verwenden mit ...',
@@ -398,7 +399,7 @@ $resource_german = array
     'Speicherort',
     'LDAP-Attribut',
     'Ansichten',
-    NULL,
+    'Schliessen',
     'Ansichtname',
     'Neue Ansicht',
     'Ansicht "%1"',
@@ -418,14 +419,14 @@ $resource_german = array
     /* 1280 */
     'Alle mir Zugeordneten',
     'Alle von mir Erstellten',
-    NULL,
-    NULL,
+    'In E-Mails zeigen',
+    'Bitte warten...',
     'Exportieren',
     'Unteranfrage',
     'Unteranfrage erstellen',
     'Unteranfrage hinzufügen',
     'Unteranfrage entfernen',
-    NULL,
+    'Aktualisierungsintervall',
     /* 1290 */
     'Unteranfrage wird "%1" hinzugefügt.',
     'Unteranfrage wird von "%1" entfernt.',
@@ -442,12 +443,12 @@ $resource_german = array
     'Vertraulicher Kommentar wird hinzugefügt.',
     'Oberanfrage-ID',
     'Abhängigkeit',
-    NULL,
+    'Zeitzone',
     'Trennlinie hinzufügen',
     'CSV-Trennzeichen',
     'CSV-Kodierung',
     'CSV-Zeilenumbruch',
-    NULL,
+    'Benachrichtigen wenn Anfrage wiedereröffnet wird',
     /* 1310 */
     'Filter aktivieren',
     'Filter deaktivieren',
@@ -461,7 +462,7 @@ $resource_german = array
     'Alle erweitern',
     /* 1320 */
     'Alle reduzieren',
-    NULL,
+    'Anfrage wurde im Status "%1" wiedereröffnet.',
     'L.E.',
     'Erlaubte Werte als regulärer Ausdruck (PCRE)',
     'Suchmuster (PCRE) zum Umwandeln von Zusatzinformationen',
@@ -472,7 +473,7 @@ $resource_german = array
     'Nur Aktive anzeigen',
     /* 1330 */
     'Ereignis',
-    NULL,
+    'Wiedereröffnen',
     'Gastzugriff',
     'Keiner.',
     'Global gruppen',
@@ -506,7 +507,7 @@ $resource_german = array
     /* 1360 */
     'Jeder.',
     'Als ungelesen markieren',
-    'Übergeordnete Zugriffe',
+    'Übergeordnete Anfragen',
 );
 
 ?>
