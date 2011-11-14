@@ -573,6 +573,14 @@ SQL;
 
         $search = array();
 
+        if (is_intvalue($search_text))
+        {
+            array_push($search,
+                       'select e.record_id ' .
+                       'from tbl_events e, tbl_field_values fv ' .
+                       'where e.event_id = fv.event_id and fv.field_type = ' . FIELD_TYPE_NUMBER . ' and fv.is_latest = 1 and fv.value_id = ' . $search_text);
+        }
+
         $search_text = "'%" . ustr2sql($search_text) . "%'";
 
         $search_in_subject  = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(r.subject)       like ' . $search_text;
