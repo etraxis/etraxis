@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-8
-Release date: 2011-11-07
-Release size: 49512
+Release tag:  MAIN_3-6-9
+Release date: 2011-11-14
+Release size: 49526
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,45 +32,37 @@ Form Plugin:        2.87    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/accounts/modify.php
-[M] src/dbo/accounts.php
-[M] src/dbo/events.php
 [M] src/dbo/records.php
-[M] src/dbo/subscriptions.php
-[M] src/dbo/templates.php
+[M] src/diag/index.php
 [M] src/engine/res/bulgarian.php
 [M] src/engine/res/czech.php
-[M] src/engine/res/dutch.php
-[M] src/engine/res/english.php
 [M] src/engine/res/french.php
 [M] src/engine/res/german.php
 [M] src/engine/res/hungarian.php
-[M] src/engine/res/indonesian.php
-[M] src/engine/res/italian.php
 [M] src/engine/res/japanese.php
 [M] src/engine/res/latvian.php
 [M] src/engine/res/polish.php
 [M] src/engine/res/portuguese.php
 [M] src/engine/res/romanian.php
-[M] src/engine/res/russian.php
 [M] src/engine/res/spanish.php
-[M] src/engine/res/turkish.php
-[M] src/engine/resource.php
-[M] src/engine/sessions.php
+[M] src/engine/res/swedish.php
 [M] src/engine/xml.php
-[M] src/projects/gperms.php
-[M] src/projects/tperms.php
-[M] src/records/record.php
-[M] src/records/rss.php
-[M] src/records/state.php
-[M] src/sql/accounts/fndid2.sql
-[M] src/sql/accounts/fndk.sql
-[M] src/sql/records/elist.sql
-[M] src/sql/records/elist2.sql
-[A] src/sql/records/open.sql
-[M] src/sql/states/efndc.sql
-[A] src/sql/states/list3.sql
-[M] src/records/addsubrec.php
+[M] src/projects/metrics.php
+[M] src/scripts/get.php
+[M] src/themes/Emerald/css/jquery.jqplot.css
+[M] src/themes/Emerald/engine.xsl
+
+[D] src/images/favicon.ico
+[D] src/scripts/jqplot.*.min.js
+[D] src/scripts/jquery.TextareaLineCount.js
+[D] src/scripts/jquery.blockUI.js
+[D] src/scripts/jquery.form.js
+[D] src/scripts/jquery.jqplot.min.js
+
+[A] src/favicon.ico
+[A] src/robots.txt
+[A] src/scripts/jqplot/*
+[A] src/scripts/plugins/*
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -166,14 +158,13 @@ None.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 182: Reopening of closed record.
-Issue 210: Attaching subrecords - usability issue
-Issue 322: Change password storing mechanism from MD5 to SHA1
+Updated translations.
+Search in numeric custom fields.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 321: PHP Notice: Undefined index: eTraxis_ThemeName
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
