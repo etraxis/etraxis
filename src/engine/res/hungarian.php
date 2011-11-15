@@ -109,7 +109,7 @@ $resource_hungarian = array
 
     RES_SECTION_PROMPTS =>
     /* 1000 */
-    'Angol',
+    'Magyar',
     'Bejelentkezés',
     'OK',
     'Mégsem',
