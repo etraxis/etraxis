@@ -2,6 +2,12 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-10 (2011-11-16)
+
+    Issue 323: Can't log in eTraxis running on MSSQL
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-6-9 (2011-11-14)
 
     Updated translations.

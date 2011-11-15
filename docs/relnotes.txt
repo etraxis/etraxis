@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-9
-Release date: 2011-11-14
-Release size: 49526
+Release tag:  MAIN_3-6-10
+Release date: 2011-11-16
+Release size: 49570
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,37 +32,24 @@ Form Plugin:        2.87    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/dbo/records.php
-[M] src/diag/index.php
-[M] src/engine/res/bulgarian.php
-[M] src/engine/res/czech.php
-[M] src/engine/res/french.php
-[M] src/engine/res/german.php
 [M] src/engine/res/hungarian.php
-[M] src/engine/res/japanese.php
-[M] src/engine/res/latvian.php
-[M] src/engine/res/polish.php
-[M] src/engine/res/portuguese.php
-[M] src/engine/res/romanian.php
-[M] src/engine/res/spanish.php
-[M] src/engine/res/swedish.php
+[M] src/engine/sessions.php
 [M] src/engine/xml.php
-[M] src/projects/metrics.php
-[M] src/scripts/get.php
-[M] src/themes/Emerald/css/jquery.jqplot.css
-[M] src/themes/Emerald/engine.xsl
 
-[D] src/images/favicon.ico
-[D] src/scripts/jqplot.*.min.js
-[D] src/scripts/jquery.TextareaLineCount.js
-[D] src/scripts/jquery.blockUI.js
-[D] src/scripts/jquery.form.js
-[D] src/scripts/jquery.jqplot.min.js
-
-[A] src/favicon.ico
-[A] src/robots.txt
-[A] src/scripts/jqplot/*
-[A] src/scripts/plugins/*
+[A] src/scripts/jqplot/index.php
+[A] src/scripts/plugins/index.php
+[A] src/themes/Azure/css/index.php
+[A] src/themes/Azure/images/index.php
+[A] src/themes/Azure/index.php
+[A] src/themes/Emerald/css/index.php
+[A] src/themes/Emerald/images/index.php
+[A] src/themes/Emerald/index.php
+[A] src/themes/Mars/css/index.php
+[A] src/themes/Mars/images/index.php
+[A] src/themes/Mars/index.php
+[A] src/themes/Orchid/css/index.php
+[A] src/themes/Orchid/images/index.php
+[A] src/themes/Orchid/index.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -158,13 +145,12 @@ None.
 NEW FEATURES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Updated translations.
-Search in numeric custom fields.
+None.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
+Issue 323: Can't log in eTraxis running on MSSQL
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
