@@ -328,6 +328,8 @@ function login_user ($username, $passwd)
     {
         debug_write_log(DEBUG_NOTICE, 'User name is found in eTraxis database.');
 
+        $account['passwd'] = trim($account['passwd']);
+
         // Check status of account and provided password.
         if ($account['is_disabled'])
         {
@@ -487,6 +489,7 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
         else
         {
             $account = $rs->fetch();
+            $account['passwd'] = trim($account['passwd']);
 
             // Up to version 3.6.7 passwords were stored as MD5 hashes which took 32 chars.
             // As of 3.6.8 passwords are stored as base64-encoded SHA1 hashes which take 28 chars.
