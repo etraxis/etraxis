@@ -496,7 +496,8 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
             // For backward compatibility we let user authenticate if his password is stored as MD5-hash,
             // but we have to replace the password with its SHA1-hash.
             // To make user enter his password as soon as possible we are forcing him to log out.
-            if (strlen($account['passwd']) == 32)
+            if (strlen($account['passwd']) == 32 &&
+                !$account['is_ldapuser'])
             {
                 debug_write_log(DEBUG_NOTICE, '[init_page] The password is stored as MD5 hash and must be updated.');
                 open_session(GUEST_USER_ID);
