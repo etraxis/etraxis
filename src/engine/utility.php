@@ -301,6 +301,7 @@ function ustr2html ($str)
  */
 function ustr2js ($str)
 {
+    $str = htmlspecialchars($str, ENT_NOQUOTES, 'UTF-8');
     return ustr_replace('"', '\"', $str);
 }
 
