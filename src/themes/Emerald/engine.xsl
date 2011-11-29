@@ -1011,7 +1011,14 @@
 <xsl:template match="listbox">
     <select multiple="multiple">
     <xsl:attribute name="id">
-    <xsl:value-of select="../@name"/>
+    <xsl:choose>
+        <xsl:when test="boolean(@id)">
+            <xsl:value-of select="@id"/>
+        </xsl:when>
+        <xsl:otherwise>
+            <xsl:value-of select="../@name"/>
+        </xsl:otherwise>
+    </xsl:choose>
     </xsl:attribute>
     <xsl:attribute name="name">
     <xsl:value-of select="../@name"/>

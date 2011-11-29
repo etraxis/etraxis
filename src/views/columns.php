@@ -137,26 +137,14 @@ function onError (XMLHttpRequest)
     jqAlert("{$resTitle}", XMLHttpRequest.responseText, "{$resOK}");
 }
 
-function moveUp ()
+function moveCol (direction)
 {
-    var id = document.getElementById("rcolumns[]").value;
+    var id = $("#rcolumns").val();
 
-    $.post("move.php?offset=-1&amp;id=" + id, function(data){
+    $.post("move.php?offset=" + direction + "&amp;id=" + id, function(data){
         if (data.length != 0)
         {
-            document.getElementById("rcolumns[]").innerHTML = data;
-        }
-    });
-}
-
-function moveDown ()
-{
-    var id = document.getElementById("rcolumns[]").value;
-
-    $.post("move.php?offset=1&amp;id=" + id, function(data){
-        if (data.length != 0)
-        {
-            document.getElementById("rcolumns[]").innerHTML = data;
+            $("#rcolumns").html(data);
         }
     });
 }
@@ -270,7 +258,7 @@ $xml .= '<dualright>'
       . '<form name="cenabledform" action="columns.php?id=' . $id . '" success="reloadTab">'
       . '<group title="' . get_html_resource(RES_ENABLED2_ID) . '">'
       . '<control name="rcolumns[]">'
-      . '<listbox size="10">';
+      . '<listbox id="rcolumns" size="10">';
 
 foreach ($columns as $column)
 {
@@ -292,8 +280,8 @@ foreach ($columns as $column)
 
 $xml .= '</listbox>'
       . '</control>'
-      . '<button action="moveUp()">%and;</button>'
-      . '<button action="moveDown()">%or;</button>'
+      . '<button action="moveCol(-1)">%and;</button>'
+      . '<button action="moveCol( 1)">%or;</button>'
       . '</group>'
       . '</form>'
       . '</dualright>';
