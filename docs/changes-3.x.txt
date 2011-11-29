@@ -2,6 +2,13 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-12 (2011-11-29)
+
+    Issue 325: List of columns disappears in IE8
+    Issue 326: Group is not displayed when contain ampersand in the name
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-11 (2011-11-20)
 
     Issue 324: Can't log in eTraxis with LDAP account
