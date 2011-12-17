@@ -85,6 +85,7 @@ $resource_indonesian = array
     'Nama pengguna tidak dikenal atau kata sandi salah.',
     'Kesalahan yang tidak diketahui.',
     'Kesalahan XML parser.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

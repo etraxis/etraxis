@@ -85,6 +85,7 @@ $resource_japanese = array
     '不明なユーザー名または誤ったパスワードです。',
     '不明なエラー。',
     'XML パーサ エラー。',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

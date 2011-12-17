@@ -85,6 +85,7 @@ $resource_romanian = array
     'Cont inexistent sau parola incorecta.',
     'Eroare necunoscuta.',
     'Eroare de parsare XML.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

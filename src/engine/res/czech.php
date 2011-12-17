@@ -85,6 +85,7 @@ $resource_czech = array
     'Neznámé uživatelské jméno nebo chybné heslo.',
     'Neznámá chyba.',
     'Chyba XML parseru.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

@@ -85,6 +85,7 @@ $resource_turkish = array
     'Bilinmeyen kullanıcı adı ya da yanlış parola.',
     'Bilinmeyen hata.',
     'XML ayrıştırıcı hatası.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

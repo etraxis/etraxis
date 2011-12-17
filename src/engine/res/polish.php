@@ -85,6 +85,7 @@ $resource_polish = array
     'Nieprawidłowa nazwa użytkownika lub hasła.',
     'Nieznany błąd.',
     'Błąd parsowania XMLa.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
