@@ -85,6 +85,7 @@ $resource_latvian = array
     'Nezināms lietotāja vārds vai parole.',
     'Nezināma kļūda.',
     'XML-parsētāja kļūda.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

@@ -85,6 +85,7 @@ $resource_dutch = array
     'Onbekende gebruikersnaam of verkeerd wachtwoord.',
     'Onbekende fout.',
     'XML parser fout.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

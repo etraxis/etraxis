@@ -85,6 +85,7 @@ $resource_swedish = array
     'Okänt användarnamn eller felaktigt lösenord.',
     'Okänt fel.',
     'XML-parser fel.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

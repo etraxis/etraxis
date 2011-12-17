@@ -85,6 +85,7 @@ $resource_italian = array
     'Nome utente non riconosciuto o password errata.',
     'Errore sconosciuto.',
     'Errore nel parser XML.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */

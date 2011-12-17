@@ -85,6 +85,7 @@ $resource_french = array
     'Utilisateur inconnu ou mauvais mot de passe.',
     'Erreur inconnue.',
     'Erreur du parseur XML.',
+    NULL,
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
