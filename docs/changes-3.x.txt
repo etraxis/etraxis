@@ -2,6 +2,12 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-13 (2012-02-21)
+
+    Issue 328: Values of cloned records sometimes are corrupted when changing a state.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-12 (2011-11-29)
 
     Issue 325: List of columns disappears in IE8
