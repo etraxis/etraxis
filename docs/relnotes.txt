@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-12
-Release date: 2011-11-29
-Release size: 49575
+Release tag:  MAIN_3-6-13
+Release date: 2012-02-21
+Release size: 49593
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,12 +32,11 @@ Form Plugin:        2.96    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/res/italian.php
-[M] src/engine/utility.php
+[M] src/engine/res/russian.php
 [M] src/engine/xml.php
+[M] src/records/state.php
+[M] src/scripts/jquery.js
 [M] src/scripts/plugins/jquery.form.js
-[M] src/themes/Emerald/engine.xsl
-[M] src/views/columns.php
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -122,6 +121,7 @@ Issue 295: Restriction failure regarding filter and subscription
 Issue 296: Predefined built-in filters for list of records
 Issue 304: Additional default filters
 Issue 320: View Columns Restriction based on Filters
+Issue 327: There is no way to create a template state of type initial
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -139,7 +139,6 @@ None.
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 325: List of columns disappears in IE8
-Issue 326: Group is not displayed when contain ampersand in the name
+Issue 328: Values of cloned records sometimes are corrupted when changing a state.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
