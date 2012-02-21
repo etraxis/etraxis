@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2011  Artem Rodygin
+//  Copyright (C) 2005-2012  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -322,7 +322,11 @@ else
 
         $clone_id = is_record_cloned($id);
 
-        if ($clone_id != 0)
+        if (!is_null($row['value_id']))
+        {
+            $value = $row['value_id'];
+        }
+        elseif ($clone_id != 0)
         {
             $rsv = dal_query('values/fndk.sql', $clone_id, $row['field_id']);
 
@@ -334,10 +338,6 @@ else
             {
                 $value = $row['value_id'];
             }
-        }
-        elseif (!is_null($row['value_id']))
-        {
-            $value = $row['value_id'];
         }
 
         // adjust for current date the value of date fields
