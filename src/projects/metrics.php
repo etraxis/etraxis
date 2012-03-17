@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2011  Artem Rodygin
+//  Copyright (C) 2005-2012  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -140,9 +140,9 @@ $xml .= '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jque
       . '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jqplot.dateAxisRenderer.min.js"></script>'
       . '<script type="text/javascript" src="../scripts/get.php?name=jqplot/jqplot.highlighter.min.js"></script>'
       . '<script>'
-      . 'dataOpened  = [];'
-      . 'dataCreated = [];'
-      . 'dataClosed  = [];';
+      . 'var dataOpened  = [];'
+      . 'var dataCreated = [];'
+      . 'var dataClosed  = [];';
 
 for ($i = $first_week; $i <= $last_week; $i++)
 {
@@ -157,7 +157,7 @@ $xml .= <<<jqPlot
 
     $('#chart').css('height', 0);   // workaround for excanvas bug in IE
 
-    chart = $.jqplot('chart', [dataOpened, dataCreated, dataClosed], {
+    var chart = $.jqplot('chart', [dataOpened, dataCreated, dataClosed], {
 
         title: '{$titleChart}',
 
