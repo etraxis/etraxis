@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-13
-Release date: 2012-02-21
-Release size: 49593
+Release tag:  MAIN_3-6-14
+Release date: 2012-03-17
+Release size: 49614
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -26,16 +26,15 @@ jQuery UI:          1.8.16  http://jqueryui.com/
 jqPlot:             1.0.0b2 http://www.jqplot.com/
 TextareaLineCount:  1.2     http://plugins.jquery.com/project/TextareaLineCount
 BlockUI Plugin:     2.39    http://jquery.malsup.com/block/
-Form Plugin:        2.96    http://jquery.malsup.com/form/
+Form Plugin:        3.03    http://jquery.malsup.com/form/
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/res/russian.php
+[M] src/dbo/accounts.php
 [M] src/engine/xml.php
-[M] src/records/state.php
-[M] src/scripts/jquery.js
+[M] src/projects/metrics.php
 [M] src/scripts/plugins/jquery.form.js
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -122,6 +121,7 @@ Issue 296: Predefined built-in filters for list of records
 Issue 304: Additional default filters
 Issue 320: View Columns Restriction based on Filters
 Issue 327: There is no way to create a template state of type initial
+Issue 329: Multiselection list field type
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 KNOWN ISSUES
@@ -139,6 +139,8 @@ None.
 BUG FIXES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Issue 328: Values of cloned records sometimes are corrupted when changing a state.
+Issue 330: Metrics chart is broken in some versions of IE.
+Issue 331: eTraxis is proned to "session fixation" attacks.
+Issue 332: Some ISPs change issued dynamic IPs too often, which cause logout each time IP is changed.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
