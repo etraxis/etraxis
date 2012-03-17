@@ -189,7 +189,7 @@ function account_set_token ($id)
 
     session_regenerate_id();
 
-    $token = md5(WEBROOT . $id . $_SERVER['REMOTE_ADDR'] . $_SERVER['REMOTE_PORT'] . rand());
+    $token = md5(WEBROOT . $id . $_SERVER['SERVER_ADDR'] . $_SERVER['SERVER_PORT'] . rand());
 
     save_cookie(COOKIE_AUTH_USERID, $id);
     save_cookie(COOKIE_AUTH_TOKEN,  $token);
