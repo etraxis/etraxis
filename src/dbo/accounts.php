@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2011  Artem Rodygin
+//  Copyright (C) 2005-2012  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -186,6 +186,8 @@ function account_set_token ($id)
 {
     debug_write_log(DEBUG_TRACE, '[account_set_token]');
     debug_write_log(DEBUG_DUMP,  '[account_set_token] $id = ' . $id);
+
+    session_regenerate_id();
 
     $token = md5(WEBROOT . $id . $_SERVER['REMOTE_ADDR'] . $_SERVER['REMOTE_PORT'] . rand());
 
