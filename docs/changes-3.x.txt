@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-14 (2012-03-17)
+
+    Issue 330: Metrics chart is broken in some versions of IE.
+    Issue 331: eTraxis is proned to "session fixation" attacks.
+    Issue 332: Some ISPs change issued dynamic IPs too often, which cause logout each time IP is changed.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-13 (2012-02-21)
 
     Issue 328: Values of cloned records sometimes are corrupted when changing a state.
