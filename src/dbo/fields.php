@@ -1759,6 +1759,9 @@ function fields_import ($template_id, $state_id, $xml, &$error)
                 }
             }
 
+            // Remove default field permissions.
+            dal_query('fields/fpdelall.sql', $field_id);
+
             // Enumerate groups permissions.
             $groups = $field->xpath('./permissions/group');
 
