@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2011  Artem Rodygin
+//  Copyright (C) 2005-2012  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -136,7 +136,8 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
     $page = try_request('page', try_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW]));
     $page = ustr2int($page, 1, MAXINT);
 
-    $time = time();
+    $date = getdate();
+    $time = mktime(23, 59, 59, $date['mon'], $date['mday'], $date['year']);
 
     $clause_select = array('r.record_id',
                            'r.creation_time',
