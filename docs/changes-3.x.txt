@@ -2,6 +2,16 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+New features integrated in MAIN_3-6-15 (2012-07-12)
+
+    Issue 343: Improve list of records query by using database cache.
+
+Bug fixes integrated in MAIN_3-6-15 (2012-07-12)
+
+    Issue 342: Error when importing site's bug.xml
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-14 (2012-03-17)
 
     Issue 330: Metrics chart is broken in some versions of IE.
