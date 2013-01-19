@@ -140,11 +140,19 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
     $time = mktime(23, 59, 59, $date['mon'], $date['mday'], $date['year']);
 
     $clause_select = array('r.record_id',
+                           'r.subject',
+                           'r.responsible_id',
+                           'r.creator_id',
                            'r.creation_time',
                            'r.change_time',
                            'r.closure_time',
                            'r.postpone_time',
-                           't.critical_age');
+                           'p.project_name',
+                           't.template_name',
+                           't.template_prefix',
+                           't.critical_age',
+                           's.state_name',
+                           's.state_abbr');
 
     $clause_from   = array('tbl_projects p',
                            'tbl_states s');
@@ -154,8 +162,6 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
     $clause_where  = array('p.project_id = t.project_id',
                            't.template_id = s.template_id',
                            's.state_id = r.state_id');
-
-    $clause_order  = array();
 
     save_cookie(COOKIE_RECORDS_SORT . $_SESSION[VAR_VIEW], $sort);
     save_cookie(COOKIE_RECORDS_PAGE . $_SESSION[VAR_VIEW], $page);
@@ -189,381 +195,6 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
         array_push($clause_select, 'rd.read_time');
         array_push($clause_join,   'left outer join tbl_reads rd on rd.record_id = r.record_id and rd.account_id = ' . $_SESSION[VAR_USERID]);
-    }
-
-    // SQL condition to check that current user is allowed to read the field.
-
-    $sql_field_perms = <<<SQL
-
-        f.field_id in (select f.field_id
-                       from
-                           tbl_group_perms  gp,
-                           tbl_membership   ms,
-                           tbl_field_perms  fp,
-                           tbl_fields f
-                       where
-                           fp.field_id   = f.field_id  and
-                           fp.group_id   = gp.group_id and
-                           ms.group_id   = gp.group_id and
-                           ms.account_id = {$_SESSION[VAR_USERID]} and
-                           fp.perms      = 1)
-
-        or r.creator_id = {$_SESSION[VAR_USERID]} and
-           f.field_id in (select f.field_id
-                          from tbl_fields f
-                          where f.author_perm >= 1)
-
-        or r.responsible_id = {$_SESSION[VAR_USERID]} and
-           f.field_id in (select f.field_id
-                          from tbl_fields f
-                          where f.responsible_perm >= 1)
-
-        or f.field_id in (select f.field_id
-                          from tbl_fields f
-                          where f.registered_perm >= 1 or f.guest_access = 1)
-SQL;
-
-    // Generate columns of the current view.
-
-    foreach ($columns as $i => $column)
-    {
-        $i += 1;
-
-        switch ($column['column_type'])
-        {
-            case COLUMN_TYPE_ID:
-
-                array_push($clause_select, 't.template_prefix');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'r.record_id asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'r.record_id desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_STATE_ABBR:
-
-                array_push($clause_select, 's.state_abbr');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 's.state_abbr asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 's.state_abbr desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_PROJECT:
-
-                array_push($clause_select, 'p.project_name');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'p.project_name asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'p.project_name desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_SUBJECT:
-
-                array_push($clause_select, 'r.subject');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'r.subject asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'r.subject desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_AUTHOR:
-
-                array_push($clause_select, 'ac.fullname as author_fullname');
-                array_push($clause_join,   'left outer join tbl_accounts ac on ac.account_id = r.creator_id');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'author_fullname asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'author_fullname desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_RESPONSIBLE:
-
-                array_push($clause_select, 'ar.fullname as responsible_fullname');
-                array_push($clause_join,   'left outer join tbl_accounts ar on ar.account_id = r.responsible_id');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'responsible_fullname asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'responsible_fullname desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_LAST_EVENT:
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'change_time asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'change_time desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_AGE:
-
-                array_push($clause_select, '(' . $time . ' - r.creation_time) as opened_age');
-                array_push($clause_select, '(r.closure_time - r.creation_time) as closed_age');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'closed_age asc');
-                    array_push($clause_order, 'opened_age asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'closed_age desc');
-                    array_push($clause_order, 'opened_age desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_CREATION_DATE:
-
-                array_push($clause_select, 'r.creation_time');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'creation_time asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'creation_time desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_TEMPLATE:
-
-                array_push($clause_select, 't.template_name');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 't.template_name asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 't.template_name desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_STATE_NAME:
-
-                array_push($clause_select, 's.state_name');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 's.state_name asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 's.state_name desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_LAST_STATE:
-
-                array_push($clause_select, 'st.state_time');
-                array_push($clause_from,   '(select record_id, max(event_time) as state_time' .
-                                           ' from tbl_events' .
-                                           ' where event_type = 1 or event_type = 4' .
-                                           ' group by record_id) st');
-                array_push($clause_where,  'r.record_id = st.record_id');
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, 'state_time asc');
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, 'state_time desc');
-                }
-
-                break;
-
-            case COLUMN_TYPE_FLOAT:
-
-                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
-
-                array_push($clause_join,
-                           "left outer join " .
-                           "(select r.record_id, flv.float_value as value{$column['column_id']} " .
-                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
-                           "left outer join tbl_float_values flv on fv.value_id = flv.value_id " .
-                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_FLOAT . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
-                           "on r.record_id = v{$column['column_id']}.record_id");
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
-                }
-
-                break;
-
-            case COLUMN_TYPE_STRING:
-
-                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
-
-                array_push($clause_join,
-                           "left outer join " .
-                           "(select r.record_id, sv.string_value as value{$column['column_id']} " .
-                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
-                           "left outer join tbl_string_values sv on fv.value_id = sv.value_id " .
-                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_STRING . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
-                           "on r.record_id = v{$column['column_id']}.record_id");
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
-                }
-
-                break;
-
-            case COLUMN_TYPE_MULTILINED:
-
-                $txtval = (DATABASE_DRIVER == DRIVER_MSSQL2K ? 'substring(tv.text_value, 1, 4000)' : 'substr(tv.text_value, 1, 4000)');
-
-                if (DATABASE_DRIVER == DRIVER_ORACLE9)
-                {
-                    array_push($clause_select, "to_char(v{$column['column_id']}.value{$column['column_id']}) as \"value{$column['column_id']}\"");
-                }
-                else
-                {
-                    array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
-                }
-
-                array_push($clause_join,
-                           "left outer join " .
-                           "(select r.record_id, {$txtval} as value{$column['column_id']} " .
-                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
-                           "left outer join tbl_text_values tv on fv.value_id = tv.value_id " .
-                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_MULTILINED . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
-                           "on r.record_id = v{$column['column_id']}.record_id");
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, DATABASE_DRIVER == DRIVER_ORACLE9
-                                                    ? "to_char(v{$column['column_id']}.value{$column['column_id']}) asc"
-                                                    : "v{$column['column_id']}.value{$column['column_id']} asc");
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, DATABASE_DRIVER == DRIVER_ORACLE9
-                                                    ? "to_char(v{$column['column_id']}.value{$column['column_id']}) desc"
-                                                    : "v{$column['column_id']}.value{$column['column_id']} desc");
-                }
-
-                break;
-
-            case COLUMN_TYPE_LIST_STRING:
-
-                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
-
-                array_push($clause_join,
-                           "left outer join " .
-                           "(select r.record_id, lv.str_value as value{$column['column_id']} " .
-                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
-                           "left outer join tbl_list_values lv on fv.field_id = lv.field_id and fv.value_id = lv.int_value " .
-                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_LIST . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
-                           "on r.record_id = v{$column['column_id']}.record_id");
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
-                }
-
-                break;
-
-            case COLUMN_TYPE_NUMBER:
-            case COLUMN_TYPE_CHECKBOX:
-            case COLUMN_TYPE_LIST_NUMBER:
-            case COLUMN_TYPE_RECORD:
-            case COLUMN_TYPE_DATE:
-            case COLUMN_TYPE_DURATION:
-
-                $types = array
-                (
-                    COLUMN_TYPE_NUMBER      => FIELD_TYPE_NUMBER,
-                    COLUMN_TYPE_CHECKBOX    => FIELD_TYPE_CHECKBOX,
-                    COLUMN_TYPE_LIST_NUMBER => FIELD_TYPE_LIST,
-                    COLUMN_TYPE_RECORD      => FIELD_TYPE_RECORD,
-                    COLUMN_TYPE_DATE        => FIELD_TYPE_DATE,
-                    COLUMN_TYPE_DURATION    => FIELD_TYPE_DURATION,
-                );
-
-                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
-
-                array_push($clause_join,
-                           "left outer join " .
-                           "(select r.record_id, fv.value_id as value{$column['column_id']} " .
-                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
-                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = {$types[$column['column_type']]} and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
-                           "on r.record_id = v{$column['column_id']}.record_id");
-
-                if ($i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} asc");
-                }
-                elseif (-$i == $sort)
-                {
-                    array_push($clause_order, "v{$column['column_id']}.value{$column['column_id']} desc");
-                }
-
-                break;
-
-            default:
-                debug_write_log(DEBUG_WARNING, '[records_list] Unknown column type = ' . $column['column_type']);
-        }
     }
 
     // Add search conditions if search is activated.
@@ -900,6 +531,409 @@ SQL;
         }
     }
 
+    // Create basic query.
+
+    $sql = 'select ' . implode(', ',    array_unique($clause_select)) .
+           ' from '  . implode(', ',    array_unique($clause_from))   .
+           ', '      . implode(' ',     array_unique($clause_join))   .
+           ' where ' . implode(' and ', array_unique($clause_where));
+
+    $clause_select = array('r.*');
+    $clause_select = array('r.record_id',
+                           'r.subject',
+                           'r.responsible_id',
+                           'r.creator_id',
+                           'r.creation_time',
+                           'r.change_time',
+                           'r.closure_time',
+                           'r.postpone_time',
+                           'r.project_name',
+                           'r.template_name',
+                           'r.template_prefix',
+                           'r.critical_age',
+                           'r.state_name',
+                           'r.state_abbr',
+                           'r.read_time');
+    $clause_from   = array();
+    $clause_join   = array();
+    $clause_where  = array();
+    $clause_order  = array();
+
+    // SQL condition to check that current user is allowed to read the field.
+
+    $sql_field_perms = <<<SQL
+
+        f.field_id in (select f.field_id
+                       from
+                           tbl_group_perms  gp,
+                           tbl_membership   ms,
+                           tbl_field_perms  fp,
+                           tbl_fields f
+                       where
+                           fp.field_id   = f.field_id  and
+                           fp.group_id   = gp.group_id and
+                           ms.group_id   = gp.group_id and
+                           ms.account_id = {$_SESSION[VAR_USERID]} and
+                           fp.perms      = 1)
+
+        or r.creator_id = {$_SESSION[VAR_USERID]} and
+           f.field_id in (select f.field_id
+                          from tbl_fields f
+                          where f.author_perm >= 1)
+
+        or r.responsible_id = {$_SESSION[VAR_USERID]} and
+           f.field_id in (select f.field_id
+                          from tbl_fields f
+                          where f.responsible_perm >= 1)
+
+        or f.field_id in (select f.field_id
+                          from tbl_fields f
+                          where f.registered_perm >= 1 or f.guest_access = 1)
+SQL;
+
+    // Generate columns of the current view.
+
+    foreach ($columns as $i => $column)
+    {
+        $i += 1;
+
+        switch ($column['column_type'])
+        {
+            case COLUMN_TYPE_ID:
+
+                array_push($clause_select, 'r.template_prefix');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'record_id asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'record_id desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_STATE_ABBR:
+
+                array_push($clause_select, 'r.state_abbr');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'state_abbr asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'state_abbr desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_PROJECT:
+
+                array_push($clause_select, 'r.project_name');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'project_name asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'project_name desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_SUBJECT:
+
+                array_push($clause_select, 'r.subject');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'subject asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'subject desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_AUTHOR:
+
+                array_push($clause_select, 'ac.fullname as author_fullname');
+                array_push($clause_join,   'left outer join tbl_accounts ac on ac.account_id = r.creator_id');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'author_fullname asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'author_fullname desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_RESPONSIBLE:
+
+                array_push($clause_select, 'ar.fullname as responsible_fullname');
+                array_push($clause_join,   'left outer join tbl_accounts ar on ar.account_id = r.responsible_id');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'responsible_fullname asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'responsible_fullname desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_LAST_EVENT:
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'change_time asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'change_time desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_AGE:
+
+                array_push($clause_select, '(' . $time . ' - r.creation_time) as opened_age');
+                array_push($clause_select, '(r.closure_time - r.creation_time) as closed_age');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'closed_age asc');
+                    array_push($clause_order, 'opened_age asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'closed_age desc');
+                    array_push($clause_order, 'opened_age desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_CREATION_DATE:
+
+                array_push($clause_select, 'r.creation_time');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'creation_time asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'creation_time desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_TEMPLATE:
+
+                array_push($clause_select, 'r.template_name');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'template_name asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'template_name desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_STATE_NAME:
+
+                array_push($clause_select, 'r.state_name');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'state_name asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'state_name desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_LAST_STATE:
+
+                array_push($clause_select, 'st.state_time');
+                array_push($clause_from,   '(select record_id, max(event_time) as state_time' .
+                                           ' from tbl_events' .
+                                           ' where event_type = 1 or event_type = 4' .
+                                           ' group by record_id) st');
+                array_push($clause_where,  'r.record_id = st.record_id');
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, 'state_time asc');
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, 'state_time desc');
+                }
+
+                break;
+
+            case COLUMN_TYPE_FLOAT:
+
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
+
+                array_push($clause_join,
+                           "left outer join " .
+                           "(select r.record_id, flv.float_value as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "left outer join tbl_float_values flv on fv.value_id = flv.value_id " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_FLOAT . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
+                           "on r.record_id = v{$column['column_id']}.record_id");
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} asc");
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} desc");
+                }
+
+                break;
+
+            case COLUMN_TYPE_STRING:
+
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
+
+                array_push($clause_join,
+                           "left outer join " .
+                           "(select r.record_id, sv.string_value as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "left outer join tbl_string_values sv on fv.value_id = sv.value_id " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_STRING . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
+                           "on r.record_id = v{$column['column_id']}.record_id");
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} asc");
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} desc");
+                }
+
+                break;
+
+            case COLUMN_TYPE_MULTILINED:
+
+                $txtval = (DATABASE_DRIVER == DRIVER_MSSQL2K ? 'substring(tv.text_value, 1, 4000)' : 'substr(tv.text_value, 1, 4000)');
+
+                if (DATABASE_DRIVER == DRIVER_ORACLE9)
+                {
+                    array_push($clause_select, "to_char(v{$column['column_id']}.value{$column['column_id']}) as \"value{$column['column_id']}\"");
+                }
+                else
+                {
+                    array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
+                }
+
+                array_push($clause_join,
+                           "left outer join " .
+                           "(select r.record_id, {$txtval} as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "left outer join tbl_text_values tv on fv.value_id = tv.value_id " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_MULTILINED . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
+                           "on r.record_id = v{$column['column_id']}.record_id");
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, DATABASE_DRIVER == DRIVER_ORACLE9
+                                                    ? "to_char(value{$column['column_id']}) asc"
+                                                    : "value{$column['column_id']} asc");
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, DATABASE_DRIVER == DRIVER_ORACLE9
+                                                    ? "to_char(value{$column['column_id']}) desc"
+                                                    : "value{$column['column_id']} desc");
+                }
+
+                break;
+
+            case COLUMN_TYPE_LIST_STRING:
+
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
+
+                array_push($clause_join,
+                           "left outer join " .
+                           "(select r.record_id, lv.str_value as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "left outer join tbl_list_values lv on fv.field_id = lv.field_id and fv.value_id = lv.int_value " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = " . FIELD_TYPE_LIST . " and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
+                           "on r.record_id = v{$column['column_id']}.record_id");
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} asc");
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} desc");
+                }
+
+                break;
+
+            case COLUMN_TYPE_NUMBER:
+            case COLUMN_TYPE_CHECKBOX:
+            case COLUMN_TYPE_LIST_NUMBER:
+            case COLUMN_TYPE_RECORD:
+            case COLUMN_TYPE_DATE:
+            case COLUMN_TYPE_DURATION:
+
+                $types = array
+                (
+                    COLUMN_TYPE_NUMBER      => FIELD_TYPE_NUMBER,
+                    COLUMN_TYPE_CHECKBOX    => FIELD_TYPE_CHECKBOX,
+                    COLUMN_TYPE_LIST_NUMBER => FIELD_TYPE_LIST,
+                    COLUMN_TYPE_RECORD      => FIELD_TYPE_RECORD,
+                    COLUMN_TYPE_DATE        => FIELD_TYPE_DATE,
+                    COLUMN_TYPE_DURATION    => FIELD_TYPE_DURATION,
+                );
+
+                array_push($clause_select, "v{$column['column_id']}.value{$column['column_id']}");
+
+                array_push($clause_join,
+                           "left outer join " .
+                           "(select r.record_id, fv.value_id as value{$column['column_id']} " .
+                           "from tbl_records r, tbl_states s, tbl_fields f, tbl_events e, tbl_field_values fv " .
+                           "where r.record_id = e.record_id and s.state_id = f.state_id and s.state_name = '{$column['state_name']}' and f.field_id = fv.field_id and f.field_name = '{$column['field_name']}' and f.field_type = {$types[$column['column_type']]} and e.event_id = fv.event_id and fv.is_latest = 1 and ({$sql_field_perms})) v{$column['column_id']} " .
+                           "on r.record_id = v{$column['column_id']}.record_id");
+
+                if ($i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} asc");
+                }
+                elseif (-$i == $sort)
+                {
+                    array_push($clause_order, "value{$column['column_id']} desc");
+                }
+
+                break;
+
+            default:
+                debug_write_log(DEBUG_WARNING, '[records_list] Unknown column type = ' . $column['column_type']);
+        }
+    }
+
     // Add default sorting.
 
     if ($sort < 0)
@@ -913,11 +947,18 @@ SQL;
 
     // Bring it all together.
 
+    array_push($clause_from, "({$sql}) r");
+
     $sql = 'select '    . implode(', ',    array_unique($clause_select)) .
            ' from '     . implode(', ',    array_unique($clause_from))   .
-           ', '         . implode(' ',     array_unique($clause_join))   .
-           ' where '    . implode(' and ', array_unique($clause_where))  .
-           ' order by ' . implode(', ',    array_unique($clause_order));
+           ' '          . implode(' ',     array_unique($clause_join));
+
+    if (count($clause_where) != 0)
+    {
+        $sql .= ' where ' . implode(' and ', array_unique($clause_where));
+    }
+
+    $sql .= ' order by ' . implode(', ', array_unique($clause_order));
 
     return new CRecordset($sql);
 }
