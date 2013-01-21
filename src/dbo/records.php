@@ -938,11 +938,11 @@ SQL;
 
     if ($sort < 0)
     {
-        array_push($clause_order, 'r.record_id desc');
+        array_push($clause_order, 'record_id desc');
     }
     else
     {
-        array_push($clause_order, 'r.record_id asc');
+        array_push($clause_order, 'record_id asc');
     }
 
     // Bring it all together.
