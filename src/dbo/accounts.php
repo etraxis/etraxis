@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2012  Artem Rodygin
+//  Copyright (C) 2005-2013  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -405,7 +405,7 @@ function account_create ($username, $fullname, $email, $passwd, $description, $i
               HTML_TEXTBOX_DEFAULT_HEIGHT,
               DEFAULT_PAGE_ROWS,
               DEFAULT_PAGE_BKMS,
-              DEF_THEME_NAME);
+              THEME_DEFAULT);
 
     // Find newly created account.
     $rs = dal_query('accounts/fndk.sql', ustrtolower($username . ($is_ldapuser ? NULL : ACCOUNT_SUFFIX)));
