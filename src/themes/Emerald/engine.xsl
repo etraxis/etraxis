@@ -35,7 +35,7 @@
     <meta http-equiv="Content-Style-Type" content="text/css"/>
     <meta http-equiv="Content-Script-Type" content="text/javascript"/>
     <meta name="author" content="Artem Rodygin"/>
-    <meta name="copyright" content="Copyright (C) 2003-2011 by Artem Rodygin"/>
+    <meta name="copyright" content="Copyright (C) 2003-2013 by Artem Rodygin"/>
     <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
     <xsl:apply-templates select="css"/>
     <title>
@@ -122,7 +122,7 @@
         <xsl:apply-templates select="tabs|content"/>
         <div id="copyright">
         <a href="https://www.etraxis.com/" target="_blank">
-        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2011 by Artem Rodygin &amp;minus; </xsl:text><xsl:value-of select="@version"/>
+        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2013 by Artem Rodygin &amp;minus; </xsl:text><xsl:value-of select="@version"/>
         </a>
         </div>
     </div>

@@ -47,7 +47,7 @@ require_once('../dbo/reminders.php');
 /**
  * Version info.
  */
-define('VERSION', '3.6.15');
+define('VERSION', '3.6.16');
 
 /**
  * Number of lines in a <textarea> control.

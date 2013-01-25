@@ -2,6 +2,14 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-16 (2013-01-26)
+
+    Issue 350: Themes - Duplicate Default Values in config.php and engine\themes.php
+    Issue 362: Patch for /src/engine/res/polish.php
+    Issue 364: Poor performance on MS SQL 2008 with many user-defined columns in view
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 New features integrated in MAIN_3-6-15 (2012-07-12)
 
     Issue 343: Improve list of records query by using database cache.
