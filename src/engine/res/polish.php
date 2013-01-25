@@ -85,7 +85,7 @@ $resource_polish = array
     'Nieprawidłowa nazwa użytkownika lub hasła.',
     'Nieznany błąd.',
     'Błąd parsowania XMLa.',
-    NULL,
+    'Zmiany zostały zapisane.',
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
@@ -506,8 +506,8 @@ $resource_polish = array
     'Właściciel',
     /* 1360 */
     'Każdy.',
-    'Oznacz jako nieprzeczytany',
-    'Nadrzędny recordy',
+    'Oznacz jako nieprzeczytane',
+    'Nadrzędne rekordy',
 );
 
 ?>
