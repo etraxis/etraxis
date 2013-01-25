@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2004-2012  Artem Rodygin
+//  Copyright (C) 2004-2013  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -203,7 +203,7 @@ function xml2html ($xml, $title = NULL, $xsl = 'engine.xsl')
 
         $header .= '>';
 
-        $theme = isset($_SESSION[VAR_THEME_NAME]) ? $_SESSION[VAR_THEME_NAME] : DEF_THEME_NAME;
+        $theme = isset($_SESSION[VAR_THEME_NAME]) ? $_SESSION[VAR_THEME_NAME] : THEME_DEFAULT;
 
         $header .= '<css>../themes/css.php?name=' . $theme . '/jquery-ui.css</css>'
                  . '<css>../themes/css.php?name=' . $theme . '/jquery.jqplot.css</css>'
