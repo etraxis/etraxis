@@ -213,7 +213,7 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
                        'where e.event_id = fv.event_id and fv.field_type = ' . FIELD_TYPE_NUMBER . ' and fv.is_latest = 1 and fv.value_id = ' . $search_text);
         }
 
-        $search_text = "'%" . ustr2sql($search_text) . "%'";
+        $search_text = "'%" . ustr2sql(ustrtolower($search_text)) . "%'";
 
         $search_in_subject  = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(r.subject)       like ' . $search_text;
         $search_in_svalues  = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(sv.string_value) like ' . $search_text;
