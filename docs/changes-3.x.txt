@@ -2,6 +2,12 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Bug fixes integrated in MAIN_3-6-17 (2013-04-24)
+
+    Issue 374: Oracle Text Search Function only works if no UPPERCASE is used
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-16 (2013-01-26)
 
     Issue 350: Themes - Duplicate Default Values in config.php and engine\themes.php
