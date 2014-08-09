@@ -284,7 +284,11 @@ else
 
         if ($rs_res->rows != 0)
         {
-            $default_responsible = (is_null($record['responsible_id']) ? $_SESSION[VAR_USERID] : $record['responsible_id']);
+            $rs_last = dal_query('records/lastresp.sql', $id);
+
+            $last_responsible = ($rs_last->rows == 0) ? $_SESSION[VAR_USERID] : $rs_last->fetch('event_param');
+
+            $default_responsible = (is_null($record['responsible_id']) ? $last_responsible : $record['responsible_id']);
 
             $xml .= '<control name="responsible" required="' . get_html_resource(RES_REQUIRED3_ID) . '">'
                   . '<label>' . get_html_resource(RES_RESPONSIBLE_ID) . '</label>'
