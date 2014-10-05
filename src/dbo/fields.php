@@ -1230,7 +1230,7 @@ function field_export ($id, &$groups)
                     break;
 
                 case FIELD_TYPE_CHECKBOX:
-                    $xml .= sprintf(' default="%u"', ($field['value_id'] ? 'on' : 'off'));
+                    $xml .= sprintf(' default="%s"', ($field['value_id'] ? 'on' : 'off'));
                     break;
 
                 case FIELD_TYPE_DATE:
