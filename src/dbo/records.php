@@ -1881,7 +1881,7 @@ function comment_add ($id, $comment, $is_confidential = FALSE)
 
     if (DATABASE_DRIVER == DRIVER_ORACLE9)
     {
-        $handle = CDatabase::connect()->link;
+        $handle = CDatabase::connect()->link->handle;
         $sql = file_get_contents(LOCALROOT . '/sql/comments/oracle/create.sql');
 
         $stid = ociparse($handle, $sql);
