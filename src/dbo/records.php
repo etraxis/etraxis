@@ -449,8 +449,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
                                 switch (DATABASE_DRIVER)
                                 {
                                     case DRIVER_MYSQL50:
-                                    case DRIVER_ORACLE9:
                                         $concat = "concat('%', sf.string_value, '%')";
+                                        break;
+                                    case DRIVER_ORACLE9:
+                                        $concat = "concat(concat('%', sf.string_value), '%')";
                                         break;
                                     case DRIVER_MSSQL2K:
                                         $concat = "'%' + sf.string_value + '%'";
@@ -493,8 +495,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
                                 switch (DATABASE_DRIVER)
                                 {
                                     case DRIVER_MYSQL50:
-                                    case DRIVER_ORACLE9:
                                         $concat = "concat('%', sf.string_value, '%')";
+                                        break;
+                                    case DRIVER_ORACLE9:
+                                        $concat = "concat(concat('%', sf.string_value), '%')";
                                         break;
                                     case DRIVER_MSSQL2K:
                                         $concat = "'%' + sf.string_value + '%'";
