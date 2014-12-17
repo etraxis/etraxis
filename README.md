@@ -1,4 +1,4 @@
-## What is eTraxis
+## What is eTraxis [![Build Status](https://scrutinizer-ci.com/g/etraxis/etraxis-obsolete/badges/build.png?b=master)](https://scrutinizer-ci.com/g/etraxis/etraxis-obsolete/build-status/master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/etraxis/etraxis-obsolete/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/etraxis/etraxis-obsolete/?branch=master)
 
 eTraxis is an issues tracking system with ability to set up unlimited number of fully customizable workflows. eTraxis can be used for tracking almost anything, but the most popular cases are *bugs tracker* and *helpdesk system*.
 
