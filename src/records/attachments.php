@@ -68,7 +68,9 @@ if (try_request('submitted') == 'attachform')
     {
         $attachname = ustrcut($_REQUEST['attachname'], MAX_ATTACHMENT_NAME);
 
-        $error = attachment_add($id, $attachname, $_FILES['attachfile']);
+        $error = isset($_FILES['attachfile'])
+            ? attachment_add($id, $attachname, $_FILES['attachfile'])
+            : ERROR_UPLOAD_NO_FILE;
 
         switch ($error)
         {
