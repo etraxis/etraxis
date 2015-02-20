@@ -355,6 +355,7 @@ else
 
             if (!is_null($value))
             {
+                $value = date_offset($today, $value);
                 $value = ustr2int($value, $row['param1'], $row['param2']);
             }
         }
