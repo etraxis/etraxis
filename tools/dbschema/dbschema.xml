@@ -420,6 +420,11 @@
         <column>record_id</column>
     </index>
 
+    <index name="ix_evts_comb">
+        <column>event_id</column>
+        <column>record_id</column>
+    </index>
+
 </table>
 
 <table name="tbl_field_values">
@@ -440,6 +445,13 @@
 
     <index name="ix_value">
         <column>value_id</column>
+    </index>
+
+    <index name="ix_fva_comb">
+        <column>value_id</column>
+        <column>field_type</column>
+        <column>is_latest</column>
+        <column>event_id</column>
     </index>
 
 </table>

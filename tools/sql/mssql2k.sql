@@ -657,6 +657,8 @@ references tbl_accounts
 
 create index ix_record on tbl_events (record_id);
 
+create index ix_evts_comb on tbl_events (event_id, record_id);
+
 create table tbl_field_values
 (
     event_id int not null,
@@ -691,6 +693,8 @@ references tbl_fields
 );
 
 create index ix_value on tbl_field_values (value_id);
+
+create index ix_fva_comb on tbl_field_values (value_id, field_type, is_latest, event_id);
 
 create table tbl_changes
 (
