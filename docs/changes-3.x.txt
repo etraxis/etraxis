@@ -2,6 +2,19 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Changes integrated in MAIN_3-7-0 (2015-02-21)
+
+    Issue 377: error in value_find_multilined for Oracle
+    Issue 378: export to XML - "checkbox" default value is not exported
+    Fix #1: custom filter doesn't work with Oracle
+    Fix #3: Default value for Date fields not working when changing state
+    Fix #4: SQL optimalization - some indexes
+    Fix #5: SQL optimalization - record search
+    Make last responsible a default one.
+    PHP Notice: Undefined index: attachfile
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Bug fixes integrated in MAIN_3-6-17 (2013-04-24)
 
     Issue 374: Oracle Text Search Function only works if no UPPERCASE is used

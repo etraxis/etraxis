@@ -2,20 +2,20 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-6-17
-Release date: 2013-04-24
-Release size: 50084
+Release tag:  MAIN_3-7-0
+Release date: 2015-02-21
+Release size: 49728
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Project home:       http://code.google.com/p/etraxis/
+Project home:       https://github.com/etraxis/etraxis-obsolete
 Project blog:       http://etraxis.blogspot.com/
-Feedback & Support: http://groups.google.com/group/etraxis
+Feedback & Support: https://forum.etraxis.com/
 
-Installation:       http://code.google.com/p/etraxis/wiki/Installation
-Upgrade:            http://code.google.com/p/etraxis/wiki/Upgrade
+Installation:       https://github.com/etraxis/etraxis-obsolete/wiki/Install
+Upgrade:            https://github.com/etraxis/etraxis-obsolete/wiki/Upgrading-eTraxis
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 THIRD PARTY LIBRARIES
@@ -32,9 +32,22 @@ Form Plugin:        3.09    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[M] src/dbo/fields.php
 [M] src/dbo/records.php
-[M] src/engine/res/spanish.php
+[M] src/dbo/values.php
 [M] src/engine/xml.php
+[M] src/records/attachments.php
+[M] src/records/state.php
+[A] src/sql/records/lastresp.sql
+[M] tools/dbschema/dbschema.xml
+[M] tools/sql/mssql2k.sql
+[M] tools/sql/mysql50.sql
+[M] tools/sql/ora9i.sql
+[M] tools/sql/pgsql80.sql
+[A] tools/upgrade/3.6.x-3.7.x/mssql2k.sql
+[A] tools/upgrade/3.6.x-3.7.x/mysql50.sql
+[A] tools/upgrade/3.6.x-3.7.x/ora9i.sql
+[A] tools/upgrade/3.6.x-3.7.x/pgsql80.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -60,15 +73,16 @@ Swedish
 Turkish
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-NEW FEATURES INTEGRATED IN THIS RELEASE
+CHANGES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-None.
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-BUG FIXES INTEGRATED IN THIS RELEASE
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Issue 374: Oracle Text Search Function only works if no UPPERCASE is used
+- Issue 377: error in value_find_multilined for Oracle
+- Issue 378: export to XML - "checkbox" default value is not exported
+- Fix #1: custom filter doesn't work with Oracle
+- Fix #3: Default value for Date fields not working when changing state
+- Fix #4: SQL optimalization - some indexes
+- Fix #5: SQL optimalization - record search
+- Make last responsible a default one.
+- PHP Notice: Undefined index: attachfile
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
