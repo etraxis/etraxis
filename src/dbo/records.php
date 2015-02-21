@@ -202,6 +202,7 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
     if ($search_mode)
     {
         debug_write_log(DEBUG_NOTICE, '[records_list] Search mode is turned on.');
+        debug_write_log(DEBUG_DUMP,   '[records_list] $search_text = ' . $search_text);
 
         $search = array();
 
@@ -243,7 +244,23 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
                    'where e.event_id = c.event_id and ' .
                    $search_in_comments);
 
-        array_push($clause_where, 'r.record_id in (' . implode(' union ', $search) . ')');
+        $sql = 'select record_id from (' . implode(' union ', $search) . ') data';
+
+        $ids = array();
+        $rsx = new CRecordset($sql);
+
+        while (($row = $rsx->fetch()))
+        {
+            array_push($ids, $row['record_id']);
+        }
+
+        $search_ids = (count($ids) == 0)
+                   ? 'NULL'
+                   : implode(', ', $ids);
+
+        debug_write_log(DEBUG_NOTICE, '[records_list] $search_ids = [' . $search_ids . ']' );
+
+        array_push($clause_where, 'r.record_id in (' . $search_ids . ')');
     }
 
     // Add filters, if it's not a search or if it's a filtered search.
