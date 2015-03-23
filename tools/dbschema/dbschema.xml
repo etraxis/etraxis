@@ -372,6 +372,12 @@
     <foreign name="fk_reads_record_id" table="tbl_records">record_id</foreign>
     <foreign name="fk_reads_account_id" table="tbl_accounts">account_id</foreign>
 
+    <index name="ix_rds_comb">
+        <column>record_id</column>
+        <column>account_id</column>
+        <column>read_time</column>
+    </index>
+
 </table>
 
 <table name="tbl_record_subscribes">
@@ -454,6 +460,13 @@
         <column>event_id</column>
     </index>
 
+    <index name="ix_fva_comb2">
+        <column>field_id</column>
+        <column>value_id</column>
+        <column>is_latest</column>
+        <column>event_id</column>
+    </index>
+
 </table>
 
 <table name="tbl_changes">
@@ -502,6 +515,11 @@
         <column>value_token</column>
     </unique>
 
+    <index name="ix_svl_id_val">
+        <column>value_id</column>
+        <column>string_value</column>
+    </index>
+
 </table>
 
 <table name="tbl_text_values">
@@ -537,6 +555,12 @@
     </unique>
 
     <foreign name="fk_list_values_field_id" table="tbl_fields">field_id</foreign>
+
+    <index name="ix_lvl_id_val">
+        <column>field_id</column>
+        <column>int_value</column>
+        <column>str_value</column>
+    </index>
 
 </table>
 

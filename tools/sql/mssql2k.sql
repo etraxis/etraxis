@@ -572,6 +572,8 @@ references tbl_accounts
     account_id
 );
 
+create index ix_rds_comb on tbl_reads (record_id, account_id, read_time);
+
 create table tbl_record_subscribes
 (
     record_id int not null,
@@ -696,6 +698,8 @@ create index ix_value on tbl_field_values (value_id);
 
 create index ix_fva_comb on tbl_field_values (value_id, field_type, is_latest, event_id);
 
+create index ix_fva_comb2 on tbl_field_values (field_id, value_id, is_latest, event_id);
+
 create table tbl_changes
 (
     event_id int not null,
@@ -761,6 +765,8 @@ alter table tbl_string_values add constraint ix_string_values unique nonclustere
     value_token
 );
 
+create index ix_svl_id_val on tbl_string_values (value_id, string_value);
+
 create table tbl_text_values
 (
     value_id int identity (1,1) not null,
@@ -805,6 +811,8 @@ references tbl_fields
 (
     field_id
 );
+
+create index ix_lvl_id_val on tbl_list_values (field_id, int_value, str_value);
 
 create table tbl_comments
 (
