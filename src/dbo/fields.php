@@ -24,7 +24,7 @@
  * Fields
  *
  * This module provides API to work with eTraxis fields.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_fields tbl_fields} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_fields tbl_fields} database table.
  *
  * @package DBO
  * @subpackage Fields

@@ -24,7 +24,7 @@
  * Views
  *
  * This module provides API to work with user views.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_views tbl_views} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_views tbl_views} database table.
  *
  * @package DBO
  * @subpackage Views

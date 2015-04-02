@@ -24,7 +24,7 @@
  * Accounts
  *
  * This module provides API to work with eTraxis accounts.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_accounts tbl_accounts} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_accounts tbl_accounts} database table.
  *
  * @package DBO
  * @subpackage Accounts

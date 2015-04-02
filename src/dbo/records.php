@@ -24,7 +24,7 @@
  * Records
  *
  * This module provides API to work with records.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_records tbl_records} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_records tbl_records} database table.
  *
  * @package DBO
  * @subpackage Records

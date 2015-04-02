@@ -24,7 +24,7 @@
  * Events
  *
  * This module provides API to work with events of records.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_events tbl_events} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_events tbl_events} database table.
  *
  * @package DBO
  * @subpackage Events

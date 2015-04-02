@@ -24,7 +24,7 @@
  * Templates
  *
  * This module provides API to work with eTraxis templates.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_templates tbl_templates} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_templates tbl_templates} database table.
  *
  * @package DBO
  * @subpackage Templates

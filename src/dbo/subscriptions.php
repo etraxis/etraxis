@@ -24,7 +24,7 @@
  * Subscriptions
  *
  * This module provides API to work with user subscriptions.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_subscribes tbl_subscribes} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_subscribes tbl_subscribes} database table.
  *
  * @package DBO
  * @subpackage Subscriptions

@@ -24,7 +24,7 @@
  * States
  *
  * This module provides API to work with eTraxis states.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_states tbl_states} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_states tbl_states} database table.
  *
  * @package DBO
  * @subpackage States

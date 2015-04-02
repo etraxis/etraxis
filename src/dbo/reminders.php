@@ -24,7 +24,7 @@
  * Reminders
  *
  * This module provides API to work with user reminders.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_reminders tbl_reminders} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_reminders tbl_reminders} database table.
  *
  * @package DBO
  * @subpackage Reminders

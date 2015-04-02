@@ -24,7 +24,7 @@
  * Filters
  *
  * This module provides API to work with user filters.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_filters tbl_filters} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_filters tbl_filters} database table.
  *
  * @package DBO
  * @subpackage Filters

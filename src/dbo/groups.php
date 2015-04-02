@@ -24,7 +24,7 @@
  * Groups
  *
  * This module provides API to work with eTraxis groups.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_groups tbl_groups} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_groups tbl_groups} database table.
  *
  * @package DBO
  * @subpackage Groups

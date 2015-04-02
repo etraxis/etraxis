@@ -24,7 +24,7 @@
  * Values
  *
  * This module provides API to work with values of custom fields.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_field_values tbl_field_values} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_field_values tbl_field_values} database table.
  *
  * @package DBO
  * @subpackage Values

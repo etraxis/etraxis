@@ -24,7 +24,7 @@
  * Projects
  *
  * This module provides API to work with eTraxis projects.
- * See also {@link http://code.google.com/p/etraxis/wiki/DatabaseSchema#tbl_projects tbl_projects} database table.
+ * See also {@link https://github.com/etraxis/etraxis-obsolete/wiki/tbl_projects tbl_projects} database table.
  *
  * @package DBO
  * @subpackage Projects
