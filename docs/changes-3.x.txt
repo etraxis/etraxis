@@ -2,6 +2,13 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Changes integrated in MAIN_3-8-0 (2015-04-02)
+
+    Fix #6: Some more indexes
+    Fix #7: Search in PostgreSQL is case-sensitive
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Changes integrated in MAIN_3-7-0 (2015-02-21)
 
     Issue 377: error in value_find_multilined for Oracle
