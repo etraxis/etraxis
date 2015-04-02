@@ -216,10 +216,10 @@ function records_list ($columns, &$sort, &$page, $search_mode = FALSE, $search_t
 
         $search_text = "'%" . ustr2sql(ustrtolower($search_text)) . "%'";
 
-        $search_in_subject  = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(r.subject)       like ' . $search_text;
-        $search_in_svalues  = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(sv.string_value) like ' . $search_text;
-        $search_in_tvalues  = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(tv.text_value)   like ' . $search_text;
-        $search_in_comments = (DATABASE_DRIVER == DRIVER_ORACLE9 ? 'lower' : NULL) . '(c.comment_body)  like ' . $search_text;
+        $search_in_subject  = (in_array(DATABASE_DRIVER, array(DRIVER_ORACLE9, DRIVER_PGSQL80)) ? 'lower' : NULL) . '(r.subject)       like ' . $search_text;
+        $search_in_svalues  = (in_array(DATABASE_DRIVER, array(DRIVER_ORACLE9, DRIVER_PGSQL80)) ? 'lower' : NULL) . '(sv.string_value) like ' . $search_text;
+        $search_in_tvalues  = (in_array(DATABASE_DRIVER, array(DRIVER_ORACLE9, DRIVER_PGSQL80)) ? 'lower' : NULL) . '(tv.text_value)   like ' . $search_text;
+        $search_in_comments = (in_array(DATABASE_DRIVER, array(DRIVER_ORACLE9, DRIVER_PGSQL80)) ? 'lower' : NULL) . '(c.comment_body)  like ' . $search_text;
 
         array_push($search,
                    'select r.record_id ' .
