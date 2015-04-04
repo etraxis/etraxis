@@ -1254,6 +1254,8 @@ function record_validate ($operation, $subject, $record_id, $state_id, $creator_
                         return ERROR_INVALID_DATE_VALUE;
                     }
 
+                    $date += $_SESSION[VAR_TIMEZONE] - intval(date('Z'));
+
                     if ($date < $row['param1'] ||
                         $date > $row['param2'])
                     {
