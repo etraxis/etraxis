@@ -2,6 +2,13 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Changes integrated in MAIN_3-8-1 (2015-04-05)
+
+    Fix #8: Can't enter minimum value to "date" field
+    Fix #9: PHP Deprecated: The mysql extension is deprecated and will be removed in the future
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Changes integrated in MAIN_3-8-0 (2015-04-02)
 
     Fix #6: Some more indexes

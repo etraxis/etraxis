@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-8-0
-Release date: 2015-04-02
-Release size: 49796
+Release tag:  MAIN_3-8-1
+Release date: 2015-04-05
+Release size: 49917
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -33,16 +33,9 @@ CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 [M] src/dbo/records.php
+[M] src/diag/index.php
+[M] src/engine/dal.php
 [M] src/engine/xml.php
-[M] tools/dbschema/dbschema.xml
-[M] tools/sql/mssql2k.sql
-[M] tools/sql/mysql50.sql
-[M] tools/sql/ora9i.sql
-[M] tools/sql/pgsql80.sql
-[A] tools/upgrade/3.7.x-3.8.x/mssql2k.sql
-[A] tools/upgrade/3.7.x-3.8.x/mysql50.sql
-[A] tools/upgrade/3.7.x-3.8.x/ora9i.sql
-[A] tools/upgrade/3.7.x-3.8.x/pgsql80.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -71,7 +64,7 @@ Turkish
 CHANGES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Fix #6: Some more indexes
-- Fix #7: Search in PostgreSQL is case-sensitive
+- Fix #8: Can't enter minimum value to "date" field
+- Fix #9: PHP Deprecated: The mysql extension is deprecated and will be removed in the future
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
