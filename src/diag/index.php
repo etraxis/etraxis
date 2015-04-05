@@ -228,7 +228,7 @@ $extensions = array('bcmath', 'iconv', 'libxml', 'mbstring', 'simplexml', 'xsl')
 switch (DATABASE_DRIVER)
 {
     case DRIVER_MYSQL50:
-        array_push($extensions, 'mysql');
+        array_push($extensions, extension_loaded('mysqli') ? 'mysqli' : 'mysql');
         break;
 
     case DRIVER_MSSQL2K:
@@ -354,40 +354,29 @@ switch (DATABASE_DRIVER)
 {
     case DRIVER_MYSQL50:
 
-        $link = mysql_connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD);
-
-        if ($link)
+        if (extension_loaded('mysqli'))
         {
-            if (mysql_select_db(DATABASE_DBNAME, $link))
+            $link = mysqli_connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_DBNAME);
+
+            if ($link)
             {
-                mysql_query('set names utf8', $link);
+                mysqli_query($link, 'set names utf8');
 
-                $res = mysql_query('select var_value from tbl_sys_vars where var_name = \'FEATURE_LEVEL\'', $link);
+                $res = mysqli_query($link, 'select var_value from tbl_sys_vars where var_name = \'FEATURE_LEVEL\'');
 
-                if (is_resource($res))
+                if (is_object($res))
                 {
-                    $row = mysql_fetch_array($res, MYSQL_BOTH);
+                    $row = mysqli_fetch_array($res, MYSQLI_BOTH);
 
                     if (is_array($row))
                     {
-                        if (mysql_free_result($res))
-                        {
-                            $message = '<a class="pass">PASS</a> <i>(MySQL / feature level ' . $row['var_value'] . ')</i>';
-                        }
-                        else
-                        {
-                            $errno = mysql_errno($link);
-                            $error = mysql_error($link);
-
-                            $message = ($errno == 0 || strlen($error) == 0)
-                                     ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on releasing recordset)</i>'
-                                     : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on releasing recordset - ' . $error . ')</i>';
-                        }
+                        mysqli_free_result($res);
+                        $message = '<a class="pass">PASS</a> <i>(MySQL / feature level ' . $row['var_value'] . ')</i>';
                     }
                     else
                     {
-                        $errno = mysql_errno($link);
-                        $error = mysql_error($link);
+                        $errno = mysqli_errno($link);
+                        $error = mysqli_error($link);
 
                         $message = ($errno == 0 || strlen($error) == 0)
                                  ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on fetching data)</i>'
@@ -396,29 +385,89 @@ switch (DATABASE_DRIVER)
                 }
                 else
                 {
-                    $errno = mysql_errno($link);
-                    $error = mysql_error($link);
+                    $errno = mysqli_errno($link);
+                    $error = mysqli_error($link);
 
                     $message = ($errno == 0 || strlen($error) == 0)
                              ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on query database)</i>'
                              : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on query database - ' . $error . ')</i>';
                 }
+
+                mysqli_close($link);
             }
             else
             {
-                $errno = mysql_errno($link);
-                $error = mysql_error($link);
-
-                $message = ($errno == 0 || strlen($error) == 0)
-                         ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on selecting database)</i>'
-                         : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on selecting database - ' . $error . ')</i>';
+                $message = '<a class="fail">FAIL</a> <i>(MySQL server cannot be connected)</i>';
             }
-
-            mysql_close($link);
         }
         else
         {
-            $message = '<a class="fail">FAIL</a> <i>(MySQL server cannot be connected)</i>';
+            $link = mysql_connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD);
+
+            if ($link)
+            {
+                if (mysql_select_db(DATABASE_DBNAME, $link))
+                {
+                    mysql_query('set names utf8', $link);
+
+                    $res = mysql_query('select var_value from tbl_sys_vars where var_name = \'FEATURE_LEVEL\'', $link);
+
+                    if (is_resource($res))
+                    {
+                        $row = mysql_fetch_array($res, MYSQL_BOTH);
+
+                        if (is_array($row))
+                        {
+                            if (mysql_free_result($res))
+                            {
+                                $message = '<a class="pass">PASS</a> <i>(MySQL / feature level ' . $row['var_value'] . ')</i>';
+                            }
+                            else
+                            {
+                                $errno = mysql_errno($link);
+                                $error = mysql_error($link);
+
+                                $message = ($errno == 0 || strlen($error) == 0)
+                                         ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on releasing recordset)</i>'
+                                         : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on releasing recordset - ' . $error . ')</i>';
+                            }
+                        }
+                        else
+                        {
+                            $errno = mysql_errno($link);
+                            $error = mysql_error($link);
+
+                            $message = ($errno == 0 || strlen($error) == 0)
+                                     ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on fetching data)</i>'
+                                     : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on fetching data - ' . $error . ')</i>';
+                        }
+                    }
+                    else
+                    {
+                        $errno = mysql_errno($link);
+                        $error = mysql_error($link);
+
+                        $message = ($errno == 0 || strlen($error) == 0)
+                                 ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on query database)</i>'
+                                 : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on query database - ' . $error . ')</i>';
+                    }
+                }
+                else
+                {
+                    $errno = mysql_errno($link);
+                    $error = mysql_error($link);
+
+                    $message = ($errno == 0 || strlen($error) == 0)
+                             ? '<a class="fail">FAIL</a> <i>(unknown MySQL error on selecting database)</i>'
+                             : '<a class="fail">FAIL</a> <i>(MySQL error #' . $errno . ' on selecting database - ' . $error . ')</i>';
+                }
+
+                mysql_close($link);
+            }
+            else
+            {
+                $message = '<a class="fail">FAIL</a> <i>(MySQL server cannot be connected)</i>';
+            }
         }
 
         break;

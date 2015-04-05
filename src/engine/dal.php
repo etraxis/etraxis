@@ -74,7 +74,7 @@ class CDatabase
 
     /**
      * Link of opened connection.
-     * @var resource
+     * @var resource|mysqli
      */
     private $link = FALSE;
 
@@ -93,19 +93,31 @@ class CDatabase
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            $this->link = mysql_connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD);
-
-            if ($this->link)
+            if (extension_loaded('mysqli'))
             {
-                if (mysql_select_db(DATABASE_DBNAME, $this->link))
+                $this->link = mysqli_connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD, DATABASE_DBNAME);
+
+                if ($this->link)
                 {
-                    mysql_query('set names utf8', $this->link);
+                    mysqli_query($this->link, 'set names utf8');
                 }
-                else
+            }
+            else
+            {
+                $this->link = mysql_connect(DATABASE_HOST, DATABASE_USERNAME, DATABASE_PASSWORD);
+
+                if ($this->link)
                 {
-                    debug_write_log(DEBUG_WARNING, '[CDatabase::__construct] Error on selecting MySQL database.');
-                    mysql_close($this->link);
-                    $this->link = FALSE;
+                    if (mysql_select_db(DATABASE_DBNAME, $this->link))
+                    {
+                        mysql_query('set names utf8', $this->link);
+                    }
+                    else
+                    {
+                        debug_write_log(DEBUG_WARNING, '[CDatabase::__construct] Error on selecting MySQL database.');
+                        mysql_close($this->link);
+                        $this->link = FALSE;
+                    }
                 }
             }
         }
@@ -155,7 +167,14 @@ class CDatabase
     {
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            mysql_close($this->link);
+            if (extension_loaded('mysqli'))
+            {
+                mysqli_close($this->link);
+            }
+            else
+            {
+                mysql_close($this->link);
+            }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
         {
@@ -213,7 +232,14 @@ class CDatabase
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            mysql_query('start transaction', $this->link);
+            if (extension_loaded('mysqli'))
+            {
+                mysqli_query($this->link, 'start transaction');
+            }
+            else
+            {
+                mysql_query('start transaction', $this->link);
+            }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
         {
@@ -252,7 +278,14 @@ class CDatabase
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            mysql_query('commit', $this->link);
+            if (extension_loaded('mysqli'))
+            {
+                mysqli_query($this->link, 'commit');
+            }
+            else
+            {
+                mysql_query('commit', $this->link);
+            }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
         {
@@ -291,7 +324,14 @@ class CDatabase
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            mysql_query('rollback', $this->link);
+            if (extension_loaded('mysqli'))
+            {
+                mysqli_query($this->link, 'rollback');
+            }
+            else
+            {
+                mysql_query('rollback', $this->link);
+            }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
         {
@@ -369,12 +409,25 @@ class CRecordset
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            $this->result = mysql_query($sql, $this->handle);
-
-            if (is_resource($this->result))
+            if (extension_loaded('mysqli'))
             {
-                $this->rows = mysql_num_rows($this->result);
-                $this->cols = mysql_num_fields($this->result);
+                $this->result = mysqli_query($this->handle, $sql);
+
+                if (is_object($this->result))
+                {
+                    $this->rows = $this->result->num_rows;
+                    $this->cols = $this->result->field_count;
+                }
+            }
+            else
+            {
+                $this->result = mysql_query($sql, $this->handle);
+
+                if (is_resource($this->result))
+                {
+                    $this->rows = mysql_num_rows($this->result);
+                    $this->cols = mysql_num_fields($this->result);
+                }
             }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
@@ -435,7 +488,14 @@ class CRecordset
         {
             if (DATABASE_DRIVER == DRIVER_MYSQL50)
             {
-                mysql_free_result($this->result);
+                if (extension_loaded('mysqli'))
+                {
+                    mysqli_free_result($this->result);
+                }
+                else
+                {
+                    mysql_free_result($this->result);
+                }
             }
             elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
             {
@@ -478,8 +538,16 @@ class CRecordset
     {
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            $errno  = mysql_errno($this->handle);
-            $error  = mysql_error($this->handle);
+            if (extension_loaded('mysqli'))
+            {
+                $errno = mysqli_errno($this->handle);
+                $error = mysqli_error($this->handle);
+            }
+            else
+            {
+                $errno = mysql_errno($this->handle);
+                $error = mysql_error($this->handle);
+            }
             $retval = "MySQL error {$errno}: {$error}";
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
@@ -530,7 +598,14 @@ class CRecordset
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            $retval = mysql_data_seek($this->result, $row_number);
+            if (extension_loaded('mysqli'))
+            {
+                $retval = mysqli_data_seek($this->result, $row_number);
+            }
+            else
+            {
+                $retval = mysql_data_seek($this->result, $row_number);
+            }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
         {
@@ -596,7 +671,14 @@ class CRecordset
 
         if (DATABASE_DRIVER == DRIVER_MYSQL50)
         {
-            $retval = mysql_fetch_array($this->result, MYSQL_BOTH);
+            if (extension_loaded('mysqli'))
+            {
+                $retval = mysqli_fetch_array($this->result, MYSQL_BOTH);
+            }
+            else
+            {
+                $retval = mysql_fetch_array($this->result, MYSQL_BOTH);
+            }
         }
         elseif (DATABASE_DRIVER == DRIVER_MSSQL2K)
         {
