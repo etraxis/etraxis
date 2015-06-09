@@ -199,7 +199,7 @@ create table </xsl:text>
 </xsl:if>
 
 <xsl:if test="@type = 'ntext'">
-<xsl:text>nvarchar (4000) </xsl:text>
+<xsl:text>varchar (max) </xsl:text>
 <xsl:if test="not(@null = 'yes')">
 <xsl:text>not </xsl:text>
 </xsl:if>

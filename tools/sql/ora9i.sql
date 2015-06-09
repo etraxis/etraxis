@@ -38,10 +38,10 @@ create table tbl_accounts
     account_id number (10) not null,
     username varchar2 (112) not null,
     fullname nvarchar2 (64) not null,
-    email varchar2 (50) null,
-    passwd char (32) not null,
+    email varchar2 (50) not null,
+    passwd varchar2 (32) null,
     description nvarchar2 (100) null,
-    auth_token char (32) null,
+    auth_token varchar2 (32) null,
     token_expire number (10) not null,
     passwd_expire number (10) not null,
     is_admin number (10) not null,
@@ -289,6 +289,15 @@ alter table tbl_states add constraint fk_states_template_id foreign key
 references tbl_templates
 (
     template_id
+);
+
+alter table tbl_states add constraint fk_states_next_state_id foreign key
+(
+    next_state_id
+)
+references tbl_states
+(
+    state_id
 );
 
 create sequence seq_states;
@@ -763,10 +772,16 @@ create index ix_fva_comb2 on tbl_field_values (field_id, value_id, is_latest, ev
 
 create table tbl_changes
 (
+    change_id number (10) not null,
     event_id number (10) not null,
     field_id number (10) null,
     old_value_id number (10) null,
     new_value_id number (10) null
+);
+
+alter table tbl_changes add constraint pk_changes primary key
+(
+    change_id
 );
 
 alter table tbl_changes add constraint ix_changes unique
@@ -792,6 +807,14 @@ references tbl_fields
 (
     field_id
 );
+
+create sequence seq_changes;
+
+create or replace trigger tgi_changes before insert on tbl_changes for each row
+begin
+    select seq_changes.nextval into :new.change_id from dual;
+end;
+/
 
 create table tbl_float_values
 (
@@ -820,7 +843,7 @@ end;
 create table tbl_string_values
 (
     value_id number (10) not null,
-    value_token char (32) not null,
+    value_token varchar2 (32) not null,
     string_value nvarchar2 (250) not null
 );
 
@@ -847,7 +870,7 @@ create index ix_svl_id_val on tbl_string_values (value_id, string_value);
 create table tbl_text_values
 (
     value_id number (10) not null,
-    value_token char (32) not null,
+    value_token varchar2 (32) not null,
     text_value clob not null
 );
 
@@ -1407,7 +1430,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'Oracle 9i');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.6');
+values ('FEATURE_LEVEL', '3.9');
 
 insert into tbl_accounts
 (

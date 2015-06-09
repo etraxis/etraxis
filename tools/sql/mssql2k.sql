@@ -41,10 +41,10 @@ create table tbl_accounts
     account_id int identity (1,1) not null,
     username nvarchar (112) not null,
     fullname nvarchar (64) not null,
-    email nvarchar (50) null,
-    passwd char (32) not null,
+    email nvarchar (50) not null,
+    passwd nvarchar (32) null,
     description nvarchar (100) null,
-    auth_token char (32) null,
+    auth_token nvarchar (32) null,
     token_expire int not null,
     passwd_expire int not null,
     is_admin int not null,
@@ -260,6 +260,15 @@ alter table tbl_states add constraint fk_states_template_id foreign key
 references tbl_templates
 (
     template_id
+);
+
+alter table tbl_states add constraint fk_states_next_state_id foreign key
+(
+    next_state_id
+)
+references tbl_states
+(
+    state_id
 );
 
 create table tbl_state_assignees
@@ -702,10 +711,16 @@ create index ix_fva_comb2 on tbl_field_values (field_id, value_id, is_latest, ev
 
 create table tbl_changes
 (
+    change_id int identity (1,1) not null,
     event_id int not null,
     field_id int null,
     old_value_id int null,
     new_value_id int null
+);
+
+alter table tbl_changes add constraint pk_changes primary key clustered
+(
+    change_id
 );
 
 alter table tbl_changes add constraint ix_changes unique nonclustered
@@ -751,7 +766,7 @@ alter table tbl_float_values add constraint ix_float_values unique nonclustered
 create table tbl_string_values
 (
     value_id int identity (1,1) not null,
-    value_token char (32) not null,
+    value_token nvarchar (32) not null,
     string_value nvarchar (250) not null
 );
 
@@ -770,8 +785,8 @@ create index ix_svl_id_val on tbl_string_values (value_id, string_value);
 create table tbl_text_values
 (
     value_id int identity (1,1) not null,
-    value_token char (32) not null,
-    text_value nvarchar (4000) not null
+    value_token nvarchar (32) not null,
+    text_value varchar (max) not null
 );
 
 alter table tbl_text_values add constraint pk_text_value primary key clustered
@@ -817,7 +832,7 @@ create index ix_lvl_id_val on tbl_list_values (field_id, int_value, str_value);
 create table tbl_comments
 (
     comment_id int identity (1,1) not null,
-    comment_body nvarchar (4000) not null,
+    comment_body varchar (max) not null,
     event_id int not null,
     is_confidential int not null
 );
@@ -1266,7 +1281,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MSSQL 2000');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.6');
+values ('FEATURE_LEVEL', '3.9');
 
 insert into tbl_accounts
 (

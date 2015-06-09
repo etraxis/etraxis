@@ -42,10 +42,10 @@ create table tbl_accounts
     account_id int not null auto_increment primary key,
     username varchar (112) not null,
     fullname varchar (64) not null,
-    email varchar (50) null,
-    passwd char (32) not null,
+    email varchar (50) not null,
+    passwd varchar (32) null,
     description varchar (100) null,
-    auth_token char (32) null,
+    auth_token varchar (32) null,
     token_expire int not null,
     passwd_expire int not null,
     is_admin int not null,
@@ -236,6 +236,15 @@ alter table tbl_states add constraint foreign key fk_states_template_id
 references tbl_templates
 (
     template_id
+);
+
+alter table tbl_states add constraint foreign key fk_states_next_state_id
+(
+    next_state_id
+)
+references tbl_states
+(
+    state_id
 );
 
 create table tbl_state_assignees
@@ -663,6 +672,7 @@ create index ix_fva_comb2 on tbl_field_values (field_id, value_id, is_latest, ev
 
 create table tbl_changes
 (
+    change_id int not null auto_increment primary key,
     event_id int not null,
     field_id int null,
     old_value_id int null,
@@ -707,7 +717,7 @@ alter table tbl_float_values add constraint unique ix_float_values
 create table tbl_string_values
 (
     value_id int not null auto_increment primary key,
-    value_token char (32) not null,
+    value_token varchar (32) not null,
     string_value varchar (250) not null
 );
 
@@ -721,7 +731,7 @@ create index ix_svl_id_val on tbl_string_values (value_id, string_value);
 create table tbl_text_values
 (
     value_id int not null auto_increment primary key,
-    value_token char (32) not null,
+    value_token varchar (32) not null,
     text_value text not null
 );
 
@@ -1177,7 +1187,7 @@ insert into tbl_sys_vars (var_name, var_value)
 values ('DATABASE_TYPE', 'MySQL 5.0');
 
 insert into tbl_sys_vars (var_name, var_value)
-values ('FEATURE_LEVEL', '3.6');
+values ('FEATURE_LEVEL', '3.9');
 
 insert into tbl_accounts
 (

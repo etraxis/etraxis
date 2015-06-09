@@ -22,7 +22,7 @@
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -->
 
-<database name="etraxis" version="3.6">
+<database name="etraxis" version="3.9">
 
 <table name="tbl_sys_vars">
 
@@ -40,10 +40,10 @@
     <column type="primary">account_id</column>
     <column type="str" size="112">username</column>
     <column type="nstr" size="64">fullname</column>
-    <column type="str" size="50" null="yes">email</column>
-    <column type="md5">passwd</column>
+    <column type="str" size="50">email</column>
+    <column type="str" size="32" null="yes">passwd</column>
     <column type="nstr" size="100" null="yes">description</column>
-    <column type="md5" null="yes">auth_token</column>
+    <column type="str" size="32" null="yes">auth_token</column>
     <column type="int">token_expire</column>
     <column type="int">passwd_expire</column>
     <column type="bool">is_admin</column>
@@ -200,6 +200,7 @@
     </unique>
 
     <foreign name="fk_states_template_id" table="tbl_templates">template_id</foreign>
+    <foreign name="fk_states_next_state_id" table="tbl_states">next_state_id</foreign>
 
 </table>
 
@@ -471,10 +472,15 @@
 
 <table name="tbl_changes">
 
+    <column type="primary">change_id</column>
     <column type="int">event_id</column>
     <column type="int" null="yes">field_id</column>
     <column type="int" null="yes">old_value_id</column>
     <column type="int" null="yes">new_value_id</column>
+
+    <primary name="pk_changes">
+        <column>change_id</column>
+    </primary>
 
     <unique name="ix_changes">
         <column>event_id</column>
@@ -504,7 +510,7 @@
 <table name="tbl_string_values">
 
     <column type="primary">value_id</column>
-    <column type="md5">value_token</column>
+    <column type="str" size="32">value_token</column>
     <column type="nstr" size="250">string_value</column>
 
     <primary name="pk_string_values">
@@ -525,7 +531,7 @@
 <table name="tbl_text_values">
 
     <column type="primary">value_id</column>
-    <column type="md5">value_token</column>
+    <column type="str" size="32">value_token</column>
     <column type="ntext">text_value</column>
 
     <primary name="pk_text_value">
