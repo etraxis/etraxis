@@ -85,7 +85,7 @@ $resource_portuguese = array
     'Usuário desconhecido ou senha incorreta.',
     'Erro desconhecido.',
     'Erro durante o parse do XML.',
-    NULL,
+    'Alterações salvas com sucesso.',
 
     RES_SECTION_CONFIRMS =>
     /* 300 */
