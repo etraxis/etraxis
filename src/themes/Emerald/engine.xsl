@@ -36,7 +36,7 @@
     <meta http-equiv="Content-Script-Type" content="text/javascript"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
     <meta name="author" content="Artem Rodygin"/>
-    <meta name="copyright" content="Copyright (C) 2003-2013 by Artem Rodygin"/>
+    <meta name="copyright" content="Copyright (C) 2003-2015 by Artem Rodygin"/>
     <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
     <xsl:apply-templates select="css"/>
     <title>

@@ -2,6 +2,15 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Changes integrated in MAIN_3-9-0 (2017-03-31)
+
+    Fix #11: Dropdown is broken in IE7 compatibility mode
+    Sync up the database schema with 4.0
+    Update Portuguese translation.
+    PHP Notice: Use of undefined constant MYSQL_BOTH - assumed 'MYSQL_BOTH'
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Changes integrated in MAIN_3-8-1 (2015-04-05)
 
     Fix #8: Can't enter minimum value to "date" field
