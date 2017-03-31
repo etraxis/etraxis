@@ -673,7 +673,7 @@ class CRecordset
         {
             if (extension_loaded('mysqli'))
             {
-                $retval = mysqli_fetch_array($this->result, MYSQL_BOTH);
+                $retval = mysqli_fetch_array($this->result, MYSQLI_BOTH);
             }
             else
             {
