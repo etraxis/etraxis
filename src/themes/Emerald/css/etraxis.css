@@ -542,6 +542,10 @@ textarea {
   width: 350px;
 }
 
+textarea {
+  width: 600px;
+}
+
 input.small,
 select.small {
   width: 169px;
