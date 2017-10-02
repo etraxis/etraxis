@@ -2024,6 +2024,19 @@ function attachment_add ($id, $name, $attachfile)
         debug_write_log(DEBUG_NOTICE, '[attachment_add] Attachment name is not specified.');
         $name = ustrcut($attachfile['name'], MAX_ATTACHMENT_NAME);
     }
+    else
+    {
+        if (false !== ($pos = ustrpos($attachfile['name'], '.')))
+        {
+            $extension = usubstr($attachfile['name'], $pos);
+
+            if ($extension != usubstr($name, -ustrlen($extension)))
+            {
+                $name = ustrcut($name, MAX_ATTACHMENT_NAME - ustrlen($extension));
+                $name .= $extension;
+            }
+        }
+    }
 
     $record = record_find($id);
 
