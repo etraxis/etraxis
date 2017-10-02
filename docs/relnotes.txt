@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-9-0
-Release date: 2017-03-31
-Release size: 50074
+Release tag:  MAIN_3-9-1
+Release date: 2017-10-02
+Release size: 50098
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,20 +32,12 @@ Form Plugin:        3.09    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-[M] src/engine/dal.php
+[M] src/dbo/records.php
 [M] src/engine/xml.php
-[M] src/engine/res/portuguese.php
-[M] src/themes/Emerald/engine.xsl
-[M] tools/dbschema/dbschema.xml
-[M] tools/dbschema/mssql2k.xsl
-[M] tools/sql/mssql2k.sql
-[M] tools/sql/mysql50.sql
-[M] tools/sql/ora9i.sql
-[M] tools/sql/pgsql80.sql
-[A] tools/upgrade/3.8.x-3.9.x/mssql2k.sql
-[A] tools/upgrade/3.8.x-3.9.x/mysql50.sql
-[A] tools/upgrade/3.8.x-3.9.x/ora9i.sql
-[A] tools/upgrade/3.8.x-3.9.x/pgsql80.sql
+[M] src/themes/Azure/css/etraxis.css
+[M] src/themes/Emerald/css/etraxis.css
+[M] src/themes/Mars/css/etraxis.css
+[M] src/themes/Orchid/css/etraxis.css
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -74,9 +66,7 @@ Turkish
 CHANGES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Fix #11: Dropdown is broken in IE7 compatibility mode
-- Sync up the database schema with 4.0
-- Update Portuguese translation.
-- PHP Notice: Use of undefined constant MYSQL_BOTH - assumed 'MYSQL_BOTH'
+- Expand textarea width.
+- Preserve file extension when attaching.
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
