@@ -55,7 +55,7 @@ if (!$account)
 
 // enable/disable
 
-if ($account['is_disabled'])
+if ($account['is_disabled'] && !is_maximum_accounts())
 {
     account_enable($id);
 }

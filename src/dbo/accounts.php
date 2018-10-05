@@ -67,6 +67,26 @@ define('DEFAULT_NOTIFY_FLAG', 0x0000FFFF);
 //------------------------------------------------------------------------------
 
 /**
+ * Checks whether number of active account has reached allowed maximum.
+ *
+ * @return bool TRUE if maximum is reached, FALSE otherwise.
+ */
+function is_maximum_accounts ()
+{
+    debug_write_log(DEBUG_TRACE, '[is_maximum_accounts]');
+
+    $accounts = dal_query('accounts/count2.sql');
+
+    if (MAX_ACCOUNTS_NUMBER != 0 && $accounts->fetch(0) >= MAX_ACCOUNTS_NUMBER)
+    {
+        debug_write_log(DEBUG_NOTICE, '[is_maximum_accounts] Maximum amount of accounts is already reached.');
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
+/**
  * Checks whether account with specified locking info is still locked.
  *
  * @param int $locks_count Current value of 'locks_count' DBO field.

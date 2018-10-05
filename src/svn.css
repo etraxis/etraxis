@@ -1,0 +1,84 @@
+html {
+  height: 100%;
+  min-width: 780px;
+}
+
+body {
+  background: #FBFBFB;
+  color: #404040;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  height: 100%;
+  line-height: 1.5;
+  margin: 0px;
+  padding: 0px;
+}
+
+a {
+  color: #404040;
+  text-decoration: none;
+}
+
+#toolbar {
+  background-image: url('/images/toolbar-bg.png');
+  background-repeat: repeat-x;
+  clear: both;
+  height: 30px;
+  width: 100%;
+}
+
+.toolbar_split {
+  background-image: url('/images/toolbar-split.png');
+  display: block;
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  width: 2px;
+}
+
+.spacer {
+  margin-left: 10px;
+}
+
+.toolbar_item {
+  color: #404040;
+  float: left;
+  font-weight: bold;
+  height: 30px;
+  line-height: 30px;
+  margin: 0px 10px;
+  text-align: right;
+  vertical-align: middle;
+}
+
+table.index {
+  border-spacing: 0;
+  margin: 10px;
+}
+
+table.index td {
+  background: left no-repeat;
+  height: 20px;
+  padding-left: 20px;
+}
+
+tr.updir td {
+  background-image: url('/images/updir.png');
+}
+
+tr.dir td {
+  background-image: url('/images/dir.png');
+}
+
+tr.file td {
+  background-image: url('/images/file.png');
+}
+
+#revision {
+  border-top: #b3b3b3 1px solid;
+  color: #404040;
+  font-style: italic;
+  height: 15px;
+  padding: 5px 10px 10px 10px;
+  white-space: nowrap;
+}
