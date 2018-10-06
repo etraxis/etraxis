@@ -49,27 +49,28 @@
     },
     {
         "name": "paragonie/constant_time_encoding",
-        "version": "v2.2.1",
-        "version_normalized": "2.2.1.0",
+        "version": "v1.0.4",
+        "version_normalized": "1.0.4.0",
         "source": {
             "type": "git",
             "url": "https://github.com/paragonie/constant_time_encoding.git",
-            "reference": "7c74c5d08761ead7b5e89d07c854bc28eb0b2186"
+            "reference": "2132f0f293d856026d7d11bd81b9f4a23a1dc1f6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/7c74c5d08761ead7b5e89d07c854bc28eb0b2186",
-            "reference": "7c74c5d08761ead7b5e89d07c854bc28eb0b2186",
+            "url": "https://api.github.com/repos/paragonie/constant_time_encoding/zipball/2132f0f293d856026d7d11bd81b9f4a23a1dc1f6",
+            "reference": "2132f0f293d856026d7d11bd81b9f4a23a1dc1f6",
             "shasum": ""
         },
         "require": {
-            "php": "^7"
+            "php": "^5.3|^7"
         },
         "require-dev": {
-            "phpunit/phpunit": "^6",
+            "paragonie/random_compat": "^1.4|^2",
+            "phpunit/phpunit": "4.*|5.*",
             "vimeo/psalm": "^0.3|^1"
         },
-        "time": "2018-01-23T00:54:57+00:00",
+        "time": "2018-04-30T17:57:16+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -113,17 +114,17 @@
     },
     {
         "name": "paragonie/random_compat",
-        "version": "v2.0.11",
-        "version_normalized": "2.0.11.0",
+        "version": "v2.0.17",
+        "version_normalized": "2.0.17.0",
         "source": {
             "type": "git",
             "url": "https://github.com/paragonie/random_compat.git",
-            "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
+            "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
-            "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+            "url": "https://api.github.com/repos/paragonie/random_compat/zipball/29af24f25bab834fcbb38ad2a69fa93b867e070d",
+            "reference": "29af24f25bab834fcbb38ad2a69fa93b867e070d",
             "shasum": ""
         },
         "require": {
@@ -135,7 +136,7 @@
         "suggest": {
             "ext-libsodium": "Provides a modern crypto API that can be used to generate random bytes."
         },
-        "time": "2017-09-27T21:40:39+00:00",
+        "time": "2018-07-04T16:31:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -157,34 +158,35 @@
         "description": "PHP 5.x polyfill for random_bytes() and random_int() from PHP 7",
         "keywords": [
             "csprng",
+            "polyfill",
             "pseudorandom",
             "random"
         ]
     },
     {
         "name": "symfony/polyfill-php56",
-        "version": "v1.7.0",
-        "version_normalized": "1.7.0.0",
+        "version": "v1.9.0",
+        "version_normalized": "1.9.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-php56.git",
-            "reference": "ebc999ce5f14204c5150b9bd15f8f04e621409d8"
+            "reference": "7b4fc009172cc0196535b0328bd1226284a28000"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/ebc999ce5f14204c5150b9bd15f8f04e621409d8",
-            "reference": "ebc999ce5f14204c5150b9bd15f8f04e621409d8",
+            "url": "https://api.github.com/repos/symfony/polyfill-php56/zipball/7b4fc009172cc0196535b0328bd1226284a28000",
+            "reference": "7b4fc009172cc0196535b0328bd1226284a28000",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3",
             "symfony/polyfill-util": "~1.0"
         },
-        "time": "2018-01-30T19:27:44+00:00",
+        "time": "2018-08-06T14:22:27+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.7-dev"
+                "dev-master": "1.9-dev"
             }
         },
         "installation-source": "dist",
@@ -221,27 +223,27 @@
     },
     {
         "name": "symfony/polyfill-util",
-        "version": "v1.7.0",
-        "version_normalized": "1.7.0.0",
+        "version": "v1.9.0",
+        "version_normalized": "1.9.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/polyfill-util.git",
-            "reference": "e17c808ec4228026d4f5a8832afa19be85979563"
+            "reference": "8e15d04ba3440984d23e7964b2ee1d25c8de1581"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/e17c808ec4228026d4f5a8832afa19be85979563",
-            "reference": "e17c808ec4228026d4f5a8832afa19be85979563",
+            "url": "https://api.github.com/repos/symfony/polyfill-util/zipball/8e15d04ba3440984d23e7964b2ee1d25c8de1581",
+            "reference": "8e15d04ba3440984d23e7964b2ee1d25c8de1581",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.3"
         },
-        "time": "2018-01-31T18:08:44+00:00",
+        "time": "2018-08-06T14:22:27+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "1.7-dev"
+                "dev-master": "1.9-dev"
             }
         },
         "installation-source": "dist",
