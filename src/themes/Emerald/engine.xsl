@@ -679,7 +679,7 @@
     <xsl:value-of select="$id"/>
     </xsl:attribute>
     <table class="form">
-    <xsl:apply-templates select="text|control|hr"/>
+    <xsl:apply-templates select="text|control|hr|div"/>
     </table>
     <xsl:apply-templates select="button"/>
     </div>

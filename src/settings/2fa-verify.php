@@ -3,7 +3,7 @@
 //------------------------------------------------------------------------------
 //
 //  eTraxis - Records tracking web-based system
-//  Copyright (C) 2005-2010  Artem Rodygin
+//  Copyright (C) 2005-2011  Artem Rodygin
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -29,27 +29,14 @@
  * Dependency.
  */
 require_once('../engine/engine.php');
+require __DIR__ . '/../../google2fa/vendor/autoload.php';
 /**#@-*/
 
-init_page();
+$secret = try_request('secret');
+$key    = try_request('key');
 
-// generate breadcrumbs and tabs
+$google2fa = new \PragmaRX\Google2FA\Google2FA();
 
-$xml = '<breadcrumbs>'
-     . '<breadcrumb url="index.php">' . get_html_resource(RES_SETTINGS_ID) . '</breadcrumb>'
-     . '</breadcrumbs>'
-     . '<tabs>'
-     . '<tab url="2fa.php">2FA</tab>'
-     . '<tab url="appearance.php">' . get_html_resource(RES_APPEARANCE_ID) . '</tab>'
-     . '<tab url="csv.php">'        . get_html_resource(RES_CSV_ID)        . '</tab>';
-
-if (!$_SESSION[VAR_LDAPUSER])
-{
-    $xml .= '<tab url="password.php">' . get_html_resource(RES_CHANGE_PASSWORD_ID) . '</tab>';
-}
-
-$xml .= '</tabs>';
-
-echo(xml2html($xml, get_html_resource(RES_SETTINGS_ID)));
+echo $google2fa->verifyKey($secret, $key) ? 1 : 0;
 
 ?>

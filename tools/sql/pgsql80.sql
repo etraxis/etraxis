@@ -40,6 +40,7 @@ create table tbl_accounts
     passwd varchar (32) null,
     description varchar (100) null,
     auth_token varchar (32) null,
+    google2fa_secret varchar (32) null,
     token_expire int not null,
     passwd_expire int not null,
     is_admin int not null,
