@@ -123,7 +123,7 @@
         <xsl:apply-templates select="tabs|content"/>
         <div id="copyright">
         <a href="https://www.etraxis.com/" target="_blank">
-        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2015 by Artem Rodygin &amp;minus; </xsl:text><xsl:value-of select="@version"/>
+        <xsl:text disable-output-escaping="yes">Copyright &amp;copy; 2003-2015 by Artem Rodygin</xsl:text>
         </a>
         </div>
     </div>
@@ -679,7 +679,7 @@
     <xsl:value-of select="$id"/>
     </xsl:attribute>
     <table class="form">
-    <xsl:apply-templates select="text|control|hr"/>
+    <xsl:apply-templates select="text|control|hr|div"/>
     </table>
     <xsl:apply-templates select="button"/>
     </div>
