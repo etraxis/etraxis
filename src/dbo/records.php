@@ -970,9 +970,9 @@ SQL;
 
     array_push($clause_from, "({$sql}) r");
 
-    $sql = 'select '    . implode(', ',    array_unique($clause_select)) .
-           ' from '     . implode(', ',    array_unique($clause_from))   .
-           ' '          . implode(' ',     array_unique($clause_join));
+    $sql = 'select distinct ' . implode(', ', array_unique($clause_select)) .
+           ' from '           . implode(', ', array_unique($clause_from))   .
+           ' '                . implode(' ',  array_unique($clause_join));
 
     if (count($clause_where) != 0)
     {
