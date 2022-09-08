@@ -44,6 +44,7 @@
     <column type="str" size="32" null="yes">passwd</column>
     <column type="nstr" size="100" null="yes">description</column>
     <column type="str" size="32" null="yes">auth_token</column>
+    <column type="str" size="32" null="yes">google2fa_secret</column>
     <column type="int">token_expire</column>
     <column type="int">passwd_expire</column>
     <column type="bool">is_admin</column>

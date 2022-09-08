@@ -87,6 +87,20 @@ function is_maximum_accounts ()
 }
 
 /**
+ * Checks whether account has 2FA enabled.
+ *
+ * @param int $id Account ID.
+ * @return bool TRUE if 2FA is enabled, FALSE otherwise.
+ */
+function is_2fa_enabled ($id)
+{
+    $rs = dal_query('accounts/get2fa.sql', $id);
+    $secret = $rs->fetch('google2fa_secret');
+
+    return $secret != null;
+}
+
+/**
  * Checks whether account with specified locking info is still locked.
  *
  * @param int $locks_count Current value of 'locks_count' DBO field.

@@ -543,11 +543,11 @@ function init_page ($page_type = LOAD_CONTAINER, $guest_is_allowed = FALSE)
 
                     if ($page_type == LOAD_CONTAINER)
                     {
-                        header('Location: ' . WEBROOT . 'settings/index.php?tab=3');
+                        header('Location: ' . WEBROOT . 'settings/index.php?tab=4');
                     }
                     elseif ($page_type == LOAD_INLINE)
                     {
-                        header('HTTP/1.1 307 ' . WEBROOT . 'settings/index.php?tab=3');
+                        header('HTTP/1.1 307 ' . WEBROOT . 'settings/index.php?tab=4');
                     }
 
                     exit;

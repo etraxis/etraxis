@@ -30,6 +30,7 @@
  */
 require_once('../engine/engine.php');
 require_once('../dbo/accounts.php');
+require __DIR__ . '/../../google2fa/vendor/autoload.php';
 /**#@-*/
 
 @session_start();
@@ -67,7 +68,34 @@ else
     switch ($error)
     {
         case NO_ERROR:
-            header('HTTP/1.0 200 OK');
+
+            $rs = dal_query('accounts/get2fa.sql', $_SESSION[VAR_USERID]);
+            $secret = $rs->fetch('google2fa_secret');
+
+            if ($secret != null)
+            {
+                $key = ustrcut($_REQUEST['code'], 6);
+                $google2fa = new \PragmaRX\Google2FA\Google2FA();
+
+                if (!$google2fa->verifyKey($secret, $key))
+                {
+                    send_http_error('The entered 2FA code is wrong.');
+
+                    clear_cookie(COOKIE_AUTH_USERID);
+                    clear_cookie(COOKIE_AUTH_TOKEN);
+
+                    close_session();
+                }
+                else
+                {
+                    header('HTTP/1.0 200 OK');
+                }
+            }
+            else
+            {
+                header('HTTP/1.0 200 OK');
+            }
+
             break;
 
         case ERROR_UNKNOWN_USERNAME:

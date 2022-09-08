@@ -39,6 +39,7 @@ $xml = '<breadcrumbs>'
      . '<breadcrumb url="index.php">' . get_html_resource(RES_SETTINGS_ID) . '</breadcrumb>'
      . '</breadcrumbs>'
      . '<tabs>'
+     . '<tab url="2fa.php">2FA</tab>'
      . '<tab url="appearance.php">' . get_html_resource(RES_APPEARANCE_ID) . '</tab>'
      . '<tab url="csv.php">'        . get_html_resource(RES_CSV_ID)        . '</tab>';
 
