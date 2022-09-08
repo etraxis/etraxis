@@ -43,9 +43,7 @@ if (get_user_level() != USER_LEVEL_ADMIN)
     exit;
 }
 
-$accounts = dal_query('accounts/count.sql');
-
-if (MAX_ACCOUNTS_NUMBER != 0 && $accounts->fetch(0) >= MAX_ACCOUNTS_NUMBER)
+if (is_maximum_accounts())
 {
     debug_write_log(DEBUG_NOTICE, 'Maximum amount of accounts is already reached.');
     header('HTTP/1.1 307 index.php');

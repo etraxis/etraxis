@@ -66,9 +66,9 @@ $from = $to = 0;
 
 // generate buttons
 
-$xml .= (MAX_ACCOUNTS_NUMBER == 0 || $list->rows < MAX_ACCOUNTS_NUMBER
-            ? '<button action="accountCreate()">'
-            : '<button disabled="true">')
+$xml .= (is_maximum_accounts()
+            ? '<button disabled="true">'
+            : '<button action="accountCreate()">')
       . get_html_resource(RES_CREATE_ID)
       . '</button>';
 

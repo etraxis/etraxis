@@ -100,7 +100,9 @@ $xml .= (is_account_removable($id)
       . get_html_resource(RES_DELETE_ID)
       . '</button>';
 
-$xml .= '<button action="accountToggle()">'
+$xml .= (is_maximum_accounts() && $account['is_disabled']
+            ? '<button disabled="true">'
+            : '<button action="accountToggle()">')
       . get_html_resource($account['is_disabled'] ? RES_ENABLE_ID : RES_DISABLE_ID)
       . '</button>';
 

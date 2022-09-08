@@ -79,6 +79,11 @@ if (try_request('submitted') == 'modifyform')
     $is_disabled = isset($_REQUEST['is_disabled']);
     $is_locked   = isset($_REQUEST['is_locked']);
 
+    if (is_maximum_accounts() && $account['is_disabled'])
+    {
+        $is_disabled = $account['is_disabled'];
+    }
+
     $error = account_validate($username,
                               $fullname,
                               $email,
@@ -237,7 +242,9 @@ $xml .= '</combobox>'
       . get_html_resource(RES_ADMINISTRATOR_ID)
       . '</checkbox>'
       . '</control>'
-      . '<control name="is_disabled">'
+      . (is_maximum_accounts() && $account['is_disabled']
+            ? '<control name="is_disabled" disabled="true">'
+            : '<control name="is_disabled">')
       . '<label/>'
       . ($is_disabled
             ? '<checkbox checked="true">'
