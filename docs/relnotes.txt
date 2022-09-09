@@ -2,9 +2,9 @@
 RELEASE NOTES
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Release tag:  MAIN_3-9-1
-Release date: 2017-10-02
-Release size: 50098
+Release tag:  MAIN_3-10-0
+Release date: 2022-09-09
+Release size: 50608
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 PROJECT LINKS
@@ -32,12 +32,39 @@ Form Plugin:        3.09    http://jquery.malsup.com/form/
 CHANGED FILES ([M]odified, [A]dded, [D]eleted)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+[A] google2fa/*
+[M] src/accounts/account.php
+[M] src/accounts/create.php
+[M] src/accounts/disable.php
+[M] src/accounts/list.php
+[M] src/accounts/modify.php
+[M] src/dbo/accounts.php
+[M] src/dbo/fields.php
 [M] src/dbo/records.php
+[M] src/engine/sessions.php
 [M] src/engine/xml.php
-[M] src/themes/Azure/css/etraxis.css
-[M] src/themes/Emerald/css/etraxis.css
-[M] src/themes/Mars/css/etraxis.css
-[M] src/themes/Orchid/css/etraxis.css
+[M] src/logon/index.php
+[M] src/logon/login.php
+[M] src/records/download.php
+[A] src/settings/2fa-generate.php
+[A] src/settings/2fa-qrcode.php
+[A] src/settings/2fa-verify.php
+[A] src/settings/2fa.php
+[M] src/settings/index.php
+[A] src/sql/accounts/clear2fa.sql
+[A] src/sql/accounts/count2.sql
+[A] src/sql/accounts/get2fa.sql
+[A] src/sql/accounts/set2fa.sql
+[M] src/themes/Emerald/engine.xsl
+[M] tools/dbschema/dbschema.xml
+[M] tools/sql/mssql2k.sql
+[M] tools/sql/mysql50.sql
+[M] tools/sql/ora9i.sql
+[M] tools/sql/pgsql80.sql
+[A] tools/upgrade/3.9.x-3.10.x/mssql2k.sql
+[A] tools/upgrade/3.9.x-3.10.x/mysql50.sql
+[A] tools/upgrade/3.9.x-3.10.x/ora9i.sql
+[A] tools/upgrade/3.9.x-3.10.x/pgsql80.sql
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 AVAILABLE LANGUAGES
@@ -66,7 +93,12 @@ Turkish
 CHANGES INTEGRATED IN THIS RELEASE
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- Expand textarea width.
-- Preserve file extension when attaching.
+- Increase maximum length of multilined fields up to 10000 characters
+- Improve accounts limit processing
+- Bugfix: avoid duplicates in the records list
+- Open attachments inline
+- Security: do not reveal installed eTraxis version
+- Support for 2FA
+- Disable autocomplete on the login page
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

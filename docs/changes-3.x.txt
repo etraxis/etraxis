@@ -2,6 +2,18 @@
 CHANGE LOG
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Changes integrated in MAIN_3-10-0 (2022-09-09)
+
+    Increase maximum length of multilined fields up to 10000 characters
+    Improve accounts limit processing
+    Bugfix: avoid duplicates in the records list
+    Open attachments inline
+    Security: do not reveal installed eTraxis version
+    Support for 2FA
+    Disable autocomplete on the login page
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Changes integrated in MAIN_3-9-1 (2017-10-02)
 
     Expand textarea width.
