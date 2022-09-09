@@ -820,6 +820,11 @@
         <xsl:text>disabled</xsl:text>
         </xsl:attribute>
     </xsl:if>
+    <xsl:if test="boolean(@autocomplete)">
+        <xsl:attribute name="autocomplete">
+        <xsl:value-of select="@autocomplete"/>
+        </xsl:attribute>
+    </xsl:if>
     <xsl:attribute name="value">
     <xsl:value-of select="."/>
     </xsl:attribute>
